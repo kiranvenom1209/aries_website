@@ -1,0 +1,435 @@
+export type TeamDiscipline =
+  | 'leadership'
+  | 'mechanical'
+  | 'electrical'
+  | 'software'
+  | 'science'
+  | 'drill-manipulator'
+  | 'astroflight'
+  | 'communication'
+  | 'mro'
+  | 'mentors'
+
+export type TeamMember = {
+  bio: string
+  department?: string
+  departments?: TeamDiscipline[]
+  discipline: TeamDiscipline
+  disciplineLabel: string
+  image: string
+  imageAlt: string
+  imageCredit?: string
+  imageCreditUrl?: string
+  links?: {
+    linkedIn?: string
+    website?: string
+  }
+  name: string
+  position: string
+  rank?: 'Commander' | 'Captain' | 'Crew' | 'Advisor'
+  rankBadge?: string
+  slug: string
+  sortOrder: number
+  tags: string[]
+}
+
+const labelMap: Record<string, string> = {
+  leadership: 'Team Leadership',
+  mechanical: 'Mechanical Department',
+  electrical: 'Electrical Department',
+  software: 'Software & Navigation',
+  communication: 'Communication Department',
+  'drill-manipulator': 'Drill & Manipulator',
+  astroflight: 'Astroflight (AQUILA Drone)',
+  science: 'Scientific Payload',
+  mro: 'Mission, Resources & Outreach',
+  mentors: 'Advisors & Mentors',
+}
+
+export const disciplineLabels = labelMap
+
+export const fallbackTeam: TeamMember[] = [
+  // LEADERSHIP
+  {
+    name: 'Harsha Vardhan Raju Gottimukkala',
+    slug: 'harsha-vardhan-raju-gottimukkala',
+    position: 'Team Lead LEAP-One & Interim Lead Scientific Payload',
+    discipline: 'leadership',
+    disciplineLabel: 'Team Leadership',
+    departments: ['leadership', 'software', 'science', 'mro'],
+    rank: 'Commander',
+    rankBadge: '/media/l1_commander_new-cropped.png',
+    tags: ['Team Lead', 'Mission Architecture', 'Scientific Payload', 'Systems Engineering'],
+    image: '/media/2-e1776807359413.png',
+    imageAlt: 'Harsha Vardhan Raju Gottimukkala — Team Lead LEAP-One',
+    sortOrder: 10,
+    links: {
+      linkedIn: 'https://www.linkedin.com/company/aries-space',
+      website: 'https://hsmaries.space',
+    },
+    bio: 'Directs the overall LEAP-One mission lifecycle, coordinates multidisciplinary department integration, and oversees scientific payload research at Hochschule Schmalkalden.',
+  },
+  {
+    name: 'Brahama Teja Naroju',
+    slug: 'brahama-teja-naroju',
+    position: 'Mechanical Lead & Manipulator Lead',
+    discipline: 'mechanical',
+    disciplineLabel: 'Mechanical Department',
+    departments: ['mechanical', 'drill-manipulator'],
+    rank: 'Captain',
+    rankBadge: '/media/Untitled-1.png',
+    tags: ['Mechanical Lead', 'Robotic Arm', 'Kinematics', 'Chassis Integration'],
+    image: '/media/image.jpg',
+    imageAlt: 'Brahama Teja Naroju — Mechanical Lead & Manipulator Lead',
+    sortOrder: 20,
+    links: {
+      linkedIn: 'https://www.linkedin.com/company/aries-space',
+    },
+    bio: 'Leads mechanical architecture, rocker-bogie kinematics, structural chassis fabrication, and 6-DOF robotic manipulator engineering.',
+  },
+  {
+    name: 'Ayan Akbar Ali',
+    slug: 'ayan-akbar-ali',
+    position: 'Electrical Department Lead',
+    discipline: 'electrical',
+    disciplineLabel: 'Electrical Department',
+    departments: ['electrical'],
+    rank: 'Captain',
+    rankBadge: '/media/Untitled-1.png',
+    tags: ['Electrical Lead', 'Power Distribution', 'Motor Drivers', 'BMS'],
+    image: '/media/ayan.jpg',
+    imageAlt: 'Ayan Akbar Ali — Electrical Department Lead',
+    sortOrder: 30,
+    links: {
+      linkedIn: 'https://www.linkedin.com/company/aries-space',
+    },
+    bio: 'Directs the 25.6 V LiFePO₄ power architecture, centralized distribution, regulated rails and low-level motor driver actuation.',
+  },
+  {
+    name: 'Omar Abdelrady',
+    slug: 'omar-abdelrady',
+    position: 'Software Department Lead',
+    discipline: 'software',
+    disciplineLabel: 'Software & Navigation',
+    departments: ['software', 'astroflight'],
+    rank: 'Captain',
+    rankBadge: '/media/Untitled-1.png',
+    tags: ['Software Lead', 'ROS 2', 'Autonomy', 'Mission Control'],
+    image: '/media/omar.jpg',
+    imageAlt: 'Omar Abdelrady — Software Department Lead',
+    sortOrder: 40,
+    links: {
+      linkedIn: 'https://www.linkedin.com/company/aries-space',
+    },
+    bio: 'Oversees the ROS 2 software stack, RealSense perception, EKF localization, obstacle avoidance and unified ground-station teleoperation protocols.',
+  },
+  {
+    name: 'Vighnesh Madhav Deshmukh',
+    slug: 'vighnesh-madhav-deshmukh',
+    position: 'Communication Lead & Software Engineer',
+    discipline: 'communication',
+    disciplineLabel: 'Communication Department',
+    departments: ['software', 'communication'],
+    rank: 'Captain',
+    rankBadge: '/media/Untitled-1.png',
+    tags: ['Communication Lead', 'RF Link', 'Ground Station', 'Telemetry'],
+    image: '/media/vighnesh.jpeg',
+    imageAlt: 'Vighnesh Madhav Deshmukh — Communication Lead',
+    sortOrder: 50,
+    links: {
+      linkedIn: 'https://www.linkedin.com/company/aries-space',
+    },
+    bio: 'Leads the primary 5 GHz AirMAX telemetry and video link, plus the independent 2.4 GHz ELRS backup path for LEAP-One.',
+  },
+  {
+    name: 'Danny Sneham',
+    slug: 'danny-sneham',
+    position: 'Drill Department Lead',
+    discipline: 'drill-manipulator',
+    disciplineLabel: 'Drill & Manipulator',
+    departments: ['drill-manipulator'],
+    rank: 'Crew',
+    tags: ['Drill Lead', 'Subsurface Sampling', 'Auger Mechanism', 'Actuation'],
+    image: '/media/image-2.jpg',
+    imageAlt: 'Danny Sneham — Drill Department Lead',
+    sortOrder: 60,
+    links: {
+      linkedIn: 'https://www.linkedin.com/company/aries-space',
+    },
+    bio: 'Leads the deep subsurface auger drill system, core sample acquisition mechanisms, and automated containment sealing.',
+  },
+  {
+    name: 'Rahul Khandait',
+    slug: 'rahul-khandait',
+    position: 'Drone Lead (Astroflight) & Software Engineer',
+    discipline: 'astroflight',
+    disciplineLabel: 'Astroflight (AQUILA Drone)',
+    departments: ['software', 'astroflight'],
+    rank: 'Captain',
+    rankBadge: '/media/Untitled-1.png',
+    tags: ['Drone Lead', 'AQUILA UAV', 'Aerial Survey', 'Autopilot'],
+    image: '/media/image-6.jpg',
+    imageAlt: 'Rahul Khandait — Drone Lead',
+    sortOrder: 70,
+    links: {
+      linkedIn: 'https://www.linkedin.com/company/aries-space',
+    },
+    bio: 'Leads the AQUILA reconnaissance aircraft development, aerial flight controllers, computer vision mapping, and drone-rover cooperative links.',
+  },
+  {
+    name: 'Reeba Biju',
+    slug: 'reeba-biju',
+    position: 'Mission, Resources & Outreach (MRO) Lead',
+    discipline: 'mro',
+    disciplineLabel: 'Mission, Resources & Outreach',
+    departments: ['mro'],
+    rank: 'Captain',
+    rankBadge: '/media/Untitled-1.png',
+    tags: ['MRO Lead', 'Sponsorships', 'Public Relations', 'Operations'],
+    image: '/media/reeba.jpg',
+    imageAlt: 'Reeba Biju — MRO Lead',
+    sortOrder: 80,
+    links: {
+      linkedIn: 'https://www.linkedin.com/company/aries-space',
+    },
+    bio: 'Manages team operations, industry partner sponsorships, public exhibitions (Space Night), and community outreach for HSM Aries.',
+  },
+
+  // MECHANICAL DEPARTMENT
+  {
+    name: 'Shreyas Patel',
+    slug: 'shreyas-patel',
+    position: 'Mechanical Department Engineer',
+    discipline: 'mechanical',
+    disciplineLabel: 'Mechanical Department',
+    tags: ['CAD Modeling', 'Chassis Stress Analysis', 'FEA'],
+    image: '/media/shreyas-patel.jpg',
+    imageAlt: 'Shreyas Patel — Mechanical Department',
+    sortOrder: 90,
+    links: { linkedIn: 'https://www.linkedin.com/company/aries-space' },
+    bio: 'Develops structural CAD assemblies, FEA stress simulations, and high-rigidity structural reinforcements for the rocker-bogie suspension.',
+  },
+  {
+    name: 'Naveen Kumar Shivakumar',
+    slug: 'naveen-kumar-shivakumar',
+    position: 'Mechanical & Drill Specialist',
+    discipline: 'mechanical',
+    disciplineLabel: 'Mechanical Department',
+    departments: ['mechanical', 'drill-manipulator'],
+    tags: ['Machining', 'Drill Bit Assembly', 'Testing'],
+    image: '/media/naveen-.jpg',
+    imageAlt: 'Naveen Kumar Shivakumar — Mechanical Department',
+    sortOrder: 100,
+    links: { linkedIn: 'https://www.linkedin.com/company/aries-space' },
+    bio: 'Specializes in precision mechanical prototyping, drill bit torque transmission gearing, and physical soil penetration testing.',
+  },
+  {
+    name: 'Rahul Kamatagi',
+    slug: 'rahul-kamatagi',
+    position: 'Mechanical & Manipulator Specialist',
+    discipline: 'mechanical',
+    disciplineLabel: 'Mechanical Department',
+    departments: ['mechanical', 'drill-manipulator'],
+    tags: ['Fabrication', 'Manipulator Joints', 'Assembly'],
+    image: '/media/Rahul.jpeg',
+    imageAlt: 'Rahul Kamatagi — Mechanical Department',
+    sortOrder: 110,
+    links: { linkedIn: 'https://www.linkedin.com/company/aries-space' },
+    bio: 'Handles physical CNC component assembly, robotic arm joint tolerances, and structural stress validation in lab and field trials.',
+  },
+
+  // ELECTRICAL DEPARTMENT
+  {
+    name: 'Mohammad Abdulaziz',
+    slug: 'mohammad-abdulaziz',
+    position: 'Electrical & Teleoperation Engineer',
+    discipline: 'electrical',
+    disciplineLabel: 'Electrical Department',
+    tags: ['Sensors', 'Harnessing', 'CAN Bus', 'Power Nodes'],
+    image: '/media/muhammad-abdulaziz.jpg',
+    imageAlt: 'Mohammad Abdulaziz — Electrical Department',
+    sortOrder: 120,
+    links: { linkedIn: 'https://www.linkedin.com/company/aries-space' },
+    bio: 'Implements CAN bus communications, low-latency motor control signals, and power distribution harnessing across the rover frame.',
+  },
+  {
+    name: 'Yash Lohar',
+    slug: 'yash-lohar',
+    position: 'Electrical & Power Systems Engineer',
+    discipline: 'electrical',
+    disciplineLabel: 'Electrical Department',
+    tags: ['Power Distribution', 'Harnessing', 'Safety Relays'],
+    image: '/media/yash-lohar.jpg',
+    imageAlt: 'Yash Lohar — Electrical Department',
+    sortOrder: 130,
+    links: { linkedIn: 'https://www.linkedin.com/company/aries-space' },
+    bio: 'Engineers the centralized power distribution unit, wiring harnesses, safety cutoffs, and battery thermal protection.',
+  },
+  {
+    name: 'Md Bashar',
+    slug: 'md-bashar',
+    position: 'Electrical Hardware Specialist',
+    discipline: 'electrical',
+    disciplineLabel: 'Electrical Department',
+    tags: ['PCB Assembly', 'Soldering', 'EMI Shielding'],
+    image: '/media/md-bashar.jpg',
+    imageAlt: 'Md Bashar — Electrical Department',
+    sortOrder: 140,
+    links: { linkedIn: 'https://www.linkedin.com/company/aries-space' },
+    bio: 'Focuses on electronic enclosure fabrication, high-current board assembly, and electromagnetic interference shielding.',
+  },
+
+  // SOFTWARE DEPARTMENT
+  {
+    name: 'Mukul Bimbra',
+    slug: 'mukul-bimbra',
+    position: 'Software & Navigation Engineer',
+    discipline: 'software',
+    disciplineLabel: 'Software & Navigation',
+    tags: ['ROS 2', '3D SLAM', 'Point Clouds', 'Obstacle Avoidance'],
+    image: '/media/MUKUL-BIMBRA.jpeg',
+    imageAlt: 'Mukul Bimbra — Software Department',
+    sortOrder: 150,
+    links: { linkedIn: 'https://www.linkedin.com/company/aries-space' },
+    bio: 'Develops 3D point cloud filtering, real-time SLAM algorithms, and reactive obstacle avoidance paths on ROS 2.',
+  },
+  {
+    name: 'Priyam Bhatnagar',
+    slug: 'priyam-bhatnagar',
+    position: 'Software & Perception Engineer',
+    discipline: 'software',
+    disciplineLabel: 'Software & Navigation',
+    tags: ['Computer Vision', 'Depth Sensing', 'Object Detection'],
+    image: '/media/priyam-Bhatnagar-1.jpeg',
+    imageAlt: 'Priyam Bhatnagar — Software Department',
+    sortOrder: 160,
+    links: { linkedIn: 'https://www.linkedin.com/company/aries-space' },
+    bio: 'Implements stereo depth perception models, object classification, and spatial map generation for autonomous field exploration.',
+  },
+
+  // SCIENTIFIC PAYLOAD
+  {
+    name: 'Anantha Pathmanabhan',
+    slug: 'anantha-pathmanabhan',
+    position: 'Scientific Payload Engineer',
+    discipline: 'science',
+    disciplineLabel: 'Scientific Payload',
+    departments: ['science'],
+    rank: 'Captain',
+    rankBadge: '/media/Untitled-1.png',
+    tags: ['Spectroscopy', 'Chemical Reagents', 'Sample Carousel'],
+    image: '/media/anantha-.jpg',
+    imageAlt: 'Anantha Pathmanabhan — Scientific Payload',
+    sortOrder: 170,
+    links: { linkedIn: 'https://www.linkedin.com/company/aries-space' },
+    bio: 'Designs spectroscopic analysis chambers, biochemical reagent delivery systems, and automated sample carousel handling.',
+  },
+  {
+    name: 'Ashwin Dinesh Ayinipully',
+    slug: 'ashwin-dinesh-ayinipully',
+    position: 'Scientific Payload Specialist',
+    discipline: 'science',
+    disciplineLabel: 'Scientific Payload',
+    tags: ['Planetary Geology', 'Sensors', 'Soil Chemistry'],
+    image: '/media/Ashwin-Dinesh-Ayinipully.jpeg',
+    imageAlt: 'Ashwin Dinesh Ayinipully — Scientific Payload',
+    sortOrder: 180,
+    links: { linkedIn: 'https://www.linkedin.com/company/aries-space' },
+    bio: 'Conducts planetary regolith simulation experiments, onboard Raman/UV sensor integration, and soil sample classification.',
+  },
+
+  // ADVISORS & MENTORS
+  {
+    name: 'Prof. Dr.-Ing. Frank Schrödel',
+    slug: 'prof-dr-ing-frank-schrodel',
+    position: 'Faculty Advisor',
+    discipline: 'mentors',
+    disciplineLabel: 'Advisors & Mentors',
+    tags: ['Faculty Advisor', 'Academic Sponsor', 'Hochschule Schmalkalden', 'Robotics Lab'],
+    image: '/media/frank-schroedel-wirtschaftsspiegel.png',
+    imageAlt: 'Prof. Dr.-Ing. Frank Schrödel — Faculty Advisor',
+    imageCredit: 'Wirtschaftsspiegel Thüringen',
+    imageCreditUrl: 'https://wirtschaftsspiegel-thueringen.com/2023/03/22/mit-ein-forschungsschwerpunkt-an-der-hochschule-schmalkalden/',
+    sortOrder: 190,
+    links: { website: 'https://www.hs-schmalkalden.de' },
+    bio: 'Provides institutional governance, robotics lab facilities, research sponsorship, and academic guidance at Hochschule Schmalkalden.',
+  },
+  {
+    name: 'Alexander Kolbai',
+    slug: 'alexander-kolbai',
+    position: 'Industry Advisor',
+    discipline: 'mentors',
+    disciplineLabel: 'Advisors & Mentors',
+    tags: ['Industry Advisor', 'Precision Engineering', 'Manufacturing Standards'],
+    image: '/media/alexander-kolbai.jpg',
+    imageAlt: 'Alexander Kolbai — Industry Advisor',
+    sortOrder: 200,
+    links: { linkedIn: 'https://www.linkedin.com/company/aries-space' },
+    bio: 'Advises on industrial manufacturing standards, high-precision CNC tolerances, and aerospace mechanical robustness.',
+  },
+  {
+    name: 'Swaraj Tendulkar',
+    slug: 'swaraj-tendulkar',
+    position: 'University Mentor',
+    discipline: 'mentors',
+    disciplineLabel: 'Advisors & Mentors',
+    tags: ['University Mentor', 'Robotics', 'Systems Engineering'],
+    image: '/media/17028054052801.jpg',
+    imageAlt: 'Swaraj Tendulkar — University Mentor',
+    sortOrder: 210,
+    links: { linkedIn: 'https://www.linkedin.com/company/aries-space' },
+    bio: 'Mentors students on complex robotics architectures, competition strategies, and mission execution workflows.',
+  },
+  {
+    name: 'K.K.Achari',
+    slug: 'kk-achari',
+    position: 'Industry Mentor',
+    discipline: 'mentors',
+    disciplineLabel: 'Advisors & Mentors',
+    tags: ['Industry Mentor', 'Aerospace Architecture', 'Mission Branding'],
+    image: '/media/1704211592222.jpg',
+    imageAlt: 'K.K.Achari — Industry Mentor',
+    sortOrder: 220,
+    links: { linkedIn: 'https://www.linkedin.com/company/aries-space' },
+    bio: 'Provides senior industry mentorship in aerospace systems design, Preliminary Design Review (PDR) milestones, and identity.',
+  },
+  {
+    name: 'Venkata Prashanth Uppalapati',
+    slug: 'venkata-prashanth-uppalapati',
+    position: 'University Mentor',
+    discipline: 'mentors',
+    disciplineLabel: 'Advisors & Mentors',
+    tags: ['University Mentor', 'Embedded Electronics', 'Hardware Debugging'],
+    image: '/media/proffesional_photo_side_cut-scaled.jpg',
+    imageAlt: 'Venkata Prashanth Uppalapati — University Mentor',
+    sortOrder: 230,
+    links: { linkedIn: 'https://www.linkedin.com/company/aries-space' },
+    bio: 'Guides embedded microcontroller firmware design, CAN bus protocol stability, and electronic hardware debugging.',
+  },
+  {
+    name: 'Niranjan Ramesha',
+    slug: 'niranjan-ramesha',
+    position: 'University Mentor',
+    discipline: 'mentors',
+    disciplineLabel: 'Advisors & Mentors',
+    tags: ['University Mentor', 'Drivetrain Mechanics', 'Suspension Kinematics'],
+    image: '/media/niranjan-ramesha.jpg',
+    imageAlt: 'Niranjan Ramesha — University Mentor',
+    sortOrder: 240,
+    links: { linkedIn: 'https://www.linkedin.com/company/aries-space' },
+    bio: 'Mentors the mechanical team on multi-terrain suspension kinematics, custom wheel design, and terrain traction testing.',
+  },
+  {
+    name: 'Nikhil Meduri',
+    slug: 'nikhil-meduri',
+    position: 'University Mentor',
+    discipline: 'mentors',
+    disciplineLabel: 'Advisors & Mentors',
+    tags: ['University Mentor', 'Custom PCB', 'Embedded Firmware'],
+    image: '/media/nikhil-meduri.jpg',
+    imageAlt: 'Nikhil Meduri — University Mentor',
+    sortOrder: 250,
+    links: { linkedIn: 'https://www.linkedin.com/company/aries-space' },
+    bio: 'Advises on multi-layer PCB design, sensor bus architecture, power efficiency, and hardware reliability standards.',
+  },
+]

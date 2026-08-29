@@ -1,0 +1,14 @@
+node_modules
+.next
+.git
+.env
+.env.*
+*.db
+*.db-shm
+*.db-wal
+test-results
+playwright-report
+payload-scaffold
+wordpress-source
+7dd84453-471e-4d91-9273-5f65fb2b667a_full_2026-08-28T06_08_22Z.zip
+design/concepts/*.png

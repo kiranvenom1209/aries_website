@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HSM Aries — LEAP-ONE CAD Viewer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  
+  <!-- Import Map for Three.js -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+
+  <style>
+    /* --- CORE SYSTEM STYLES (MATCHING MEDIA KIT) --- */
+    :root {
+      --bg-deep: #03060b;
+      --bg-panel: rgba(13, 18, 28, 0.85);
+      --bg-hud: rgba(17, 77, 98, 0.1);
+      --border: rgba(255,255,255,0.1);
+      --border-active: rgba(254,156,61,0.5);
+      --accent: #fe9c3d;
+      --accent-secondary: #114d62;
+      --text-main: #e2e8f0;
+      --text-muted: #94a3b8;
+      --success: #10b981;
+      --error: #ef4444;
+      --font-body: "Kumbh Sans", system-ui, sans-serif;
+      --font-mono: "Space Mono", monospace;
+      --ease-out: cubic-bezier(0.2, 0.9, 0.2, 1);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0; padding: 0;
+      background: var(--bg-deep);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      /* UPDATED: Allow scrolling if content overflows */
+      overflow-y: auto; 
+      overflow-x: hidden;
+      min-height: 100vh;
+      width: 100vw;
+    }
+
+    /* --- LAYOUT GRID --- */
+    #cad-interface {
+      position: relative;
+      width: 100%; 
+      /* UPDATED: Changed height: 100% to min-height: 100vh to allow growth */
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 300px 1fr 250px;
+      /* UPDATED: Top row is 'auto' to fit content + padding */
+      grid-template-rows: auto 1fr 60px;
+      z-index: 10;
+      pointer-events: none; /* Let clicks pass through to canvas where needed */
+      opacity: 0; /* Start hidden for boot sequence */
+      transition: opacity 1s var(--ease-out);
+    }
+    
+    #cad-interface.active { opacity: 1; }
+
+    /* --- 3D CANVAS LAYER --- */
+    #cad-canvas {
+      position: fixed; inset: 0; /* Fixed to stay put while scrolling */
+      z-index: 1;
+      background: radial-gradient(circle at center, #0b101a 0%, #03060b 100%);
+    }
+
+    /* --- HUD ELEMENTS --- */
+    .hud-panel {
+      pointer-events: auto;
+      background: var(--bg-panel);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+      padding: 20px;
+      display: flex; flex-direction: column; gap: 20px;
+    }
+
+    /* Header (Top Bar) */
+    .hud-header {
+      grid-column: 1 / -1;
+      grid-row: 1 / 2;
+      border-bottom: 1px solid var(--border);
+      border-right: none; border-left: none; border-top: none;
+      display: flex; align-items: center; justify-content: space-between;
+      /* UPDATED: Added padding and wrapping */
+      padding: 20px 24px;
+      background: rgba(3, 6, 11, 0.9);
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .hud-logo-group { display: flex; align-items: center; gap: 16px; }
+    .hud-logo { height: 28px; width: auto; }
+    .hud-title { 
+      font-family: var(--font-mono); font-size: 14px; color: var(--text-muted); 
+      text-transform: uppercase; letter-spacing: 0.1em; 
+    }
+    .hud-title strong { color: var(--accent); }
+
+    .hud-status { display: flex; gap: 20px; font-family: var(--font-mono); font-size: 11px; color: var(--success); }
+    .status-item { display: flex; align-items: center; gap: 8px; }
+    .blink-dot { width: 6px; height: 6px; background: currentColor; border-radius: 50%; animation: blink 2s infinite; }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+    /* Left Sidebar (Controls) */
+    .hud-sidebar-left {
+      grid-column: 1 / 2;
+      grid-row: 2 / 3;
+      border-right: 1px solid var(--border);
+      border-top: none; border-bottom: none; border-left: none;
+      padding-top: 30px;
+    }
+
+    .control-group { margin-bottom: 30px; }
+    .control-label { 
+      display: block; font-family: var(--font-mono); font-size: 10px; color: var(--accent); 
+      margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.1em;
+    }
+    
+    .hud-btn {
+      width: 100%; text-align: left;
+      background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+      color: var(--text-muted); padding: 12px; margin-bottom: 8px;
+      font-family: var(--font-body); font-size: 13px; cursor: pointer;
+      transition: all 0.2s; position: relative; overflow: hidden;
+    }
+    .hud-btn:hover { background: rgba(254,156,61,0.1); border-color: var(--accent); color: var(--text-main); }
+    .hud-btn.active { background: var(--accent); color: #000; border-color: var(--accent); font-weight: 600; }
+    
+    /* Right Sidebar (Data) */
+    .hud-sidebar-right {
+      grid-column: 3 / 4;
+      grid-row: 2 / 3;
+      border-left: 1px solid var(--border);
+      border-top: none; border-bottom: none; border-right: none;
+      padding-top: 30px;
+    }
+
+    .data-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px; }
+    .data-label { color: var(--text-muted); }
+    .data-val { font-family: var(--font-mono); color: var(--text-main); }
+
+    /* Bottom Bar */
+    .hud-footer {
+      grid-column: 1 / -1;
+      grid-row: 3 / 4;
+      border-top: 1px solid var(--border);
+      background: rgba(3, 6, 11, 0.9);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-mono); font-size: 11px; color: var(--text-muted);
+    }
+
+    /* Central Overlay (Crosshair) */
+    .hud-center-overlay {
+      grid-column: 2 / 3; grid-row: 2 / 3;
+      position: relative; pointer-events: none;
+    }
+    .hud-crosshair {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 40px; height: 40px;
+    }
+    .hud-crosshair::before, .hud-crosshair::after {
+      content: ''; position: absolute; background: rgba(255,255,255,0.2);
+    }
+    .hud-crosshair::before { top: 19px; left: 0; width: 40px; height: 2px; }
+    .hud-crosshair::after { top: 0; left: 19px; width: 2px; height: 40px; }
+
+    .hud-brackets {
+      position: absolute; inset: 40px;
+      border: 1px solid rgba(255,255,255,0.1);
+      mask: conic-gradient(at 40px 40px, transparent 75%, black 0) 0 0 / calc(100% - 40px) calc(100% - 40px);
+    }
+
+    /* Scanline Effect */
+    .scanlines {
+      position: fixed; inset: 0; pointer-events: none; z-index: 5;
+      background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1));
+      background-size: 100% 4px;
+      opacity: 0.15;
+    }
+    
+    /* Boot Screen */
+    .boot-screen {
+      position: fixed; inset: 0; z-index: 9999;
+      background: #000;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      font-family: var(--font-mono); color: var(--accent);
+      transition: opacity 0.8s var(--ease-out);
+    }
+    .boot-screen.hidden { opacity: 0; pointer-events: none; }
+    .boot-log { width: 300px; font-size: 11px; color: var(--text-muted); margin-bottom: 20px; text-align: left; }
+    .boot-line { margin: 4px 0; border-left: 2px solid var(--accent); padding-left: 8px; opacity: 0; animation: slideIn 0.1s forwards; }
+    .boot-line.ok { color: var(--success); border-color: var(--success); }
+    .boot-line.error { color: var(--error); border-color: var(--error); }
+    @keyframes slideIn { from { opacity: 0; transform: translateX(-5px); } to { opacity: 1; transform: translateX(0); } }
+    .boot-bar-wrap { width: 300px; height: 2px; background: rgba(255,255,255,0.1); position: relative; }
+    .boot-bar { height: 100%; width: 0%; background: var(--accent); box-shadow: 0 0 10px var(--accent); transition: width 0.1s linear; }
+
+    /* Mobile Block Screen */
+    .mobile-block {
+      position: fixed; inset: 0; z-index: 10000;
+      background: #020408;
+      display: none; /* Active via JS */
+      flex-direction: column; align-items: center; justify-content: center;
+      padding: 40px; text-align: center;
+    }
+    .mobile-block.active { display: flex; }
+    .mb-icon { color: var(--error); width: 64px; height: 64px; margin-bottom: 24px; }
+    .mb-title { font-family: var(--font-mono); font-size: 18px; color: var(--error); margin-bottom: 16px; letter-spacing: 0.05em; }
+    .mb-desc { font-size: 14px; color: var(--text-muted); max-width: 300px; line-height: 1.6; }
+
+    /* Model Label Tag */
+    .model-tag {
+      position: absolute; top: 20%; left: 20%;
+      background: rgba(3,6,11,0.8); border: 1px solid var(--accent);
+      padding: 8px 12px; color: var(--accent); font-family: var(--font-mono); font-size: 11px;
+      transform: translate(-50%, -50%); display: none; /* Visible via JS */
+    }
+    .model-tag::after {
+      content: ''; position: absolute; top: 100%; left: 50%;
+      width: 1px; height: 40px; background: var(--accent);
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      /* Hide standard UI on mobile since we block it anyway, but keep for tablet range just in case */
+      #cad-interface {
+        grid-template-columns: 1fr;
+        /* UPDATED: Top row is 'auto' for wrapping */
+        grid-template-rows: auto 1fr auto auto;
+      }
+      .hud-sidebar-left { grid-column: 1 / -1; grid-row: 3 / 4; height: auto; border-right: none; border-top: 1px solid var(--border); flex-direction: row; overflow-x: auto; padding: 10px; }
+      .hud-sidebar-right { grid-column: 1 / -1; grid-row: 4 / 5; height: auto; border-left: none; border-top: 1px solid var(--border); padding: 20px; }
+      .control-group { width: 100%; }
+      .hud-btn { display: inline-block; width: auto; margin-right: 8px; }
+      .hud-center-overlay { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Canvas -->
+  <div id="cad-canvas"></div>
+  <div class="scanlines"></div>
+  
+  <!-- BOOT SEQUENCE OVERLAY -->
+  <div id="pkBootScreen" class="boot-screen">
+    <div class="boot-log" id="pkBootLog"></div>
+    <div class="boot-bar-wrap">
+      <div class="boot-bar" id="pkBootBar"></div>
+    </div>
+  </div>
+
+  <!-- MOBILE BLOCK SCREEN -->
+  <div id="mobileBlock" class="mobile-block">
+    <svg class="mb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+    </svg>
+    <div class="mb-title">CRITICAL ERROR: INCOMPATIBLE DEVICE</div>
+    <div class="mb-desc">
+      The Neural Schematic Interface requires a desktop workstation for optimal rendering.
+      <br><br>
+      Please access this terminal from a larger display.
+    </div>
+  </div>
+
+  <!-- UI Grid -->
+  <div id="cad-interface">
+    
+    <!-- Top Bar -->
+    <header class="hud-panel hud-header">
+      <div class="hud-logo-group">
+        <a href="https://hsmaries.space/" target="_self">
+          <img src="https://hsmaries.space/wp-content/uploads/2025/03/sitelogoaries.png" class="hud-logo" alt="Aries Logo">
+        </a>
+        <span class="hud-title"><strong>LEAP-ONE</strong> // SCHEMATIC VIEW</span>
+      </div>
+      <div class="hud-status">
+        <div class="status-item"><div class="blink-dot"></div> LIVE FEED</div>
+        <div class="status-item">CONN: STABLE</div>
+      </div>
+    </header>
+
+    <!-- Controls Sidebar -->
+    <aside class="hud-panel hud-sidebar-left">
+      <div class="control-group">
+        <span class="control-label">View Mode</span>
+        <button class="hud-btn active" onclick="switchView('perspective')">Perspective</button>
+        <button class="hud-btn" onclick="switchView('top')">Top Down</button>
+        <button class="hud-btn" onclick="switchView('side')">Side Profile</button>
+      </div>
+
+      <div class="control-group">
+        <span class="control-label">Exploded View</span>
+        <button class="hud-btn" id="btn-explode" onclick="toggleExplode()">Assemble / Disassemble</button>
+      </div>
+
+      <div class="control-group">
+        <span class="control-label">Layers</span>
+        <button class="hud-btn active" onclick="toggleLayer('chassis')">Chassis</button>
+        <button class="hud-btn active" onclick="toggleLayer('wheels')">Drivetrain</button>
+        <button class="hud-btn active" onclick="toggleLayer('science')">Payload</button>
+      </div>
+    </aside>
+
+    <!-- Center (Overlay only) -->
+    <div class="hud-center-overlay">
+      <div class="hud-crosshair"></div>
+      <div class="hud-brackets"></div>
+      
+      <!-- Interactive Tag (Positioned via JS) -->
+      <div id="tag-science" class="model-tag" style="display: none;"></div> 
+      
+      <!-- Real-time Camera Data -->
+      <div id="cam-data" style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); font-family: var(--font-mono); font-size: 10px; color: var(--accent); text-align: center; opacity: 0.8; pointer-events: none;">
+        CAM_POS: <span id="cam-x">0.00</span>, <span id="cam-y">0.00</span>, <span id="cam-z">0.00</span>
+      </div>
+    </div>
+
+    <!-- Data Sidebar -->
+    <aside class="hud-panel hud-sidebar-right">
+      <div class="control-group">
+        <span class="control-label">System Telemetry</span>
+        <div class="data-row">
+          <span class="data-label">Peak Power</span>
+          <span class="data-val">1200 W</span>
+        </div>
+        <div class="data-row">
+          <span class="data-label">Mass</span>
+          <span class="data-val">73.26 kg</span>
+        </div>
+        <div class="data-row">
+          <span class="data-label">Battery</span>
+          <span class="data-val">LiPo 6S (1728 Wh)</span>
+        </div>
+        <div class="data-row">
+          <span class="data-label">Comms</span>
+          <span class="data-val">5 GHz / UHF Backup</span>
+        </div>
+         <div class="data-row">
+          <span class="data-label">Comms Range</span>
+          <span class="data-val">500m (Pri) / 800m (Sec)</span>
+        </div>
+         <div class="data-row">
+          <span class="data-label">Max Incline</span>
+          <span class="data-val">30° (Tested 25°)</span>
+        </div>
+        <div class="data-row">
+          <span class="data-label">Est. Runtime</span>
+          <span class="data-val">1.2 Hours</span>
+        </div>
+      </div>
+
+      <!-- Removed Payload/Subsystem Status Section -->
+      
+       <div class="control-group">
+        <span class="control-label">Compute Core</span>
+        <div class="data-row">
+          <span class="data-label">Nav Unit</span>
+          <span class="data-val">Jetson Orin NX</span>
+        </div>
+         <div class="data-row">
+          <span class="data-label">Main CPU</span>
+          <span class="data-val">Intel NUC 12</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Footer -->
+    <footer class="hud-footer">
+      HSM ARIES // ENGINEERING DIVISION // AUTH: PUBLIC_READ_ONLY
+    </footer>
+
+  </div>
+
+  <!-- THREE.JS LOGIC -->
+  <script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+    import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+    // --- SCENE SETUP ---
+    const container = document.getElementById('cad-canvas');
+    const scene = new THREE.Scene();
+    
+    // Fog for depth
+    scene.fog = new THREE.FogExp2(0x03060b, 0.02);
+
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+    // Updated default camera position
+    camera.position.set(-4.97, 2.54, 5.12);
+
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    container.appendChild(renderer.domElement);
+
+    // Controls
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.minDistance = 2;
+    controls.maxDistance = 15;
+
+    // --- LIGHTING ---
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+    scene.add(ambientLight);
+
+    const dirLight = new THREE.DirectionalLight(0xfe9c3d, 1.5); // Brand Orange Light
+    dirLight.position.set(5, 10, 5);
+    scene.add(dirLight);
+
+    const blueLight = new THREE.DirectionalLight(0x114d62, 1); // Brand Teal Light
+    blueLight.position.set(-5, 2, -5);
+    scene.add(blueLight);
+
+    // --- MARTIAN SURFACE (PROCEDURAL) ---
+    // Create a plane geometry with many segments for height variation
+    const surfaceGeo = new THREE.PlaneGeometry(30, 30, 64, 64);
+    
+    // Modify vertices to create rocky terrain
+    const posAttribute = surfaceGeo.attributes.position;
+    for (let i = 0; i < posAttribute.count; i++) {
+        const x = posAttribute.getX(i);
+        const y = posAttribute.getY(i);
+        // Simple noise-like distortion (random hills)
+        const z = (Math.random() * 0.4) - 0.2; // Slight bumps
+        // Make center flatter for rover
+        const dist = Math.sqrt(x*x + y*y);
+        const factor = Math.min(dist / 5, 1); // 0 at center, 1 at 5 units out
+        
+        posAttribute.setZ(i, z * factor);
+    }
+    surfaceGeo.computeVertexNormals();
+    surfaceGeo.rotateX(-Math.PI / 2); // Lay flat
+    // Scale terrain to 75%
+    surfaceGeo.scale(0.75, 0.75, 0.75);
+    
+    const surfaceMat = new THREE.MeshStandardMaterial({ 
+        color: 0xA0522D, // Sienna / Rust
+        roughness: 1,
+        metalness: 0,
+        flatShading: true // Low-poly look
+    });
+    
+    const surface = new THREE.Mesh(surfaceGeo, surfaceMat);
+    surface.position.y = 0; // Ground level
+    scene.add(surface);
+
+    // --- ROVER MODEL LOADING (GLB) ---
+    const roverGroup = new THREE.Group();
+    scene.add(roverGroup);
+    
+    let loadedModel = null;
+
+    const loader = new GLTFLoader();
+    loader.load(
+      'https://hsmaries.space/wp-content/uploads/2025/09/leapone.glb',
+      function (gltf) {
+        const model = gltf.scene;
+        loadedModel = model;
+        
+        // 1. HARDCODED SCALE (User Value * 0.75 global scale adjustment)
+        const hardcodedScale = 2.6 * 0.75;
+        model.scale.set(hardcodedScale, hardcodedScale, hardcodedScale);
+        
+        // 2. HARDCODED POSITION (Center and User Y-Offset)
+        const box = new THREE.Box3().setFromObject(model);
+        const center = box.getCenter(new THREE.Vector3());
+        const size = box.getSize(new THREE.Vector3());
+        
+        // Move center to (0,0,0) horizontally (scaled coordinates)
+        model.position.x += (model.position.x - center.x) * 0.75;
+        model.position.z += (model.position.z - center.z) * 0.75;
+        
+        // Ground logic: Center Y then lift by half height + buffer
+        // Apply User Specified Y-Axis Offset (-0.4) scaled by 0.75
+        const manualOffset = -0.4 * 0.75;
+        // Recalculate grounded Y based on scaled size
+        const groundedY = (model.position.y - center.y) * 0.75 + (size.y / 2) * 0.75; 
+        
+        model.position.y = groundedY + manualOffset + 0.2; // +0.2 buffer remains constant or scaled as preference
+
+        // Apply materials
+        model.traverse((child) => {
+          if (child.isMesh) {
+            child.castShadow = true;
+            child.receiveShadow = true;
+          }
+        });
+
+        roverGroup.add(model);
+        
+        // Update tag target
+        tagTarget.set(0, (size.y + 0.5) * 0.75, 0); 
+      },
+      function (xhr) { /* Progress */ },
+      function (error) { console.error('An error happened loading the rover:', error); }
+    );
+
+    // --- ANIMATION & INTERACTIONS ---
+    
+    // Tag Following Logic
+    const tag = document.getElementById('tag-science');
+    const tagTarget = new THREE.Vector3(0, 2, 0); // Default target, updated after load
+
+    function updateTag() {
+      // Logic kept for potential future use or to prevent errors if referenced elsewhere
+      // but display is forced to none in CSS/HTML above.
+    }
+
+    // Animation Loop
+    function animate() {
+      requestAnimationFrame(animate);
+      controls.update();
+      
+      // Update Camera Position Readout
+      const cx = document.getElementById('cam-x');
+      const cy = document.getElementById('cam-y');
+      const cz = document.getElementById('cam-z');
+      
+      if(cx && cy && cz) {
+        cx.innerText = camera.position.x.toFixed(2);
+        cy.innerText = camera.position.y.toFixed(2);
+        cz.innerText = camera.position.z.toFixed(2);
+      }
+      
+      // Subtle rotation if idle
+      // roverGroup.rotation.y += 0.001; 
+
+      updateTag();
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    // Resize Handler
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // --- UI FUNCTIONS EXPORTED TO WINDOW ---
+    
+    // 1. View Switching
+    window.switchView = (type) => {
+      const duration = 1000;
+      const startPos = camera.position.clone();
+      let endPos;
+
+      if(type === 'perspective') endPos = new THREE.Vector3(-5.06, 1.45, 5.26);
+      if(type === 'top') endPos = new THREE.Vector3(0, 10, 0);
+      if(type === 'side') endPos = new THREE.Vector3(8, 0.5, 0);
+
+      // Smooth transition logic (simple lerp implementation)
+      let startTime = null;
+      function moveCamera(time) {
+        if(!startTime) startTime = time;
+        const progress = Math.min((time - startTime) / duration, 1);
+        // Ease Out Quart
+        const ease = 1 - Math.pow(1 - progress, 4);
+        
+        camera.position.lerpVectors(startPos, endPos, ease);
+        camera.lookAt(0, 0, 0);
+        
+        if(progress < 1) requestAnimationFrame(moveCamera);
+        else controls.update(); // Re-enable orbit after move
+      }
+      requestAnimationFrame(moveCamera);
+      
+      // Update UI Buttons
+      document.querySelectorAll('.hud-sidebar-left .hud-btn').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+    };
+
+    // 2. Exploded View (Simple expansion)
+    let isExploded = false;
+    window.toggleExplode = () => {
+      isExploded = !isExploded;
+      const btn = document.getElementById('btn-explode');
+      btn.classList.toggle('active');
+      
+      // Placeholder scale effect for single GLB
+      if(isExploded) {
+          roverGroup.scale.set(2.8, 2.8, 2.8); // Slight scale up visually
+      } else {
+          roverGroup.scale.set(2.6 * 0.75, 2.6 * 0.75, 2.6 * 0.75); // Reset to hardcoded scale
+      }
+    };
+
+    // 3. Toggle Layers
+    window.toggleLayer = (layerName) => {
+      event.target.classList.toggle('active');
+      const isActive = event.target.classList.contains('active');
+      
+      // Toggle whole group for now
+      if (layerName === 'chassis') roverGroup.visible = isActive;
+    };
+    
+    // Boot Sequence Logic
+    window.addEventListener('DOMContentLoaded', () => {
+      const bootScreen = document.getElementById('pkBootScreen');
+      const bootLog = document.getElementById('pkBootLog');
+      const bootBar = document.getElementById('pkBootBar');
+      const interfaceEl = document.getElementById('cad-interface');
+      const mobileBlock = document.getElementById('mobileBlock');
+      
+      // MOBILE CHECK - RESTORED
+      if(window.innerWidth < 768) {
+        // Run abbreviated boot sequence then show error
+        const logLines = [
+            "INITIALIZING CAD VIEWER...",
+            "CHECKING DISPLAY PARAMETERS...",
+            "ERROR: RESOLUTION INSUFFICIENT.",
+            "ABORTING RENDER ENGINE."
+        ];
+        
+        let lineIndex = 0;
+        const addLine = () => {
+            if(lineIndex >= logLines.length) return;
+            const p = document.createElement('div');
+            p.className = 'boot-line';
+            p.innerText = logLines[lineIndex];
+            if(logLines[lineIndex].includes("ERROR")) p.classList.add('error');
+            bootLog.appendChild(p);
+            lineIndex++;
+        };
+        
+        setTimeout(() => { addLine(); bootBar.style.width = '30%'; }, 200);
+        setTimeout(() => { addLine(); bootBar.style.width = '60%'; }, 800);
+        setTimeout(() => { addLine(); bootBar.style.width = '80%'; }, 1400);
+        setTimeout(() => { 
+            addLine(); 
+            bootBar.style.width = '100%';
+            bootBar.style.background = 'var(--error)';
+            setTimeout(() => {
+                bootScreen.classList.add('hidden');
+                mobileBlock.classList.add('active');
+            }, 800);
+        }, 2000);
+        
+        return; // Stop normal boot
+      }
+
+      // NORMAL DESKTOP BOOT
+      const logLines = [
+          "INITIALIZING CAD VIEWER...",
+          "LOADING GEOMETRY BUFFER...",
+          "COMPILING SHADERS... OK",
+          "CONNECTING TO TELEMETRY STREAM...",
+          "SYSTEM ONLINE."
+      ];
+      
+      let lineIndex = 0;
+      const addLine = () => {
+          if(lineIndex >= logLines.length) return;
+          const p = document.createElement('div');
+          p.className = 'boot-line';
+          p.innerText = logLines[lineIndex];
+          if(logLines[lineIndex].includes("OK") || logLines[lineIndex].includes("ONLINE")) p.classList.add('ok');
+          bootLog.appendChild(p);
+          lineIndex++;
+          // Scroll to bottom
+          bootLog.scrollTop = bootLog.scrollHeight;
+      };
+      
+      // Simulate boot timing
+      setTimeout(() => { addLine(); bootBar.style.width = '20%'; }, 200);
+      setTimeout(() => { addLine(); bootBar.style.width = '45%'; }, 800);
+      setTimeout(() => { addLine(); bootBar.style.width = '70%'; }, 1600);
+      setTimeout(() => { addLine(); bootBar.style.width = '90%'; }, 2200);
+      setTimeout(() => { 
+          addLine(); 
+          bootBar.style.width = '100%';
+          // Finish
+          setTimeout(() => {
+              bootScreen.classList.add('hidden');
+              interfaceEl.classList.add('active');
+          }, 600);
+      }, 2600);
+    });
+
+  </script>
+</body>
+</html>

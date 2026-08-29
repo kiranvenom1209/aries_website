@@ -1,0 +1,1469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HSM Aries — Media & Press Kit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Import Map to resolve 'three' dependencies inside GLTFLoader -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+
+  <!-- CSS Styles -->
+  <style>
+    /* --- SCOPED COMPONENT STYLES --- */
+    #aries-press-kit {
+      /* Variables */
+      --bg-deep: #03060b;
+      --bg-panel: rgba(13, 18, 28, 0.7);
+      --bg-card: rgba(21, 27, 41, 0.6);
+      --border: rgba(255,255,255,0.08);
+      --border-hover: rgba(254,156,61,0.3);
+      --accent: #fe9c3d;
+      --accent-dim: rgba(254,156,61,0.1);
+      --text-main: #e2e8f0;
+      --text-muted: #94a3b8;
+      --success: #10b981;
+      --font-body: "Kumbh Sans", system-ui, sans-serif;
+      --ease: cubic-bezier(0.2, 0.9, 0.2, 1);
+      
+      /* Reset */
+      background: var(--bg-deep);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      width: 100%;
+      padding: 40px 20px;
+      display: flex;
+      justify-content: center;
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      overflow-x: hidden;
+    }
+
+    /* Mobile Scroll Fix: Prevent rubber-banding */
+    html, body {
+      overscroll-behavior-y: none;
+    }
+
+    #aries-press-kit * { box-sizing: border-box; }
+
+    /* 3D Canvas Background */
+    #pk-3d-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%; 
+      height: 100vh; 
+      height: 100dvh; /* Dynamic Viewport Height: Adapts to address bar */
+      z-index: 0;
+      pointer-events: none;
+      /* Subtle fade to blend with content */
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.1) 100%);
+      -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.1) 100%);
+      transform: translateZ(0); /* Hardware accelerate to fix lag */
+    }
+
+    /* Layout */
+    .pk-shell { width: 100%; max-width: 1100px; position: relative; z-index: 2; }
+
+    /* Background Grid */
+    .pk-bg-grid {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      background-image: 
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      mask-image: radial-gradient(circle at 50% 0%, black 40%, transparent 100%);
+      pointer-events: none; z-index: 1;
+      perspective: 1000px;
+      animation: gridFadeIn 2s var(--ease) forwards;
+      overflow: hidden;
+    }
+    @keyframes gridFadeIn { from { opacity: 0; transform: scale(1.05); } to { opacity: 1; transform: scale(1); } }
+
+    .pk-aurora {
+      position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+      background: radial-gradient(circle at 50% 50%, rgba(17,77,98,0.15), transparent 40%),
+                  radial-gradient(circle at 20% 20%, rgba(254,156,61,0.08), transparent 30%);
+      animation: auroraFloat 20s ease-in-out infinite alternate;
+      pointer-events: none;
+      mix-blend-mode: screen;
+    }
+    @keyframes auroraFloat {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      100% { transform: translate(-20px, -20px) rotate(5deg); }
+    }
+
+    /* --- HUD & TRANSMISSION OVERLAYS --- */
+    .pk-scanlines {
+      position: fixed; inset: 0; 
+      width: 100%; height: 100dvh;
+      z-index: 49; pointer-events: none;
+      background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1));
+      background-size: 100% 4px;
+      opacity: 0.15;
+      transform: translateZ(0); /* Hardware accelerate */
+    }
+    .pk-vignette {
+      position: fixed; inset: 0; 
+      width: 100%; height: 100dvh;
+      z-index: 49; pointer-events: none;
+      background: radial-gradient(circle at center, transparent 60%, rgba(0,0,0,0.4) 100%);
+      transform: translateZ(0); /* Hardware accelerate */
+    }
+
+    .pk-hud-layer {
+      position: fixed; inset: 0; 
+      width: 100%; height: 100dvh; /* STABLE: Uses dynamic viewport height to fill visible area */
+      z-index: 50; pointer-events: none;
+      display: flex; flex-direction: column; justify-content: space-between;
+      padding: 20px; mix-blend-mode: screen;
+      transform: translateZ(0); /* Hardware accelerate */
+    }
+    .pk-hud-row { display: flex; justify-content: space-between; align-items: flex-start; }
+    .pk-hud-row.bottom { align-items: flex-end; }
+    
+    .pk-hud-corner {
+      width: 40px; height: 40px; border: 2px solid var(--accent); opacity: 0.4;
+      transition: all 0.3s;
+    }
+    .pk-hud-corner.tl { border-right: none; border-bottom: none; }
+    .pk-hud-corner.tr { border-left: none; border-bottom: none; }
+    .pk-hud-corner.bl { border-right: none; border-top: none; }
+    .pk-hud-corner.br { border-left: none; border-top: none; }
+
+    .pk-hud-meta { font-family: monospace; font-size: 10px; color: var(--accent); opacity: 0.7; }
+    .pk-hud-meta.right { text-align: right; }
+
+    /* Boot Screen */
+    .pk-boot-screen {
+      position: fixed; inset: 0; z-index: 9999;
+      background: #000;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      font-family: monospace; color: var(--accent);
+      transition: opacity 0.8s ease-out, filter 0.5s ease-out;
+    }
+    .pk-boot-screen.hidden { opacity: 0; pointer-events: none; filter: blur(10px); }
+    .pk-boot-log { font-size: 11px; margin-bottom: 20px; text-align: left; width: 300px; min-height: 100px; color: var(--text-muted); }
+    .pk-boot-log p { margin: 4px 0; opacity: 0; animation: typeLine 0.1s forwards; border-left: 2px solid var(--accent); padding-left: 8px; }
+    .pk-boot-log p.error { border-color: red; color: #f87171; }
+    .pk-boot-log p.success { border-color: var(--success); color: var(--success); }
+    @keyframes typeLine { from { opacity: 0; transform: translateX(-5px); } to { opacity: 1; transform: translateX(0); } }
+
+    .pk-boot-loader { width: 300px; height: 2px; background: rgba(255,255,255,0.1); position: relative; overflow: hidden; }
+    .pk-boot-bar { position: absolute; left: 0; top: 0; height: 100%; width: 0%; background: var(--accent); box-shadow: 0 0 10px var(--accent); transition: width 0.1s linear; }
+
+    /* Header */
+    .pk-header {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      flex-wrap: wrap; gap: 30px; padding-bottom: 30px; margin-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .pk-brand-col { display: flex; flex-direction: column; gap: 16px; }
+
+    /* --- HUD SYSTEM LOGO --- */
+    .pk-logo-system { position: relative; width: fit-content; padding: 10px; }
+    .pk-logo-link { display: block; position: relative; }
+    
+    .pk-hud-reticle {
+      position: absolute; top: -10px; left: -10px; width: calc(100% + 20px); height: calc(100% + 20px);
+      fill: none; stroke: var(--accent); stroke-width: 2px;
+      stroke-dasharray: 60; stroke-dashoffset: 60;
+      opacity: 0.5; pointer-events: none;
+      animation: drawReticle 1.2s var(--ease) forwards;
+    }
+    @keyframes drawReticle {
+      0% { stroke-dashoffset: 60; opacity: 0; }
+      50% { opacity: 1; }
+      100% { stroke-dashoffset: 0; opacity: 0.3; }
+    }
+
+    .pk-logo-container { position: relative; overflow: hidden; }
+    .pk-logo { height: 40px; width: auto; animation: logoFadeIn 1s ease 0.5s both; }
+    @keyframes logoFadeIn { from { opacity: 0; filter: blur(4px); } to { opacity: 1; filter: blur(0); } }
+
+    .pk-orbital-sweep {
+      position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+      background: conic-gradient(from 0deg, transparent 0deg, rgba(255,255,255,0.1) 20deg, transparent 40deg);
+      animation: orbitalSweep 4s linear infinite;
+      opacity: 0; transition: opacity 0.3s; pointer-events: none;
+      mix-blend-mode: overlay;
+    }
+    @keyframes orbitalSweep { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+    .pk-logo-system:hover .pk-orbital-sweep { opacity: 1; }
+    .pk-logo-system:hover .pk-hud-reticle { opacity: 0.8; stroke: var(--text-main); }
+    .pk-logo-system:hover .pk-logo { transform: scale(1.02); transition: transform 0.4s var(--ease); }
+
+    .pk-hud-data {
+      position: absolute; left: 100%; top: 0; margin-left: 20px;
+      display: flex; flex-direction: column; gap: 4px; pointer-events: none;
+    }
+    .pk-hud-label {
+      font-size: 9px; font-family: monospace; color: var(--accent);
+      text-transform: uppercase; letter-spacing: 0.1em;
+      opacity: 0; transform: translateX(-10px);
+      transition: all 0.3s var(--ease); white-space: nowrap;
+    }
+    .pk-logo-system:hover .label-1 { opacity: 1; transform: translateX(0); transition-delay: 0.1s; }
+    .pk-logo-system:hover .label-2 { opacity: 1; transform: translateX(0); transition-delay: 0.2s; }
+    .pk-logo-system:hover .label-3 { opacity: 1; transform: translateX(0); transition-delay: 0.3s; }
+
+    .pk-env-label {
+      position: absolute; bottom: -20px; left: 0;
+      font-size: 9px; color: var(--text-muted); font-family: monospace;
+      opacity: 0; transition: opacity 0.5s;
+    }
+    .pk-env-label.active { opacity: 1; }
+
+    .pk-header-text h1 {
+      font-size: 28px; font-weight: 700; margin: 0 0 8px 0; color: var(--text-main);
+      letter-spacing: -0.02em; min-height: 1.2em;
+    }
+    .pk-header-text p { margin: 0; color: var(--text-muted); font-size: 14px; }
+
+    .pk-controls-col { display: flex; flex-direction: column; align-items: flex-end; gap: 16px; }
+    .pk-status-bar {
+      display: flex; align-items: center; gap: 12px;
+      font-size: 12px; color: var(--text-muted); font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .pk-status-indicator { display: flex; align-items: center; gap: 8px; color: var(--success); }
+    .pk-status-dot { width: 6px; height: 6px; background: currentColor; border-radius: 50%; box-shadow: 0 0 8px var(--success); }
+    .pk-divider { width: 1px; height: 12px; background: var(--border); }
+
+    .pk-btn-subtle {
+      background: none; border: none; color: var(--accent); cursor: pointer;
+      font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;
+      padding: 4px 8px; border-radius: 4px; transition: background 0.2s;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .pk-btn-subtle:hover { background: var(--accent-dim); }
+
+    .pk-toolbar { display: flex; gap: 10px; }
+    .pk-search-wrapper { position: relative; }
+    .pk-icon-search { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 16px; color: var(--text-muted); }
+    #pkSearch {
+      background: var(--bg-panel); border: 1px solid var(--border);
+      color: var(--text-main); padding: 10px 12px 10px 36px;
+      border-radius: 6px; font-size: 13px; min-width: 240px;
+      font-family: var(--font-body); transition: border-color 0.2s;
+    }
+    #pkSearch:focus { outline: none; border-color: var(--accent); }
+
+    .pk-btn-icon {
+      background: var(--bg-panel); border: 1px solid var(--border); color: var(--text-main);
+      padding: 10px; border-radius: 6px; cursor: pointer; transition: 0.2s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .pk-btn-icon:hover { border-color: var(--text-muted); }
+
+    /* Tabs */
+    .pk-nav {
+      position: sticky; top: 0; z-index: 10;
+      background: rgba(3, 6, 11, 0.95); backdrop-filter: blur(8px);
+      margin-bottom: 30px; border-bottom: 1px solid var(--border);
+      margin-left: -20px; margin-right: -20px; padding: 0 20px;
+    }
+    .pk-nav-inner { display: flex; gap: 20px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+    .pk-tab-btn {
+      background: none; border: none; color: var(--text-muted);
+      padding: 16px 0; font-size: 13px; font-weight: 500; cursor: pointer;
+      border-bottom: 2px solid transparent; transition: all 0.2s;
+      white-space: nowrap; font-family: var(--font-body);
+    }
+    .pk-tab-btn:hover { color: var(--text-main); }
+    .pk-tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+    /* Content */
+    .pk-tab-content { display: none; animation: slideUpFade 0.4s cubic-bezier(0.2, 0.9, 0.2, 1); }
+    .pk-tab-content.active { display: block; }
+    @keyframes slideUpFade {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .pk-section-head { margin-bottom: 30px; border-left: 2px solid var(--accent); padding-left: 20px; }
+    .pk-section-head h2 { font-size: 24px; font-weight: 700; margin: 0 0 8px 0; }
+    .pk-section-head p { margin: 0; color: var(--text-muted); max-width: 600px; }
+    
+    .pk-leap-hero-layout { display: flex; align-items: flex-start; justify-content: space-between; gap: 30px; margin-bottom: 40px; }
+    .pk-leap-badge-container { flex-shrink: 0; }
+    .pk-leap-badge-img { width: 140px; height: auto; filter: drop-shadow(0 0 20px rgba(254,156,61,0.2)); }
+    .pk-section-head.pk-no-border { border-left: none; padding-left: 0; }
+
+    /* Status Pill */
+    .pk-status-pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 12px; border-radius: 999px;
+      background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #10b981; font-size: 11px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 16px;
+    }
+    .pk-pulse-dot {
+      width: 8px; height: 8px; background: currentColor;
+      border-radius: 50%; box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+      animation: pulseGreen 2s infinite;
+    }
+    @keyframes pulseGreen {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+      70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
+    /* Grids & Cards */
+    .pk-grid-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 30px; }
+    .pk-fact-card { background: var(--bg-card); border: 1px solid var(--border); padding: 16px; border-radius: 8px; }
+    .pk-fact-card label { display: block; font-size: 11px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; letter-spacing: 0.05em; }
+    .pk-fact-val { font-size: 14px; font-weight: 600; color: var(--text-main); }
+
+    .pk-cols-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px; }
+    .pk-card { background: var(--bg-panel); border: 1px solid var(--border); padding: 24px; border-radius: 12px; position: relative; }
+    .pk-card h3 { margin-top: 0; font-size: 16px; font-weight: 600; margin-bottom: 12px; }
+    .pk-card p { font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 16px; }
+
+    .pk-typewriter-box p { margin-bottom: 10px; border-left: 2px solid transparent; padding-left: 10px; }
+    .pk-typewriter-box p.active { border-left-color: var(--accent); }
+
+    .pk-btn-copy {
+      font-size: 11px; background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+      color: var(--text-main); padding: 6px 12px; border-radius: 4px; cursor: pointer; transition: 0.2s;
+    }
+    .pk-btn-copy:hover { background: rgba(255,255,255,0.1); border-color: var(--text-muted); }
+
+    /* Mission Grid */
+    .pk-mission-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .pk-mission-item { background: var(--bg-card); padding: 20px; border-radius: 8px; border: 1px solid var(--border); }
+    .pk-mission-item.full-width { grid-column: 1 / -1; }
+    .pk-mission-item h4 { margin: 0 0 8px 0; color: var(--accent); font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; }
+    .pk-mission-item p { margin: 0; font-size: 14px; color: var(--text-muted); }
+    .pk-list-pills { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 10px; }
+    .pk-list-pills li { background: rgba(255,255,255,0.03); padding: 6px 12px; border-radius: 100px; font-size: 13px; border: 1px solid var(--border); }
+    .pk-list-pills strong { color: var(--text-main); }
+
+    /* Accordion */
+    .pk-accordion-wrapper { margin-bottom: 30px; }
+    .pk-subhead { font-size: 12px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 16px; letter-spacing: 0.1em; }
+    .pk-details { border-bottom: 1px solid var(--border); }
+    .pk-details summary {
+      padding: 16px 0; cursor: pointer; font-weight: 600; font-size: 15px; color: var(--text-main);
+      list-style: none; display: flex; align-items: center; justify-content: space-between;
+    }
+    .pk-details summary::-webkit-details-marker { display: none; }
+    .pk-details summary::after { content: '+'; font-weight: 400; color: var(--text-muted); font-size: 18px; }
+    .pk-details[open] summary::after { content: '−'; }
+    .pk-details-content { padding-bottom: 16px; color: var(--text-muted); font-size: 14px; }
+
+    .pk-card-highlight { border-color: var(--accent-dim); background: linear-gradient(to right, rgba(254,156,61,0.05), transparent); }
+
+    /* Tables & Lists */
+    .pk-table-container { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 30px; }
+    .pk-table { width: 100%; border-collapse: collapse; text-align: left; }
+    .pk-table tr { border-bottom: 1px solid var(--border); }
+    .pk-table tr:last-child { border-bottom: none; }
+    .pk-table th { padding: 12px 20px; font-size: 13px; color: var(--text-muted); width: 160px; background: var(--bg-card); font-weight: 500; }
+    .pk-table td { padding: 12px 20px; font-size: 13px; color: var(--text-main); }
+    .pk-table td:last-child { width: 50px; text-align: right; }
+    .pk-btn-icon-only { background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 4px; border-radius: 4px; }
+    .pk-btn-icon-only:hover { color: var(--accent); background: rgba(255,255,255,0.05); }
+
+    .pk-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+    .pk-tags span { font-size: 13px; background: var(--bg-deep); border: 1px solid var(--border); padding: 4px 10px; border-radius: 4px; font-family: monospace; color: var(--accent); }
+
+    .pk-list-check { list-style: none; padding: 0; margin: 0; font-size: 13px; }
+    .pk-list-check li { margin-bottom: 8px; display: flex; gap: 10px; }
+    .pk-list-check li::before { content: '✓'; color: var(--success); font-weight: 700; }
+    .pk-list-check li.no::before { content: '✕'; color: #f87171; }
+
+    /* Simulator Panel */
+    .pk-sim-panel { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 30px; }
+    .pk-sim-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
+    .pk-sim-header h3 { margin: 0; font-size: 13px; text-transform: uppercase; color: var(--text-muted); }
+    .pk-sim-controls { display: flex; gap: 4px; background: var(--bg-deep); padding: 4px; border-radius: 6px; }
+    .pk-sim-btn {
+      background: none; border: none; color: var(--text-muted); padding: 6px 12px;
+      font-size: 11px; font-weight: 600; cursor: pointer; border-radius: 4px;
+    }
+    .pk-sim-btn.active { background: var(--bg-card); color: var(--text-main); }
+
+    .pk-sim-stage {
+      height: 240px; border: 1px solid var(--border); border-radius: 8px;
+      display: grid; place-items: center; position: relative; overflow: hidden;
+      background: #020408; transition: background 0.3s;
+    }
+    .pk-sim-stage[data-bg="dark"] { background: radial-gradient(circle at 50% 50%, #151b29 0%, #03060b 100%); }
+    .pk-sim-stage[data-bg="light"] { background: #f1f5f9; }
+    .pk-sim-stage[data-bg="brand"] { background: linear-gradient(135deg, #4A1F5C, #E35C9A); }
+    .pk-sim-stage[data-bg="light"] .pk-sim-grid-overlay { filter: invert(1); opacity: 0.1; }
+
+    .pk-sim-grid-overlay {
+      position: absolute; inset: 0; pointer-events: none;
+      background-image: linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+      background-size: 40px 40px; opacity: 0.5;
+    }
+    .pk-sim-stage img { max-width: 60%; height: auto; transition: 0.3s; }
+    .pk-sim-footer { margin-top: 12px; font-size: 12px; display: flex; gap: 8px; }
+    .pk-label { color: var(--text-muted); text-transform: uppercase; font-weight: 600; }
+    .pk-value-highlight { color: var(--accent); font-weight: 600; }
+
+    /* Asset Cards */
+    .pk-assets-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 30px; }
+    .pk-asset-card { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: var(--bg-panel); }
+    .pk-asset-preview { height: 160px; display: flex; align-items: center; justify-content: center; padding: 20px; }
+    .pk-bg-dark { background: #0b111e; }
+    .pk-bg-light { background: #f0f4f8; }
+    .pk-asset-preview img { max-width: 80%; max-height: 80%; object-fit: contain; }
+    .pk-asset-meta { padding: 20px; border-top: 1px solid var(--border); }
+    .pk-asset-meta h4 { margin: 0 0 4px 0; font-size: 14px; font-weight: 600; }
+    .pk-asset-meta p { font-size: 12px; color: var(--text-muted); margin-bottom: 12px; }
+    .pk-btn-dl {
+      width: 100%; background: transparent; border: 1px solid var(--border); color: var(--text-main);
+      padding: 8px; border-radius: 4px; font-size: 12px; font-weight: 600; cursor: pointer; transition: 0.2s;
+      text-decoration: none; display: block; text-align: center;
+    }
+    .pk-btn-dl:hover { background: rgba(255,255,255,0.05); border-color: var(--text-muted); }
+
+    /* Glitch Title Effect - Enhanced */
+    .pk-glitch-decode {
+      font-family: monospace; 
+      color: var(--accent);
+    }
+
+    /* Gallery */
+    .pk-subnav { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 10px; overflow-x: auto; }
+    .pk-subnav-btn {
+      background: none; border: none; color: var(--text-muted); font-size: 12px; font-weight: 600;
+      padding: 6px 12px; border-radius: 100px; cursor: pointer; transition: 0.2s;
+    }
+    .pk-subnav-btn:hover { color: var(--text-main); }
+    .pk-subnav-btn.active { background: var(--text-main); color: var(--bg-deep); }
+
+    .pk-gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; }
+    .pk-gallery-item {
+      background: var(--bg-panel); border: 1px solid var(--border); border-radius: 8px; overflow: hidden;
+      transition: transform 0.2s;
+    }
+    .pk-gallery-item:hover { transform: translateY(-2px); border-color: var(--border-hover); }
+    .pk-gallery-thumb { height: 120px; display: flex; align-items: center; justify-content: center; padding: 10px; background: rgba(0,0,0,0.2); }
+    .pk-gallery-thumb img { max-width: 100%; max-height: 100%; object-fit: contain; }
+    .pk-gallery-meta { padding: 12px; }
+    .pk-gallery-name { font-size: 12px; font-weight: 600; margin-bottom: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    /* Contact */
+    .pk-contact-row { margin-bottom: 16px; }
+    .pk-contact-row label { display: block; font-size: 11px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; }
+    .pk-copy-row { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 500; }
+    .pk-link { color: var(--accent); text-decoration: none; }
+    .pk-link:hover { text-decoration: underline; }
+    .pk-note { font-size: 12px; color: var(--text-muted); margin-top: 30px; border-top: 1px solid var(--border); padding-top: 20px; }
+
+    /* Toast */
+    .pk-toast {
+      position: fixed; bottom: 30px; left: 50%; transform: translate(-50%, 20px);
+      background: var(--success); color: #000; padding: 8px 16px; border-radius: 4px;
+      font-weight: 600; font-size: 12px; opacity: 0; pointer-events: none;
+      transition: all 0.3s var(--ease); z-index: 100;
+    }
+    .pk-toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+    /* Light Mode Overrides */
+    #aries-press-kit.light-mode {
+      --bg-deep: #f8fafc;
+      --bg-panel: #ffffff;
+      --bg-card: #f1f5f9;
+      --border: #e2e8f0;
+      --border-hover: #cbd5e1;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --accent: #ea580c; 
+    }
+    #aries-press-kit.light-mode .pk-bg-grid { background-image: linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px); }
+    #aries-press-kit.light-mode .pk-sim-stage[data-bg="dark"] { background: #0f172a; }
+    #aries-press-kit.light-mode .pk-gallery-thumb { background: #f1f5f9; }
+    #aries-press-kit.light-mode .pk-btn-copy { background: #f1f5f9; border-color: var(--border); }
+    #aries-press-kit.light-mode .pk-nav { background: rgba(255, 255, 255, 0.95); border-bottom-color: var(--border); }
+    /* Hide fancy HUD elements in light mode as they look weird */
+    #aries-press-kit.light-mode .pk-hud-layer, 
+    #aries-press-kit.light-mode .pk-scanlines { opacity: 0; pointer-events: none; }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      .pk-header { flex-direction: column; align-items: stretch; gap: 20px; }
+      .pk-controls-col { align-items: stretch; }
+      .pk-toolbar { flex-wrap: wrap; }
+      .pk-search-wrapper { flex-grow: 1; }
+      .pk-header-text h1 { font-size: 22px; }
+      #pkSearch { width: 100%; min-width: 0; }
+      .pk-status-bar { justify-content: space-between; }
+      /* Force single column layout */
+      .pk-cols-2 { grid-template-columns: 1fr; }
+      .pk-mission-grid { grid-template-columns: 1fr; }
+      .pk-gallery-grid { grid-template-columns: 1fr; }
+      .pk-assets-grid { grid-template-columns: 1fr; }
+      .pk-leap-hero-layout { flex-direction: column-reverse; align-items: center; text-align: center; }
+      .pk-leap-badge-img { width: 100px; margin-bottom: 10px; }
+      .pk-hud-layer { padding: 10px; }
+      .pk-hud-corner { width: 20px; height: 20px; }
+    }
+  </style>
+</head>
+<body style="margin: 0; padding: 0; background: #03060b; overflow-x: hidden;"> 
+
+<div id="aries-press-kit">
+  
+  <!-- BOOT SEQUENCE OVERLAY -->
+  <div id="pkBootScreen" class="pk-boot-screen">
+    <div class="pk-boot-log" id="pkBootLog"></div>
+    <div class="pk-boot-loader">
+      <div class="pk-boot-bar" id="pkBootBar"></div>
+    </div>
+  </div>
+
+  <!-- HUD PERMANENT OVERLAY -->
+  <div class="pk-scanlines"></div>
+  <div class="pk-vignette"></div>
+  <div class="pk-hud-layer">
+    <div class="pk-hud-row top">
+      <div class="pk-hud-corner tl"></div>
+      <div class="pk-hud-meta">SYS.UPTIME: <span id="pkUptime">00:00:00</span></div>
+      <div class="pk-hud-corner tr"></div>
+    </div>
+    <div class="pk-hud-row bottom">
+      <div class="pk-hud-corner bl"></div>
+      <div class="pk-hud-meta right">HSM.ARIES // V 2.4.0 <br> SECURE CHANNEL</div>
+      <div class="pk-hud-corner br"></div>
+    </div>
+  </div>
+  
+  <!-- 3D Canvas Layer -->
+  <div id="pk-3d-canvas"></div>
+  
+  <div class="pk-bg-grid">
+    <div class="pk-aurora"></div>
+  </div>
+  
+  <div class="pk-shell">
+    
+    <!-- === HERO HEADER === -->
+    <header class="pk-header">
+      <div class="pk-brand-col">
+        <!-- HUD LOGO SYSTEM -->
+        <div class="pk-logo-system" id="pkHudSystem">
+          <a href="https://hsmaries.space/" title="Return to Homepage" target="_self" class="pk-logo-link">
+            <svg class="pk-hud-reticle" viewBox="0 0 300 100" preserveAspectRatio="none">
+              <path class="pk-hud-path" d="M10,10 L50,10 L60,0" />
+              <path class="pk-hud-path" d="M290,90 L250,90 L240,100" />
+              <path class="pk-hud-path" d="M10,90 L10,50" />
+              <path class="pk-hud-path" d="M290,10 L290,50" />
+            </svg>
+            
+            <div class="pk-logo-container">
+              <img
+                class="pk-logo"
+                id="pkHeaderLogo"
+                src="https://hsmaries.space/wp-content/uploads/2025/03/sitelogoaries.png"
+                data-logo-on-dark="https://hsmaries.space/wp-content/uploads/2025/03/sitelogoaries.png"
+                data-logo-on-light="https://hsmaries.space/wp-content/uploads/2026/01/aries-logoo2.png"
+                alt="HSM Aries Logo"
+              />
+              <div class="pk-orbital-sweep"></div>
+            </div>
+
+            <div class="pk-hud-data">
+              <span class="pk-hud-label label-1">TRAJECTORY LOCKED</span>
+              <span class="pk-hud-label label-2">SYSTEM BOUNDARY DEFINED</span>
+              <span class="pk-hud-label label-3">VECTOR CONFIRMED</span>
+            </div>
+            
+            <div class="pk-env-label" id="pkEnvLabel">ENVIRONMENT: LOW-LIGHT</div>
+          </a>
+        </div>
+        
+        <div class="pk-header-text">
+          <!-- Text is initially empty, filled by JS scrambler -->
+          <h1 id="pkGlitchTitle">HSM Aries — Media & Press Kit</h1>
+          <p>Official resources for press, sponsors, and collaborators.</p>
+        </div>
+      </div>
+
+      <div class="pk-controls-col">
+        <div class="pk-status-bar">
+          <button class="pk-btn-subtle" id="pkCopyFactsHeader">
+            <span class="pk-icon-copy"></span> Copy Press Facts
+          </button>
+          <div class="pk-divider"></div>
+          <div class="pk-status-indicator">
+            <span class="pk-status-dot"></span>
+            <span>System Online</span>
+          </div>
+        </div>
+
+        <div class="pk-toolbar">
+          <div class="pk-search-wrapper">
+            <svg class="pk-icon-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input id="pkSearch" type="search" placeholder="Search resources..." aria-label="Search" />
+          </div>
+          
+          <!-- AUDIO TOGGLE BUTTON -->
+          <button id="pkSound" class="pk-btn-icon" type="button" aria-label="Toggle Audio" title="Audio On/Off" style="width: auto; gap: 8px; padding-left: 12px; padding-right: 12px;">
+             <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5zM15.5 12c0-1.33-.58-2.53-1.5-3.35v6.69c.92-.81 1.5-2.01 1.5-3.34z"/></svg>
+             <span id="pkSoundLabel" style="font-size: 11px; font-weight: 600;">ON</span>
+          </button>
+
+          <button id="pkMode" class="pk-btn-icon" type="button" aria-label="Toggle Theme" title="Preview Mode: Dark/Light">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          </button>
+          
+          <!-- NEW COPY VARS BUTTON -->
+          <button id="pkCopyVars" class="pk-btn-icon" type="button" aria-label="Copy CSS Variables" title="Copy CSS Variables" style="width: auto; font-size: 11px; font-weight: 600; padding: 0 12px;">
+            Copy CSS Variables
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- === NAVIGATION TABS === -->
+    <nav class="pk-nav">
+      <div class="pk-nav-inner">
+        <button class="pk-tab-btn active" data-tab="overview">Overview</button>
+        <button class="pk-tab-btn" data-tab="leapone">LEAP-ONE</button>
+        <button class="pk-tab-btn" data-tab="facts">Press Facts</button>
+        <button class="pk-tab-btn" data-tab="logos">Logos & Usage</button>
+        <button class="pk-tab-btn" data-tab="gallery">Gallery</button>
+        <button class="pk-tab-btn" data-tab="contact">Contact</button>
+      </div>
+    </nav>
+
+    <main class="pk-main">
+      
+      <!-- === TAB 1: OVERVIEW === -->
+      <section id="tab-overview" class="pk-tab-content active">
+        <div class="pk-section-head">
+          <h2>Mission Overview</h2>
+          <p>Logos, mission, LEAP-ONE overview, press-ready facts, media gallery, and contact details — in one place.</p>
+        </div>
+
+        <div class="pk-grid-facts">
+          <div class="pk-fact-card">
+            <label>Organization</label>
+            <div class="pk-fact-val">HSM Aries</div>
+          </div>
+          <div class="pk-fact-card">
+            <label>Location</label>
+            <div class="pk-fact-val">Hochschule Schmalkalden, Germany</div>
+          </div>
+          <div class="pk-fact-card">
+            <label>Focus</label>
+            <div class="pk-fact-val">Space Systems Engineering</div>
+          </div>
+          <div class="pk-fact-card">
+            <label>Flagship</label>
+            <div class="pk-fact-val">LEAP-ONE Rover Program</div>
+          </div>
+        </div>
+
+        <div class="pk-cols-2">
+          <div class="pk-card">
+            <h3>Short Description</h3>
+            <p class="pk-copy-block">HSM Aries is a student-led space engineering initiative based at Hochschule Schmalkalden, Germany. We design and build real robotic systems—focused on rover platforms, payload integration, and mission execution—so students learn space engineering by shipping hardware, not just writing papers. Our flagship program, LEAP-ONE, unites multidisciplinary teams to build a complete rover mission stack.</p>
+            <button class="pk-btn-copy" data-copy-target="prev">Copy Text</button>
+          </div>
+          <div class="pk-card">
+            <h3>Long Description</h3>
+            <p class="pk-copy-block">HSM Aries is a student-led space engineering initiative at Hochschule Schmalkalden in Thuringia, Germany. We build end-to-end robotic systems with a mission mindset: mechanical design, electrical architecture, embedded and navigation software, scientific payload integration, communications, and operational planning. Our work is structured around LEAP-ONE, a Mars rover program that trains students through hands-on development—subsystem interfaces, design reviews, integration cycles, and testing. HSM Aries exists to transform classroom knowledge into engineering habits that matter in real missions: reliability, documentation, and systems thinking. We collaborate with supporters and academic partners to create an environment where students don’t only learn concepts—they deliver complex machines under real constraints, learn to troubleshoot, and learn to ship.</p>
+            <button class="pk-btn-copy" data-copy-target="prev">Copy Text</button>
+          </div>
+        </div>
+
+        <div class="pk-mission-grid">
+          <div class="pk-mission-item">
+            <h4>Mission</h4>
+            <p>Train the next generation of engineers through real mission-style rover development—design, integration, and testing.</p>
+          </div>
+          <div class="pk-mission-item">
+            <h4>Vision</h4>
+            <p>A university space program where students learn systems thinking by building complete robotic systems, not isolated parts.</p>
+          </div>
+          <div class="pk-mission-item">
+            <h4>Future Horizons</h4>
+            <p>The Leap series paves the way for future aerospace initiatives, including upcoming CubeSat projects and expanded orbital systems engineering.</p>
+          </div>
+          <div class="pk-mission-item">
+            <h4>Core Values</h4>
+            <ul class="pk-list-pills">
+              <li><strong>Systems Thinking</strong></li>
+              <li><strong>Proof by Testing</strong></li>
+              <li><strong>Traceable Engineering</strong></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- === TAB 2: LEAP-ONE === -->
+      <section id="tab-leapone" class="pk-tab-content">
+        <div class="pk-leap-hero-layout">
+          <div class="pk-section-head pk-no-border">
+            <div class="pk-status-pill">
+              <span class="pk-pulse-dot"></span>
+              <span>Status: Active Development</span>
+            </div>
+            <h2>LEAP-ONE — Flagship Rover</h2>
+            <p>LEAP-ONE is the first in the <strong>Leap series</strong> of rovers and the integrated flagship program of HSM Aries. It brings multiple departments together to build a complete rover mission stack—mechanical platform, electrical architecture, navigation and software, scientific payload, communications, and mission execution.</p>
+          </div>
+          <div class="pk-leap-badge-container">
+            <img src="https://hsmaries.space/wp-content/uploads/2025/09/leapone.png" alt="LEAP-ONE Mission Badge" class="pk-leap-badge-img">
+          </div>
+        </div>
+
+        <div class="pk-accordion-wrapper">
+          <h3 class="pk-subhead">Departments</h3>
+          
+          <details class="pk-details">
+            <summary>Mechanical Department</summary>
+            <div class="pk-details-content">
+              <p>Structure, mobility integration, drivetrain planning, manufacturing strategy, and mechanical validation.</p>
+            </div>
+          </details>
+          <details class="pk-details">
+            <summary>Electrical Department</summary>
+            <div class="pk-details-content">
+              <p>Power distribution, wiring architecture, sensors/actuators integration, electrical reliability and safety.</p>
+            </div>
+          </details>
+          <details class="pk-details">
+            <summary>Software & Navigation Department</summary>
+            <div class="pk-details-content">
+              <p>Embedded control, autonomy foundations, navigation, telemetry, and system coordination.</p>
+            </div>
+          </details>
+          <details class="pk-details">
+            <summary>Communication Department</summary>
+            <div class="pk-details-content">
+              <p>Data links, ground interface, telemetry flow, and reliable operator communication.</p>
+            </div>
+          </details>
+          <details class="pk-details">
+            <summary>Scientific Payload Department</summary>
+            <div class="pk-details-content">
+              <p>Experiment definition, payload integration, data capture, and interpretation.</p>
+            </div>
+          </details>
+          <details class="pk-details">
+            <summary>Astroflight Department</summary>
+            <div class="pk-details-content">
+              <p>Mission framing, constraints, environment assumptions, and mission-style planning.</p>
+            </div>
+          </details>
+          <details class="pk-details">
+            <summary>Drill & Manipulator</summary>
+            <div class="pk-details-content">
+              <p>Sampling mechanism, manipulation strategy, actuation, and mechanical-electrical interface discipline.</p>
+            </div>
+          </details>
+          <details class="pk-details">
+            <summary>Mission, Resources & Outreach (MRO)</summary>
+            <div class="pk-details-content">
+              <p>Sponsorship, documentation, logistics, coordination, and external visibility.</p>
+            </div>
+          </details>
+        </div>
+
+        <div class="pk-card pk-card-highlight">
+          <h3>Engineering Approach</h3>
+          <p>LEAP-ONE is run with a mission-control mindset: subsystem boundaries are defined early, interfaces are documented, and testing is treated as a first-class deliverable.</p>
+        </div>
+      </section>
+
+      <!-- === TAB 3: PRESS FACTS === -->
+      <section id="tab-facts" class="pk-tab-content">
+        <div class="pk-section-head">
+          <h2>Press-Ready Facts</h2>
+          <p>Quick copy data for editorial use.</p>
+        </div>
+
+        <div class="pk-table-container">
+          <table class="pk-table">
+            <tbody>
+              <tr>
+                <th>Official Name</th>
+                <td class="pk-copy-val">HSM Aries</td>
+                <td><button class="pk-btn-icon-only" title="Copy"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></td>
+              </tr>
+              <tr>
+                <th>Website</th>
+                <td class="pk-copy-val">https://hsmaries.space/</td>
+                <td><button class="pk-btn-icon-only" title="Copy"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></td>
+              </tr>
+              <tr>
+                <th>Location</th>
+                <td class="pk-copy-val">Schmalkalden, Thuringia, Germany</td>
+                <td><button class="pk-btn-icon-only" title="Copy"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></td>
+              </tr>
+              <tr>
+                <th>Affiliation</th>
+                <td class="pk-copy-val">Hochschule Schmalkalden</td>
+                <td><button class="pk-btn-icon-only" title="Copy"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></td>
+              </tr>
+              <tr>
+                <th>Flagship</th>
+                <td class="pk-copy-val">LEAP-ONE Rover Program</td>
+                <td><button class="pk-btn-icon-only" title="Copy"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></td>
+              </tr>
+              <tr>
+                <th>Credit Line</th>
+                <td class="pk-copy-val">Courtesy: HSM Aries (hsmaries.space)</td>
+                <td><button class="pk-btn-icon-only" title="Copy"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="pk-card pk-mentions">
+          <h3>Suggested Mentions</h3>
+          <div class="pk-tags">
+            <span>“student-led space engineering initiative”</span>
+            <span>“mission-control mindset”</span>
+            <span>“end-to-end rover development”</span>
+            <span>“systems thinking through hardware”</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- === TAB 4: LOGOS === -->
+      <section id="tab-logos" class="pk-tab-content">
+        <div class="pk-section-head">
+          <h2>Official Identity</h2>
+          <p>Primary logo variants. Ensure maximum contrast with the background.</p>
+        </div>
+
+        <!-- SIMULATOR -->
+        <div class="pk-panel pk-sim-panel">
+          <div class="pk-sim-header">
+            <h3>Logo Context Simulator</h3>
+            <div class="pk-sim-controls">
+              <button class="pk-sim-btn active" data-sim-bg="dark">Deep Space</button>
+              <button class="pk-sim-btn" data-sim-bg="light">Lab White</button>
+              <button class="pk-sim-btn" data-sim-bg="brand">Aries Brand</button>
+            </div>
+          </div>
+          <div id="pkSimStage" class="pk-sim-stage" data-bg="dark">
+            <div class="pk-sim-grid-overlay"></div>
+            <img id="pkSimLogo" src="https://hsmaries.space/wp-content/uploads/2025/03/sitelogoaries.png" alt="Logo Preview" />
+          </div>
+          <div class="pk-sim-footer">
+            <span class="pk-label">Recommendation:</span>
+            <span id="pkSimRec" class="pk-value-highlight">White Logo (Dark Backgrounds)</span>
+          </div>
+        </div>
+
+        <div class="pk-assets-grid">
+          <div class="pk-asset-card" data-variant="white">
+            <div class="pk-asset-preview pk-bg-dark">
+              <img src="https://hsmaries.space/wp-content/uploads/2025/03/sitelogoaries.png" alt="White Logo">
+            </div>
+            <div class="pk-asset-meta">
+              <h4>Primary Logo — White</h4>
+              <p>Rule: Use on dark backgrounds.</p>
+              <button class="pk-btn-dl" data-url="https://hsmaries.space/wp-content/uploads/2025/03/sitelogoaries.png" data-name="HSM-Aries-logo-white.png">Download PNG</button>
+            </div>
+          </div>
+
+          <div class="pk-asset-card pk-card-gradient" data-variant="gradient">
+            <div class="pk-asset-preview pk-bg-light">
+              <img src="https://hsmaries.space/wp-content/uploads/2026/01/aries-logoo2.png" alt="Gradient Logo">
+            </div>
+            <div class="pk-asset-meta">
+              <h4>Primary Logo — Gradient</h4>
+              <p>Rule: Use on light backgrounds &amp; docs.</p>
+              <button class="pk-btn-dl" data-url="https://hsmaries.space/wp-content/uploads/2026/01/aries-logoo2.png" data-name="HSM-Aries-logo-gradient.png">Download PNG</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="pk-cols-2">
+          <div class="pk-card">
+            <h3>Usage Rules</h3>
+            <ul class="pk-list-check">
+              <li class="ok">Do scale proportionally.</li>
+              <li class="ok">Maintain clear space (height of 'A').</li>
+              <li class="no">Do not stretch, skew, or outline.</li>
+              <li class="no">Do not place white logo on light backgrounds.</li>
+            </ul>
+          </div>
+          <div class="pk-card" id="pkLogoTelemetry">
+            <h3>About the Mark</h3>
+            <div class="pk-typewriter-box">
+              <!-- Content injected by JS for reveal effect -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- === TAB 5: GALLERY === -->
+      <section id="tab-gallery" class="pk-tab-content">
+        <div class="pk-section-head">
+          <h2>Media Gallery</h2>
+          <p>Editorial use permitted with credit: <em>Courtesy of HSM Aries — hsmaries.space</em></p>
+        </div>
+
+        <div class="pk-subnav">
+          <button class="pk-subnav-btn active" data-filter="all">All</button>
+          <button class="pk-subnav-btn" data-filter="badges">Badges</button>
+          <button class="pk-subnav-btn" data-filter="renders">Renders</button>
+          <button class="pk-subnav-btn" data-filter="rover">Rover</button>
+          <button class="pk-subnav-btn" data-filter="team">Team</button>
+        </div>
+
+        <div class="pk-gallery-grid" id="pkGalleryGrid">
+          <!-- Populated by JS -->
+        </div>
+      </section>
+
+      <!-- === TAB 6: CONTACT === -->
+      <section id="tab-contact" class="pk-tab-content">
+        <div class="pk-section-head">
+          <h2>Media Contact</h2>
+        </div>
+
+        <div class="pk-cols-2">
+          <div class="pk-card">
+            <h3>Inquiries</h3>
+            <div class="pk-contact-row">
+              <label>Email</label>
+              <div class="pk-copy-row">
+                <span>media@hsmaries.space</span>
+                <button class="pk-btn-icon-only" onclick="navigator.clipboard.writeText('media@hsmaries.space')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+              </div>
+            </div>
+            <div class="pk-contact-row">
+              <label>Website</label>
+              <a href="https://hsmaries.space/" class="pk-link">hsmaries.space</a>
+            </div>
+          </div>
+
+          <div class="pk-card">
+            <h3>Sponsorship / Collaboration</h3>
+            <p>For sponsorship, collaboration, or academic partnership requests, contact us with a short description of your intent, timeline, and what you would like to support.</p>
+            <a href="https://hsmaries.space/wp-content/uploads/2026/01/LeapOne_dossier.pdf" target="_blank" rel="noopener" class="pk-btn-dl" style="display: block; text-align: center; text-decoration: none; margin-top: 16px;">
+              Download Sponsorship Dossier (PDF)
+            </a>
+          </div>
+        </div>
+
+        <div class="pk-note">
+          <strong>Legal / Usage:</strong> Logos may not be altered. Images may be used for editorial coverage with attribution. For commercial usage, request permission.
+        </div>
+      </section>
+
+    </main>
+
+    <div id="pkToast" class="pk-toast">Item Copied</div>
+  </div>
+</div>
+
+<!-- 3D LOGIC (MODULE) -->
+<script type="module">
+  import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
+
+  // --- THREE.JS BACKGROUND ---
+  const initThreeJS = () => {
+    const container = document.getElementById('pk-3d-canvas');
+    if (!container) return;
+
+    // SCENE
+    const scene = new THREE.Scene();
+
+    // CAMERA
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 5;
+
+    // RENDERER
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    container.appendChild(renderer.domElement);
+
+    // --- 1. STARS (PARTICLES) ---
+    const particlesGeometry = new THREE.BufferGeometry();
+    const particlesCount = 1200;
+    const posArray = new Float32Array(particlesCount * 3);
+    const colorsArray = new Float32Array(particlesCount * 3);
+
+    const color1 = new THREE.Color(0xfe9c3d); // Aries Orange
+    const color2 = new THREE.Color(0x114d62); // Triton Teal
+
+    for(let i = 0; i < particlesCount; i++) {
+      // Spread stars wide
+      posArray[i * 3] = (Math.random() - 0.5) * 25;
+      posArray[i * 3 + 1] = (Math.random() - 0.5) * 25;
+      posArray[i * 3 + 2] = (Math.random() - 0.5) * 15 - 5; // Push some back
+
+      const mixedColor = Math.random() > 0.5 ? color1 : color2;
+      colorsArray[i * 3] = mixedColor.r;
+      colorsArray[i * 3 + 1] = mixedColor.g;
+      colorsArray[i * 3 + 2] = mixedColor.b;
+    }
+
+    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+    particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colorsArray, 3));
+
+    const particlesMaterial = new THREE.PointsMaterial({
+      size: 0.03,
+      vertexColors: true,
+      transparent: true,
+      opacity: 0.8,
+    });
+
+    const starSystem = new THREE.Points(particlesGeometry, particlesMaterial);
+    scene.add(starSystem);
+
+    // --- INTERACTION ---
+    let mouseX = 0;
+    let mouseY = 0;
+
+    document.addEventListener('mousemove', (event) => {
+      mouseX = (event.clientX / window.innerWidth) - 0.5;
+      mouseY = (event.clientY / window.innerHeight) - 0.5;
+    });
+
+    // --- ANIMATION LOOP ---
+    const animate = () => {
+      requestAnimationFrame(animate);
+
+      // Star rotation
+      starSystem.rotation.y += 0.0003;
+      starSystem.rotation.x += 0.0001;
+
+      // Parallax Stars
+      starSystem.rotation.x += mouseY * 0.0005;
+      starSystem.rotation.y += mouseX * 0.0005;
+
+      renderer.render(scene, camera);
+    };
+
+    animate();
+
+    // Resize
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  };
+
+  // Start 3D
+  initThreeJS();
+  
+  // Scramble Text Logic
+  const scrambleText = (el, finalObj) => {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/<>[]';
+    const finalText = finalObj || el.innerText;
+    let iterations = 0;
+    
+    const interval = setInterval(() => {
+        el.innerText = finalText.split('').map((letter, index) => {
+            if(index < iterations) {
+                return finalText[index];
+            }
+            return chars[Math.floor(Math.random() * chars.length)];
+        }).join('');
+        
+        if(iterations >= finalText.length) {
+            clearInterval(interval);
+        }
+        
+        iterations += 1/2; 
+    }, 30);
+  };
+
+  // Trigger Glitch Text on Load
+  window.addEventListener('DOMContentLoaded', () => {
+    // 1. Boot Sequence
+    const bootScreen = document.getElementById('pkBootScreen');
+    const bootLog = document.getElementById('pkBootLog');
+    const bootBar = document.getElementById('pkBootBar');
+    
+    const logLines = [
+        "INITIALIZING SECURE PROTOCOL...",
+        "CONNECTING TO ARIES NETWORK NODES...",
+        "VERIFYING ENCRYPTION KEYS... OK",
+        "DOWNLOADING ASSET MANIFEST...",
+        "ESTABLISHING UPLINK... 100%"
+    ];
+    
+    let lineIndex = 0;
+    const addLine = () => {
+        if(lineIndex >= logLines.length) return;
+        const p = document.createElement('p');
+        p.innerText = logLines[lineIndex];
+        if(logLines[lineIndex].includes("OK") || logLines[lineIndex].includes("100%")) p.classList.add('success');
+        bootLog.appendChild(p);
+        lineIndex++;
+        // Scroll to bottom
+        bootLog.scrollTop = bootLog.scrollHeight;
+    };
+    
+    // Simulate boot timing
+    setTimeout(() => { addLine(); bootBar.style.width = '20%'; }, 200);
+    setTimeout(() => { addLine(); bootBar.style.width = '45%'; }, 800);
+    setTimeout(() => { addLine(); bootBar.style.width = '70%'; }, 1600);
+    setTimeout(() => { addLine(); bootBar.style.width = '90%'; }, 2200);
+    setTimeout(() => { 
+        addLine(); 
+        bootBar.style.width = '100%';
+        // Finish
+        setTimeout(() => {
+            bootScreen.classList.add('hidden');
+            // 2. Trigger Title Scramble AFTER boot
+            const title = document.getElementById('pkGlitchTitle');
+            
+            // Mobile Optimization: Use shorter text on small screens to prevent
+            // wrapping jitter during the scramble effect.
+            const isMobile = window.innerWidth < 600;
+            const targetText = isMobile ? "HSM Aries — Press Kit" : "HSM Aries — Media & Press Kit";
+            
+            if(title) scrambleText(title, targetText);
+        }, 600);
+    }, 2600);
+
+    // 3. Uptime Counter
+    const uptimeEl = document.getElementById('pkUptime');
+    let sec = 0, min = 0, hr = 0;
+    setInterval(() => {
+        sec++;
+        if(sec == 60) { sec = 0; min++; }
+        if(min == 60) { min = 0; hr++; }
+        uptimeEl.innerText = 
+            (hr < 10 ? "0" + hr : hr) + ":" + 
+            (min < 10 ? "0" + min : min) + ":" + 
+            (sec < 10 ? "0" + sec : sec);
+    }, 1000);
+  });
+</script>
+
+<!-- UI LOGIC (Legacy Script) -->
+<script>
+(function() {
+  const root = document.getElementById('aries-press-kit');
+  const toast = root.querySelector('#pkToast');
+  let audioContext = null;
+  let isMuted = false;
+
+  // --- AUDIO ENGINE (Web Audio API) ---
+  const initAudio = () => {
+    if (!window.AudioContext && !window.webkitAudioContext) return;
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  };
+
+  const playSound = (type) => {
+    if(isMuted) return; // Mute Check
+
+    if (!audioContext) initAudio();
+    if (audioContext && audioContext.state === 'suspended') audioContext.resume();
+    if (!audioContext) return;
+
+    const osc = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    
+    osc.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+
+    if (type === 'hover') {
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(800, audioContext.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(1200, audioContext.currentTime + 0.05);
+      gainNode.gain.setValueAtTime(0.05, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.05);
+      osc.start();
+      osc.stop(audioContext.currentTime + 0.05);
+    } else if (type === 'click') {
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(300, audioContext.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(100, audioContext.currentTime + 0.15);
+      gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.15);
+      osc.start();
+      osc.stop(audioContext.currentTime + 0.15);
+    }
+  };
+
+  // Toggle Function
+  const toggleAudio = () => {
+    isMuted = !isMuted;
+    const btn = root.querySelector('#pkSound');
+    const label = root.querySelector('#pkSoundLabel');
+    
+    if (isMuted) {
+        btn.style.opacity = '0.5';
+        label.innerText = 'OFF';
+    } else {
+        btn.style.opacity = '1';
+        label.innerText = 'ON';
+        playSound('click'); // Feedback
+    }
+  };
+
+  document.addEventListener('mouseover', (e) => {
+    if (e.target.closest('button, a, .pk-tab-btn')) {
+      playSound('hover');
+    }
+  });
+  document.addEventListener('click', () => {
+    playSound('click');
+  });
+
+  // Attach toggle to new button
+  const soundBtn = root.querySelector('#pkSound');
+  if(soundBtn) {
+      soundBtn.addEventListener('click', (e) => {
+          e.stopPropagation(); // Prevent double click sound
+          toggleAudio();
+      });
+  }
+  
+  // Attach Copy Vars functionality
+  const copyVarsBtn = root.querySelector('#pkCopyVars');
+  if (copyVarsBtn) {
+    copyVarsBtn.addEventListener('click', () => {
+      // Define the variables to copy (matching Brand_Assets logic)
+      const cssVars = `:root {
+  --aries-purple: #4A1F5C;
+  --aries-magenta: #A23A86;
+  --aries-rose: #E35C9A;
+  --aries-black: #03060B;
+  --aries-panel: #0D121C;
+  --aries-white: #F0F4F8;
+  --aries-navy: #041225;
+  --aries-teal: #114D62;
+  --aries-orange: #FE9C3D;
+  --aries-red: #942B21;
+}`;
+      navigator.clipboard.writeText(cssVars).then(() => {
+        showToast('CSS Variables Copied');
+        playSound('click');
+      });
+    });
+  }
+
+  // --- GALLERY DATA ---
+  const galleryAssets = [
+    { name: 'LEAP-ONE Mission Badge', url: 'https://hsmaries.space/wp-content/uploads/2025/09/leapone.png', cat: 'badges', file: 'HSM-Aries_BADGE_LeapOne_Mission.png' },
+    { name: 'Drill & Manipulator', url: 'https://hsmaries.space/wp-content/uploads/2025/09/L1-drill-arm-crop.png', cat: 'badges', file: 'HSM-Aries_BADGE_Drill_Manipulator.png' },
+    { name: 'MRO', url: 'https://hsmaries.space/wp-content/uploads/2025/09/L1_MRO-1-999x1024.png', cat: 'badges', file: 'HSM-Aries_BADGE_MRO.png' },
+    { name: 'Astroflight', url: 'https://hsmaries.space/wp-content/uploads/2025/09/L1_astro-1.png', cat: 'badges', file: 'HSM-Aries_BADGE_Astroflight.png' },
+    { name: 'Scientific Payload', url: 'https://hsmaries.space/wp-content/uploads/2025/09/L1-science-crop-1014x1024.png', cat: 'badges', file: 'HSM-Aries_BADGE_Scientific_Payload.png' },
+    { name: 'Mechanical', url: 'https://hsmaries.space/wp-content/uploads/2025/09/L1-mech-crop.png', cat: 'badges', file: 'HSM-Aries_BADGE_Mechanical.png' },
+    { name: 'Electrical', url: 'https://hsmaries.space/wp-content/uploads/2025/09/L1-electric-crop.png', cat: 'badges', file: 'HSM-Aries_BADGE_Electrical.png' },
+    { name: 'Software & Nav', url: 'https://hsmaries.space/wp-content/uploads/2025/09/L1-software-crop.png', cat: 'badges', file: 'HSM-Aries_BADGE_Software_Navigation.png' },
+    { name: 'Communication', url: 'https://hsmaries.space/wp-content/uploads/2025/09/L1-comm-crop-1.png', cat: 'badges', file: 'HSM-Aries_BADGE_Communication.png' },
+    { name: 'LEAP-ONE Render Side', url: 'https://hsmaries.space/wp-content/uploads/2025/09/leapone-rover2.png', cat: 'renders', file: 'HSM-Aries_Render_Side.png' },
+    { name: 'LEAP-ONE Concept', url: 'https://hsmaries.space/wp-content/uploads/2025/04/mars-rover-leap-one-2.png', cat: 'renders', file: 'HSM-Aries_Render_Concept.png' },
+    { name: 'Mission Environment', url: 'https://hsmaries.space/wp-content/uploads/2025/09/websitebg-min-scaled.png', cat: 'renders', file: 'HSM-Aries_Render_Environment.png' },
+    { name: 'Rover Prototype', url: 'https://hsmaries.space/wp-content/uploads/2025/09/sirleloimage.png', cat: 'rover', file: 'HSM-Aries_Photo_Prototype.png' },
+    { name: 'Isometric View', url: 'https://hsmaries.space/wp-content/uploads/2025/11/rover-isometric-1-scaled.png', cat: 'rover', file: 'HSM-Aries_Photo_Isometric.png' },
+    { name: 'Field Test 01', url: 'https://hsmaries.space/wp-content/uploads/2025/11/DSC01546-scaled.jpg', cat: 'rover', file: 'HSM-Aries_Photo_FieldTest_01.jpg' },
+    { name: 'Field Test 02', url: 'https://hsmaries.space/wp-content/uploads/2025/11/DSC01524-scaled.jpg', cat: 'rover', file: 'HSM-Aries_Photo_FieldTest_02.jpg' },
+    { name: 'Chassis Detail', url: 'https://hsmaries.space/wp-content/uploads/2025/11/DSC01503-scaled.jpg', cat: 'rover', file: 'HSM-Aries_Photo_Detail_Chassis.jpg' },
+    { name: 'Suspension Detail', url: 'https://hsmaries.space/wp-content/uploads/2025/11/DSC01502-scaled.jpg', cat: 'rover', file: 'HSM-Aries_Photo_Detail_Suspension.jpg' },
+    { name: 'HSM Aries LeapOne Team 2026', url: 'https://hsmaries.space/wp-content/uploads/2025/11/DSC01422-scaled.jpg', cat: 'team', file: 'HSM-Aries_Team_2026.jpg' }
+  ];
+
+  // --- UTILS ---
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2000);
+  }
+
+  function copyText(text) {
+    navigator.clipboard.writeText(text).then(() => showToast('Copied to clipboard'));
+  }
+
+  async function downloadAsset(url, filename) {
+    showToast('Downloading...');
+    try {
+      const response = await fetch(url);
+      const blob = await response.blob();
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (e) {
+      window.open(url, '_blank');
+    }
+  }
+
+  // --- TABS & SCROLL ---
+  const tabs = root.querySelectorAll('.pk-tab-btn');
+  const contents = root.querySelectorAll('.pk-tab-content');
+
+  function switchTab(id) {
+    tabs.forEach(t => t.classList.toggle('active', t.dataset.tab === id));
+    contents.forEach(c => c.classList.toggle('active', c.id === `tab-${id}`));
+    
+    // Telemetry Trigger for Logos tab
+    if(id === 'logos') triggerTelemetry();
+
+    // Smart Scroll Logic
+    const nav = root.querySelector('.pk-nav');
+    const navHeight = nav.offsetHeight;
+    const main = root.querySelector('.pk-main');
+    const mainTop = main.getBoundingClientRect().top + window.scrollY;
+    const targetY = mainTop - navHeight - 20;
+
+    if (window.scrollY > targetY) {
+        window.scrollTo({ top: targetY, behavior: 'smooth' });
+    }
+  }
+
+  tabs.forEach(btn => btn.addEventListener('click', () => switchTab(btn.dataset.tab)));
+
+  // --- TELEMETRY ---
+  const telemetryText = "The HSM Aries mark blends forward motion with orbital precision—representing momentum, engineering discipline, and mission focus. The geometric letterforms are designed for clarity at small sizes, making the logo readable on badges, dashboards, and documentation covers.";
+  const telemetryContainer = root.querySelector('.pk-typewriter-box');
+  let hasTyped = false;
+
+  function triggerTelemetry() {
+    if(hasTyped) return;
+    hasTyped = true;
+    telemetryContainer.innerHTML = '';
+    const sentences = telemetryText.split('. ');
+    sentences.forEach((s, i) => {
+      const p = document.createElement('p');
+      p.innerText = s + (i < sentences.length -1 ? '.' : '');
+      p.style.opacity = 0;
+      telemetryContainer.appendChild(p);
+      setTimeout(() => {
+        p.style.opacity = 1;
+        p.classList.add('active');
+        setTimeout(() => p.classList.remove('active'), 800);
+      }, i * 600);
+    });
+  }
+
+  // --- GALLERY ---
+  const galleryGrid = root.querySelector('#pkGalleryGrid');
+  const galleryFilters = root.querySelectorAll('.pk-subnav-btn');
+
+  function renderGallery(filter) {
+    const items = filter === 'all' ? galleryAssets : galleryAssets.filter(b => b.cat === filter);
+    galleryGrid.innerHTML = items.map(item => `
+      <div class="pk-gallery-item">
+        <div class="pk-gallery-thumb"><img src="${item.url}" alt="${item.name}" loading="lazy"></div>
+        <div class="pk-gallery-meta">
+          <div class="pk-gallery-name" title="${item.name}">${item.name}</div>
+          <button class="pk-btn-dl" onclick="window.dl('${item.url}', '${item.file}')">Download</button>
+        </div>
+      </div>
+    `).join('');
+  }
+  
+  window.dl = downloadAsset;
+
+  galleryFilters.forEach(btn => {
+    btn.addEventListener('click', () => {
+      galleryFilters.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderGallery(btn.dataset.filter);
+    });
+  });
+
+  // --- SIMULATOR ---
+  const simBtns = root.querySelectorAll('.pk-sim-btn');
+  const simStage = root.querySelector('#pkSimStage');
+  const simLogo = root.querySelector('#pkSimLogo');
+  const simRec = root.querySelector('#pkSimRec');
+
+  simBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      simBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const bg = btn.dataset.simBg;
+      simStage.setAttribute('data-bg', bg);
+      
+      let src = 'https://hsmaries.space/wp-content/uploads/2025/03/sitelogoaries.png';
+      let rec = 'White Logo (Dark Backgrounds)';
+      
+      if(bg === 'light') {
+        src = 'https://hsmaries.space/wp-content/uploads/2026/01/aries-logoo2.png';
+        rec = 'Gradient Logo (Light Backgrounds)';
+      } else if(bg === 'brand') {
+        // User requested White Logo on Brand Gradient
+        src = 'https://hsmaries.space/wp-content/uploads/2025/03/sitelogoaries.png';
+        rec = 'White Logo (Brand Gradient)';
+      }
+      
+      simLogo.style.opacity = 0;
+      setTimeout(() => {
+        simLogo.src = src;
+        simLogo.style.opacity = 1;
+        simRec.textContent = rec;
+      }, 150);
+    });
+  });
+
+  // --- ENVIRONMENT MODE ---
+  const envLabel = root.querySelector('#pkEnvLabel');
+  
+  root.querySelector('#pkMode').addEventListener('click', () => {
+    root.classList.toggle('light-mode');
+    const isLight = root.classList.contains('light-mode');
+    const logoHeader = root.querySelector('#pkHeaderLogo');
+    logoHeader.src = isLight ? logoHeader.dataset.logoOnLight : logoHeader.dataset.logoOnDark;
+    
+    envLabel.textContent = isLight ? 'ENVIRONMENT: DAY MODE' : 'ENVIRONMENT: LOW-LIGHT';
+    envLabel.classList.add('active');
+    setTimeout(() => envLabel.classList.remove('active'), 2000);
+  });
+
+  root.querySelector('#pkCopyFactsHeader').addEventListener('click', () => {
+    copyText(`HSM Aries — Student-led Space Engineering\nWebsite: https://hsmaries.space/\nLocation: Schmalkalden, Germany\nFlagship: LEAP-ONE Rover Program`);
+  });
+
+  root.querySelectorAll('.pk-btn-copy').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.previousElementSibling;
+      copyText(target.innerText);
+    });
+  });
+  
+  root.querySelectorAll('.pk-btn-dl[data-url]').forEach(btn => {
+    btn.addEventListener('click', () => downloadAsset(btn.dataset.url, btn.dataset.name));
+  });
+
+  const searchInput = root.querySelector('#pkSearch');
+  searchInput.addEventListener('input', (e) => {
+    const term = e.target.value.toLowerCase();
+    const targets = root.querySelectorAll('.pk-fact-card, .pk-card, .pk-mission-item, .pk-details, .pk-asset-card, .pk-gallery-item');
+    targets.forEach(el => {
+      const text = el.innerText.toLowerCase();
+      if(text.includes(term)) {
+        el.style.display = '';
+        if(el.tagName === 'DETAILS') el.open = true;
+      } else {
+        el.style.display = 'none';
+      }
+    });
+  });
+
+  renderGallery('all');
+
+})();
+</script>
+
+</body>
+</html>
