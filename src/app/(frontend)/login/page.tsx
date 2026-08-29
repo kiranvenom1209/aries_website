@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default function LoginPage() {
   return (
     <main className="login-page">
-      <Image alt="LEAP-One rover in outdoor terrain mobility testing" fill priority sizes="100vw" src="/media/dsc01502-scaled.jpg" />
+      <Image alt="HSM Aries LEAP-One rover exploring a Mars-like landscape" fill priority sizes="100vw" src="/media/rover-hero-mars-v3.jpg" />
       <div aria-hidden="true" className="login-page__shade" />
       <div aria-hidden="true" className="login-coordinates">
         <span>53.5511° N</span><span>6.3553° E</span><span>42.3601° N</span><span>71.0589° W</span>

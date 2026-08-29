@@ -4,68 +4,51 @@ import config from '../src/payload.config'
 
 async function main() {
   const payload = await getPayload({ config })
+  try {
+    const existingUsers = await payload.count({
+      collection: 'users',
+      overrideAccess: true,
+    })
 
-  console.log('Seeding Master Admin account...')
-
-  const accounts = [
-    { email: 'admin@hsmaries.space', name: 'Master Administrator' },
-    { email: 'admin@aries.space', name: 'Master Administrator' },
-  ]
-
-  for (const acc of accounts) {
-    try {
-      const existing = await payload.find({
-        collection: 'users',
-        depth: 0,
-        limit: 1,
-        overrideAccess: true,
-        where: { email: { equals: acc.email } },
-      })
-
-      if (existing.docs.length > 0) {
-        await payload.update({
-          collection: 'users',
-          id: existing.docs[0].id,
-          data: {
-            name: acc.name,
-            role: 'admin',
-            password: '!@#LeapOne',
-          },
-          overrideAccess: true,
-        })
-        console.log(`✓ Updated master admin account: ${acc.email}`)
-      } else {
-        await payload.create({
-          collection: 'users',
-          data: {
-            email: acc.email,
-            name: acc.name,
-            role: 'admin',
-            password: '!@#LeapOne',
-          },
-          overrideAccess: true,
-        })
-        console.log(`✓ Created master admin account: ${acc.email}`)
-      }
-    } catch (err) {
-      console.error(`Error configuring account ${acc.email}:`, err)
+    if (existingUsers.totalDocs > 0) {
+      console.log('[CMS bootstrap] Existing administrator detected; no account changes made.')
+      return
     }
+
+    const email = process.env.BOOTSTRAP_ADMIN_EMAIL?.trim().toLowerCase()
+    const password = process.env.BOOTSTRAP_ADMIN_PASSWORD
+
+    if (!email || !password) {
+      console.log(
+        '[CMS bootstrap] Database initialized. Set BOOTSTRAP_ADMIN_EMAIL and BOOTSTRAP_ADMIN_PASSWORD, then redeploy to create the first administrator.',
+      )
+      return
+    }
+
+    if (password.length < 12) {
+      throw new Error('BOOTSTRAP_ADMIN_PASSWORD must contain at least 12 characters.')
+    }
+
+    await payload.create({
+      collection: 'users',
+      data: {
+        email,
+        name: 'Master Administrator',
+        role: 'admin',
+        password,
+      },
+      overrideAccess: true,
+    })
+
+    console.log(`[CMS bootstrap] Created the first administrator: ${email}`)
+  } finally {
+    await payload.destroy()
   }
-
-  // List all users in database
-  const allUsers = await payload.find({
-    collection: 'users',
-    depth: 0,
-    limit: 20,
-    overrideAccess: true,
-  })
-
-  console.log('Registered CMS Accounts:', allUsers.docs.map(u => ({ id: u.id, email: u.email, role: u.role, name: u.name })))
-
-  await payload.destroy()
 }
 
-main().catch((err) => {
-  console.error(err)
-  process.exit(1)
-})
+main()
+  .then(() => process.exit(0))
+  .catch((err) => {
+    console.error(err)
+    process.exit(1)
+  })

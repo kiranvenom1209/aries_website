@@ -1,5 +1,5 @@
 [build]
-  command = "npm run build"
+  command = "npm run build && npm run bootstrap:admin"
 
 [build.environment]
   NODE_VERSION = "22"

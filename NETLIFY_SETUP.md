@@ -14,8 +14,10 @@ This project is self-hosted: the public site and the Payload CMS run from the sa
    | `NEXT_PUBLIC_SITE_URL` | Yes | The canonical deployed URL, for example `https://hsmaries.space`. |
    | `PAYLOAD_MAX_UPLOAD_BYTES` | Optional | Maximum CMS upload size in bytes. The default is `50000000` (50 MB). |
    | `PAYLOAD_DB_PUSH` | Optional | Leave unset for the first deploy so Payload creates/synchronizes its tables. Set to `false` once you manage later schema changes through Payload migrations. |
-4. Deploy. The database schema is automatically created on the first Netlify deploy. Uploaded media is placed in the Netlify Blob store named `hsm-aries-media`, not in the temporary serverless filesystem.
-5. Visit `/admin` and create the first administrator if Payload prompts for one. Then use the existing seed command locally only when you intentionally want to refresh the curated starter content.
+   | `BOOTSTRAP_ADMIN_EMAIL` | First deploy | Email address for the first Payload administrator. |
+   | `BOOTSTRAP_ADMIN_PASSWORD` | First deploy | A private password of at least 12 characters for the first Payload administrator. |
+4. Deploy. The database schema is automatically created on the first Netlify deploy. When the database is empty, the build creates one administrator from the two `BOOTSTRAP_ADMIN_*` variables. Subsequent builds never modify an existing account. Uploaded media is placed in the Netlify Blob store named `hsm-aries-media`, not in the temporary serverless filesystem.
+5. Visit `/admin` and sign in with the bootstrap email and password. After the first successful login, you may remove the two `BOOTSTRAP_ADMIN_*` variables from Netlify because the account persists in Postgres.
 
 ### Importing environment variables
 
