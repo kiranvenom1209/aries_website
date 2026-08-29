@@ -17,6 +17,10 @@ This project is self-hosted: the public site and the Payload CMS run from the sa
 4. Deploy. The database schema is automatically created on the first Netlify deploy. Uploaded media is placed in the Netlify Blob store named `hsm-aries-media`, not in the temporary serverless filesystem.
 5. Visit `/admin` and create the first administrator if Payload prompts for one. Then use the existing seed command locally only when you intentionally want to refresh the curated starter content.
 
+### Importing environment variables
+
+Copy `.env.netlify.example` to `.env.netlify`, replace the `PAYLOAD_SECRET` placeholder with a private 64-character random value, and import that completed file under **Project configuration → Environment variables**. The completed `.env.netlify` file is ignored by Git and must never be committed. Netlify supplies `NETLIFY_DB_URL` automatically after its database is provisioned; do not add the local SQLite `DATABASE_URL` to Netlify.
+
 ## Editorial workflow
 
 Open **News → Create new Story** in `/admin`.
