@@ -171,7 +171,7 @@ export async function seedPublicContent(payloadInstance: Payload) {
     return id
   }
 
-  payload.logger.info('Seeding the five latest confirmed public news stories…')
+  payload.logger.info('Seeding curated public news stories…')
 
   for (const article of newsSeed) {
     await upsertBySlug(
@@ -282,53 +282,8 @@ export async function seedPublicContent(payloadInstance: Payload) {
     }
   }
 
-  payload.logger.info('Seeding Master Admin account...')
-
-  const adminEmails = [
-    { email: 'admin@hsmaries.space', name: 'Master Administrator' },
-    { email: 'admin@aries.space', name: 'Master Administrator' },
-  ]
-
-  for (const acc of adminEmails) {
-    try {
-      const existingUser = await payload.find({
-        collection: 'users' as never,
-        depth: 0,
-        limit: 1,
-        overrideAccess: true,
-        where: { email: { equals: acc.email } },
-      })
-
-      if (existingUser.docs.length > 0) {
-        await payload.update({
-          collection: 'users' as never,
-          id: existingUser.docs[0].id,
-          data: {
-            name: acc.name,
-            role: 'admin',
-            password: '!@#LeapOne',
-          },
-          overrideAccess: true,
-        })
-      } else {
-        await (payload as unknown as { create: (args: Record<string, unknown>) => Promise<unknown> }).create({
-          collection: 'users',
-          data: {
-            email: acc.email,
-            name: acc.name,
-            role: 'admin',
-            password: '!@#LeapOne',
-          },
-          overrideAccess: true,
-        })
-      }
-    } catch (err) {
-      payload.logger.info(`Admin user seed (${acc.email}): ${err instanceof Error ? err.message : String(err)}`)
-    }
-  }
-
   payload.logger.info(
-    `Seed complete: ${mediaSeed.length} media, ${newsSeed.length} news, ${gallerySeed.length} galleries, ${downloadSeed.length} downloads, ${fallbackTeam.length} active team members, master admin credentials ready.`,
+    `Seed complete: ${mediaSeed.length} media, ${newsSeed.length} news, ${gallerySeed.length} galleries, ${downloadSeed.length} downloads, and ${fallbackTeam.length} active team members.`,
   )
 }
 
