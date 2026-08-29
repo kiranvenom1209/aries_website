@@ -25,8 +25,8 @@ async function main() {
       return
     }
 
-    if (password.length < 12) {
-      throw new Error('BOOTSTRAP_ADMIN_PASSWORD must contain at least 12 characters.')
+    if (password.length < 10) {
+      throw new Error('BOOTSTRAP_ADMIN_PASSWORD must contain at least 10 characters.')
     }
 
     await payload.create({
