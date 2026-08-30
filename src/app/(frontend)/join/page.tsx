@@ -75,7 +75,11 @@ export default function JoinPage() {
           </div>
         </header>
 
-        <form action="mailto:hsmariesleapone@gmail.com?subject=Student%20Application%20-%20HSM%20Aries" className="contact-form conversion-form" encType="text/plain" method="post">
+        <form action="/thank-you?form=join" className="contact-form conversion-form" data-netlify="true" data-netlify-honeypot="bot-field" method="post" name="join-aries">
+          <input name="form-name" type="hidden" value="join-aries" />
+          <p hidden>
+            <label>Do not fill this out: <input name="bot-field" /></label>
+          </p>
           <div>
             <label htmlFor="join-first-name">First name</label>
             <input autoComplete="given-name" id="join-first-name" name="first-name" required />

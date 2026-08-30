@@ -71,7 +71,11 @@ export default function PartnerPage() {
           <a className="conversion-form-section__direct" href="mailto:hsmariesleapone@gmail.com">hsmariesleapone@gmail.com <span aria-hidden="true">↗</span></a>
         </header>
 
-        <form action="mailto:hsmariesleapone@gmail.com?subject=Partnership%20Inquiry%20-%20HSM%20Aries" className="contact-form conversion-form" encType="text/plain" method="post">
+        <form action="/thank-you?form=partner" className="contact-form conversion-form" data-netlify="true" data-netlify-honeypot="bot-field" method="post" name="partnership-enquiry">
+          <input name="form-name" type="hidden" value="partnership-enquiry" />
+          <p hidden>
+            <label>Do not fill this out: <input name="bot-field" /></label>
+          </p>
           <div>
             <label htmlFor="partner-first-name">Contact first name</label>
             <input autoComplete="given-name" id="partner-first-name" name="first-name" required />

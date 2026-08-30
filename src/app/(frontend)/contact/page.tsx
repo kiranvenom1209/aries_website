@@ -90,7 +90,11 @@ export default function ContactPage() {
           </dl>
         </header>
 
-        <form action="mailto:hsmariesleapone@gmail.com" className="contact-form conversion-form" encType="text/plain" method="post">
+        <form action="/thank-you?form=contact" className="contact-form conversion-form" data-netlify="true" data-netlify-honeypot="bot-field" method="post" name="general-contact">
+          <input name="form-name" type="hidden" value="general-contact" />
+          <p hidden>
+            <label>Do not fill this out: <input name="bot-field" /></label>
+          </p>
           <div>
             <label htmlFor="first-name">First name</label>
             <input autoComplete="given-name" id="first-name" name="first-name" required />

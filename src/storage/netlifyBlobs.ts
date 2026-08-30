@@ -4,6 +4,21 @@ import { getFileKey } from '@payloadcms/plugin-cloud-storage/utilities'
 
 const STORE_NAME = 'hsm-aries-media'
 
+const getMediaStore = () => {
+  const siteID = process.env.NETLIFY_SITE_ID ?? process.env.SITE_ID
+  const token = process.env.NETLIFY_API_TOKEN
+
+  if (siteID && token) {
+    return getStore({
+      name: STORE_NAME,
+      siteID,
+      token,
+    })
+  }
+
+  return getStore(STORE_NAME)
+}
+
 const contentTypeFor = (value: unknown) =>
   typeof value === 'string' && value.length > 0 ? value : 'application/octet-stream'
 
@@ -32,7 +47,7 @@ export const netlifyBlobsAdapter = (): Adapter => ({ collection: _collection, pr
         bytes.byteOffset + bytes.byteLength,
       ) as ArrayBuffer
 
-      await getStore(STORE_NAME).set(keyFor(file.filename, data?.prefix), payload, {
+      await getMediaStore().set(keyFor(file.filename, data?.prefix), payload, {
         metadata: {
           contentType: file.mimeType,
           originalFilename: file.filename,
@@ -40,10 +55,10 @@ export const netlifyBlobsAdapter = (): Adapter => ({ collection: _collection, pr
       })
     },
     handleDelete: async ({ doc, filename }) => {
-      await getStore(STORE_NAME).delete(keyFor(filename, doc.prefix))
+      await getMediaStore().delete(keyFor(filename, doc.prefix))
     },
     staticHandler: async (_req, { params }) => {
-      const blob = await getStore(STORE_NAME).getWithMetadata(
+      const blob = await getMediaStore().getWithMetadata(
         keyFor(params.filename, params.prefix),
         { type: 'blob' },
       )

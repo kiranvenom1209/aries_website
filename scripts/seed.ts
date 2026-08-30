@@ -10,6 +10,15 @@ if (process.env.BOOTSTRAP_PUBLIC_CONTENT !== 'true') {
   process.exit(0)
 }
 
+if (
+  process.env.NETLIFY &&
+  (!(process.env.NETLIFY_SITE_ID ?? process.env.SITE_ID) || !process.env.NETLIFY_API_TOKEN)
+) {
+  throw new Error(
+    'Build-time media import requires NETLIFY_SITE_ID and NETLIFY_API_TOKEN. Both must be server-only environment variables.',
+  )
+}
+
 const payload = await getPayload({ config })
 
 try {
