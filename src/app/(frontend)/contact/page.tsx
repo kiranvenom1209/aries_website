@@ -3,6 +3,7 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 
 import { PageShell } from '@/components/PageShell'
+import { NetlifyForm } from '@/components/NetlifyForm'
 
 export const metadata: Metadata = {
   description: 'Contact HSM Aries for collaboration, project information or team membership.',
@@ -90,11 +91,7 @@ export default function ContactPage() {
           </dl>
         </header>
 
-        <form action="/thank-you?form=contact" className="contact-form conversion-form" data-netlify="true" data-netlify-honeypot="bot-field" method="post" name="general-contact">
-          <input name="form-name" type="hidden" value="general-contact" />
-          <p hidden>
-            <label>Do not fill this out: <input name="bot-field" /></label>
-          </p>
+        <NetlifyForm className="contact-form conversion-form" name="general-contact" successContext="contact">
           <div>
             <label htmlFor="first-name">First name</label>
             <input autoComplete="given-name" id="first-name" name="first-name" required />
@@ -112,7 +109,7 @@ export default function ContactPage() {
             <textarea id="message" name="message" placeholder="What would you like to discuss with HSM Aries?" required rows={6} />
           </div>
           <button className="button button--solid" type="submit">Send message <span aria-hidden="true">→</span></button>
-        </form>
+        </NetlifyForm>
       </section>
     </PageShell>
   )

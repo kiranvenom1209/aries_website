@@ -2,6 +2,7 @@ import Image from 'next/image'
 import type { Metadata } from 'next'
 
 import { CustomSelect } from '@/components/CustomSelect'
+import { NetlifyForm } from '@/components/NetlifyForm'
 import { PageShell } from '@/components/PageShell'
 
 export const metadata: Metadata = {
@@ -75,11 +76,7 @@ export default function JoinPage() {
           </div>
         </header>
 
-        <form action="/thank-you?form=join" className="contact-form conversion-form" data-netlify="true" data-netlify-honeypot="bot-field" method="post" name="join-aries">
-          <input name="form-name" type="hidden" value="join-aries" />
-          <p hidden>
-            <label>Do not fill this out: <input name="bot-field" /></label>
-          </p>
+        <NetlifyForm className="contact-form conversion-form" name="join-aries" successContext="join">
           <div>
             <label htmlFor="join-first-name">First name</label>
             <input autoComplete="given-name" id="join-first-name" name="first-name" required />
@@ -123,7 +120,7 @@ export default function JoinPage() {
             <textarea id="join-motivation" name="motivation" placeholder="Tell us about your interests, previous projects, software or hardware tools you use, or why you want to build rovers." required rows={5} />
           </div>
           <button className="button button--solid" type="submit">Submit application <span aria-hidden="true">→</span></button>
-        </form>
+        </NetlifyForm>
       </section>
     </PageShell>
   )
