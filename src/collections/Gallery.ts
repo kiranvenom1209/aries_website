@@ -6,15 +6,19 @@ import { slugField } from './fields/slug'
 export const Gallery: CollectionConfig = {
   slug: 'gallery',
   labels: {
-    singular: 'Gallery',
-    plural: 'Gallery',
+    singular: 'Event gallery',
+    plural: 'Event galleries',
   },
   admin: {
     useAsTitle: 'title',
     group: 'Content',
     defaultColumns: ['title', 'eventDate', 'location', 'isPublic', 'sortOrder'],
-    description: 'Curate public image and video collections from missions and events.',
+    description: 'Build public event albums by choosing a cover and grouping related images or videos.',
     listSearchableFields: ['title', 'slug', 'location'],
+    pagination: {
+      defaultLimit: 12,
+      limits: [12, 24, 48],
+    },
   },
   access: {
     read: publicOrEditor(),
@@ -29,6 +33,11 @@ export const Gallery: CollectionConfig = {
       type: 'text',
       required: true,
       maxLength: 160,
+      admin: {
+        components: {
+          Cell: '/admin/cells/GalleryTitleCell#GalleryTitleCell',
+        },
+      },
     },
     slugField(),
     {
@@ -37,19 +46,31 @@ export const Gallery: CollectionConfig = {
     },
     {
       name: 'coverImage',
+      label: 'Album cover',
       type: 'relationship',
       relationTo: 'media',
       required: true,
+      admin: {
+        allowCreate: true,
+        allowEdit: true,
+        appearance: 'drawer',
+        description: 'Choose the image visitors see before they open this album. You can upload a new image without leaving this page.',
+      },
     },
     {
       name: 'items',
+      label: 'Album images and videos',
       type: 'relationship',
       relationTo: 'media',
       hasMany: true,
       required: true,
       minRows: 1,
       admin: {
-        description: 'Images or videos shown in this gallery.',
+        allowCreate: true,
+        allowEdit: true,
+        appearance: 'drawer',
+        isSortable: true,
+        description: 'Add as many images or videos as you need. Drag selected items into the order visitors should see them; upload new media here at any time.',
       },
     },
     {

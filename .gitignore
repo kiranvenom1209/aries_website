@@ -61,6 +61,7 @@ next-env.d.ts
 /tmp/
 /.playwright-cli/
 /.codex-dev.*.log
+/.codex-devserver*.log
 
 # Playwright
 node_modules/

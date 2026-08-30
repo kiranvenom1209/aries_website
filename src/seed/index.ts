@@ -4,9 +4,9 @@ import path from 'node:path'
 import type { Payload } from 'payload'
 
 import { fallbackTeam } from '../lib/fallbackTeam'
-import { downloadSeed, gallerySeed, mediaSeed, newsSeed } from './news'
+import { downloadSeed, gallerySeed, mediaSeed, newsSeed, sponsorSeed } from './news'
 
-type SeedCollection = 'media' | 'news' | 'gallery' | 'downloads' | 'team'
+type SeedCollection = 'media' | 'news' | 'gallery' | 'downloads' | 'team' | 'sponsors'
 type SeedID = number | string
 
 type SeedDocument = {
@@ -122,6 +122,25 @@ const upsertBySlug = async (
   })
 }
 
+const upsertSponsor = async (
+  payload: SeedPayloadAPI,
+  name: string,
+  data: Record<string, unknown>,
+) => {
+  const result = await payload.find({
+    collection: 'sponsors',
+    depth: 0,
+    limit: 1,
+    overrideAccess: true,
+    where: { name: { equals: name } },
+  })
+  const existing = result.docs[0]
+
+  return existing
+    ? payload.update({ collection: 'sponsors', data, id: existing.id, overrideAccess: true })
+    : payload.create({ collection: 'sponsors', data, overrideAccess: true })
+}
+
 const publicMediaPath = (filename: string) => {
   const mediaDirectory = path.resolve(process.cwd(), 'public', 'media')
   const filePath = path.resolve(mediaDirectory, filename)
@@ -183,7 +202,7 @@ export async function seedPublicContent(payloadInstance: Payload) {
         author: article.author,
         body: article.body,
         category: article.category,
-        excerpt: article.excerpt,
+        excerpt: article.excerpt.length > 360 ? `${article.excerpt.slice(0, 357).trimEnd()}…` : article.excerpt,
         externalVideoUrl: article.externalVideoUrl,
         featured: article.featured,
         featuredImage: mediaID(article.featuredImage),
@@ -213,7 +232,7 @@ export async function seedPublicContent(payloadInstance: Payload) {
       description: gallery.description,
       eventDate: gallery.eventDate,
       isPublic: gallery.isPublic,
-      items: gallery.items.map(mediaID),
+      items: gallery.items.filter((filename) => mediaIDs.has(filename)).map(mediaID),
       location: gallery.location,
       slug: gallery.slug,
       sortOrder: gallery.sortOrder,
@@ -284,9 +303,23 @@ export async function seedPublicContent(payloadInstance: Payload) {
     }
   }
 
+  payload.logger.info('Seeding HSM Aries partners…')
+
+  for (const sponsor of sponsorSeed) {
+    await upsertSponsor(payload, sponsor.name, {
+      description: `${sponsor.name} supports the HSM Aries engineering programme.`,
+      isActive: true,
+      logo: mediaID(sponsor.logo),
+      name: sponsor.name,
+      sortOrder: sponsor.sortOrder,
+      tier: sponsor.tier,
+      ...('website' in sponsor ? { website: sponsor.website } : {}),
+    })
+  }
+
   payload.logger.info(
-    `Seed complete: ${mediaSeed.length} media, ${newsSeed.length} news, ${gallerySeed.length} galleries, ${downloadSeed.length} downloads, and ${fallbackTeam.length} active team members.`,
+    `Seed complete: ${mediaSeed.length} media, ${newsSeed.length} news, ${gallerySeed.length} galleries, ${downloadSeed.length} downloads, ${fallbackTeam.length} active team members, and ${sponsorSeed.length} partners.`,
   )
 }
 
-export { downloadSeed, gallerySeed, mediaSeed, newsSeed } from './news'
+export { downloadSeed, gallerySeed, mediaSeed, newsSeed, sponsorSeed } from './news'

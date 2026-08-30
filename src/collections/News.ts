@@ -16,6 +16,10 @@ export const News: CollectionConfig = {
     defaultColumns: ['title', '_status', 'category', 'publishedAt', 'featured', 'updatedAt'],
     description: 'Draft, schedule, and publish mission updates and team stories.',
     listSearchableFields: ['title', 'excerpt', 'slug'],
+    pagination: {
+      defaultLimit: 20,
+      limits: [10, 20, 40],
+    },
     livePreview: {
       breakpoints: [
         { label: 'Desktop', name: 'desktop', width: 1440, height: 960 },
@@ -67,6 +71,11 @@ export const News: CollectionConfig = {
       type: 'text',
       required: true,
       maxLength: 180,
+      admin: {
+        components: {
+          Cell: '/admin/cells/NewsTitleCell#NewsTitleCell',
+        },
+      },
     },
     slugField(),
     {

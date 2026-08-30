@@ -75,6 +75,9 @@ export const Users: CollectionConfig = {
       maxLength: 100,
       admin: {
         description: 'Display name shown in Mission Control. Email is used when omitted.',
+        components: {
+          Cell: '/admin/cells/UserNameCell#UserNameCell',
+        },
       },
     },
     {

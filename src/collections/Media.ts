@@ -9,7 +9,11 @@ export const Media: CollectionConfig = {
     group: 'Content',
     defaultColumns: ['filename', 'alt', 'mimeType', 'filesize', 'updatedAt'],
     listSearchableFields: ['filename', 'alt', 'caption', 'credit'],
-    description: 'Images, videos, audio, and PDFs used across the Aries website.',
+    description: 'The shared asset library for images, videos, audio, and PDFs used across the Aries website.',
+    pagination: {
+      defaultLimit: 24,
+      limits: [12, 24, 48, 96],
+    },
   },
   access: {
     read: publicOrEditor(),

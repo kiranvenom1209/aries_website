@@ -220,7 +220,7 @@ export interface News {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Images, videos, audio, and PDFs used across the Aries website.
+ * The shared asset library for images, videos, audio, and PDFs used across the Aries website.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
@@ -277,7 +277,7 @@ export interface Media {
   };
 }
 /**
- * Curate public image and video collections from missions and events.
+ * Build public event albums by choosing a cover and grouping related images or videos.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "gallery".
@@ -304,9 +304,12 @@ export interface Gallery {
     };
     [k: string]: unknown;
   } | null;
+  /**
+   * Choose the image visitors see before they open this album. You can upload a new image without leaving this page.
+   */
   coverImage: number | Media;
   /**
-   * Images or videos shown in this gallery.
+   * Add as many images or videos as you need. Drag selected items into the order visitors should see them; upload new media here at any time.
    */
   items: (number | Media)[];
   eventDate?: string | null;
@@ -413,7 +416,7 @@ export interface Team {
   createdAt: string;
 }
 /**
- * Maintain sponsor logos, links, and display priority.
+ * Manage the partners shown on the public website. Add a logo, choose its level and set the display order.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "sponsors".
@@ -421,6 +424,9 @@ export interface Team {
 export interface Sponsor {
   id: number;
   name: string;
+  /**
+   * Upload a clean, high-resolution logo. Transparent PNG or SVG works best.
+   */
   logo: number | Media;
   website?: string | null;
   tier: 'principal' | 'gold' | 'silver' | 'partner' | 'supporter';
@@ -445,7 +451,7 @@ export interface Download {
   slug: string;
   description?: string | null;
   /**
-   * Select an uploaded PDF or other approved media file.
+   * Choose an existing file or upload a new PDF, image, audio file, or video without leaving this page.
    */
   file: number | Media;
   category: 'press-kit' | 'technical' | 'competition' | 'brand' | 'other';

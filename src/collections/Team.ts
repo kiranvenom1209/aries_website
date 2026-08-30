@@ -13,9 +13,13 @@ export const Team: CollectionConfig = {
   admin: {
     useAsTitle: 'name',
     group: 'Organization',
-    defaultColumns: ['name', 'position', 'rank', 'discipline', 'isActive', 'sortOrder'],
+    defaultColumns: ['name', 'discipline', 'rank', 'isActive', 'sortOrder'],
     description: 'Manage the people behind HSM Aries.',
     listSearchableFields: ['name', 'position', 'discipline'],
+    pagination: {
+      defaultLimit: 25,
+      limits: [25, 50, 100],
+    },
   },
   access: {
     read: publicOrEditor('isActive'),
@@ -30,6 +34,11 @@ export const Team: CollectionConfig = {
       type: 'text',
       required: true,
       maxLength: 120,
+      admin: {
+        components: {
+          Cell: '/admin/cells/TeamNameCell#TeamNameCell',
+        },
+      },
     },
     slugField('name'),
     {
@@ -148,6 +157,9 @@ export const Team: CollectionConfig = {
       type: 'checkbox',
       defaultValue: true,
       admin: {
+        components: {
+          Cell: '/admin/cells/TeamNameCell#TeamStatusCell',
+        },
         position: 'sidebar',
       },
     },

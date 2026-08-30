@@ -95,6 +95,10 @@ const curatedMediaSeed: SeedMedia[] = [
   { filename: 'erc-video-thumbnail.png', alt: 'LEAP-One in the official ERC 2026 qualification video' },
   { filename: 'ground-station.png', alt: 'HSM Aries unified rover and drone mission ground station' },
   { filename: 'hsm-powered-by.png', alt: 'Powered by Hochschule Schmalkalden' },
+  { filename: 'sick-logo-1.png', alt: 'SICK Sensor Intelligence logo' },
+  { filename: 'boehm-logo-2.png', alt: 'Boehm Group GmbH logo' },
+  { filename: 'skyforce-logo.png', alt: 'Skyforce Drone Solutions logo' },
+  { filename: 'eviotech-logo.jpg', alt: 'Eviotech logo' },
   { filename: 'leap-one-hero.jpg', alt: 'HSM Aries LEAP-One planetary rover' },
   { filename: 'qualification-announcement.jpg', alt: 'HSM Aries ERC 2026 qualification announcement' },
   { filename: 'qualification-score.png', alt: 'ERC 2026 qualification result showing HSM Aries ranked first' },
@@ -158,6 +162,14 @@ const curatedMediaSeed: SeedMedia[] = [
   { filename: 'dsc01556.jpg', alt: 'Team members analyzing live field telemetry' },
 ]
 
+export const sponsorSeed = [
+  { name: 'Hochschule Schmalkalden', logo: 'hsm-powered-by.png', tier: 'principal', sortOrder: 10, website: 'https://www.hs-schmalkalden.de' },
+  { name: 'Boehm Group GmbH', logo: 'boehm-logo-2.png', tier: 'gold', sortOrder: 20 },
+  { name: 'SICK Sensor Intelligence', logo: 'sick-logo-1.png', tier: 'partner', sortOrder: 30, website: 'https://www.sick.com' },
+  { name: 'Skyforce Drone Solutions', logo: 'skyforce-logo.png', tier: 'partner', sortOrder: 40 },
+  { name: 'Eviotech', logo: 'eviotech-logo.jpg', tier: 'partner', sortOrder: 50 },
+] as const
+
 const filenameFromPublicURL = (url: string) => {
   const pathname = new URL(url, 'https://hsmaries.space').pathname
   return decodeURIComponent(pathname.split('/').pop() ?? '')
@@ -191,7 +203,7 @@ export const mediaSeed: SeedMedia[] = [
       item,
     ]),
   ).values(),
-]
+].filter((item) => !item.filename.toLowerCase().endsWith('.svg'))
 
 export type SeedNewsArticle = {
   author?: string

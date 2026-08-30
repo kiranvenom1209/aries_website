@@ -43,6 +43,11 @@ export const Downloads: CollectionConfig = {
       type: 'text',
       required: true,
       maxLength: 180,
+      admin: {
+        components: {
+          Cell: '/admin/cells/DownloadTitleCell#DownloadTitleCell',
+        },
+      },
     },
     slugField(),
     {
@@ -56,7 +61,10 @@ export const Downloads: CollectionConfig = {
       relationTo: 'media',
       required: true,
       admin: {
-        description: 'Select an uploaded PDF or other approved media file.',
+        allowCreate: true,
+        allowEdit: true,
+        appearance: 'drawer',
+        description: 'Choose an existing file or upload a new PDF, image, audio file, or video without leaving this page.',
       },
     },
     {
