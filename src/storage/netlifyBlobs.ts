@@ -26,6 +26,28 @@ const getMediaStore = () => {
 const contentTypeFor = (value: unknown) =>
   typeof value === 'string' && value.length > 0 ? value : 'application/octet-stream'
 
+export const readNetlifyMedia = async (filename: string, prefix?: string) => {
+  const blob = await getMediaStore().getWithMetadata(
+    getFileKey({
+      collectionPrefix: 'media',
+      docPrefix: prefix,
+      filename,
+      useCompositePrefixes: true,
+    }).fileKey,
+    { type: 'blob' },
+  )
+
+  if (!blob) return null
+
+  return new Response(blob.data, {
+    headers: {
+      'Cache-Control': 'public, max-age=31536000, immutable',
+      'Content-Type': contentTypeFor(blob.metadata.contentType),
+      ...(blob.etag ? { ETag: blob.etag } : {}),
+    },
+  })
+}
+
 const packagedMediaFallback = (
   requestURL: string | undefined,
   requestedFilename: string,
@@ -85,22 +107,13 @@ export const netlifyBlobsAdapter = (): Adapter => ({ collection: _collection, pr
     },
     staticHandler: async (req, { doc, params }) => {
       try {
-        const blob = await getMediaStore().getWithMetadata(
-          keyFor(params.filename, params.prefix),
-          { type: 'blob' },
-        )
+        const response = await readNetlifyMedia(params.filename, params.prefix)
 
-        if (!blob) {
+        if (!response) {
           return packagedMediaFallback(req.url, params.filename, doc)
         }
 
-        return new Response(blob.data, {
-          headers: {
-            'Cache-Control': 'public, max-age=31536000, immutable',
-            'Content-Type': contentTypeFor(blob.metadata.contentType),
-            ...(blob.etag ? { ETag: blob.etag } : {}),
-          },
-        })
+        return response
       } catch {
         return packagedMediaFallback(req.url, params.filename, doc)
       }
