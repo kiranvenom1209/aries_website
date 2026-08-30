@@ -3,10 +3,19 @@ import type { NextConfig } from 'next'
 import path from 'path'
 import { fileURLToPath } from 'url'
 
+import { newsSeed } from './src/seed/news'
+
 const __filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(__filename)
 
 const nextConfig: NextConfig = {
+  async redirects() {
+    return newsSeed.map((article) => ({
+      destination: `/news/${article.slug}`,
+      permanent: true,
+      source: `/${article.slug}`,
+    }))
+  },
   images: {
     unoptimized: true,
     localPatterns: [
