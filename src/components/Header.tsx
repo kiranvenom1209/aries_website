@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react'
 import { BrandLogo } from './BrandLogo'
 
 const navigation = [
-  { href: '/about', label: 'HSM Aries' },
+  { href: '/about', label: 'About Us' },
   { href: '/leap-one', label: 'Leap Rovers' },
   { href: '/team', label: 'Team' },
   { href: '/news', label: 'News' },

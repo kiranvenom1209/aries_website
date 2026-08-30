@@ -6672,6 +6672,362 @@ img {
   }
 }
 
+
+
+/* HSM Aries minimal rover preloader */
+html.preloader-active,
+body.preloader-active {
+  overflow: hidden;
+}
+
+body.preloader-active {
+  padding-right: var(--preloader-scrollbar-width, 0px);
+}
+
+.site-preloader {
+  --preloader-progress: 0%;
+  background: #030506;
+  color: #f5f7f8;
+  inset: 0;
+  isolation: isolate;
+  opacity: 1;
+  overflow: hidden;
+  padding: clamp(24px, 3.7vw, 58px);
+  position: fixed;
+  transform: none;
+  transition: opacity 980ms cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 10000;
+}
+
+.site-preloader::before {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 64px 64px;
+  content: "";
+  inset: 0;
+  mask-image: radial-gradient(circle at center, #000, transparent 78%);
+  opacity: 0.55;
+  pointer-events: none;
+  position: absolute;
+  z-index: 2;
+}
+
+.site-preloader::after {
+  background: radial-gradient(circle at 50% 52%, rgba(255, 90, 31, 0.09), transparent 38%);
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 2;
+}
+
+.site-preloader__chrome {
+  animation: preloader-ui-arrive 520ms 180ms ease-out both;
+  color: rgba(197, 213, 222, 0.65);
+  display: flex;
+  font-family: var(--mono);
+  font-size: 9px;
+  justify-content: space-between;
+  left: clamp(24px, 3.7vw, 58px);
+  letter-spacing: 0.16em;
+  position: absolute;
+  right: clamp(24px, 3.7vw, 58px);
+  z-index: 4;
+}
+
+.site-preloader__chrome--top {
+  top: clamp(24px, 3.7vw, 58px);
+}
+
+.site-preloader__chrome--bottom {
+  bottom: clamp(24px, 3.7vw, 58px);
+}
+
+.site-preloader__chrome span:last-child {
+  text-align: right;
+}
+
+.site-preloader__identity {
+  align-items: center;
+  animation: preloader-ui-arrive 620ms 100ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  left: 50%;
+  position: absolute;
+  top: clamp(78px, 14vh, 132px);
+  transform: translateX(-50%);
+  white-space: nowrap;
+  z-index: 4;
+}
+
+.site-preloader__logo {
+  display: block;
+  height: auto;
+  width: clamp(140px, 13vw, 184px);
+}
+
+.site-preloader__identity p {
+  color: rgba(205, 218, 225, 0.62);
+  font-family: var(--mono);
+  font-size: 7px;
+  letter-spacing: 0.18em;
+  margin: 0;
+}
+
+.site-preloader__rover-stage {
+  animation: preloader-rover-arrive 760ms 160ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  left: 50%;
+  position: absolute;
+  top: 51%;
+  transform: translate(-50%, -50%);
+  width: min(72vw, 820px);
+  z-index: 4;
+}
+
+.site-preloader__rover {
+  display: block;
+  height: auto;
+  overflow: visible;
+  width: 100%;
+}
+
+.site-preloader__rover path,
+.site-preloader__rover circle {
+  fill: none;
+  stroke: rgba(215, 228, 234, 0.84);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+
+.site-preloader__track-marks {
+  animation: preloader-vector-track 900ms linear infinite;
+}
+
+.site-preloader__track-marks path:first-child {
+  opacity: 0.36;
+}
+
+.site-preloader__track-marks path:last-child {
+  opacity: 0.14;
+  stroke-dasharray: 34 24;
+}
+
+.site-preloader__vehicle {
+  animation: preloader-rover-travel 720ms ease-in-out infinite alternate;
+  transform-origin: center;
+}
+
+.site-preloader__suspension,
+.site-preloader__panel,
+.site-preloader__mast,
+.site-preloader__arm,
+.site-preloader__antenna {
+  opacity: 0.76;
+}
+
+.site-preloader__chassis,
+.site-preloader__deck {
+  fill: rgba(8, 12, 14, 0.72) !important;
+  stroke-width: 2.3 !important;
+}
+
+.site-preloader__accent-line {
+  stroke: var(--accent) !important;
+  stroke-width: 2.5 !important;
+}
+
+.site-preloader__wheel {
+  animation: preloader-wheel-turn 820ms linear infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.site-preloader__wheel circle:first-child {
+  fill: #050708;
+  stroke-width: 3;
+}
+
+.site-preloader__wheel path {
+  opacity: 0.42;
+  stroke-width: 1.4;
+}
+
+.site-preloader__signal {
+  animation: preloader-vector-signal 1.4s ease-in-out infinite;
+  fill: var(--accent) !important;
+  stroke: var(--accent) !important;
+}
+
+.site-preloader__vector-dust circle {
+  animation: preloader-vector-dust 1.2s ease-out infinite;
+  fill: rgba(255, 90, 31, 0.62) !important;
+  stroke: none !important;
+}
+
+.site-preloader__vector-dust circle:nth-child(2) {
+  animation-delay: -0.35s;
+}
+
+.site-preloader__vector-dust circle:nth-child(3) {
+  animation-delay: -0.72s;
+}
+
+.site-preloader__status {
+  animation: preloader-ui-arrive 620ms 280ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  bottom: clamp(68px, 9vh, 108px);
+  left: 50%;
+  max-width: 640px;
+  position: absolute;
+  transform: translateX(-50%);
+  width: min(56vw, 640px);
+  z-index: 4;
+}
+
+.site-preloader__status-copy {
+  align-items: end;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 13px;
+}
+
+.site-preloader__status-copy > span {
+  color: rgba(211, 225, 232, 0.84);
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.13em;
+}
+
+.site-preloader__status-copy strong {
+  color: #fff;
+  font-family: var(--display);
+  font-size: 22px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.site-preloader__status-copy small {
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 8px;
+  margin-left: 3px;
+}
+
+.site-preloader__track {
+  background: rgba(255, 255, 255, 0.1);
+  height: 1px;
+  overflow: visible;
+  position: relative;
+}
+
+.site-preloader__track > span {
+  background: var(--accent);
+  box-shadow: 0 0 18px rgba(255, 90, 31, 0.75);
+  display: block;
+  height: 2px;
+  position: relative;
+  width: var(--preloader-progress);
+}
+
+.site-preloader__track > span::after {
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 14px var(--accent);
+  content: "";
+  height: 6px;
+  position: absolute;
+  right: -3px;
+  top: -2px;
+  width: 6px;
+}
+
+.site-preloader.is-exiting {
+  opacity: 0;
+  visibility: visible;
+}
+
+@keyframes preloader-ui-arrive {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes preloader-rover-arrive {
+  from { filter: blur(4px); opacity: 0; }
+  to { filter: blur(0); opacity: 1; }
+}
+
+@keyframes preloader-rover-travel {
+  from { transform: translate3d(0, -1px, 0) rotate(-0.25deg); }
+  to { transform: translate3d(0, 3px, 0) rotate(0.2deg); }
+}
+
+@keyframes preloader-wheel-turn {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes preloader-vector-track {
+  to { transform: translateX(-32px); }
+}
+
+@keyframes preloader-vector-signal {
+  50% { filter: drop-shadow(0 0 9px var(--accent)); opacity: 0.42; }
+}
+
+@keyframes preloader-vector-dust {
+  0% { opacity: 0; transform: translate3d(18px, 3px, 0) scale(0.7); }
+  26% { opacity: 0.75; }
+  100% { opacity: 0; transform: translate3d(-70px, -12px, 0) scale(1.8); }
+}
+
+@media (max-width: 700px) {
+  .site-preloader__chrome {
+    font-size: 7px;
+    letter-spacing: 0.11em;
+  }
+
+  .site-preloader__identity {
+    top: 94px;
+  }
+
+  .site-preloader__rover-stage {
+    top: 48%;
+    width: 116vw;
+  }
+
+  .site-preloader__status {
+    bottom: 76px;
+    width: calc(100% - 48px);
+  }
+
+  .site-preloader__status-copy > span {
+    font-size: 8px;
+    max-width: 72%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-preloader {
+    transition-duration: 150ms;
+  }
+
+  .site-preloader__identity,
+  .site-preloader__rover-stage,
+  .site-preloader__chrome,
+  .site-preloader__status,
+  .site-preloader__track-marks,
+  .site-preloader__vehicle,
+  .site-preloader__wheel,
+  .site-preloader__signal,
+  .site-preloader__vector-dust circle {
+    animation: none !important;
+  }
+}
+
 /* -------------------------------------------------------------------------- */
 /* Mission crew experience                                                     */
 /* -------------------------------------------------------------------------- */

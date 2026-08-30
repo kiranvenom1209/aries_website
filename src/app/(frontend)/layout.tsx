@@ -5,6 +5,7 @@ import '@fontsource-variable/space-grotesk'
 import '@fontsource-variable/inter'
 import './styles.css'
 
+import { SitePreloader } from '@/components/SitePreloader'
 import {
   DEFAULT_DESCRIPTION,
   DEFAULT_SOCIAL_IMAGE,
@@ -119,6 +120,7 @@ export default function FrontendLayout({ children }: { children: ReactNode }) {
   return (
     <html data-scroll-behavior="smooth" lang="en" suppressHydrationWarning>
       <body suppressHydrationWarning>
+        <SitePreloader />
         <script
           dangerouslySetInnerHTML={{ __html: serializeJsonLd(organizationJsonLd) }}
           type="application/ld+json"
