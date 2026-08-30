@@ -5,6 +5,10 @@ import { getFileKey } from '@payloadcms/plugin-cloud-storage/utilities'
 const STORE_NAME = 'hsm-aries-media'
 
 const getMediaStore = () => {
+  if (process.env.NETLIFY_BLOBS_CONTEXT) {
+    return getStore(STORE_NAME)
+  }
+
   const siteID = process.env.NETLIFY_SITE_ID ?? process.env.SITE_ID
   const token = process.env.NETLIFY_API_TOKEN
 
@@ -21,6 +25,28 @@ const getMediaStore = () => {
 
 const contentTypeFor = (value: unknown) =>
   typeof value === 'string' && value.length > 0 ? value : 'application/octet-stream'
+
+const packagedMediaFallback = (
+  requestURL: string | undefined,
+  requestedFilename: string,
+  document: unknown,
+) => {
+  const filename =
+    typeof document === 'object' &&
+    document !== null &&
+    'filename' in document &&
+    typeof document.filename === 'string'
+      ? document.filename
+      : requestedFilename
+
+  return Response.redirect(
+    new URL(
+      `/media/${filename.split('/').map(encodeURIComponent).join('/')}`,
+      requestURL ?? process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost',
+    ),
+    307,
+  )
+}
 
 /**
  * Stores Payload uploads in a site-scoped Netlify Blob store.
@@ -57,23 +83,27 @@ export const netlifyBlobsAdapter = (): Adapter => ({ collection: _collection, pr
     handleDelete: async ({ doc, filename }) => {
       await getMediaStore().delete(keyFor(filename, doc.prefix))
     },
-    staticHandler: async (_req, { params }) => {
-      const blob = await getMediaStore().getWithMetadata(
-        keyFor(params.filename, params.prefix),
-        { type: 'blob' },
-      )
+    staticHandler: async (req, { doc, params }) => {
+      try {
+        const blob = await getMediaStore().getWithMetadata(
+          keyFor(params.filename, params.prefix),
+          { type: 'blob' },
+        )
 
-      if (!blob) {
-        return new Response('Media asset not found.', { status: 404 })
+        if (!blob) {
+          return packagedMediaFallback(req.url, params.filename, doc)
+        }
+
+        return new Response(blob.data, {
+          headers: {
+            'Cache-Control': 'public, max-age=31536000, immutable',
+            'Content-Type': contentTypeFor(blob.metadata.contentType),
+            ...(blob.etag ? { ETag: blob.etag } : {}),
+          },
+        })
+      } catch {
+        return packagedMediaFallback(req.url, params.filename, doc)
       }
-
-      return new Response(blob.data, {
-        headers: {
-          'Cache-Control': 'public, max-age=31536000, immutable',
-          'Content-Type': contentTypeFor(blob.metadata.contentType),
-          ...(blob.etag ? { ETag: blob.etag } : {}),
-        },
-      })
     },
   }
 }
