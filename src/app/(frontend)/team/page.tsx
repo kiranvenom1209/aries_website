@@ -6,13 +6,16 @@ import { PageShell } from '@/components/PageShell'
 import { PartnersBand } from '@/components/PartnersBand'
 import type { TeamMember } from '@/lib/team'
 import { getTeam } from '@/lib/team'
+import { pageMetadata } from '@/lib/seo'
 
 export const dynamic = 'force-dynamic'
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   description: 'Meet the advisors, mentors and student departments building LEAP-One, the first rover project in the HSM Aries LEAP series.',
+  image: '/media/space-night-team.jpg',
+  path: '/team',
   title: 'The Team & Crew',
-}
+})
 
 type DepartmentMember = { primary?: boolean; role: string; slug: string }
 

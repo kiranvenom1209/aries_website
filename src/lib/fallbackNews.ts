@@ -10,6 +10,7 @@ export type NewsStory = {
   author?: string
   body: string[]
   category?: string
+  externalVideoUrl?: string
   excerpt: string
   image: string
   imageAlt: string
@@ -20,7 +21,7 @@ export type NewsStory = {
   title: string
 }
 
-export const fallbackNews: NewsStory[] = [
+const sourceNews: NewsStory[] = [
   {
     "slug": "number-one-worldwide-hsm-aries-space-tops-erc-qualifications-with-239-75-points",
     "title": "Number One Worldwide: HSM Aries.space Tops ERC Qualifications with 239.75 Points!",
@@ -29,6 +30,10 @@ export const fallbackNews: NewsStory[] = [
     "category": "Competition",
     "image": "/media/hsm-png.png",
     "imageAlt": "Number One Worldwide: HSM Aries.space Tops ERC Qualifications with 239.75 Points!",
+    "mediaDeck": [
+      { "alt": "HSM Aries ERC 2026 qualification announcement", "url": "/media/Qualification-announcement-1.jpg" },
+      { "alt": "LEAP-One rover at the ERC 2026 qualification milestone", "url": "/media/HSM-ARIES-LEAPONE-2-scaled.jpg" }
+    ],
     "body": [
       "Schmalkalden, Germany ' History has been made at Hochschule Schmalkalden! HSM Aries.space is incredibly proud to announce that we have officially conquered the ERC qualifications , securing the 1st-place position globally.",
       "Out of a highly competitive field of 124 international teams fighting for a spot in the ERC , our LEAP-One Mars Rover project achieved the top ranking with an outstanding overall score of 239.75 points .",
@@ -46,6 +51,7 @@ export const fallbackNews: NewsStory[] = [
     "category": "Competition",
     "image": "/media/Thumbail-2-scaled.png",
     "imageAlt": "HSM Aries.space Releases Official ERC 2026 Submission Video for LEAP-One",
+    "externalVideoUrl": "https://www.youtube.com/embed/8-6aMd6mBMg",
     "body": [
       "The journey to the European Rover Challenge (ERC) 2026 has reached an exciting new visual milestone! The HSM Aries.space team is thrilled to announce that our official 10-minute qualification video is now live on our YouTube channel.",
       "Getting to this stage required massive cross-departmental synchronization. After months of CAD design, late nights in the lab, rigorous PDR documentation, and extensive field testing, we are incredibly proud to finally share the LEAP-One Mars Rover in action with the world.",
@@ -63,6 +69,15 @@ export const fallbackNews: NewsStory[] = [
     "category": "Outreach",
     "image": "/media/DSC02769-scaled.jpg",
     "imageAlt": "State Leadership & Aerospace Innovation: HSM Aries.space Shines at Space Night 2026",
+    "mediaDeck": [
+      { "alt": "HSM Aries team with state leadership at Space Night 2026", "url": "/media/1777480994040.jpg" },
+      { "alt": "Space Night 2026 aerospace exhibition", "url": "/media/DSC02822-scaled.jpg" },
+      { "alt": "HSM Aries presenting at Space Night 2026", "url": "/media/DSC02818-scaled.jpg" },
+      { "alt": "HSM Aries aerospace outreach conversation", "url": "/media/DSC02793-scaled.jpg" },
+      { "alt": "HSM Aries rover and drone exhibition", "url": "/media/DSC02608-scaled.jpg" },
+      { "alt": "Space Night 2026 exhibition crowd", "url": "/media/DSC02579-scaled.jpg" },
+      { "alt": "LEAP-One on display at Space Night 2026", "url": "/media/DSC02577-scaled.jpg" }
+    ],
     "body": [
       "Jena, Germany ' On April 28th, the HSM Aries.space team had the distinct honor of representing Hochschule Schmalkalden at Space Night 2026 . Organized by VESPE Jena e.V. and hosted at the Ernst-Abbe-Hochschule Jena, the event brought together leading organizations, industry experts, and innovators from across the aerospace sector.",
       "Exhibiting our technology alongside established aerospace pioneers was a significant milestone for our team. As a centerpiece of the exhibition, we proudly presented our flagship Mars rover, LEAP-One .",
@@ -165,6 +180,11 @@ export const fallbackNews: NewsStory[] = [
     "category": "Astroflight",
     "image": "/media/WhatsApp-Image-2026-05-10-at-19.49.05.jpeg",
     "imageAlt": "Hardware Milestone: HSM Aries.space Successfully Assembles Latest High-Performance Flight Unit",
+    "mediaDeck": [
+      { "alt": "LEAP-One assembly progress", "url": "/media/WhatsApp-Image-2026-05-10-at-19.49.04.jpeg" },
+      { "alt": "LEAP-One hardware integration", "url": "/media/WhatsApp-Image-2026-05-10-at-19.49.03.jpeg" },
+      { "alt": "LEAP-One field-ready hardware detail", "url": "/media/WhatsApp-Image-2026-05-10-at-19.49.02.jpeg" }
+    ],
     "body": [
       "Schmalkalden, Germany ' The Drone Department of HSM Aries.space has reached a major hardware milestone. Our engineering team completed the assembly of our latest flight unit, marking the transition from months of CAD design and prototyping to a physical, flight-ready system.",
       "The assembly process centered on the integration of a lightweight carbon fiber frame with custom-designed motor mounts and advanced flight controllers. To ensure maximum reliability, the team conducted a rigorous inspection of every component before the build began.",
@@ -181,6 +201,11 @@ export const fallbackNews: NewsStory[] = [
     "category": "LEAP-One",
     "image": "/media/rover-isometric-1-scaled.png",
     "imageAlt": "Field Test Update: Manual Joystick Control on Multiple Terrains",
+    "featuredVideo": {
+      "alt": "LEAP-One manual joystick field test",
+      "mimeType": "video/mp4",
+      "url": "/media/c0576.mp4"
+    },
     "body": [
       "Today, we conducted a field test of our rover using only manual control through a handheld joystick. The purpose of this session was to evaluate how well the rover performs when directly driven by an operator'no autonomous navigation, just pure manual handling.",
       "We tested the rover across a variety of terrains, including gravel paths, paved roads, uphill sections, and muddy ground. On each surface, the rover responded smoothly to joystick inputs, maintaining good traction and stability. The control system exhibited no lag, enabling precise movements and easy handling, even on uneven or slippery surfaces.",
@@ -196,6 +221,14 @@ export const fallbackNews: NewsStory[] = [
     "category": "Outreach",
     "image": "/media/WhatsApp-Image-2026-05-10-at-19.48.57-4.jpeg",
     "imageAlt": "Industry Outreach: HSM Aries.space Explores the Future of Aerospace at Space Tech Expo Bremen 2025",
+    "mediaDeck": [
+      { "alt": "HSM Aries delegation at Space Tech Expo Bremen 2025", "url": "/media/WhatsApp-Image-2026-05-10-at-19.48.57-1.jpeg" },
+      { "alt": "Space technology exhibition in Bremen", "url": "/media/WhatsApp-Image-2026-05-10-at-19.48.59.jpeg" },
+      { "alt": "HSM Aries industry outreach at Space Tech Expo", "url": "/media/WhatsApp-Image-2026-05-10-at-19.49.00.jpeg" },
+      { "alt": "Aerospace technology display at Space Tech Expo Bremen", "url": "/media/WhatsApp-Image-2026-05-10-at-19.48.58.jpeg" },
+      { "alt": "HSM Aries meeting aerospace organizations in Bremen", "url": "/media/WhatsApp-Image-2026-05-10-at-19.48.57-3.jpeg" },
+      { "alt": "HSM Aries team at Space Tech Expo Bremen", "url": "/media/WhatsApp-Image-2026-05-10-at-19.48.57-2.jpeg" }
+    ],
     "body": [
       "Bremen – In a major step for our industry outreach and project development, a delegation from the HSM ARIES LEAP-One Mars Rover team recently traveled to Bremen to attend the Space Tech Expo 2025 . As one of Europe's largest and most prestigious gatherings for the global space industry, the expo featured over 950 exhibitors showcasing everything from next-generation space stations to cutting-edge propulsion systems.",
       "For our team, this event was much more than an educational trip- it was a strategic mission to place Aries LEAP-One on the map, benchmark our designs against industry standards, and secure vital partnerships for the future.",
@@ -228,7 +261,7 @@ export const fallbackNews: NewsStory[] = [
     "excerpt": "The HSM Aries Space team has reached another major milestone on our rover's journey from concept to reality! This week, our team successfully tested the CAN adapter with six ODrives using ROS commands ' achieving full calibration and coordinated motion for all six wheels for the very first time. The integration marks a crucial step [&hellip;]",
     "publishedAt": "2025-10-27T10:25:21.000Z",
     "category": "Hardware",
-    "image": "/media/IMG_8789-scaled.jpg",
+    "image": "/media/img_8789-scaled.jpg",
     "imageAlt": "First Motion Milestone: Six-Wheel Drive System Comes to Life!",
     "body": [
       "This week, our team successfully tested the CAN adapter with six ODrives using ROS commands ' achieving full calibration and coordinated motion for all six wheels for the very first time .",
@@ -244,7 +277,7 @@ export const fallbackNews: NewsStory[] = [
     "excerpt": "Team Submits Paper to ICRA 2026. LEAPOne rover concept enters the global'robotics'stage.",
     "publishedAt": "2025-09-14T16:06:02.000Z",
     "category": "Research",
-    "image": "/media/Screenshot-2025-09-14-200225.png",
+    "image": "/media/screenshot-2025-09-14-200225.png",
     "imageAlt": "First publication submitted to ICRA 2026",
     "body": [
       "Team Submits Paper to ICRA 2026. LEAPOne rover concept enters the global'robotics'stage."
@@ -363,7 +396,7 @@ export const fallbackNews: NewsStory[] = [
     "excerpt": "Development of the Aries.space website is underway. The new digital hub will showcase HSMAries projects (including the LEAP Series), publish mission updates, and host resources for students and collaborators. Expect behind-the-scenes content, progress reports, and a user-friendly launch that brings our student-driven space work into one public home.",
     "publishedAt": "2025-03-16T13:00:26.000Z",
     "category": "LEAP-One",
-    "image": "/media/WhatsApp-Image-2025-03-17-at-4.05.48-PM.jpeg",
+    "image": "/media/whatsapp-image-2025-03-17-at-4.05.48-pm.jpeg",
     "imageAlt": "Aries.space Website Development Kicks Off",
     "body": [
       "Building a Digital Hub for Student-Driven Space Exploration",
@@ -406,7 +439,7 @@ export const fallbackNews: NewsStory[] = [
     "excerpt": "Mechanical lead Teja completed the initial robotic arm design for LEAP-ONE: a multi-jointed manipulator with an adaptive gripper engineered for sample collection and maintenance. Optimized for durability and precision, the design will now be integrated with rover subsystems and undergo rigorous testing to validate dexterity, payload handling, and resilience in field conditions.",
     "publishedAt": "2025-03-03T11:08:23.000Z",
     "category": "LEAP-One",
-    "image": "/media/WhatsApp-Image-2025-03-03-at-12.08.33-PM.jpeg",
+    "image": "/media/whatsapp-image-2025-03-03-at-12.08.33-pm.jpeg",
     "imageAlt": "Initial Robotic Arm Design Completed by Mechanical Lead Teja",
     "body": [
       "Advancing Precision in Sample Collection and Manipulation",
@@ -422,7 +455,7 @@ export const fallbackNews: NewsStory[] = [
     "excerpt": "Mechanical lead Danny completed the LEAP-ONE drill mechanism: a telescopic solid-auger design with dual-motor drilling and rotation capable of extracting soil samples beyond 30 cm. The design emphasizes reliability and precision for varied terrains. With the mechanism finalized, the team proceeds to subsystem integration and upcoming testing to validate deep-sampling performance.",
     "publishedAt": "2025-03-02T07:40:33.000Z",
     "category": "LEAP-One",
-    "image": "/media/WhatsApp-Image-2025-03-02-at-8.41.38-PM.jpeg",
+    "image": "/media/whatsapp-image-2025-03-02-at-8.41.38-pm.jpeg",
     "imageAlt": "Drill Mechanism Design Completed by Danny",
     "body": [
       "Paving the Way for Deep Sampling Capabilities on LEAP-One",
@@ -438,7 +471,7 @@ export const fallbackNews: NewsStory[] = [
     "excerpt": "Electronic bay design for LEAP-ONE completed, providing modular integration for power management, sensors, comms and control. The layout improves wiring, thermal management, and future upgrades. With design finalized under mentor KK Achari's guidance, the team will now begin integration testing and prototyping to validate system performance ahead of field trials.",
     "publishedAt": "2025-02-25T13:16:18.000Z",
     "category": "LEAP-One",
-    "image": "/media/WhatsApp-Image-2025-02-23-at-1.45.42-PM.jpeg",
+    "image": "/media/whatsapp-image-2025-02-23-at-1.45.42-pm.jpeg",
     "imageAlt": "LEAP-One Electronic Bay Design Successfully Completed",
     "body": [
       "Advancing the Integration of Critical Systems for Space Exploration",
@@ -455,7 +488,7 @@ export const fallbackNews: NewsStory[] = [
     "excerpt": "Mentor KK Achari has finalized the LEAP-ONE mission badge'a futuristic emblem that symbolizes the team's technical ambition and collaborative spirit. Designed for use across branding, documentation and promotional materials, the badge unifies the project identity and strengthens trust with partners as LEAP-ONE prepares for ERC 2025 and upcoming outreach.",
     "publishedAt": "2025-02-24T10:58:34.000Z",
     "category": "LEAP-One",
-    "image": "/media/WhatsApp-Image-2025-02-23-at-11.59.05-AM.jpeg",
+    "image": "/media/whatsapp-image-2025-02-23-at-11.59.05-am.jpeg",
     "imageAlt": "Initial LEAP-One Mission Badge Design Completed by Team Mentor KK Achari",
     "body": [
       "Pioneering the Visual Identity of Our Next-Generation Rover",
@@ -472,7 +505,7 @@ export const fallbackNews: NewsStory[] = [
     "excerpt": "The HSMAries team has completed the LEAP-ONE base design: a modular chassis, optimized power management, and payload-ready interfaces engineered for durability and adaptability. This foundational milestone clears the path for subsystem integration, prototyping, and testing ahead of ERC 2025 ' bringing the rover one confident step closer from blueprint to field-ready hardware.",
     "publishedAt": "2025-02-23T09:24:04.000Z",
     "category": "LEAP-One",
-    "image": "/media/WhatsApp-Image-2025-02-23-at-10.24.15-AM.jpeg",
+    "image": "/media/whatsapp-image-2025-02-23-at-10.24.15-am.jpeg",
     "imageAlt": "Completion of LEAP-One Base Design",
     "body": [
       "In a major milestone for student-led space innovation, the HSMaries.space team is proud to announce the completion of the base design for LEAP-One, the flagship rover in our LEAP Series. This achievement lays a robust foundation for integrating cutting-edge technologies essential for successful planetary exploration.",
@@ -482,4 +515,9 @@ export const fallbackNews: NewsStory[] = [
       "Stay tuned for further updates as LEAP-One moves from design to prototyping, bringing us one step closer to redefining the future of student-driven space exploration."
     ]
   }
-];
+]
+
+export const fallbackNews: NewsStory[] = sourceNews.map((story) => ({
+  ...story,
+  author: story.author ?? 'Harsha Gottimukkala',
+}))

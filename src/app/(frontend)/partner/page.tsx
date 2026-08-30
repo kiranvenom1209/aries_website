@@ -4,11 +4,14 @@ import type { Metadata } from 'next'
 import { CustomSelect } from '@/components/CustomSelect'
 import { NetlifyForm } from '@/components/NetlifyForm'
 import { PageShell } from '@/components/PageShell'
+import { pageMetadata } from '@/lib/seo'
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   description: 'Partner with HSM Aries to support student-built planetary rovers, advance aerospace robotics, and connect with top engineering talent.',
+  image: '/media/pitching-in-boehm-scaled.jpg',
+  path: '/partner',
   title: 'Partner with Aries',
-}
+})
 
 const partnershipTracks = [
   ['01', 'Fund the mission', 'Put resources directly into development, field testing and ERC readiness.'],

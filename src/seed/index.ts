@@ -180,9 +180,11 @@ export async function seedPublicContent(payloadInstance: Payload) {
       article.slug,
       {
         _status: 'published',
+        author: article.author,
         body: article.body,
         category: article.category,
         excerpt: article.excerpt,
+        externalVideoUrl: article.externalVideoUrl,
         featured: article.featured,
         featuredImage: mediaID(article.featuredImage),
         ...(article.featuredVideo ? { featuredVideo: mediaID(article.featuredVideo) } : {}),

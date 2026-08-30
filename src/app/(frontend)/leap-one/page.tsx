@@ -7,11 +7,14 @@ import { MissionSystems } from '@/components/MissionSystems'
 import { PageShell } from '@/components/PageShell'
 import { PartnersBand } from '@/components/PartnersBand'
 import { RoverViewer } from '@/components/RoverViewer'
+import { pageMetadata } from '@/lib/seo'
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   description: 'Explore LEAP Rovers, HSM Aries’ evolving planetary rover series, beginning with LEAP-One: the field-ready Project 01 platform.',
+  image: '/media/leap-one-hero-cinematic-v2.png',
+  path: '/leap-one',
   title: 'LEAP Rovers — LEAP-One / Project 01',
-}
+})
 
 const specGroups = [
   {

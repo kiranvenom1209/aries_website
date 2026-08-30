@@ -4,11 +4,14 @@ import type { Metadata } from 'next'
 import { CustomSelect } from '@/components/CustomSelect'
 import { NetlifyForm } from '@/components/NetlifyForm'
 import { PageShell } from '@/components/PageShell'
+import { pageMetadata } from '@/lib/seo'
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   description: 'Apply to join the HSM Aries student space initiative and build planetary rovers for international competitions.',
+  image: '/media/space-night-team.jpg',
+  path: '/join',
   title: 'Join the Crew',
-}
+})
 
 const crewPath = [
   ['01', 'Find your system', 'Choose a division that fits your curiosity, from autonomy and electronics to science and operations.'],

@@ -2,6 +2,9 @@
  * Curated public content from the HSM Aries WordPress export & live site.
  */
 
+import { fallbackNews } from '../lib/fallbackNews'
+import { authoritativeGalleryImages } from '../lib/gallery'
+
 type LexicalTextNode = {
   detail: 0
   format: 0
@@ -86,7 +89,7 @@ export type SeedMedia = {
   filename: string
 }
 
-export const mediaSeed: SeedMedia[] = [
+const curatedMediaSeed: SeedMedia[] = [
   { filename: 'aries-mark.png', alt: 'HSM Aries circular mission mark' },
   { filename: 'aries-wordmark.png', alt: 'HSM Aries wordmark' },
   { filename: 'erc-video-thumbnail.png', alt: 'LEAP-One in the official ERC 2026 qualification video' },
@@ -155,7 +158,43 @@ export const mediaSeed: SeedMedia[] = [
   { filename: 'dsc01556.jpg', alt: 'Team members analyzing live field telemetry' },
 ]
 
+const filenameFromPublicURL = (url: string) => {
+  const pathname = new URL(url, 'https://hsmaries.space').pathname
+  return decodeURIComponent(pathname.split('/').pop() ?? '')
+}
+
+const archiveMediaSeed: SeedMedia[] = fallbackNews.flatMap((story) => {
+  const assets = [
+    { alt: story.imageAlt, url: story.image },
+    ...(story.featuredVideo ? [{ alt: story.featuredVideo.alt ?? `${story.title} video`, url: story.featuredVideo.url }] : []),
+    ...(story.mediaDeck ?? []).map((asset) => ({
+      alt: asset.alt ?? asset.caption ?? `${story.title} supporting image`,
+      url: asset.url,
+    })),
+  ]
+
+  return assets.flatMap((asset) => {
+    const filename = filenameFromPublicURL(asset.url)
+    return filename ? [{ alt: asset.alt, filename }] : []
+  })
+})
+
+const galleryArchiveMediaSeed: SeedMedia[] = authoritativeGalleryImages.map((image) => ({
+  alt: image.alt,
+  filename: filenameFromPublicURL(image.src),
+}))
+
+export const mediaSeed: SeedMedia[] = [
+  ...new Map(
+    [...curatedMediaSeed, ...archiveMediaSeed, ...galleryArchiveMediaSeed].map((item) => [
+      item.filename,
+      item,
+    ]),
+  ).values(),
+]
+
 export type SeedNewsArticle = {
+  author?: string
   body: LexicalRichText
   category:
     | 'mission'
@@ -165,6 +204,7 @@ export type SeedNewsArticle = {
     | 'outreach'
     | 'general'
   excerpt: string
+  externalVideoUrl?: string
   featured: boolean
   featuredImage: string
   featuredVideo?: string
@@ -175,14 +215,14 @@ export type SeedNewsArticle = {
   publishedAt: string
   slug: string
   source: {
-    wordpressId: number
+    wordpressId?: number
     url: string
   }
   tags: string[]
   title: string
 }
 
-export const newsSeed: SeedNewsArticle[] = [
+const curatedNewsSeed: SeedNewsArticle[] = [
   {
     title: 'Number One Worldwide: HSM Aries.space Tops ERC Qualifications with 239.75 Points!',
     slug: 'number-one-worldwide-hsm-aries-space-tops-erc-qualifications-with-239-75-points',
@@ -237,6 +277,7 @@ export const newsSeed: SeedNewsArticle[] = [
     tags: ['ERC 2026', 'Qualification Video', 'LEAP-One', 'Mission Systems'],
     featured: true,
     featuredImage: 'Thumbail-2-scaled.png',
+    externalVideoUrl: 'https://www.youtube.com/embed/8-6aMd6mBMg',
     source: {
       wordpressId: 1407,
       url: 'https://hsmaries.space/watch-now-hsm-aries-space-releases-official-erc-2026-submission-video-for-leap-one/',
@@ -475,6 +516,55 @@ export const newsSeed: SeedNewsArticle[] = [
   },
 ]
 
+const categoryForArchiveStory = (category?: string): SeedNewsArticle['category'] => {
+  switch (category?.toLowerCase()) {
+    case 'competition':
+      return 'competition'
+    case 'outreach':
+      return 'outreach'
+    case 'team':
+      return 'team'
+    case 'general':
+      return 'general'
+    default:
+      return 'engineering'
+  }
+}
+
+const curatedNewsSlugs = new Set(curatedNewsSeed.map((story) => story.slug))
+
+export const newsSeed: SeedNewsArticle[] = [
+  ...curatedNewsSeed.map((story) => ({
+    ...story,
+    author: story.author ?? 'Harsha Gottimukkala',
+  })),
+  ...fallbackNews
+    .filter((story) => !curatedNewsSlugs.has(story.slug))
+    .map((story) => ({
+      author: story.author ?? 'Harsha Gottimukkala',
+      body: richText(...story.body.map((text) => ({ kind: 'paragraph' as const, text }))),
+      category: categoryForArchiveStory(story.category),
+      excerpt: story.excerpt,
+      externalVideoUrl: story.externalVideoUrl,
+      featured: false,
+      featuredImage: filenameFromPublicURL(story.image),
+      featuredVideo: story.featuredVideo
+        ? filenameFromPublicURL(story.featuredVideo.url)
+        : undefined,
+      mediaDeck: story.mediaDeck?.map((asset) => ({
+        caption: asset.caption ?? asset.alt,
+        filename: filenameFromPublicURL(asset.url),
+      })),
+      publishedAt: story.publishedAt,
+      slug: story.slug,
+      source: {
+        url: `https://hsmaries.space/${story.slug}/`,
+      },
+      tags: [story.category ?? 'Engineering', 'HSM Aries'],
+      title: story.title,
+    })),
+]
+
 export type SeedGallery = {
   coverImage: string
   description: LexicalRichText
@@ -489,6 +579,21 @@ export type SeedGallery = {
 }
 
 export const gallerySeed: SeedGallery[] = [
+  {
+    title: 'HSM Aries Website Gallery Archive',
+    slug: 'website-gallery-archive',
+    description: richText({
+      kind: 'paragraph',
+      text: 'The complete public gallery from hsmaries.space, including field tests, outreach, engineering milestones, renders, and team records.',
+    }),
+    coverImage: filenameFromPublicURL(authoritativeGalleryImages[0].src),
+    items: authoritativeGalleryImages.map((image) => filenameFromPublicURL(image.src)),
+    eventDate: '2026-05-31T00:00:00.000Z',
+    location: 'Hochschule Schmalkalden, Germany',
+    tags: ['Website Archive', 'HSM Aries', 'LEAP-One'],
+    sortOrder: 5,
+    isPublic: true,
+  },
   {
     title: 'Space Night 2026',
     slug: 'space-night-2026',

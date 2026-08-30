@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
 import { editors, publishedOrEditor } from '../access/roles'
+import { validateSafeURL } from '../access/validateURL'
 import { slugField } from './fields/slug'
 
 export const News: CollectionConfig = {
@@ -119,6 +120,15 @@ export const News: CollectionConfig = {
       },
       admin: {
         description: 'Optional primary video. It appears after the cover image on the published story with native controls.',
+      },
+    },
+    {
+      name: 'externalVideoUrl',
+      type: 'text',
+      maxLength: 500,
+      validate: validateSafeURL,
+      admin: {
+        description: 'Optional YouTube or Vimeo embed URL for a published mission video.',
       },
     },
     {

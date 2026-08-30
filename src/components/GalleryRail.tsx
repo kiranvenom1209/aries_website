@@ -3,39 +3,22 @@
 import Image from 'next/image'
 import { useRef, useState } from 'react'
 
+import { authoritativeGalleryImages, type GalleryImage } from '@/lib/gallery'
+
 import { ArrowIcon, CloseIcon, ExpandIcon } from './Icons'
 
-export type GalleryImage = {
-  alt: string
-  src: string
-}
-
-export const galleryImages: GalleryImage[] = [
-  { alt: 'LEAP-One rover navigating rocky terrain during mobility trials', src: '/media/dsc01502-scaled.jpg' },
-  { alt: 'High-power field trial traversing steep woodland incline', src: '/media/DSC02822-scaled.jpg' },
-  { alt: 'HSM Aries engineering team and LEAP-One at Space Night', src: '/media/space-night-rover.jpg' },
-  { alt: 'Close-up of 6-wheel rocker-bogie kinematics clearing trail obstacles', src: '/media/DSC02793-scaled.jpg' },
-  { alt: 'Software engineer operating the 6-DoF robotic manipulator', src: '/media/space-night-exhibit.jpg' },
-  { alt: 'Autonomous slope ascent and wheel traction validation', src: '/media/DSC02769-scaled.jpg' },
-  { alt: 'Full interdisciplinary team gathered in university robotics lab', src: '/media/dsc01422-scaled.jpg' },
-  { alt: 'Field operations crew monitoring real-time telemetry on laptop', src: '/media/DSC02608-scaled.jpg' },
-  { alt: 'Avionics, LiFePO4 battery pack, and motor calibration test bench', src: '/media/testing.jpg' },
-  { alt: 'Sunlight inspection of robotic arm and internal avionics bay', src: '/media/DSC02579-scaled.jpg' },
-  { alt: 'Rocker-bogie suspension traverse over forest trail', src: '/media/dsc01546-scaled.jpg' },
-  { alt: 'Field deployment perspective of LEAP-One in open grasslands', src: '/media/DSC02577-scaled.jpg' },
-  { alt: 'HSM Aries presentation to state leadership at Space Night', src: '/media/space-night-team.jpg' },
-  { alt: 'Mechanical architecture presentation to Boehm Group partners', src: '/media/pitching-in-boehm-scaled.jpg' },
-  { alt: 'Close-up of custom 3D-printed flexible wheel on mounting plate', src: '/media/3d-tyre-scaled.jpg' },
-  { alt: 'Engineering crew conducting outdoor field telemetry validation', src: '/media/dsc01556-scaled.jpg' },
-  { alt: 'Precision CNC-machined aluminum chassis at Boehm facility', src: '/media/boehm-manufacturing-scaled.jpg' },
-  { alt: 'Hochschule Schmalkalden university campus and testing grounds', src: '/media/rover-4-scaled.jpg' },
-]
-
-export function GalleryRail({ expanded = false }: { expanded?: boolean }) {
+export function GalleryRail({
+  expanded = false,
+  images: suppliedImages,
+}: {
+  expanded?: boolean
+  images?: GalleryImage[]
+}) {
   const railRef = useRef<HTMLDivElement>(null)
   const [active, setActive] = useState(0)
   const [modal, setModal] = useState<number | null>(null)
-  const images = expanded ? galleryImages : galleryImages.slice(0, 6)
+  const sourceImages = suppliedImages ?? authoritativeGalleryImages
+  const images = expanded ? sourceImages : sourceImages.slice(0, 6)
 
   const move = (direction: number) => {
     const next = (active + direction + images.length) % images.length
@@ -76,4 +59,3 @@ export function GalleryRail({ expanded = false }: { expanded?: boolean }) {
     </>
   )
 }
-

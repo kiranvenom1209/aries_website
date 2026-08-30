@@ -235,6 +235,23 @@ export function MissionStory({ story }: { story: NewsStory }) {
         </section>
       ) : null}
 
+      {story.externalVideoUrl ? (
+        <section className="mission-story__feature-video" aria-label="Embedded mission video">
+          <div>
+            <span>Mission playback</span>
+            <p>Official HSM Aries video // {formatNewsDate(story.publishedAt)}</p>
+          </div>
+          <iframe
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="strict-origin-when-cross-origin"
+            src={story.externalVideoUrl}
+            title={`${story.title} video`}
+          />
+        </section>
+      ) : null}
+
       <div className="mission-story__article">
         <aside className="mission-story__rail" aria-label="Dispatch information">
           <span>Dispatch</span>

@@ -3952,12 +3952,18 @@ img {
   text-transform: uppercase;
 }
 
-.mission-story__feature-video video {
+.mission-story__feature-video video,
+.mission-story__feature-video iframe {
   background: #020405;
   border: 1px solid var(--line-bright);
   display: block;
   max-height: 560px;
   width: 100%;
+}
+
+.mission-story__feature-video iframe {
+  aspect-ratio: 16 / 9;
+  height: auto;
 }
 
 .mission-story__media-deck {

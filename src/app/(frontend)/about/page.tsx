@@ -6,13 +6,16 @@ import { MagneticLink } from '@/components/MagneticLink'
 import { PageShell } from '@/components/PageShell'
 import { PartnersBand } from '@/components/PartnersBand'
 import { getTeam } from '@/lib/team'
+import { pageMetadata } from '@/lib/seo'
 
 export const dynamic = 'force-dynamic'
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   description: 'HSM Aries is the space robotics initiative of the Chair of Drive, Automation, and Robotics Technologies at Hochschule Schmalkalden.',
+  image: '/media/space-night-team.jpg',
+  path: '/about',
   title: 'About HSM Aries',
-}
+})
 
 const principles = [
   {

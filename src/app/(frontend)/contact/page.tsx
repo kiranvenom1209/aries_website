@@ -4,11 +4,14 @@ import type { Metadata } from 'next'
 
 import { PageShell } from '@/components/PageShell'
 import { NetlifyForm } from '@/components/NetlifyForm'
+import { pageMetadata } from '@/lib/seo'
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   description: 'Contact HSM Aries for collaboration, project information or team membership.',
+  image: '/media/space-night-exhibit.jpg',
+  path: '/contact',
   title: 'Contact',
-}
+})
 
 const routes = [
   {

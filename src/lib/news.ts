@@ -8,12 +8,15 @@ export { formatNewsDate }
 const normalizeStory = (doc: unknown, index: number): NewsStory | null => {
   if (typeof doc !== 'object' || doc === null) return null
 
-  const fallback = fallbackNews[index % fallbackNews.length]
+  const slug = 'slug' in doc && typeof doc.slug === 'string' ? doc.slug : undefined
+  const fallback =
+    fallbackNews.find((story) => story.slug === slug) ??
+    fallbackNews[index % fallbackNews.length]
   const story = previewNewsStory(doc, fallback)
   return story.title && story.slug ? story : null
 }
 
-export async function getNews(limit = fallbackNews.length): Promise<NewsStory[]> {
+export async function getNews(limit = 100): Promise<NewsStory[]> {
   try {
     const [{ getPayload }, configModule] = await Promise.all([
       import('payload'),

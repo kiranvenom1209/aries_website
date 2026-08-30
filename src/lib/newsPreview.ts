@@ -63,9 +63,13 @@ export const previewNewsStory = (value: unknown, fallback: NewsStory): NewsStory
 
   return {
     ...fallback,
-    author: stringValue(value.author) ?? fallback.author ?? 'HSM Aries Editorial',
+    author:
+      stringValue(value.author) === 'HSM Aries Editorial' && fallback.author
+        ? fallback.author
+        : stringValue(value.author) ?? fallback.author ?? 'HSM Aries Editorial',
     body: paragraphs.length > 0 ? paragraphs : fallback.body,
     category: stringValue(value.category) ?? fallback.category,
+    externalVideoUrl: stringValue(value.externalVideoUrl) ?? fallback.externalVideoUrl,
     excerpt:
       stringValue(value.excerpt) ?? stringValue(value.summary) ?? paragraphs[0] ?? fallback.excerpt,
     featuredVideo: mediaFromValue(value.featuredVideo) ?? fallback.featuredVideo,

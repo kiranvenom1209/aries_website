@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -8,6 +9,14 @@ import { NewsRows } from '@/components/NewsList'
 import { PageShell } from '@/components/PageShell'
 import { PartnersBand } from '@/components/PartnersBand'
 import { getNews } from '@/lib/news'
+import { DEFAULT_DESCRIPTION, pageMetadata } from '@/lib/seo'
+
+export const metadata: Metadata = pageMetadata({
+  description: DEFAULT_DESCRIPTION,
+  image: '/media/rover-hero-mars-v3.jpg',
+  path: '/',
+  title: 'Space Robotics at Hochschule Schmalkalden',
+})
 
 const programmes = [
   {

@@ -187,6 +187,10 @@ export interface News {
    */
   featuredVideo?: (number | null) | Media;
   /**
+   * Optional YouTube or Vimeo embed URL for a published mission video.
+   */
+  externalVideoUrl?: string | null;
+  /**
    * Optional supporting images and videos. They appear as an editorial media deck at the end of the article.
    */
   mediaDeck?:
@@ -685,6 +689,7 @@ export interface NewsSelect<T extends boolean = true> {
   body?: T;
   featuredImage?: T;
   featuredVideo?: T;
+  externalVideoUrl?: T;
   mediaDeck?:
     | T
     | {
