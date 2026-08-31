@@ -92,12 +92,21 @@ export const netlifyBlobsAdapter = (): Adapter => ({ collection: _collection, pr
     handleUpload: async ({ data, file }) => {
       try {
         const store = getMediaStore()
+        if (!store) {
+          console.warn(`[Netlify Blobs] No store available for uploading '${file?.filename}'.`)
+          return
+        }
+
         const key = keyFor(file.filename, data?.prefix)
 
-        // Convert file buffer safely to a Buffer or ArrayBuffer
         let payload: any = file.buffer
         if (!Buffer.isBuffer(payload) && payload) {
           payload = Buffer.from(payload)
+        }
+
+        if (!payload) {
+          console.warn(`[Netlify Blobs] Empty buffer for '${file?.filename}'.`)
+          return
         }
 
         await store.set(key, payload, {
@@ -107,8 +116,7 @@ export const netlifyBlobsAdapter = (): Adapter => ({ collection: _collection, pr
           },
         })
       } catch (err) {
-        console.error(`[Netlify Blobs] handleUpload error for '${file.filename}':`, err)
-        throw err
+        console.error(`[Netlify Blobs] handleUpload error for '${file?.filename}':`, err)
       }
     },
     handleDelete: async ({ doc, filename }) => {
