@@ -162,6 +162,9 @@ Result: 11 / 11 PASSED (100% Success Rate)
   - Implemented `beforeValidate` hook that automatically converts filenames into clean, humanized alt text if omitted during quick relationship uploads or drag-and-drop actions.
 - **SQLite Dev Schema Collisions Fix (`payload.config.ts`):**
   - Guarded schema push with `push: process.env.PAYLOAD_DB_PUSH === 'true'` on `sqliteAdapter` to eliminate `SQLITE_ERROR: index users_avatar_idx already exists` errors on startup.
+- **Netlify Function Size & Node File Tracing Optimization (`next.config.ts` & `route.ts`):**
+  - Configured `outputFileTracingExcludes` in `next.config.ts` to prevent Netlify's Next.js plugin from bundling the >700 MB `public/media/` assets into `___netlify-server-handler`, resolving `HTTP Error 400: request body too large` on Netlify deploys.
+  - On Netlify deployments, `/api/media/file/[filename]` delegates static assets directly to the edge CDN via 307 redirects while serving dynamic uploads from Netlify Blobs.
 
 ---
 
