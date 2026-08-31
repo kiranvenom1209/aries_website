@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 
 import { editors, publicOrEditor } from '../access/roles'
 import { validateSafeURL } from '../access/validateURL'
+import { IMAGE_MIME_TYPES } from './fields/media'
 
 export const Sponsors: CollectionConfig = {
   slug: 'sponsors',
@@ -38,14 +39,19 @@ export const Sponsors: CollectionConfig = {
     },
     {
       name: 'logo',
-      type: 'relationship',
+      label: 'Sponsor logo',
+      type: 'upload',
       relationTo: 'media',
       required: true,
+      displayPreview: true,
+      filterOptions: {
+        mimeType: {
+          in: IMAGE_MIME_TYPES,
+        },
+      },
       admin: {
         allowCreate: true,
-        allowEdit: true,
-        appearance: 'drawer',
-        description: 'Upload a clean, high-resolution logo. Transparent PNG or SVG works best.',
+        description: 'Choose a logo from Media or upload a new one. A transparent PNG or WebP works best.',
       },
     },
     {

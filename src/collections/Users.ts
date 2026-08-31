@@ -9,6 +9,7 @@ import {
   isAdmin,
   isEditor,
 } from '../access/roles'
+import { IMAGE_MIME_TYPES } from './fields/media'
 
 export const Users: CollectionConfig = {
   slug: 'users',
@@ -42,7 +43,7 @@ export const Users: CollectionConfig = {
       return existingUsers.totalDocs === 0
     },
     read: adminsOrSelf,
-    update: admins,
+    update: adminsOrSelf,
     delete: adminsExceptSelf,
     unlock: admins,
   },
@@ -78,6 +79,22 @@ export const Users: CollectionConfig = {
         components: {
           Cell: '/admin/cells/UserNameCell#UserNameCell',
         },
+      },
+    },
+    {
+      name: 'avatar',
+      label: 'Profile image',
+      type: 'upload',
+      relationTo: 'media',
+      displayPreview: true,
+      filterOptions: {
+        mimeType: {
+          in: IMAGE_MIME_TYPES,
+        },
+      },
+      admin: {
+        allowCreate: true,
+        description: 'Choose a portrait from Media or upload a new one. It appears in the Editorial Dashboard header and user directory.',
       },
     },
     {

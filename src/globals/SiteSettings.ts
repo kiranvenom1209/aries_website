@@ -2,6 +2,7 @@ import type { GlobalConfig } from 'payload'
 
 import { editors } from '../access/roles'
 import { validateSafeURL } from '../access/validateURL'
+import { IMAGE_MIME_TYPES } from '../collections/fields/media'
 
 export const SiteSettings: GlobalConfig = {
   slug: 'site-settings',
@@ -49,17 +50,35 @@ export const SiteSettings: GlobalConfig = {
               fields: [
                 {
                   name: 'logo',
-                  type: 'relationship',
+                  label: 'Site logo',
+                  type: 'upload',
                   relationTo: 'media',
+                  displayPreview: true,
+                  filterOptions: {
+                    mimeType: {
+                      in: IMAGE_MIME_TYPES,
+                    },
+                  },
                   admin: {
+                    allowCreate: true,
+                    description: 'Choose the primary HSM Aries logo from Media or upload a new image.',
                     width: '50%',
                   },
                 },
                 {
                   name: 'defaultSocialImage',
-                  type: 'relationship',
+                  label: 'Default social share image',
+                  type: 'upload',
                   relationTo: 'media',
+                  displayPreview: true,
+                  filterOptions: {
+                    mimeType: {
+                      in: IMAGE_MIME_TYPES,
+                    },
+                  },
                   admin: {
+                    allowCreate: true,
+                    description: 'Used when a page has no dedicated social image. A 1200 × 630 image is recommended.',
                     width: '50%',
                   },
                 },

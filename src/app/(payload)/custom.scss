@@ -179,6 +179,27 @@ textarea:focus-visible,
   object-fit: cover !important;
 }
 
+.aries-user-avatar {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  overflow: hidden;
+  place-items: center;
+  color: #fff;
+  border: 1px solid rgb(255 255 255 / 20%);
+  border-radius: 50%;
+  background: linear-gradient(145deg, rgb(255 77 22 / 20%), #0a0d0f);
+  font-family: var(--aries-mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+}
+
+.aries-user-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 /* Keep every CMS view comfortably separated from the persistent top bar. */
 .template-default__wrap > :not(.app-header) {
   box-sizing: border-box;
@@ -676,7 +697,7 @@ button[type='submit']:hover {
   background: rgba(255, 77, 22, 0.15);
 }
 
-input,
+input:not(.rs__input),
 textarea,
 select,
 .react-select .rs__control,
@@ -688,13 +709,100 @@ select,
   background: #06090c !important;
 }
 
-input:focus,
+input:not(.rs__input):focus,
 textarea:focus,
 select:focus,
 .react-select .rs__control--is-focused,
 .lexical-editor:focus-within {
   border-color: var(--aries-orange) !important;
   box-shadow: 0 0 0 3px rgba(255, 77, 22, 0.2) !important;
+}
+
+/* Payload uses a small searchable input inside every React Select. Keep that
+   input transparent so it never masks or crops the selected value. */
+.react-select .rs__control {
+  min-height: 44px !important;
+  height: auto !important;
+  padding: 6px 10px !important;
+  align-items: center !important;
+}
+
+.react-select .value-container,
+.react-select .rs__value-container {
+  min-width: 0;
+  min-height: 28px;
+  align-items: center !important;
+}
+
+.react-select .rs__value-container {
+  padding: 3px 5px !important;
+  overflow: visible !important;
+}
+
+.react-select .rs__single-value,
+.react-select .relationship--single-value,
+.react-select .rs__placeholder {
+  position: relative;
+  top: auto;
+  max-width: 100%;
+  margin: 0 !important;
+  overflow: hidden;
+  line-height: 1.45 !important;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.react-select .rs__input-container,
+.react-select .rs__input {
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  color: var(--aries-text) !important;
+  border: 0 !important;
+  outline: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  line-height: 1.45 !important;
+}
+
+.react-select .rs__input:focus,
+.react-select .rs__input:focus-visible {
+  border: 0 !important;
+  outline: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.react-select .rs__indicators {
+  min-height: 28px;
+  align-items: center;
+}
+
+.react-select .rs__menu {
+  overflow: hidden;
+  border: 1px solid var(--aries-line-strong);
+}
+
+.react-select .rs__option {
+  display: flex !important;
+  min-height: 40px;
+  align-items: center;
+  padding: 9px 12px !important;
+  line-height: 1.45 !important;
+  white-space: normal;
+}
+
+.react-select .rs__multi-value,
+.react-select .rs__multi-value__label {
+  min-height: 26px;
+  align-items: center;
+  line-height: 1.35 !important;
+}
+
+select {
+  min-height: 44px;
+  padding-block: 8px;
+  line-height: 1.4;
 }
 
 /* Tables styling */
@@ -2443,6 +2551,13 @@ td svg {
   background: rgb(255 77 22 / 10%);
   font-family: var(--aries-mono);
   font-size: 0.62rem;
+  overflow: hidden;
+}
+
+.aries-user-cell > span img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 /* Editing surfaces read as one consistent publishing system. */
@@ -2470,14 +2585,14 @@ td svg {
 }
 
 /* Album editing: separate the cover and sortable album media from metadata. */
-.collection-edit--gallery .field-type.relationship:has([name='coverImage']),
-.collection-edit--gallery .field-type.relationship:has([name='items']) {
+.collection-edit--gallery .upload-field:has([name='coverImage']),
+.collection-edit--gallery .upload-field:has([name='items']) {
   padding: 1rem;
   border: 1px solid var(--aries-line);
   background: linear-gradient(135deg, #0a0e11, #060809);
 }
 
-.collection-edit--gallery .field-type.relationship:has([name='items']) {
+.collection-edit--gallery .upload-field:has([name='items']) {
   border-left: 2px solid var(--aries-orange);
 }
 

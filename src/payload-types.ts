@@ -195,6 +195,9 @@ export interface News {
    */
   mediaDeck?:
     | {
+        /**
+         * Choose an image or video from Media, or upload a new asset.
+         */
         asset: number | Media;
         /**
          * Optional article-specific caption. Leave blank to use the caption saved on the media item.
@@ -378,6 +381,9 @@ export interface Team {
    * Commander and Captain ranks automatically display the original LEAP-One badge.
    */
   rank?: ('Commander' | 'Captain' | 'Crew' | 'Advisor') | null;
+  /**
+   * Choose a portrait from Media or upload a new image without leaving this profile.
+   */
   portrait?: (number | null) | Media;
   /**
    * Imported public portrait path from the live site, for example /media/ayan.jpg. Uploading a portrait above takes precedence.
@@ -425,7 +431,7 @@ export interface Sponsor {
   id: number;
   name: string;
   /**
-   * Upload a clean, high-resolution logo. Transparent PNG or SVG works best.
+   * Choose a logo from Media or upload a new one. A transparent PNG or WebP works best.
    */
   logo: number | Media;
   website?: string | null;
@@ -474,6 +480,10 @@ export interface User {
    * Display name shown in Mission Control. Email is used when omitted.
    */
   name?: string | null;
+  /**
+   * Choose a portrait from Media or upload a new one. It appears in the Editorial Dashboard header and user directory.
+   */
+  avatar?: (number | null) | Media;
   /**
    * Administrators manage accounts; editors manage site content.
    */
@@ -860,6 +870,7 @@ export interface DownloadsSelect<T extends boolean = true> {
  */
 export interface UsersSelect<T extends boolean = true> {
   name?: T;
+  avatar?: T;
   role?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -963,7 +974,13 @@ export interface SiteSetting {
    * Default description for search engines and social previews.
    */
   description: string;
+  /**
+   * Choose the primary HSM Aries logo from Media or upload a new image.
+   */
   logo?: (number | null) | Media;
+  /**
+   * Used when a page has no dedicated social image. A 1200 × 630 image is recommended.
+   */
   defaultSocialImage?: (number | null) | Media;
   navigation?:
     | {

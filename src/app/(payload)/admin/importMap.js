@@ -28,6 +28,7 @@ import { TeamStatusCell as TeamStatusCell_159cbd93883697da3e970a1309e98756 } fro
 import { SponsorNameCell as SponsorNameCell_c78f9d6c230d73fc69cab546af4865d5 } from '../../../admin/cells/SponsorNameCell'
 import { DownloadTitleCell as DownloadTitleCell_a20e8303c388a62d570c18a6b5fec3a8 } from '../../../admin/cells/DownloadTitleCell'
 import { UserNameCell as UserNameCell_311c8ed4a9bc862d4157bb942667635a } from '../../../admin/cells/UserNameCell'
+import { UserAvatar as UserAvatar_fa0a3e598c25ab003e5f3bcfff51fab6 } from '../../../admin/UserAvatar'
 import { AriesIcon as AriesIcon_0c2318826144eb258439f8d11c17785f } from '../../../admin/AriesBrand'
 import { AriesLogo as AriesLogo_0c2318826144eb258439f8d11c17785f } from '../../../admin/AriesBrand'
 import { HeaderActions as HeaderActions_68170f4543b84adfca7fdf5d3627ee8b } from '../../../admin/AdminControls'
@@ -68,6 +69,7 @@ export const importMap = {
   "/admin/cells/SponsorNameCell#SponsorNameCell": SponsorNameCell_c78f9d6c230d73fc69cab546af4865d5,
   "/admin/cells/DownloadTitleCell#DownloadTitleCell": DownloadTitleCell_a20e8303c388a62d570c18a6b5fec3a8,
   "/admin/cells/UserNameCell#UserNameCell": UserNameCell_311c8ed4a9bc862d4157bb942667635a,
+  "/admin/UserAvatar#UserAvatar": UserAvatar_fa0a3e598c25ab003e5f3bcfff51fab6,
   "/admin/AriesBrand#AriesIcon": AriesIcon_0c2318826144eb258439f8d11c17785f,
   "/admin/AriesBrand#AriesLogo": AriesLogo_0c2318826144eb258439f8d11c17785f,
   "/admin/AdminControls#HeaderActions": HeaderActions_68170f4543b84adfca7fdf5d3627ee8b,

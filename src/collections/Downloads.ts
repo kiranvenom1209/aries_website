@@ -57,13 +57,13 @@ export const Downloads: CollectionConfig = {
     },
     {
       name: 'file',
-      type: 'relationship',
+      label: 'Download file',
+      type: 'upload',
       relationTo: 'media',
       required: true,
+      displayPreview: true,
       admin: {
         allowCreate: true,
-        allowEdit: true,
-        appearance: 'drawer',
         description: 'Choose an existing file or upload a new PDF, image, audio file, or video without leaving this page.',
       },
     },

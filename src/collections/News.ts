@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 
 import { editors, publishedOrEditor } from '../access/roles'
 import { validateSafeURL } from '../access/validateURL'
+import { IMAGE_MIME_TYPES, VISUAL_MEDIA_MIME_TYPES } from './fields/media'
 import { slugField } from './fields/slug'
 
 export const News: CollectionConfig = {
@@ -111,10 +112,11 @@ export const News: CollectionConfig = {
       required: true,
       filterOptions: {
         mimeType: {
-          in: ['image/jpeg', 'image/png', 'image/webp', 'image/avif', 'image/gif'],
+          in: IMAGE_MIME_TYPES,
         },
       },
       admin: {
+        allowCreate: true,
         description: 'Required cover image for the news index and article masthead. Upload a new image or choose one from Media.',
       },
     },
@@ -128,6 +130,7 @@ export const News: CollectionConfig = {
         },
       },
       admin: {
+        allowCreate: true,
         description: 'Optional primary video. It appears after the cover image on the published story with native controls.',
       },
     },
@@ -153,6 +156,16 @@ export const News: CollectionConfig = {
           type: 'upload',
           relationTo: 'media',
           required: true,
+          displayPreview: true,
+          filterOptions: {
+            mimeType: {
+              in: VISUAL_MEDIA_MIME_TYPES,
+            },
+          },
+          admin: {
+            allowCreate: true,
+            description: 'Choose an image or video from Media, or upload a new asset.',
+          },
         },
         {
           name: 'caption',

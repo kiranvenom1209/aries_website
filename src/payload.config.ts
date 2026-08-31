@@ -41,6 +41,9 @@ if (!Number.isFinite(maxUploadSize) || maxUploadSize <= 0) {
 export default buildConfig({
   admin: {
     user: Users.slug,
+    avatar: {
+      Component: '/admin/UserAvatar#UserAvatar',
+    },
     dateFormat: 'dd MMM yyyy, HH:mm',
     importMap: {
       baseDir: path.resolve(dirname),

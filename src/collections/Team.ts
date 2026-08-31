@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 
 import { editors, publicOrEditor } from '../access/roles'
 import { validateSafeURL } from '../access/validateURL'
+import { IMAGE_MIME_TYPES } from './fields/media'
 import { slugField } from './fields/slug'
 
 export const Team: CollectionConfig = {
@@ -103,8 +104,19 @@ export const Team: CollectionConfig = {
     },
     {
       name: 'portrait',
-      type: 'relationship',
+      label: 'Portrait',
+      type: 'upload',
       relationTo: 'media',
+      displayPreview: true,
+      filterOptions: {
+        mimeType: {
+          in: IMAGE_MIME_TYPES,
+        },
+      },
+      admin: {
+        allowCreate: true,
+        description: 'Choose a portrait from Media or upload a new image without leaving this profile.',
+      },
     },
     {
       name: 'portraitPath',

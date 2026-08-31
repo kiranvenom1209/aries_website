@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
 import { editors, publicOrEditor } from '../access/roles'
+import { IMAGE_MIME_TYPES, VISUAL_MEDIA_MIME_TYPES } from './fields/media'
 import { slugField } from './fields/slug'
 
 export const Gallery: CollectionConfig = {
@@ -47,28 +48,36 @@ export const Gallery: CollectionConfig = {
     {
       name: 'coverImage',
       label: 'Album cover',
-      type: 'relationship',
+      type: 'upload',
       relationTo: 'media',
       required: true,
+      displayPreview: true,
+      filterOptions: {
+        mimeType: {
+          in: IMAGE_MIME_TYPES,
+        },
+      },
       admin: {
         allowCreate: true,
-        allowEdit: true,
-        appearance: 'drawer',
         description: 'Choose the image visitors see before they open this album. You can upload a new image without leaving this page.',
       },
     },
     {
       name: 'items',
       label: 'Album images and videos',
-      type: 'relationship',
+      type: 'upload',
       relationTo: 'media',
       hasMany: true,
       required: true,
       minRows: 1,
+      displayPreview: true,
+      filterOptions: {
+        mimeType: {
+          in: VISUAL_MEDIA_MIME_TYPES,
+        },
+      },
       admin: {
         allowCreate: true,
-        allowEdit: true,
-        appearance: 'drawer',
         isSortable: true,
         description: 'Add as many images or videos as you need. Drag selected items into the order visitors should see them; upload new media here at any time.',
       },
