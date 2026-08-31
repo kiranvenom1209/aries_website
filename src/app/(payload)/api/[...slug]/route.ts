@@ -18,13 +18,20 @@ const rawOPTIONS = REST_OPTIONS(config)
 
 const wrapHandler = (handler: any, name: string) => async (request: Request, args: any) => {
   try {
-    return await handler(request, args)
+    const res = await handler(request, args)
+    if (res.status >= 400) {
+      const cloned = res.clone()
+      const body = await cloned.text().catch(() => '')
+      console.error(`[Payload API ${name} ${res.status}]:`, body)
+    }
+    return res
   } catch (err: any) {
-    console.error(`[Payload API ${name} Error]:`, err)
+    console.error(`[Payload API ${name} Uncaught Error]:`, err)
     return Response.json(
       {
         errors: [{ message: err?.message || 'An unexpected error occurred in Payload API.' }],
         message: err?.message || 'An unexpected error occurred in Payload API.',
+        stack: err?.stack,
       },
       { status: err?.status || err?.statusCode || 500 },
     )

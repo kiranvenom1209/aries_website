@@ -46,6 +46,7 @@ if (!Number.isFinite(maxUploadSize) || maxUploadSize <= 0) {
 }
 
 export default buildConfig({
+  debug: true,
   admin: {
     user: Users.slug,
     avatar: {

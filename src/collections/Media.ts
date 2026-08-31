@@ -29,6 +29,11 @@ export const Media: CollectionConfig = {
     delete: editors,
   },
   hooks: {
+    afterError: [
+      ({ error }) => {
+        console.error('[Media collection error]:', error)
+      },
+    ],
     beforeValidate: [
       ({ data, req }) => {
         if (data) {
