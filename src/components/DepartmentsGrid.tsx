@@ -1,8 +1,10 @@
 import Image from 'next/image'
+import Link from 'next/link'
 
 export const departments = [
   {
     id: 'mechanical',
+    teamCode: 'mech',
     name: 'Mechanical & Drivetrain',
     lead: 'Brahama Teja Naroju',
     badge: '/media/l1-mech-crop.png',
@@ -11,6 +13,7 @@ export const departments = [
   },
   {
     id: 'drill-manipulator',
+    teamCode: 'drill',
     name: 'Drill & Manipulator',
     lead: 'Danny Sneham & Brahama Teja',
     badge: '/media/l1-drill-arm-crop.png',
@@ -19,6 +22,7 @@ export const departments = [
   },
   {
     id: 'software',
+    teamCode: 'soft',
     name: 'Software & Autonomy',
     lead: 'Omar Abdelrady',
     badge: '/media/l1-software-crop.png',
@@ -27,6 +31,7 @@ export const departments = [
   },
   {
     id: 'electrical',
+    teamCode: 'elec',
     name: 'Electrical & Power Systems',
     lead: 'Ayan Akbar Ali',
     badge: '/media/l1-electric-crop.png',
@@ -35,6 +40,7 @@ export const departments = [
   },
   {
     id: 'astroflight',
+    teamCode: 'astro',
     name: 'Astroflight (AQUILA UAV)',
     lead: 'Rahul Khandait',
     badge: '/media/l1_astro-1.png',
@@ -43,6 +49,7 @@ export const departments = [
   },
   {
     id: 'science',
+    teamCode: 'sci',
     name: 'Scientific Payload',
     lead: 'Harsha Vardhan Raju Gottimukkala',
     badge: '/media/l1-science-crop.png',
@@ -51,6 +58,7 @@ export const departments = [
   },
   {
     id: 'communication',
+    teamCode: 'comm',
     name: 'Communication & Comms',
     lead: 'Vighnesh Madhav Deshmukh',
     badge: '/media/l1-comm-crop.png',
@@ -59,6 +67,7 @@ export const departments = [
   },
   {
     id: 'mro',
+    teamCode: 'mro',
     name: 'Mission Resources & Outreach',
     lead: 'Reeba Biju',
     badge: '/media/l1_mro-1.png',
@@ -71,7 +80,12 @@ export function DepartmentsGrid() {
   return (
     <div className="department-grid">
       {departments.map((dept, index) => (
-        <article className="department-card" key={dept.id}>
+        <Link
+          aria-label={`View the ${dept.name} team`}
+          className="department-card"
+          href={`/team#department-${dept.teamCode}`}
+          key={dept.id}
+        >
           <span className="department-card__number">{String(index + 1).padStart(2, '0')}</span>
           <div className="department-card__top">
             <div className="department-card__badge">
@@ -88,8 +102,9 @@ export function DepartmentsGrid() {
               <span key={spec}>{spec}</span>
             ))}
           </div>
+          <span className="department-card__link-label">View team <span aria-hidden="true">→</span></span>
           <div aria-hidden="true" className="department-card__scan" />
-        </article>
+        </Link>
       ))}
     </div>
   )

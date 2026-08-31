@@ -242,7 +242,7 @@ export default async function TeamPage() {
             .filter((item): item is { entry: DepartmentMember; member: TeamMember } => Boolean(item.member))
 
           return (
-            <section className="department-manifest" key={department.code}>
+            <section className="department-manifest" id={`department-${department.code.toLowerCase()}`} key={department.code}>
               <header className="department-manifest__header">
                 <span>{String(departmentIndex + 1).padStart(2, '0')} / {department.code}</span>
                 <Image alt={`${department.label} badge`} height={92} src={department.badge} width={92} />

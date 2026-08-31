@@ -269,6 +269,7 @@
   border-top: 1px solid var(--line);
   display: grid;
   grid-template-columns: minmax(220px, 0.28fr) minmax(0, 1fr);
+  scroll-margin-top: calc(var(--site-header-height) + 24px);
 }
 
 .department-manifest:last-child {
@@ -382,7 +383,7 @@
   background: #030607;
   border-bottom: 1px solid var(--line);
   isolation: isolate;
-  min-height: min(920px, 100svh);
+  min-height: 100svh;
   overflow: hidden;
   position: relative;
 }
@@ -536,7 +537,7 @@
 
 .aries-home-hero__signal {
   align-items: center;
-  bottom: 35px;
+  bottom: 18px;
   color: rgba(232, 240, 242, .62);
   display: flex;
   font-family: var(--mono);
@@ -7449,10 +7450,13 @@ body.preloader-active {
 .department-card {
   background: rgba(10, 14, 16, 0.9);
   border: 1px solid var(--line);
+  color: inherit;
+  display: block;
   min-height: 390px;
   overflow: hidden;
   padding: clamp(28px, 3vw, 46px);
   position: relative;
+  text-decoration: none;
   transition: background 300ms ease, border-color 300ms ease, transform 300ms ease;
 }
 
@@ -7482,7 +7486,9 @@ body.preloader-active {
 .department-card__badge {
   flex: 0 0 72px;
   height: 72px;
+  min-width: 72px;
   position: relative;
+  width: 72px;
 }
 
 .department-card__badge img {
@@ -7537,6 +7543,29 @@ body.preloader-active {
   letter-spacing: 0.07em;
   padding: 7px 9px;
   text-transform: uppercase;
+}
+
+.department-card__link-label {
+  align-items: center;
+  color: #dce3e6;
+  display: inline-flex;
+  font-family: var(--mono);
+  font-size: 9px;
+  gap: 10px;
+  letter-spacing: .12em;
+  margin-top: 24px;
+  text-transform: uppercase;
+}
+
+.department-card__link-label span {
+  color: var(--accent);
+  font-size: 15px;
+  transition: transform 220ms ease;
+}
+
+.department-card:hover .department-card__link-label span,
+.department-card:focus-visible .department-card__link-label span {
+  transform: translateX(4px);
 }
 
 .department-card__scan {
