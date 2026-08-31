@@ -27,9 +27,19 @@ if (!process.env.PAYLOAD_SECRET) {
   )
 }
 
-const isNetlify = Boolean(process.env.NETLIFY)
+const isServerless = Boolean(
+  process.env.NETLIFY ||
+  process.env.NETLIFY_SITE_ID ||
+  process.env.SITE_ID ||
+  process.env.NETLIFY_DB_URL ||
+  process.env.AWS_LAMBDA_FUNCTION_NAME ||
+  process.env.LAMBDA_TASK_ROOT ||
+  process.env.VERCEL ||
+  process.env.NODE_ENV === 'production',
+)
+
 let netlifyDatabaseURL = process.env.NETLIFY_DB_URL
-if (!netlifyDatabaseURL && isNetlify) {
+if (!netlifyDatabaseURL && isServerless) {
   try {
     netlifyDatabaseURL = getConnectionString()
   } catch {
@@ -121,7 +131,7 @@ export default buildConfig({
           prefix: 'media',
         },
       },
-      enabled: isNetlify,
+      enabled: isServerless,
       useCompositePrefixes: true,
     }),
   ],

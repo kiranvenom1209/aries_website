@@ -7,7 +7,16 @@ import { editors, publicOrEditor } from '../access/roles'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
-const isNetlify = Boolean(process.env.NETLIFY)
+const isServerless = Boolean(
+  process.env.NETLIFY ||
+  process.env.NETLIFY_SITE_ID ||
+  process.env.SITE_ID ||
+  process.env.NETLIFY_DB_URL ||
+  process.env.AWS_LAMBDA_FUNCTION_NAME ||
+  process.env.LAMBDA_TASK_ROOT ||
+  process.env.VERCEL ||
+  process.env.NODE_ENV === 'production',
+)
 
 export const Media: CollectionConfig = {
   slug: 'media',
@@ -89,7 +98,10 @@ export const Media: CollectionConfig = {
     },
   ],
   upload: {
-    ...(isNetlify ? {} : { staticDir: path.resolve(dirname, '../../public/media') }),
+    disableLocalStorage: isServerless,
+    staticDir: isServerless
+      ? path.resolve('/tmp/media')
+      : path.resolve(dirname, '../../public/media'),
     adminThumbnail: ({ doc }) => {
       const d = doc as { sizes?: { thumbnail?: { url?: string } }; url?: string; filename?: string }
       return d?.sizes?.thumbnail?.url ?? d?.url ?? (d?.filename ? `/api/media/file/${d.filename}` : null)

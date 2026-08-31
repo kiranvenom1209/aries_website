@@ -74,8 +74,19 @@ export async function GET(
     // Continue to next fallback
   }
 
-  // 2. On Netlify, redirect to public static asset CDN path to keep serverless function bundle small
-  if (process.env.NETLIFY) {
+  // 2. On Netlify / Serverless production, redirect to public static asset CDN path
+  const isServerless = Boolean(
+    process.env.NETLIFY ||
+    process.env.NETLIFY_SITE_ID ||
+    process.env.SITE_ID ||
+    process.env.NETLIFY_DB_URL ||
+    process.env.AWS_LAMBDA_FUNCTION_NAME ||
+    process.env.LAMBDA_TASK_ROOT ||
+    process.env.VERCEL ||
+    process.env.NODE_ENV === 'production',
+  )
+
+  if (isServerless) {
     const targetFile = safeFilename || media?.filename
     if (targetFile) {
       return Response.redirect(
