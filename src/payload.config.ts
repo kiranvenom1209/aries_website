@@ -28,7 +28,14 @@ if (!process.env.PAYLOAD_SECRET) {
 }
 
 const isNetlify = Boolean(process.env.NETLIFY)
-const netlifyDatabaseURL = process.env.NETLIFY_DB_URL ?? (isNetlify ? getConnectionString() : undefined)
+let netlifyDatabaseURL = process.env.NETLIFY_DB_URL
+if (!netlifyDatabaseURL && isNetlify) {
+  try {
+    netlifyDatabaseURL = getConnectionString()
+  } catch {
+    netlifyDatabaseURL = undefined
+  }
+}
 const databaseURL = netlifyDatabaseURL ?? process.env.DATABASE_URL
 const usesPostgres = Boolean(databaseURL?.startsWith('postgres://') || databaseURL?.startsWith('postgresql://'))
 const maxUploadSize = Number(process.env.PAYLOAD_MAX_UPLOAD_BYTES ?? 50_000_000)
