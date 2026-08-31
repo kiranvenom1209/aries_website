@@ -9,6 +9,24 @@ const __filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(__filename)
 
 const nextConfig: NextConfig = {
+  outputFileTracingExcludes: {
+    '*': [
+      'public/**',
+      './public/**',
+      'media/**',
+      './media/**',
+      'wordpress-source/**',
+      'output/**',
+      'tmp/**',
+      '**/*.glb',
+      '**/*.mp4',
+      '**/*.mov',
+      '**/*.png',
+      '**/*.jpg',
+      '**/*.jpeg',
+      '**/*.webp',
+    ],
+  },
   async redirects() {
     return newsSeed.map((article) => ({
       destination: `/news/${article.slug}`,

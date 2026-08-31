@@ -71,10 +71,21 @@ export async function GET(
     const blobResponse = await readNetlifyMedia(safeFilename, media?.prefix ?? undefined)
     if (blobResponse) return blobResponse
   } catch {
-    // Continue to local filesystem checks
+    // Continue to next fallback
   }
 
-  // 2. Try serving from local disk (public/media or media)
+  // 2. On Netlify, redirect to public static asset CDN path to keep serverless function bundle small
+  if (process.env.NETLIFY) {
+    const targetFile = safeFilename || media?.filename
+    if (targetFile) {
+      return Response.redirect(
+        new URL(`/media/${encodeURIComponent(targetFile)}`, request.url),
+        307,
+      )
+    }
+  }
+
+  // 3. In local development / standalone Node server, read from local disk
   const candidatePaths = [
     path.resolve(process.cwd(), 'public', 'media', safeFilename),
     path.resolve(process.cwd(), 'media', safeFilename),
