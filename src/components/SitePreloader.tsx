@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 
 const PHASES = [
   { at: 0, label: 'INITIALISING DRIVE SYSTEMS' },
@@ -17,7 +17,16 @@ export function SitePreloader() {
   const [exiting, setExiting] = useState(false)
   const [hidden, setHidden] = useState(false)
 
+  useLayoutEffect(() => {
+    const isEditorialPreview =
+      window.self !== window.top || new URLSearchParams(window.location.search).has('preview')
+
+    if (isEditorialPreview) setHidden(true)
+  }, [])
+
   useEffect(() => {
+    if (hidden) return
+
     const loader = loaderRef.current
     const progressLabel = progressRef.current
     const phaseLabel = phaseRef.current
@@ -102,7 +111,7 @@ export function SitePreloader() {
       document.body.style.removeProperty('--preloader-scrollbar-width')
       document.documentElement.classList.remove('preloader-active')
     }
-  }, [])
+  }, [hidden])
 
   if (hidden) return null
 

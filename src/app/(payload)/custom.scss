@@ -179,6 +179,13 @@ textarea:focus-visible,
   object-fit: cover !important;
 }
 
+/* Keep every CMS view comfortably separated from the persistent top bar. */
+.template-default__wrap > :not(.app-header) {
+  box-sizing: border-box;
+  margin-top: 0 !important;
+  padding-top: clamp(1.75rem, 3vw, 2.75rem) !important;
+}
+
 /* Sidebar Navigation */
 .nav {
   background:
@@ -1941,35 +1948,124 @@ td svg {
   margin-top: 2.4rem;
 }
 
-/* Payload primary actions should read like deliberate product controls. */
-.collection-list__header .btn--style-primary,
-.collection-list__header a[href$='/create'],
-.collection-list .list-controls + a[href$='/create'],
-.list-create-new-doc__create-new-button {
-  min-height: 42px !important;
-  padding: 0 18px !important;
-  border-color: var(--aries-orange) !important;
-  border-radius: 0 !important;
-  background: var(--aries-orange) !important;
-  color: #fff !important;
-  font-weight: 750 !important;
-  box-shadow: 0 8px 28px rgb(255 77 22 / 18%);
-}
-
-.list-create-new-doc__create-new-button:hover {
-  border-color: var(--aries-orange-bright) !important;
-  background: var(--aries-orange-bright) !important;
-  transform: translateY(-1px);
-}
-
-.collection-list__header {
-  align-items: flex-end !important;
+.collection-list .list-header {
   padding-bottom: 1.15rem;
   border-bottom: 1px solid var(--aries-line);
 }
 
-.collection-list__header h1 {
+.collection-list .list-header__content {
+  display: grid !important;
+  position: relative;
+  width: 100% !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+}
+
+.collection-list .list-header__title-and-actions {
+  display: block !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  flex: 1 1 100% !important;
+}
+
+.collection-list .list-header__title-actions {
+  display: flex !important;
+  position: absolute;
+  top: 1px;
+  right: 0;
+  flex: 0 0 auto;
+  margin: 0 !important;
+}
+
+/* A quiet utility action that sits outside the page-title lockup. */
+.list-create-new-doc__create-new-button {
+  display: inline-flex !important;
+  min-height: 36px !important;
+  align-items: center;
+  gap: 9px;
+  padding: 0 12px 0 7px !important;
+  border: 1px solid rgb(255 77 22 / 78%) !important;
+  border-radius: 2px !important;
+  background: rgb(255 77 22 / 9%) !important;
+  box-shadow: none !important;
+  color: #fff !important;
+  font-family: var(--aries-mono) !important;
+  font-size: 0.65rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.09em !important;
+  line-height: 1 !important;
+  text-transform: uppercase;
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease,
+    color 160ms ease,
+    transform 160ms ease;
+}
+
+.list-create-new-doc__create-new-button::before {
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  border: 0;
+  border-radius: 1px;
+  background: var(--aries-orange);
+  color: #fff;
+  content: '+';
+  font-family: var(--aries-font);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease;
+}
+
+.list-create-new-doc__create-new-button:hover {
+  border-color: var(--aries-orange-bright) !important;
+  background: rgb(255 77 22 / 17%) !important;
+  color: #fff !important;
+  transform: translateY(-1px);
+}
+
+.list-create-new-doc__create-new-button:hover::before {
+  background: var(--aries-orange-bright);
+  color: #fff;
+}
+
+.list-create-new-doc__create-new-button:focus-visible {
+  outline: 2px solid var(--aries-orange-bright) !important;
+  outline-offset: 3px;
+}
+
+.collection-list .list-header h1 {
   letter-spacing: -0.045em !important;
+}
+
+@media (max-width: 700px) {
+  .list-create-new-doc__create-new-button {
+    min-height: 34px !important;
+    gap: 7px;
+    padding: 0 9px 0 6px !important;
+    font-size: 0.61rem !important;
+  }
+
+  .list-create-new-doc__create-new-button::before {
+    width: 21px;
+    height: 21px;
+  }
+}
+
+@media (max-width: 360px) {
+  .list-create-new-doc__create-new-button .btn__label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
 }
 
 .aries-directory__heading {
@@ -2560,12 +2656,12 @@ td svg {
   .aries-sponsor-cell__logo { width: 84px; height: 46px; }
   .aries-download-cell small { max-width: 190px; }
 
-  .collection-list__header {
+  .collection-list .list-header {
     align-items: flex-start !important;
     gap: 0.8rem !important;
   }
 
-  .collection-list__header .list-create-new-doc__create-new-button {
-    min-height: 40px !important;
+  .collection-list .list-create-new-doc__create-new-button {
+    min-height: 34px !important;
   }
 }
