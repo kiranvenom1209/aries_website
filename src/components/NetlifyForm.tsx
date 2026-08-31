@@ -33,11 +33,26 @@ export function NetlifyForm({ children, className, name, successContext }: Netli
       })
 
       if (!response.ok) {
+        if (
+          typeof window !== 'undefined' &&
+          (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+        ) {
+          console.info(`[Dev Form Submission: ${name}]`, Object.fromEntries(formData.entries()))
+          window.location.assign(`/thank-you?form=${successContext}`)
+          return
+        }
         throw new Error(`Submission failed with status ${response.status}`)
       }
 
       window.location.assign(`/thank-you?form=${successContext}`)
     } catch {
+      if (
+        typeof window !== 'undefined' &&
+        (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+      ) {
+        window.location.assign(`/thank-you?form=${successContext}`)
+        return
+      }
       setError('The signal could not be transmitted. Please try again or contact us by email.')
       setIsSubmitting(false)
     }

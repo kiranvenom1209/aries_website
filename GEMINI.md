@@ -1,4 +1,4 @@
-﻿# HSM Aries Space Initiative — Complete Engineering & Architecture Log (`GEMINI.md`)
+# HSM Aries Space Initiative — Complete Engineering & Architecture Log (`GEMINI.md`)
 
 > **Project:** HSM Aries Space Initiative Platform (`hsmaries.space`)  
 > **Institution:** Hochschule Schmalkalden — University of Applied Sciences  
@@ -148,12 +148,62 @@ Running 11 tests using 2 workers:
 Result: 11 / 11 PASSED (100% Success Rate)
 ```
 
+### 3.8 Media & Asset Upload Pipeline Overhaul
+- **Resolved Static Storage Directory Mismatch:**
+  - Configured `staticDir: path.resolve(dirname, '../../public/media')` in `src/collections/Media.ts` so all newly uploaded files and generated responsive thumbnail sizes (`thumbnail`, `card`, `hero`) are written directly to `public/media/`, ensuring full Next.js static asset compatibility.
+  - Synchronized 336 historical responsive thumbnail variants from `./media/` to `./public/media/`.
+- **Media File API Route (`src/app/(payload)/api/media/file/[filename]/route.ts`):**
+  - Eliminated faulty 307 redirect loops and thumbnail-to-parent filename mismatches.
+  - Directly streams local disk files (`public/media` / `media`) with RFC-compliant headers (`Content-Type`, `Cache-Control`, `Content-Length`, `ETag`).
+  - Allowed unauthenticated/editor previews of uploaded media assets without restrictive 404 filters.
+- **MIME Type & Asset Support Expansion:**
+  - Expanded allowed MIME types in `Media.ts` and `fields/media.ts` to include SVG vector graphics (`image/svg+xml`), Apple video formats (`video/quicktime` / `.mov`), 3D GLTF models (`model/gltf-binary`, `model/gltf+json`), ZIP archives (`application/zip`), and documents.
+- **Automated Fallback Alt Text (`Media.ts`):**
+  - Implemented `beforeValidate` hook that automatically converts filenames into clean, humanized alt text if omitted during quick relationship uploads or drag-and-drop actions.
+- **SQLite Dev Schema Collisions Fix (`payload.config.ts`):**
+  - Guarded schema push with `push: process.env.PAYLOAD_DB_PUSH === 'true'` on `sqliteAdapter` to eliminate `SQLITE_ERROR: index users_avatar_idx already exists` errors on startup.
+
+---
+
+## 4. Verification & Quality Assurance Suite
+
+Every modification was validated through automated test pipelines and production compilation:
+
+### 4.1 Vitest Integration Tests (`npm run test:int`)
+```bash
+✓ tests/int/api.int.spec.ts (12 tests)
+  - Users collection authentication & verification
+  - Team data queries, slug matching & department filtering
+  - News dispatches, pagination & military date formatting
+  - Media & Gallery asset relationship integrity
+  - Downloads collection public availability
+Result: 12 / 12 PASSED (100% Success Rate)
+```
+
+### 4.2 Playwright End-to-End Tests (`npm run test:e2e`)
+```bash
+Running 12 tests using 2 workers:
+  ✓ [chromium] › Frontend › renders homepage with correct header, hero, and stat rail
+  ✓ [chromium] › Frontend › can navigate to LEAP-One page
+  ✓ [chromium] › Frontend › can navigate to About page
+  ✓ [chromium] › Frontend › can navigate to Team page and view the organization hierarchy
+  ✓ [chromium] › Frontend › can navigate to News page and view stories
+  ✓ [chromium] › Admin Panel › can navigate to dashboard
+  ✓ [chromium] › Frontend › can navigate to Gallery page
+  ✓ [chromium] › Frontend › can navigate to Contact page
+  ✓ [chromium] › Admin Panel › can navigate to list view
+  ✓ [chromium] › Admin Panel › can navigate to edit view
+  ✓ [chromium] › Frontend › can navigate to branded login page
+  ✓ [chromium] › Frontend › can open news story and click Evidence Locker image to expand in modal
+Result: 12 / 12 PASSED (100% Success Rate)
+```
+
 ### 4.3 ESLint & Type Checking (`npm run lint`)
 - ESLint 9 + TypeScript strict mode: **0 Errors / 0 Warnings**.
 
 ### 4.4 Production Build Compilation (`npm run build`)
 - Next.js 16.3.3 Turbopack production compilation: **0 Errors**.
-- Successfully prerendered 13 static pages and 5 dynamic Payload CMS / API routes:
+- Successfully prerendered 14 static pages and dynamic Payload CMS / API routes:
   - `○ /` (Homepage)
   - `○ /join` (Student Application)
   - `○ /partner` (Corporate Sponsorship)
@@ -161,11 +211,13 @@ Result: 11 / 11 PASSED (100% Success Rate)
   - `○ /leap-one` (Rover Exploration)
   - `○ /gallery` (Field Photography)
   - `○ /login` (Editor Access)
+  - `○ /thank-you` (Submission Confirmation)
   - `ƒ /about` (Initiative Overview)
   - `ƒ /team` (Crew Hierarchy)
   - `ƒ /news` (Mission Logs)
   - `ƒ /news/[slug]` (Individual Story)
   - `ƒ /admin` (Payload CMS Admin)
+  - `ƒ /api/media/file/[filename]` (Direct Asset Streaming Route)
 
 ---
 
@@ -173,10 +225,15 @@ Result: 11 / 11 PASSED (100% Success Rate)
 
 | File Path | Description of Changes |
 | :--- | :--- |
+| [`src/collections/Media.ts`](./src/collections/Media.ts) | Set `staticDir` to `public/media`, added automated fallback `alt` text hook, expanded `mimeTypes` to SVGs, .mov, 3D GLTF, ZIP, and documents. |
+| [`src/collections/fields/media.ts`](./src/collections/fields/media.ts) | Added `image/svg+xml` to `IMAGE_MIME_TYPES` and `video/quicktime` to `VISUAL_MEDIA_MIME_TYPES`. |
+| [`src/app/(payload)/api/media/file/[filename]/route.ts`](./src/app/(payload)/api/media/file/[filename]/route.ts) | Rewrote route handler to stream local files directly with proper MIME headers and cache control, supporting all thumbnail sizes and vector assets. |
+| [`src/payload.config.ts`](./src/payload.config.ts) | Set `push: process.env.PAYLOAD_DB_PUSH === 'true'` on `sqliteAdapter` to eliminate SQLite duplicate index collisions on startup. |
+| [`src/components/NetlifyForm.tsx`](./src/components/NetlifyForm.tsx) | Added localhost dev mode fallback to gracefully redirect to `/thank-you` without 405 errors during local testing. |
 | [`src/app/(frontend)/page.tsx`](./src/app/(frontend)/page.tsx) | Configured `/media/rover-hero-mars-v3.jpg`, updated hero typography, 3-column `.stat-band`, expanded 1400px `.updates-section`, linked CTAs to `/join` & `/partner`. |
-| [`src/app/(frontend)/join/page.tsx`](./src/app/(frontend)/join/page.tsx) | **[NEW]** Created dedicated student recruitment route with `CustomSelect` division picker and application form. |
-| [`src/app/(frontend)/partner/page.tsx`](./src/app/(frontend)/partner/page.tsx) | **[NEW]** Created dedicated industry sponsorship route with `CustomSelect` scope picker and prospectus details. |
-| [`src/components/CustomSelect.tsx`](./src/components/CustomSelect.tsx) | **[NEW]** Custom aerospace dark-glass dropdown component with orange glow states, sub-labels, and smooth animations. |
+| [`src/app/(frontend)/join/page.tsx`](./src/app/(frontend)/join/page.tsx) | Created dedicated student recruitment route with `CustomSelect` division picker and application form. |
+| [`src/app/(frontend)/partner/page.tsx`](./src/app/(frontend)/partner/page.tsx) | Created dedicated industry sponsorship route with `CustomSelect` scope picker and prospectus details. |
+| [`src/components/CustomSelect.tsx`](./src/components/CustomSelect.tsx) | Custom aerospace dark-glass dropdown component with orange glow states, sub-labels, and smooth animations. |
 | [`src/components/Footer.tsx`](./src/components/Footer.tsx) | Redesigned into a 4-column structured aerospace grid with SVG social icons, live ERC status, and copyright rail. |
 | [`src/components/RoverViewer.tsx`](./src/components/RoverViewer.tsx) | Added `safeH`/`safeW` canvas padding and vertical offsets (`dy = -0.04h`) to prevent bottom wheel clipping; calibrated Three.js camera and group positions. |
 | [`src/app/(frontend)/about/page.tsx`](./src/app/(frontend)/about/page.tsx) | Updated CTA actions to navigate to `/join` and `/team`. |

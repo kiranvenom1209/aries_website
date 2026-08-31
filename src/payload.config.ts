@@ -84,6 +84,7 @@ export default buildConfig({
         client: {
           url: databaseURL?.startsWith('file:') ? databaseURL : 'file:./hsm-aries.db',
         },
+        push: process.env.PAYLOAD_DB_PUSH === 'true',
       }),
   graphQL: {
     disable: true,

@@ -1,6 +1,11 @@
+import path from 'path'
+import { fileURLToPath } from 'url'
 import type { CollectionConfig } from 'payload'
 
 import { editors, publicOrEditor } from '../access/roles'
+
+const filename = fileURLToPath(import.meta.url)
+const dirname = path.dirname(filename)
 
 export const Media: CollectionConfig = {
   slug: 'media',
@@ -21,6 +26,21 @@ export const Media: CollectionConfig = {
     update: editors,
     delete: editors,
   },
+  hooks: {
+    beforeValidate: [
+      ({ data }) => {
+        if (data) {
+          if (!data.alt && data.filename && typeof data.filename === 'string') {
+            data.alt = data.filename
+              .replace(/\.[^/.]+$/, '')
+              .replace(/[-_]/g, ' ')
+              .trim()
+          }
+        }
+        return data
+      },
+    ],
+  },
   fields: [
     {
       name: 'alt',
@@ -28,7 +48,7 @@ export const Media: CollectionConfig = {
       required: true,
       maxLength: 180,
       admin: {
-        description: 'Describe the media for visitors using assistive technology.',
+        description: 'Describe the media for visitors using assistive technology. Auto-filled from filename if left blank.',
       },
     },
     {
@@ -55,9 +75,10 @@ export const Media: CollectionConfig = {
     },
   ],
   upload: {
+    staticDir: path.resolve(dirname, '../../public/media'),
     adminThumbnail: ({ doc }) => {
       const d = doc as { sizes?: { thumbnail?: { url?: string } }; url?: string; filename?: string }
-      return d?.sizes?.thumbnail?.url ?? d?.url ?? (d?.filename ? `/media/${d.filename}` : null)
+      return d?.sizes?.thumbnail?.url ?? d?.url ?? (d?.filename ? `/api/media/file/${d.filename}` : null)
     },
     displayPreview: true,
     focalPoint: true,
@@ -67,11 +88,25 @@ export const Media: CollectionConfig = {
       'image/webp',
       'image/avif',
       'image/gif',
+      'image/svg+xml',
+      'image/x-icon',
+      'image/vnd.microsoft.icon',
       'video/mp4',
       'video/webm',
+      'video/quicktime',
+      'video/ogg',
       'audio/mpeg',
       'audio/ogg',
+      'audio/wav',
+      'audio/webm',
       'application/pdf',
+      'model/gltf-binary',
+      'model/gltf+json',
+      'application/zip',
+      'application/x-zip-compressed',
+      'text/plain',
+      'text/csv',
+      'application/json',
     ],
     imageSizes: [
       {

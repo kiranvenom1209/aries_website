@@ -231,7 +231,7 @@ export interface News {
 export interface Media {
   id: number;
   /**
-   * Describe the media for visitors using assistive technology.
+   * Describe the media for visitors using assistive technology. Auto-filled from filename if left blank.
    */
   alt: string;
   caption?: string | null;
