@@ -159,12 +159,16 @@ Result: 11 / 11 PASSED (100% Success Rate)
 - **MIME Type & Asset Support Expansion:**
   - Expanded allowed MIME types in `Media.ts` and `fields/media.ts` to include SVG vector graphics (`image/svg+xml`), Apple video formats (`video/quicktime` / `.mov`), 3D GLTF models (`model/gltf-binary`, `model/gltf+json`), ZIP archives (`application/zip`), and documents.
 - **Automated Fallback Alt Text (`Media.ts`):**
-  - Implemented `beforeValidate` hook that automatically converts filenames into clean, humanized alt text if omitted during quick relationship uploads or drag-and-drop actions.
+  - Implemented `beforeValidate` hook that automatically converts filenames into clean, humanized alt text if omitted during quick relationship uploads or drag-and-drop actions, along with a default fallback.
 - **SQLite Dev Schema Collisions Fix (`payload.config.ts`):**
   - Guarded schema push with `push: process.env.PAYLOAD_DB_PUSH === 'true'` on `sqliteAdapter` to eliminate `SQLITE_ERROR: index users_avatar_idx already exists` errors on startup.
 - **Netlify Function Size & Node File Tracing Optimization (`next.config.ts` & `route.ts`):**
   - Configured `outputFileTracingExcludes` in `next.config.ts` to prevent Netlify's Next.js plugin from bundling the >700 MB `public/media/` assets into `___netlify-server-handler`, resolving `HTTP Error 400: request body too large` on Netlify deploys.
   - On Netlify deployments, `/api/media/file/[filename]` delegates static assets directly to the edge CDN via 307 redirects while serving dynamic uploads from Netlify Blobs.
+- **Serverless Filesystem & Cloud Storage Plugin Resolution (`Media.ts`, `payload.config.ts`, `netlifyBlobs.ts`):**
+  - Enhanced multi-variable serverless detection (`AWS_LAMBDA_FUNCTION_NAME`, `LAMBDA_TASK_ROOT`, `NETLIFY_SITE_ID`, `SITE_ID`, `NETLIFY_DB_URL`, `NODE_ENV === 'production'`) ensuring `cloudStoragePlugin` is always active in production Lambda runtimes.
+  - Explicitly configured `disableLocalStorage: isServerless` and writeable `/tmp/media` path on `Media.ts`, eliminating `ENOENT: no such file or directory, mkdir '/var/task/public'` errors.
+  - Wrapped `getConnectionString()` in `payload.config.ts` and `handleUpload` in `netlifyBlobs.ts` with defensive try/catch blocks and safe buffer conversions for seamless CMS upload operations.
 
 ---
 
