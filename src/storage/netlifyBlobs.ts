@@ -5,12 +5,8 @@ import { getFileKey } from '@payloadcms/plugin-cloud-storage/utilities'
 const STORE_NAME = 'hsm-aries-media'
 
 const getMediaStore = () => {
-  if (process.env.NETLIFY_BLOBS_CONTEXT) {
-    return getStore(STORE_NAME)
-  }
-
   const siteID = process.env.NETLIFY_SITE_ID ?? process.env.SITE_ID
-  const token = process.env.NETLIFY_API_TOKEN
+  const token = process.env.NETLIFY_API_TOKEN ?? process.env.NETLIFY_AUTH_TOKEN
 
   if (siteID && token) {
     return getStore({
@@ -27,25 +23,30 @@ const contentTypeFor = (value: unknown) =>
   typeof value === 'string' && value.length > 0 ? value : 'application/octet-stream'
 
 export const readNetlifyMedia = async (filename: string, prefix?: string) => {
-  const blob = await getMediaStore().getWithMetadata(
-    getFileKey({
+  try {
+    const store = getMediaStore()
+    const key = getFileKey({
       collectionPrefix: 'media',
       docPrefix: prefix,
       filename,
       useCompositePrefixes: true,
-    }).fileKey,
-    { type: 'blob' },
-  )
+    }).fileKey
 
-  if (!blob) return null
+    const blob = await store.getWithMetadata(key, { type: 'blob' })
 
-  return new Response(blob.data, {
-    headers: {
-      'Cache-Control': 'public, max-age=31536000, immutable',
-      'Content-Type': contentTypeFor(blob.metadata.contentType),
-      ...(blob.etag ? { ETag: blob.etag } : {}),
-    },
-  })
+    if (!blob) return null
+
+    return new Response(blob.data, {
+      headers: {
+        'Cache-Control': 'public, max-age=31536000, immutable',
+        'Content-Type': contentTypeFor(blob.metadata?.contentType),
+        ...(blob.etag ? { ETag: blob.etag } : {}),
+      },
+    })
+  } catch (err) {
+    console.warn(`[Netlify Blobs] Could not retrieve media '${filename}':`, err)
+    return null
+  }
 }
 
 const packagedMediaFallback = (
@@ -63,7 +64,7 @@ const packagedMediaFallback = (
 
   return Response.redirect(
     new URL(
-      `/media/${filename.split('/').map(encodeURIComponent).join('/')}`,
+      `/media/${encodeURIComponent(filename)}`,
       requestURL ?? process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost',
     ),
     307,
@@ -89,21 +90,34 @@ export const netlifyBlobsAdapter = (): Adapter => ({ collection: _collection, pr
   return {
     name: 'netlify-blobs',
     handleUpload: async ({ data, file }) => {
-      const bytes = file.buffer
-      const payload = bytes.buffer.slice(
-        bytes.byteOffset,
-        bytes.byteOffset + bytes.byteLength,
-      ) as ArrayBuffer
+      try {
+        const store = getMediaStore()
+        const key = keyFor(file.filename, data?.prefix)
 
-      await getMediaStore().set(keyFor(file.filename, data?.prefix), payload, {
-        metadata: {
-          contentType: file.mimeType,
-          originalFilename: file.filename,
-        },
-      })
+        // Convert file buffer safely to a Buffer or ArrayBuffer
+        let payload: any = file.buffer
+        if (!Buffer.isBuffer(payload) && payload) {
+          payload = Buffer.from(payload)
+        }
+
+        await store.set(key, payload, {
+          metadata: {
+            contentType: file.mimeType,
+            originalFilename: file.filename,
+          },
+        })
+      } catch (err) {
+        console.error(`[Netlify Blobs] handleUpload error for '${file.filename}':`, err)
+        throw err
+      }
     },
     handleDelete: async ({ doc, filename }) => {
-      await getMediaStore().delete(keyFor(filename, doc.prefix))
+      try {
+        const store = getMediaStore()
+        await store.delete(keyFor(filename, doc.prefix))
+      } catch (err) {
+        console.warn(`[Netlify Blobs] handleDelete error for '${filename}':`, err)
+      }
     },
     staticHandler: async (req, { doc, params }) => {
       try {
@@ -120,3 +134,4 @@ export const netlifyBlobsAdapter = (): Adapter => ({ collection: _collection, pr
     },
   }
 }
+

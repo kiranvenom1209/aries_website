@@ -7,6 +7,8 @@ import { editors, publicOrEditor } from '../access/roles'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
+const isNetlify = Boolean(process.env.NETLIFY)
+
 export const Media: CollectionConfig = {
   slug: 'media',
   admin: {
@@ -75,7 +77,7 @@ export const Media: CollectionConfig = {
     },
   ],
   upload: {
-    staticDir: path.resolve(dirname, '../../public/media'),
+    ...(isNetlify ? {} : { staticDir: path.resolve(dirname, '../../public/media') }),
     adminThumbnail: ({ doc }) => {
       const d = doc as { sizes?: { thumbnail?: { url?: string } }; url?: string; filename?: string }
       return d?.sizes?.thumbnail?.url ?? d?.url ?? (d?.filename ? `/api/media/file/${d.filename}` : null)
