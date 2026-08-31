@@ -16,7 +16,7 @@ export const Team: CollectionConfig = {
     group: 'Organization',
     defaultColumns: ['name', 'discipline', 'rank', 'isActive', 'sortOrder'],
     description: 'Manage the people behind HSM Aries.',
-    listSearchableFields: ['name', 'position', 'discipline'],
+    listSearchableFields: ['name', 'position', 'slug'],
     pagination: {
       defaultLimit: 25,
       limits: [25, 50, 100],

@@ -3,9 +3,9 @@ import type { DefaultServerCellComponentProps } from 'payload'
 type MediaDoc = { alt?: string | null; thumbnailURL?: string | null; url?: string | null }
 
 export const TeamNameCell = ({ cellData, linkURL, rowData }: DefaultServerCellComponentProps) => {
-  const portrait = typeof rowData.portrait === 'object' && rowData.portrait ? rowData.portrait as MediaDoc : null
-  const src = portrait?.thumbnailURL ?? portrait?.url ?? (typeof rowData.portraitPath === 'string' ? rowData.portraitPath : null)
-  const initials = String(cellData ?? '?').split(/\s+/).slice(0, 2).map((part) => part[0]).join('').toUpperCase()
+  const portrait = typeof rowData?.portrait === 'object' && rowData?.portrait ? rowData.portrait as MediaDoc : null
+  const src = portrait?.thumbnailURL ?? portrait?.url ?? (typeof rowData?.portraitPath === 'string' ? rowData.portraitPath : null)
+  const initials = String(cellData ?? '?').trim().split(/\s+/).slice(0, 2).map((part) => part?.[0] ?? '').join('').toUpperCase() || '?'
 
   return (
     <a className="aries-person-cell" href={linkURL ?? `/admin/collections/team/${rowData.id}`}>
