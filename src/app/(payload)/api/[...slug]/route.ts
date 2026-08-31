@@ -1,5 +1,3 @@
-/* THIS FILE WAS GENERATED AUTOMATICALLY BY PAYLOAD. */
-/* DO NOT MODIFY IT BECAUSE IT COULD BE REWRITTEN AT ANY TIME. */
 import config from '@payload-config'
 import '@payloadcms/next/css'
 import {
@@ -11,9 +9,32 @@ import {
   REST_PUT,
 } from '@payloadcms/next/routes'
 
-export const GET = REST_GET(config)
-export const POST = REST_POST(config)
-export const DELETE = REST_DELETE(config)
-export const PATCH = REST_PATCH(config)
-export const PUT = REST_PUT(config)
-export const OPTIONS = REST_OPTIONS(config)
+const rawGET = REST_GET(config)
+const rawPOST = REST_POST(config)
+const rawDELETE = REST_DELETE(config)
+const rawPATCH = REST_PATCH(config)
+const rawPUT = REST_PUT(config)
+const rawOPTIONS = REST_OPTIONS(config)
+
+const wrapHandler = (handler: any, name: string) => async (request: Request, args: any) => {
+  try {
+    return await handler(request, args)
+  } catch (err: any) {
+    console.error(`[Payload API ${name} Error]:`, err)
+    return Response.json(
+      {
+        errors: [{ message: err?.message || 'An unexpected error occurred in Payload API.' }],
+        message: err?.message || 'An unexpected error occurred in Payload API.',
+      },
+      { status: err?.status || err?.statusCode || 500 },
+    )
+  }
+}
+
+export const GET = wrapHandler(rawGET, 'GET')
+export const POST = wrapHandler(rawPOST, 'POST')
+export const DELETE = wrapHandler(rawDELETE, 'DELETE')
+export const PATCH = wrapHandler(rawPATCH, 'PATCH')
+export const PUT = wrapHandler(rawPUT, 'PUT')
+export const OPTIONS = wrapHandler(rawOPTIONS, 'OPTIONS')
+

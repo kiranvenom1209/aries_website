@@ -30,13 +30,19 @@ export const Media: CollectionConfig = {
   },
   hooks: {
     beforeValidate: [
-      ({ data }) => {
+      ({ data, req }) => {
         if (data) {
-          if (!data.alt && data.filename && typeof data.filename === 'string') {
-            data.alt = data.filename
+          if (!data.alt || (typeof data.alt === 'string' && data.alt.trim() === '')) {
+            const rawName =
+              (typeof data.filename === 'string' && data.filename) ||
+              (req?.file && typeof (req.file as any).name === 'string' && (req.file as any).name) ||
+              (req?.file && typeof (req.file as any).filename === 'string' && (req.file as any).filename) ||
+              'Aries Media Asset'
+
+            data.alt = rawName
               .replace(/\.[^/.]+$/, '')
               .replace(/[-_]/g, ' ')
-              .trim()
+              .trim() || 'Aries Media Asset'
           }
         }
         return data
@@ -48,6 +54,7 @@ export const Media: CollectionConfig = {
       name: 'alt',
       type: 'text',
       required: true,
+      defaultValue: 'Aries Media Asset',
       maxLength: 180,
       admin: {
         description: 'Describe the media for visitors using assistive technology. Auto-filled from filename if left blank.',
