@@ -8,8 +8,13 @@ import { Header } from './Header'
 export function PageShell({ children }: { children: ReactNode }) {
   return (
     <div className="site-shell">
+      <a className="skip-link" href="#main">
+        Skip to content
+      </a>
       <Header />
-      <main>{children}</main>
+      <main id="main" tabIndex={-1}>
+        {children}
+      </main>
       <Footer />
     </div>
   )

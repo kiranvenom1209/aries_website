@@ -3,15 +3,16 @@ import type { Metadata } from 'next'
 import { GalleryRail } from '@/components/GalleryRail'
 import { PageShell } from '@/components/PageShell'
 import { getGalleryImages } from '@/lib/gallery.server'
-import { pageMetadata, serializeJsonLd } from '@/lib/seo'
+import { absoluteUrl, pageMetadata, serializeJsonLd } from '@/lib/seo'
 
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = pageMetadata({
-  description: 'Explore the complete field-test, engineering, outreach and behind-the-scenes image archive from the HSM Aries space robotics programme.',
-  image: '/media/erc-2026-finals-10-control-station-pit-tent.jpg',
+  description: 'The HSM Aries photo archive: LEAP-One at the ERC 2026 finals in Kraków, field tests, workshop builds, presentations and outreach at Hochschule Schmalkalden.',
+  image: '/media/og/gallery.jpg',
+  imageAlt: 'The crew around the control-station monitor in the pit tent at the ERC 2026 finals',
   path: '/gallery',
-  title: 'Field Gallery',
+  title: 'Field gallery',
 })
 
 export default async function GalleryPage() {
@@ -19,14 +20,14 @@ export default async function GalleryPage() {
   const galleryJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'ImageGallery',
-    description: 'Field tests, engineering work and life behind the scenes with HSM Aries.',
+    description: 'Field tests, rebuilds, presentations and the Mars yard at the ERC 2026 finals in Kraków: the HSM Aries programme as it happened, newest first.',
     image: images.map((image) => ({
       '@type': 'ImageObject',
       caption: image.alt,
-      contentUrl: new URL(image.src, 'https://hsmaries.space').toString(),
+      contentUrl: absoluteUrl(image.src),
     })),
-    name: 'HSM Aries Field Gallery',
-    url: 'https://hsmaries.space/gallery',
+    name: 'HSM Aries field gallery',
+    url: absoluteUrl('/gallery'),
   }
 
   return (
@@ -36,10 +37,15 @@ export default async function GalleryPage() {
         type="application/ld+json"
       />
       <section className="editorial-hero">
-        <div>
+        <div className="editorial-hero__copy">
           <span className="hero__eyebrow">HSM ARIES // FIELD RECONNAISSANCE</span>
           <h1>Tested in the field.</h1>
-          <p>Field tests, engineering work and life behind the scenes with HSM Aries. The record now opens with LEAP-One on the Mars yard at the ERC 2026 finals in Kraków.</p>
+          <p>Field tests, rebuilds, presentations and the Mars yard at the ERC 2026 finals in Kraków — the HSM Aries programme as it happened, newest first.</p>
+        </div>
+        <div className="editorial-hero__archive" aria-label={`${images.length} photographs in the field archive`}>
+          <span>Field archive</span>
+          <strong>{String(images.length).padStart(2, '0')}</strong>
+          <p>Frames from the ERC 2026 finals in Kraków back to the first team photo in Schmalkalden.</p>
         </div>
       </section>
       <section className="gallery-index">

@@ -6,6 +6,7 @@ export function BrandLogo({
   priority = false,
 }: {
   className?: string
+  /** Load the wordmark eagerly (header, login). It never gets a preload hint: the hero must win that race. */
   priority?: boolean
 }) {
   return (
@@ -14,7 +15,7 @@ export function BrandLogo({
         alt="HSM Aries"
         className="brand-logo__image"
         height={38}
-        priority={priority}
+        loading={priority ? 'eager' : undefined}
         src="/media/aries-logo-white.png"
         width={145}
       />

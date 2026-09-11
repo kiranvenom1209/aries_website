@@ -35,7 +35,12 @@ const nextConfig: NextConfig = {
     }))
   },
   images: {
-    unoptimized: true,
+    // Static photos are served as pre-built WebP variants (scripts/build-responsive-media.mjs)
+    // through a custom loader, so no image CDN or /_next/image function is involved.
+    loader: 'custom',
+    loaderFile: './src/lib/imageLoader.ts',
+    deviceSizes: [640, 960, 1280, 1920, 2560],
+    imageSizes: [144, 384],
     localPatterns: [
       {
         pathname: '/media/**',

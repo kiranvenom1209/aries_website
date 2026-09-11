@@ -1,18 +1,39 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import type { ReactNode } from 'react'
 
 import '@fontsource-variable/space-grotesk'
 import '@fontsource-variable/inter'
 import './styles.css'
+import './styles/shell.css'
+import './styles/home.css'
+import './styles/about.css'
+import './styles/leap-one.css'
+import './styles/leap-2.css'
+import './styles/team.css'
+import './styles/news.css'
+import './styles/gallery.css'
+import './styles/forms.css'
+import './styles/login.css'
 
 import { SitePreloader } from '@/components/SitePreloader'
 import {
   DEFAULT_DESCRIPTION,
   DEFAULT_SOCIAL_IMAGE,
+  DEFAULT_SOCIAL_IMAGE_ALT,
   serializeJsonLd,
+  SITE_EMAIL,
   SITE_NAME,
   SITE_URL,
+  socialImage,
 } from '@/lib/seo'
+
+const SITE_TITLE = 'HSM Aries — Space Robotics at Hochschule Schmalkalden'
+const defaultShareImage = socialImage({ alt: DEFAULT_SOCIAL_IMAGE_ALT, url: DEFAULT_SOCIAL_IMAGE })
+
+export const viewport: Viewport = {
+  colorScheme: 'dark',
+  themeColor: '#050809',
+}
 
 export const metadata: Metadata = {
   applicationName: SITE_NAME,
@@ -26,9 +47,9 @@ export const metadata: Metadata = {
     telephone: false,
   },
   icons: {
-    apple: '/media/cropped-falcon-1.png',
-    icon: '/media/cropped-falcon-1.png',
-    shortcut: '/media/cropped-falcon-1.png',
+    apple: '/apple-touch-icon-180.png',
+    icon: '/icon-32.png',
+    shortcut: '/icon-32.png',
   },
   keywords: [
     'HSM Aries',
@@ -48,10 +69,10 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   openGraph: {
     description: DEFAULT_DESCRIPTION,
-    images: [{ alt: 'LEAP-One rover by HSM Aries at the ERC 2026 finals in Kraków', url: DEFAULT_SOCIAL_IMAGE }],
+    images: [defaultShareImage],
     locale: 'en_GB',
     siteName: SITE_NAME,
-    title: 'HSM Aries — Space Robotics at Hochschule Schmalkalden',
+    title: SITE_TITLE,
     type: 'website',
     url: '/',
   },
@@ -68,14 +89,14 @@ export const metadata: Metadata = {
     index: true,
   },
   title: {
-    default: 'HSM Aries — Space Robotics at Hochschule Schmalkalden',
+    default: SITE_TITLE,
     template: '%s — HSM Aries',
   },
   twitter: {
     card: 'summary_large_image',
     description: DEFAULT_DESCRIPTION,
-    images: [DEFAULT_SOCIAL_IMAGE],
-    title: 'HSM Aries — Space Robotics at Hochschule Schmalkalden',
+    images: [defaultShareImage],
+    title: SITE_TITLE,
   },
 }
 
@@ -91,10 +112,14 @@ export default function FrontendLayout({ children }: { children: ReactNode }) {
           addressCountry: 'DE',
           addressLocality: 'Schmalkalden',
         },
+        alternateName: ['HSM Aries.space', 'Aries.space'],
         description: DEFAULT_DESCRIPTION,
+        email: SITE_EMAIL,
         logo: {
           '@type': 'ImageObject',
-          contentUrl: `${SITE_URL}/media/cropped-falcon-1.png`,
+          height: 512,
+          url: `${SITE_URL}/media/cropped-falcon-1.png`,
+          width: 512,
         },
         name: SITE_NAME,
         parentOrganization: {

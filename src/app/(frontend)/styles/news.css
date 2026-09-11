@@ -1,0 +1,859 @@
+/* Polish layer: news — loaded after styles.css; equal-specificity rules here override the base sheet. */
+
+/* -------------------------------------------------------------------------- */
+/* Type floor: nothing in mono below 11px                                      */
+/* -------------------------------------------------------------------------- */
+
+.news-card__meta,
+.news-card__eyebrow,
+.news-card__read,
+.mission-story__back,
+.mission-story__meta span,
+.mission-story__meta time,
+.mission-story__issue,
+.mission-story__figure figcaption,
+.mission-story__footer > span,
+.mission-story__rail,
+.mission-story__feature-video > div > span,
+.mission-story__feature-video > div > p,
+.mission-story__media-deck > header > p,
+.mission-story__modal-counter small,
+.mission-story__media-deck figcaption small {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+}
+
+.mission-story__rail strong {
+  font-size: 26px;
+  letter-spacing: -0.04em;
+  line-height: 1.02;
+}
+
+/* -------------------------------------------------------------------------- */
+/* /news index                                                                 */
+/* -------------------------------------------------------------------------- */
+
+.news-card__read {
+  margin-top: 24px;
+  padding: 8px 0;
+}
+
+.news-card__meta--compact {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.news-card h2,
+.news-card h3 {
+  font-family: var(--display);
+  font-size: clamp(22px, 2.1vw, 31px);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin: 22px 0 14px;
+}
+
+.news-card--lead h2 {
+  font-size: clamp(42px, 4.15vw, 66px);
+  line-height: 1;
+  margin: 22px 0 18px;
+}
+
+.news-card--priority h2 {
+  font-size: clamp(27px, 2.3vw, 38px);
+  margin-top: 20px;
+}
+
+/* Priority excerpts stop at four lines so the lead photo can fill the column beside them. */
+.news-card--priority > p {
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  overflow: hidden;
+}
+
+.news-card--lead .news-card__image {
+  flex: 1;
+  height: auto;
+  min-height: 460px;
+}
+
+.news-grid {
+  gap: clamp(72px, 8vw, 120px);
+}
+
+/* Result strip on a lead card that carries a scoreboard. */
+.news-card__scores {
+  border-top: 1px solid var(--line);
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 26px 0 0;
+  max-width: 520px;
+  padding-top: 16px;
+}
+
+.news-card__scores > div {
+  border-left: 1px solid var(--line);
+  padding-left: 14px;
+}
+
+.news-card__scores > div:first-child {
+  border-left: 0;
+  padding-left: 0;
+}
+
+.news-card__scores dt {
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.news-card__scores dd {
+  color: var(--text);
+  font-family: var(--display);
+  font-size: clamp(20px, 1.8vw, 26px);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  margin: 6px 0 0;
+}
+
+.news-card__scores .news-card__scores-sub {
+  color: var(--accent-bright);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  margin-top: 6px;
+}
+
+/* Category filter under the archive header (shareable as /news?category=…). */
+.news-filter {
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 6px;
+  margin: calc(-1 * clamp(20px, 3vw, 44px)) 0 clamp(34px, 4vw, 56px);
+  padding-bottom: 18px;
+}
+
+.news-filter a {
+  align-items: center;
+  border: 1px solid var(--line);
+  color: #c9d2d6;
+  display: inline-flex;
+  font-family: var(--mono);
+  font-size: 11px;
+  gap: 8px;
+  letter-spacing: 0.08em;
+  min-height: 34px;
+  padding: 6px 12px;
+  text-transform: uppercase;
+  transition: border-color 180ms ease, color 180ms ease;
+}
+
+.news-filter a b {
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.news-filter a:hover,
+.news-filter a:focus-visible {
+  border-color: var(--line-bright);
+  color: #fff;
+}
+
+.news-filter a[aria-current='page'] {
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.news-filter a[aria-current='page'] b {
+  color: var(--accent-bright);
+}
+
+/* Year marker between the last card of one year and the first of the next. */
+.news-grid__year {
+  align-items: center;
+  display: flex;
+  gap: 18px;
+  grid-column: 1 / -1;
+  margin: -26px 0 -30px;
+}
+
+.news-grid__year::after {
+  background: var(--line);
+  content: '';
+  flex: 1;
+  height: 1px;
+}
+
+.news-grid__year span {
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Story: masthead sits higher so the photo shows above the fold               */
+/* -------------------------------------------------------------------------- */
+
+.mission-story {
+  padding-bottom: clamp(56px, 6vw, 96px);
+}
+
+.mission-story__masthead {
+  padding-bottom: clamp(40px, 4vw, 64px);
+  padding-top: calc(var(--site-header-height) + clamp(40px, 5vw, 64px));
+}
+
+.mission-story__back {
+  margin-bottom: clamp(24px, 3vw, 40px);
+}
+
+.mission-story__issue {
+  margin: 24px 0 12px;
+}
+
+.mission-story__figure {
+  margin-top: clamp(32px, 4vw, 52px);
+}
+
+.mission-story__figure figcaption {
+  gap: 16px;
+}
+
+.mission-story__figure figcaption span:first-child {
+  color: #c5ced1;
+  font-family: var(--font);
+  font-size: 13px;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.mission-story__sr-only {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+/* Rail: date on two lines, reading time, and hidden on phones where the masthead already carries it. */
+.mission-story__rail p {
+  margin: 0;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Scoreboard under the lede                                                   */
+/* -------------------------------------------------------------------------- */
+
+.mission-story__scoreboard {
+  border-top: 1px solid var(--line-bright);
+  margin: 4px 0 48px;
+  padding-top: 18px;
+}
+
+.mission-story__scoreboard > header {
+  align-items: baseline;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.mission-story__scoreboard > header > span {
+  color: var(--accent-bright);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.mission-story__scoreboard > header > p {
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  line-height: 1.5;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.mission-story__scoreboard table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.mission-story__scoreboard tbody tr {
+  border-top: 1px solid var(--line);
+}
+
+.mission-story__scoreboard th,
+.mission-story__scoreboard td {
+  font-weight: 400;
+  padding: 10px 0;
+  vertical-align: middle;
+}
+
+.mission-story__scoreboard th[scope='row'] {
+  color: #e6ecee;
+  font-family: var(--font);
+  font-size: 14px;
+  line-height: 1.3;
+  padding-right: 18px;
+  text-align: left;
+  white-space: nowrap;
+  width: 1%;
+}
+
+.mission-story__scoreboard-track {
+  background: linear-gradient(var(--line), var(--line)) 0 50% / 100% 1px no-repeat;
+  min-width: 80px;
+  position: relative;
+}
+
+.mission-story__scoreboard-track > span {
+  background: rgba(255, 90, 31, 0.38);
+  display: block;
+  height: 3px;
+  left: 0;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.mission-story__scoreboard tr.is-ranked .mission-story__scoreboard-track > span {
+  background: var(--accent);
+}
+
+.mission-story__scoreboard tr.is-total .mission-story__scoreboard-track > span {
+  background: #f5f7f8;
+}
+
+.mission-story__scoreboard-points {
+  color: #f5f7f8;
+  font-family: var(--mono);
+  font-size: 13px;
+  padding-left: 18px;
+  text-align: right;
+  white-space: nowrap;
+  width: 1%;
+}
+
+.mission-story__scoreboard-points small {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.mission-story__scoreboard-rank {
+  color: var(--accent-bright);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  min-width: 78px;
+  padding-left: 18px;
+  text-align: right;
+  text-transform: uppercase;
+  white-space: nowrap;
+  width: 1%;
+}
+
+.mission-story__scoreboard tr.is-penalty th[scope='row'],
+.mission-story__scoreboard tr.is-penalty .mission-story__scoreboard-points {
+  color: var(--muted);
+}
+
+.mission-story__scoreboard tr.is-total {
+  border-top: 1px solid var(--line-bright);
+}
+
+.mission-story__scoreboard tr.is-total th,
+.mission-story__scoreboard tr.is-total td {
+  font-weight: 600;
+  padding-top: 14px;
+}
+
+.mission-story__scoreboard tr.is-total .mission-story__scoreboard-points {
+  font-size: 15px;
+}
+
+.mission-story__scoreboard tr.is-total .mission-story__scoreboard-rank {
+  color: #f5f7f8;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Field photography deck                                                      */
+/* -------------------------------------------------------------------------- */
+
+.mission-story__media-deck > header > h2 {
+  color: var(--accent-bright);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  line-height: 1.4;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+/* An odd final photo spans the row as a deliberate wide closer. */
+.mission-story__media-deck > div > figure:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+}
+
+.mission-story__media-deck > div > figure:last-child:nth-child(odd) .mission-story__deck-asset {
+  aspect-ratio: 16 / 9;
+}
+
+.mission-story__deck-asset:focus-visible,
+.mission-story__image-btn:focus-visible {
+  border-color: var(--accent);
+  outline: 2px solid var(--accent-bright);
+  outline-offset: 3px;
+}
+
+.mission-story__deck-asset:focus-visible .mission-story__deck-expand,
+.mission-story__image-btn:focus-visible .mission-story__deck-expand {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Lightbox: native dialog                                                     */
+/* -------------------------------------------------------------------------- */
+
+.mission-story__modal {
+  border: 0;
+  box-sizing: border-box;
+  color: inherit;
+  height: 100dvh;
+  inset: 0;
+  margin: 0;
+  max-height: none;
+  max-width: none;
+  width: 100vw;
+}
+
+.mission-story__modal:not([open]) {
+  display: none;
+}
+
+.mission-story__modal::backdrop {
+  background: rgba(1, 2, 3, 0.7);
+}
+
+body:has(.mission-story__modal[open]) {
+  overflow: hidden;
+}
+
+.mission-story__modal-counter {
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.mission-story__modal-arrow:focus-visible,
+.mission-story__modal-close:focus-visible {
+  border-color: var(--accent);
+  outline: 2px solid var(--accent-bright);
+  outline-offset: 3px;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Story footer: previous / next, continue, back                               */
+/* -------------------------------------------------------------------------- */
+
+.mission-story__footer {
+  align-items: stretch;
+  display: grid;
+  gap: 28px;
+  margin-top: clamp(64px, 8vw, 110px);
+  padding-top: 26px;
+}
+
+.mission-story__neighbours {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.mission-story__neighbour {
+  border: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 150px;
+  padding: 20px 22px;
+  transition: border-color 180ms ease, background 180ms ease;
+}
+
+.mission-story__neighbour--next {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.mission-story__neighbour > span {
+  color: var(--accent-bright);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.mission-story__neighbour > strong {
+  color: #f0f4f5;
+  font-family: var(--display);
+  font-size: clamp(18px, 1.6vw, 22px);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+.mission-story__neighbour > time {
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  margin-top: auto;
+  padding-top: 6px;
+  text-transform: uppercase;
+}
+
+a.mission-story__neighbour:hover,
+a.mission-story__neighbour:focus-visible {
+  background: rgba(255, 255, 255, 0.025);
+  border-color: var(--accent);
+}
+
+.mission-story__neighbour.is-empty {
+  border-style: dashed;
+}
+
+.mission-story__neighbour.is-empty > span,
+.mission-story__neighbour.is-empty > strong {
+  color: var(--muted);
+}
+
+.mission-story__continue > span {
+  color: var(--accent-bright);
+  display: block;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.mission-story__continue ul {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+}
+
+.mission-story__continue a {
+  border-top: 1px solid var(--line-bright);
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 64px;
+  padding: 14px 0 6px;
+  transition: border-color 180ms ease;
+}
+
+.mission-story__continue a:hover,
+.mission-story__continue a:focus-visible {
+  border-color: var(--accent);
+}
+
+.mission-story__continue small {
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.mission-story__continue strong {
+  align-items: center;
+  display: flex;
+  font-family: var(--display);
+  font-size: 15px;
+  font-weight: 600;
+  gap: 12px;
+  justify-content: space-between;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.mission-story__continue svg {
+  color: var(--accent);
+  flex: 0 0 auto;
+  height: 13px;
+  transition: transform 220ms ease;
+  width: 20px;
+}
+
+.mission-story__continue a:hover svg {
+  transform: translateX(4px);
+}
+
+.mission-story__footer > .button {
+  justify-self: start;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Photo framing                                                               */
+/* Containers carry data-photo (the file stem) so a crop can be tuned per      */
+/* photograph. Percentages place the subject inside the visible band at both   */
+/* the desktop and phone container aspects; base rules default to centre.      */
+/* -------------------------------------------------------------------------- */
+
+/* Portrait field photo (9:16): the rover sits in the lower half, so a centred crop
+   keeps the building and drops the wheels. */
+.news-card__image[data-photo="WhatsApp-Image-2026-05-10-at-19.49.07"] img {
+  object-position: center 60%;
+}
+
+/* 4:3 bench photo in the 16:9 cover: lift the band so both heads clear the top edge. */
+.mission-story__image[data-photo="WhatsApp-Image-2026-05-10-at-19.49.05"] img {
+  object-position: center 30%;
+}
+
+/* Portrait deck photo: the head fills the top third, so a centred 4:3 crop halves the face. */
+.mission-story__deck-asset[data-photo="WhatsApp-Image-2026-05-10-at-19.49.03"] img {
+  object-position: center 12%;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Responsive                                                                  */
+/* -------------------------------------------------------------------------- */
+
+@media (max-width: 980px) {
+  .news-card--lead .news-card__image {
+    flex: 0 0 auto;
+    height: clamp(340px, 52vw, 560px);
+    min-height: 0;
+  }
+
+  .mission-story__continue ul {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 820px) {
+  /* The masthead meta already carries the date and author. */
+  .mission-story__rail {
+    display: none;
+  }
+
+  .mission-story__article {
+    gap: 0;
+  }
+
+  .news-filter {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 720px) {
+  .news-card__scores {
+    gap: 12px;
+  }
+
+  .news-card__scores dd {
+    font-size: 19px;
+  }
+}
+
+@media (max-width: 600px) {
+  /* Phone density: archive cards become compact rows instead of full-height stacks. */
+  .news-index {
+    padding-bottom: 64px;
+    padding-top: 40px;
+  }
+
+  .news-grid {
+    gap: 64px;
+  }
+
+  .news-grid__priority {
+    gap: 36px;
+  }
+
+  .news-card--priority .news-card__image {
+    height: min(58vw, 260px);
+  }
+
+  .news-grid__archive-list {
+    gap: 24px;
+  }
+
+  .news-card--archive {
+    align-items: start;
+    column-gap: 14px;
+    display: grid;
+    grid-template-columns: 112px minmax(0, 1fr);
+    grid-template-rows: auto auto 1fr;
+  }
+
+  .news-card--archive .news-card__image {
+    align-self: stretch;
+    grid-column: 1;
+    grid-row: 1 / span 3;
+    height: auto;
+    min-height: 124px;
+  }
+
+  .news-card--archive .news-card__meta {
+    border-bottom: 0;
+    grid-column: 2;
+    padding: 0 0 6px;
+  }
+
+  .news-card--archive h3 {
+    font-size: 17px;
+    grid-column: 2;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin: 0 0 6px;
+  }
+
+  .news-card--archive > p {
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    font-size: 13px;
+    grid-column: 2;
+    -webkit-line-clamp: 2;
+    line-height: 1.5;
+    overflow: hidden;
+  }
+
+  .news-grid__year {
+    margin: 4px 0 -4px;
+  }
+
+  .news-card__scores {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .news-card__scores > div:first-child {
+    grid-column: 1 / -1;
+  }
+
+  .news-card__scores > div:nth-child(2) {
+    border-left: 0;
+    padding-left: 0;
+  }
+
+  .mission-story__figure figcaption {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  /* Each scoreboard row becomes two lines: label + figures, then a full-width bar. */
+  .mission-story__scoreboard table,
+  .mission-story__scoreboard tbody {
+    display: block;
+    width: 100%;
+  }
+
+  .mission-story__scoreboard tbody tr {
+    align-items: baseline;
+    column-gap: 12px;
+    display: grid;
+    grid-template-areas:
+      'label points rank'
+      'track track track';
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    padding: 11px 0;
+  }
+
+  .mission-story__scoreboard th,
+  .mission-story__scoreboard td,
+  .mission-story__scoreboard tr.is-total th,
+  .mission-story__scoreboard tr.is-total td {
+    padding: 0;
+    width: auto;
+  }
+
+  .mission-story__scoreboard tr.is-total {
+    padding-top: 14px;
+  }
+
+  .mission-story__scoreboard th[scope='row'] {
+    font-size: 13px;
+    grid-area: label;
+    padding-right: 0;
+    white-space: normal;
+    width: auto;
+  }
+
+  .mission-story__scoreboard-track {
+    grid-area: track;
+    height: 11px;
+    margin-top: 4px;
+    min-width: 0;
+  }
+
+  .mission-story__scoreboard-points {
+    grid-area: points;
+  }
+
+  .mission-story__scoreboard-rank {
+    grid-area: rank;
+    min-width: 0;
+  }
+
+  .mission-story__neighbours {
+    grid-template-columns: 1fr;
+  }
+
+  .mission-story__neighbour {
+    min-height: 0;
+  }
+
+  .mission-story__neighbour--next {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .mission-story__footer {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 430px) {
+  .news-card--archive {
+    grid-template-columns: 96px minmax(0, 1fr);
+  }
+
+  .mission-story__continue ul {
+    grid-template-columns: 1fr;
+  }
+
+  .mission-story__scoreboard-rank {
+    min-width: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mission-story__neighbour,
+  .mission-story__continue a,
+  .mission-story__continue svg,
+  .news-filter a {
+    transition: none;
+  }
+}

@@ -245,7 +245,7 @@ export type SeedNewsArticle = {
 
 const curatedNewsSeed: SeedNewsArticle[] = [
   {
-    title: 'Mission Complete: HSM Aries.space Finishes 17th of 25 at the ERC 2026 Finals in Kraków',
+    title: 'Mission complete: 17th of 25 at the ERC 2026 finals in Kraków',
     slug: 'mission-complete-hsm-aries-space-finishes-17th-of-25-at-the-erc-2026-finals-in-krakow',
     publishedAt: '2026-09-11T12:00:00.000Z',
     excerpt: 'HSM Aries.space took LEAP-One to the European Rover Challenge 2026 finals at AGH in Kraków and finished 17th of 25 with 1492.25 points — 4th in documentation, 6th in navigation droning. Here is what the scoreboard says, and what it sets for Leap-2, the next rover.',
@@ -343,7 +343,7 @@ const curatedNewsSeed: SeedNewsArticle[] = [
     ),
   },
   {
-    title: 'Number One Worldwide: HSM Aries.space Tops ERC Qualifications with 239.75 Points!',
+    title: 'Number One Worldwide: first in the ERC 2026 qualification with 239.75 points',
     slug: 'number-one-worldwide-hsm-aries-space-tops-erc-qualifications-with-239-75-points',
     publishedAt: '2026-06-28T17:34:00.000Z',
     excerpt: 'HSM Aries.space ranked first among 124 international teams in the ERC 2026 qualification stage, earning 239.75 points for the LEAP-One mission.',
@@ -388,7 +388,7 @@ const curatedNewsSeed: SeedNewsArticle[] = [
     ),
   },
   {
-    title: 'HSM Aries.space Releases Official ERC 2026 Submission Video for LEAP-One',
+    title: 'ERC 2026 submission video for LEAP-One released',
     slug: 'watch-now-hsm-aries-space-releases-official-erc-2026-submission-video-for-leap-one',
     publishedAt: '2026-05-31T17:31:00.000Z',
     excerpt: 'The team has released its official 10-minute ERC 2026 qualification video, presenting LEAP-One’s mobility, navigation, robotic systems, science suite, and mission control.',

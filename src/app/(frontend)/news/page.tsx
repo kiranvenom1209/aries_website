@@ -8,14 +8,21 @@ import { absoluteUrl, pageMetadata, serializeJsonLd } from '@/lib/seo'
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = pageMetadata({
-  description: 'Read the complete HSM Aries archive of mission updates, engineering milestones, competition results, field reports and team stories.',
-  image: '/media/erc-2026-finals-15-leap-one-mars-yard-arm-raised.jpg',
+  description: 'Mission updates from HSM Aries: ERC 2026 finals and qualification results, LEAP-One field reports, engineering milestones and the Leap-2 build in Schmalkalden.',
+  image: '/media/og/news.jpg',
+  imageAlt: 'LEAP-One climbs the rocky slope of the Mars yard at the ERC 2026 finals',
   path: '/news',
-  title: 'News & Mission Updates',
+  title: 'Mission updates',
 })
 
-export default async function NewsPage() {
+type PageProps = {
+  searchParams: Promise<{ category?: string | string[] }>
+}
+
+export default async function NewsPage({ searchParams }: PageProps) {
   const stories = await getNews()
+  const { category } = await searchParams
+  const activeCategory = typeof category === 'string' ? category : undefined
   const newsListJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
@@ -30,7 +37,7 @@ export default async function NewsPage() {
       },
       position: index + 1,
     })),
-    name: 'HSM Aries News & Mission Updates',
+    name: 'HSM Aries mission updates',
     numberOfItems: stories.length,
   }
 
@@ -42,18 +49,18 @@ export default async function NewsPage() {
       />
       <section className="editorial-hero">
         <div className="editorial-hero__copy">
-          <span className="hero__eyebrow">HSM ARIES // MISSION LOG</span>
+          <span className="hero__eyebrow">HSM ARIES // MISSION UPDATES</span>
           <h1>Mission<br /><em>updates.</em></h1>
           <p>Engineering milestones, field reports and the latest from HSM Aries.</p>
         </div>
-        <div className="editorial-hero__archive" aria-label={`${stories.length} mission dispatches published`}>
-          <span>Mission archive</span>
+        <div className="editorial-hero__archive" aria-label={`${stories.length} dispatches published`}>
+          <span>Dispatches</span>
           <strong>{String(stories.length).padStart(2, '0')}</strong>
           <p>Dispatches charting the road from first sketch to the ERC 2026 finals — and on to Leap-2.</p>
         </div>
       </section>
       <section className="news-index">
-        <NewsGrid stories={stories} />
+        <NewsGrid category={activeCategory} stories={stories} />
       </section>
     </PageShell>
   )

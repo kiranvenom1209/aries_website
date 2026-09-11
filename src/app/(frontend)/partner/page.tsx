@@ -7,10 +7,11 @@ import { PageShell } from '@/components/PageShell'
 import { pageMetadata } from '@/lib/seo'
 
 export const metadata: Metadata = pageMetadata({
-  description: 'Partner with HSM Aries to support student-built planetary rovers, advance aerospace robotics, and connect with top engineering talent.',
-  image: '/media/pitching-in-boehm-scaled.jpg',
+  description: 'Sponsor or partner with HSM Aries: fund the Leap-2 build, supply hardware and manufacturing, and work with student engineers on a planetary rover programme.',
+  image: '/media/og/partner.jpg',
+  imageAlt: 'LEAP-One with its sponsor panel and the German flag on the grass at the ERC 2026 finals',
   path: '/partner',
-  title: 'Partner with Aries',
+  title: 'Partnerships & sponsorship',
 })
 
 const partnershipTracks = [
@@ -23,18 +24,18 @@ export default function PartnerPage() {
   return (
     <PageShell>
       <section className="conversion-hero conversion-hero--partner">
-        <Image alt="HSM Aries presenting its rover work to an industry audience" fill priority sizes="100vw" src="/media/pitching-in-boehm-scaled.jpg" />
+        <Image alt="LEAP-One on the grass at ERC 2026 in Kraków, sponsor decals on the chassis side panel" fill priority sizes="100vw" src="/media/erc-2026-finals-24-sponsor-panel-low-angle.jpg" />
         <div className="conversion-hero__veil" />
         <div className="conversion-hero__scan" />
         <div className="conversion-hero__content">
           <span className="hero__eyebrow">Industry partnership // HSM Aries</span>
           <p className="conversion-hero__kicker">A direct line to the workshop.</p>
-          <h1>Back the mission.<br /><em>Build the future.</em></h1>
-          <p className="conversion-hero__summary">A partnership with HSM Aries puts your technology, expertise or support at the centre of a student-built planetary robotics programme.</p>
-          <div className="conversion-hero__metrics" aria-label="Partnership highlights">
+          <h1>Back the mission.<br /><em>Build the next rover.</em></h1>
+          <p className="conversion-hero__summary">LEAP-One carried its partners' names to the ERC 2026 finals. <span className="conversion-hero__nobreak">Leap-2</span> is on the drawing board now.</p>
+          <div className="conversion-hero__metrics" aria-label="Partnership facts">
             <span><strong>17/25</strong>ERC 2026 finals</span>
-            <span><strong>25</strong>crew &amp; advisors</span>
-            <span><strong>02</strong>LEAP rover projects</span>
+            <span><strong>1492.25</strong>finals points</span>
+            <span><strong>Leap-2</strong>in development</span>
           </div>
         </div>
       </section>
@@ -43,15 +44,15 @@ export default function PartnerPage() {
         <div className="conversion-desk__intro">
           <span className="hero__eyebrow">Partnership // prospectus</span>
           <h2 id="partner-case-title">Make a visible<br /><em>contribution.</em></h2>
-          <p>HSM Aries combines student ambition with industrial-grade engineering rigour. Your support directly accelerates rover development, testing campaigns and competition readiness.</p>
+          <p>Leap-2 is being designed around what the ERC 2026 finals exposed: a 22-point mass penalty beside a 4th-place documentation score. Mass is decided in the design phase, by materials, machining and the budget behind them. That is where a partner's hardware, tooling or funding shows on the vehicle rather than on a decal.</p>
           <dl className="conversion-facts">
             <div>
               <dt>ERC 2026 record</dt>
-              <dd>#1 worldwide in the ERC 2026 qualification (239.75 points across 124 international teams), then 17th of 25 at the on-site finals in Kraków with 1492.25 points — documentation ranked 4th, navigation droning 6th.</dd>
+              <dd>17th of 25 at the on-site finals in Kraków, 1492.25 points — documentation 4th, navigation droning 6th, mass −22 (the only penalty in the field). Qualified in June with 239.75 of 250 points, 1st of 124 entries.</dd>
             </div>
             <div>
-              <dt>Next mission</dt>
-              <dd>Leap-2 — Project 02 of the LEAP series, now in development.</dd>
+              <dt>Next rover</dt>
+              <dd>Leap-2 · Project 02 of the LEAP series, in development</dd>
             </div>
             <div>
               <dt>Institution</dt>
@@ -76,10 +77,11 @@ export default function PartnerPage() {
           <span className="hero__eyebrow">Start a conversation</span>
           <h2 id="partner-form-title">Open a partnership<br /><em>channel.</em></h2>
           <p>Tell us what you would like to build with the team. We will route your enquiry to the relevant mission lead.</p>
+          <p className="conversion-form-section__direct-label">Direct line · team inbox</p>
           <a className="conversion-form-section__direct" href="mailto:hsmariesleapone@gmail.com">hsmariesleapone@gmail.com <span aria-hidden="true">↗</span></a>
         </header>
 
-        <NetlifyForm className="contact-form conversion-form" name="partnership-enquiry" successContext="partner">
+        <NetlifyForm className="contact-form conversion-form" name="partnership-enquiry" submitLabel="Send enquiry" successContext="partner">
           <div>
             <label htmlFor="partner-first-name">Contact first name</label>
             <input autoComplete="given-name" id="partner-first-name" name="first-name" required />
@@ -89,7 +91,7 @@ export default function PartnerPage() {
             <input autoComplete="family-name" id="partner-surname" name="surname" required />
           </div>
           <div>
-            <label htmlFor="partner-company">Company / organization</label>
+            <label htmlFor="partner-company">Company / organisation</label>
             <input autoComplete="organization" id="partner-company" name="company" required />
           </div>
           <div>
@@ -97,9 +99,8 @@ export default function PartnerPage() {
             <input autoComplete="email" id="partner-email" name="email" required type="email" />
           </div>
           <div className="contact-form__wide">
-            <label htmlFor="partner-scope">Partnership scope</label>
+            <label htmlFor="partner-scope" id="partner-scope-label">Partnership scope</label>
             <CustomSelect
-              defaultValue="Financial Mission Sponsorship"
               id="partner-scope"
               name="partnership-scope"
               options={[
@@ -110,6 +111,7 @@ export default function PartnerPage() {
                 { label: 'Research Collaboration & Mentorship', value: 'Research Collaboration & Mentorship', detail: 'Academic / industry technical mentorship' },
                 { label: 'General Sponsorship & Media', value: 'General Sponsorship & Media', detail: 'Press, exhibition and promotional partner' },
               ]}
+              placeholder="Select the kind of partnership"
               required
             />
           </div>
@@ -117,7 +119,6 @@ export default function PartnerPage() {
             <label htmlFor="partner-message">Partnership proposal / enquiry details</label>
             <textarea id="partner-message" name="message" placeholder="Describe the collaboration, sponsorship or equipment you have in mind — and any useful timing." required rows={5} />
           </div>
-          <button className="button button--solid" type="submit">Submit partnership enquiry <span aria-hidden="true">→</span></button>
         </NetlifyForm>
       </section>
     </PageShell>

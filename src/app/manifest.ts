@@ -7,14 +7,20 @@ export default function manifest(): MetadataRoute.Manifest {
     display: 'standalone',
     icons: [
       {
+        src: '/apple-touch-icon-180.png',
+        sizes: '180x180',
+        type: 'image/png',
+      },
+      {
         src: '/media/cropped-falcon-1.png',
         sizes: '512x512',
         type: 'image/png',
+        purpose: 'any',
       },
     ],
     name: 'HSM Aries',
     short_name: 'HSM Aries',
     start_url: '/',
-    theme_color: '#ff4f1f',
+    theme_color: '#ff5a1f',
   }
 }

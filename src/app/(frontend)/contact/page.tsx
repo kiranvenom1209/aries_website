@@ -7,10 +7,11 @@ import { NetlifyForm } from '@/components/NetlifyForm'
 import { pageMetadata } from '@/lib/seo'
 
 export const metadata: Metadata = pageMetadata({
-  description: 'Contact HSM Aries for collaboration, project information or team membership.',
-  image: '/media/space-night-exhibit.jpg',
+  description: 'Reach the HSM Aries rover team at Hochschule Schmalkalden for sponsorship, collaboration, press or membership enquiries.',
+  image: '/media/og/contact.jpg',
+  imageAlt: 'A team member works at a laptop beside the LEAP-One rover at the Space Night exhibition',
   path: '/contact',
-  title: 'Contact',
+  title: 'Contact the team',
 })
 
 const routes = [
@@ -24,7 +25,7 @@ const routes = [
     code: '02',
     href: '/join',
     label: 'Join the crew',
-    detail: 'Find your division and start building alongside the HSM Aries team.',
+    detail: 'Find your department and start building alongside the HSM Aries team.',
   },
   {
     code: '03',
@@ -45,11 +46,11 @@ export default function ContactPage() {
           <span className="hero__eyebrow">Ground control // HSM Aries</span>
           <p className="conversion-hero__kicker">Choose your channel.</p>
           <h1>Start with a<br /><em>clear signal.</em></h1>
-          <p className="conversion-hero__summary">Whether you are looking to partner, join or simply get in touch, this is the right place to reach the HSM Aries mission team.</p>
-          <div className="conversion-hero__metrics" aria-label="Contact details">
-            <span><strong>HSM</strong>Schmalkalden, Germany</span>
-            <span><strong>LEAP</strong>rover series</span>
-            <span><strong>24/7</strong>mission-minded</span>
+          <p className="conversion-hero__summary">Partnership, recruitment or a general enquiry: pick the route and it reaches the right lead.</p>
+          <div className="conversion-hero__metrics" aria-label="Contact facts">
+            <span><strong>08</strong>departments</span>
+            <span><strong>17/25</strong>ERC 2026 finals</span>
+            <span><strong>Leap-2</strong>in development</span>
           </div>
         </div>
       </section>
@@ -84,21 +85,25 @@ export default function ContactPage() {
               <dd>HSM Aries Space Robotics<br />Chair of Drive, Automation, and Robotics Technologies</dd>
             </div>
             <div>
-              <dt>Current project</dt>
-              <dd>Leap-2 · project 02 in the LEAP rover series</dd>
+              <dt>Next rover</dt>
+              <dd>Leap-2 · Project 02 of the LEAP series, in development</dd>
             </div>
             <div>
               <dt>Last mission</dt>
-              <dd>LEAP-One · ERC 2026 finalist, 17th of 25</dd>
+              <dd>LEAP-One · ERC 2026 finals · 17th of 25 · 1492.25 pts</dd>
             </div>
             <div>
-              <dt>Headquarters</dt>
+              <dt>Email</dt>
+              <dd><a href="mailto:hsmariesleapone@gmail.com">hsmariesleapone@gmail.com</a></dd>
+            </div>
+            <div>
+              <dt>Address</dt>
               <dd>Hochschule Schmalkalden<br />Blechhammer 9, 98574 Schmalkalden, Germany</dd>
             </div>
           </dl>
         </header>
 
-        <NetlifyForm className="contact-form conversion-form" name="general-contact" successContext="contact">
+        <NetlifyForm className="contact-form conversion-form" name="general-contact" submitLabel="Send message" successContext="contact">
           <div>
             <label htmlFor="first-name">First name</label>
             <input autoComplete="given-name" id="first-name" name="first-name" required />
@@ -115,7 +120,6 @@ export default function ContactPage() {
             <label htmlFor="message">Message</label>
             <textarea id="message" name="message" placeholder="What would you like to discuss with HSM Aries?" required rows={6} />
           </div>
-          <button className="button button--solid" type="submit">Send message <span aria-hidden="true">→</span></button>
         </NetlifyForm>
       </section>
     </PageShell>

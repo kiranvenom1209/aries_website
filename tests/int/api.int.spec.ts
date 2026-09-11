@@ -3,6 +3,7 @@ import { getPayload, Payload } from 'payload'
 import config from '@/payload.config'
 import { getNews, getNewsBySlug, formatNewsDate } from '@/lib/news'
 import { getTeam, getTeamMemberBySlug } from '@/lib/team'
+import { cleanLegacyText } from '@/lib/newsPreview'
 
 import { describe, it, beforeAll, expect } from 'vitest'
 
@@ -119,7 +120,7 @@ describe('News Library Functions', () => {
       'mission-complete-hsm-aries-space-finishes-17th-of-25-at-the-erc-2026-finals-in-krakow',
     )
     expect(story).toBeDefined()
-    expect(story?.title).toContain('Mission Complete')
+    expect(story?.title).toContain('Mission complete')
     expect(story?.mediaDeck?.length ?? 0).toBeGreaterThanOrEqual(6)
   })
 
@@ -138,6 +139,16 @@ describe('News Library Functions', () => {
 
   it('formatNewsDate formats the ERC 2026 finals publish date', () => {
     const formatted = formatNewsDate('2026-09-11T12:00:00.000Z')
-    expect(formatted).toMatch(/^11 SEPT? 2026$/)
+    expect(formatted).toBe('11 SEP 2026')
   })
 })
+
+describe('Legacy text cleanup', () => {
+  it('strips the WordPress excerpt marker and repairs decoded em dashes without touching clean text', () => {
+    expect(cleanLegacyText('Comes to Life')).toBe('Comes to Life')
+    expect(cleanLegacyText('LEAP-One at AGH')).toBe('LEAP-One at AGH')
+    expect(cleanLegacyText("Germany ' The team [&hellip;]")).toBe('Germany — The team')
+    expect(cleanLegacyText('Read more &hellip;')).toBe('Read more …')
+  })
+})
+

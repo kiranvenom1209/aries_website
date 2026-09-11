@@ -23,7 +23,7 @@ test.describe('Frontend', () => {
     await page.goto('http://localhost:3000')
     const status = page.locator('.site-footer__status')
     await expect(status).toContainText('Leap-2')
-    await expect(status).toContainText('17TH OF 25')
+    await expect(status).toContainText('17th of 25')
   })
 
   test('can navigate to LEAP-One page', async ({ page }) => {
@@ -55,8 +55,8 @@ test.describe('Frontend', () => {
   test('can navigate to About page', async ({ page }) => {
     await page.goto('http://localhost:3000/about')
     const heading = page.locator('h1').first()
-    await expect(heading).toContainText('Twenty-five minds.')
-    await expect(heading).toContainText('A growing program.')
+    await expect(heading).toContainText('Built by students')
+    await expect(heading).toContainText('Proven in Kraków')
     await expect(page.locator('.department-grid')).toBeVisible()
   })
 
@@ -81,14 +81,14 @@ test.describe('Frontend', () => {
     await page.goto('http://localhost:3000/gallery')
     const heading = page.locator('h1').first()
     await expect(heading).toContainText('Tested in the field.')
-    await expect(page.locator('.gallery-rail')).toBeVisible()
+    await expect(page.locator('.gallery-rail').first()).toBeVisible()
   })
 
   test('gallery rail counter includes the ERC 2026 finals photo set', async ({ page }) => {
     await page.goto('http://localhost:3000/gallery')
-    const counter = page.locator('.gallery-controls span').first()
-    await expect(counter).toHaveText(/01 \/ \d+/)
-    const match = (await counter.textContent())?.match(/01 \/ (\d+)/)
+    const counter = page.locator('.gallery-chapters__count').first()
+    await expect(counter).toHaveText(/\d+ frames/)
+    const match = (await counter.textContent())?.match(/(\d+) frames/)
     expect(match).toBeTruthy()
     expect(Number(match?.[1])).toBeGreaterThanOrEqual(39)
   })
@@ -121,7 +121,7 @@ test.describe('Frontend', () => {
     // Verify modal is open
     const modal = page.locator('.mission-story__modal')
     await expect(modal).toBeVisible()
-    await expect(page.locator('.mission-story__modal-counter')).toContainText('ASSET')
+    await expect(page.locator('.mission-story__modal-counter')).toContainText(/Photo \d+ of \d+/)
 
     // Close modal
     const closeBtn = page.locator('.mission-story__modal-close')
@@ -142,7 +142,7 @@ test.describe('Frontend', () => {
     // Verify modal is open
     const modal = page.locator('.mission-story__modal')
     await expect(modal).toBeVisible()
-    await expect(page.locator('.mission-story__modal-counter')).toContainText('ASSET')
+    await expect(page.locator('.mission-story__modal-counter')).toContainText(/Photo \d+ of \d+/)
 
     // Close modal
     const closeBtn = page.locator('.mission-story__modal-close')

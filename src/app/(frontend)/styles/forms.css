@@ -1,0 +1,190 @@
+/* Polish layer: forms — loaded after styles.css; equal-specificity rules here override the base sheet. */
+
+/* Conversion heroes: partner carries the sponsor-panel photo; captions lifted to the site's 10px eyebrow size. */
+.conversion-hero--partner > img { object-position: center 55%; }
+
+.conversion-hero__metrics span {
+  font-size: 10px;
+  gap: 10px;
+}
+
+/* Rover names never break at their hyphen, and the stat figure keeps its own case ("Leap-2", never "LEAP-2"). */
+.conversion-hero__nobreak,
+.conversion-hero__metrics strong { white-space: nowrap; }
+
+.conversion-hero__metrics strong { text-transform: none; }
+
+.conversion-form-section__location > span { font-size: 10px; }
+
+/* Contact routing: eyebrow stacks above the heading like every other section. */
+.contact-router__header {
+  display: block;
+  margin-bottom: clamp(46px, 6vw, 88px);
+}
+
+.contact-router__header > .hero__eyebrow {
+  display: block;
+  margin: 0 0 24px;
+  order: 0;
+}
+
+/* Route cards: a fixed two-line title box keeps the three descriptions on one baseline. */
+.contact-route h3 { min-height: 2em; }
+
+/* Direct line: labelled team inbox. */
+.conversion-form-section__header > .conversion-form-section__direct-label {
+  color: var(--accent-bright);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  margin: 38px 0 0;
+  text-transform: uppercase;
+}
+
+.conversion-form-section__direct-label + .conversion-form-section__direct { margin-top: 12px; }
+
+.conversion-facts dd a {
+  border-bottom: 1px solid var(--line-bright);
+  color: #eff4f6;
+  padding-bottom: 2px;
+  transition: border-color 180ms ease, color 180ms ease;
+}
+
+.conversion-facts dd a:hover {
+  border-bottom-color: var(--accent);
+  color: var(--accent-bright);
+}
+
+/* Form chrome: required note, submitting state, status line. */
+.form-note {
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 10px;
+  grid-column: 1 / -1;
+  letter-spacing: 0.1em;
+  margin: -6px 0 0;
+  text-transform: uppercase;
+}
+
+.conversion-form .button { white-space: nowrap; }
+
+.contact-form .button:disabled,
+.contact-form .button:disabled:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: none;
+  cursor: progress;
+  opacity: 0.7;
+  transform: none;
+}
+
+.form-status {
+  border-left: 2px solid var(--accent);
+  color: #eff4f6;
+  font-size: 14px;
+  grid-column: 1 / -1;
+  line-height: 1.5;
+  margin: 0;
+  padding: 10px 0 10px 16px;
+}
+
+.form-status--error { border-left-color: #ff6b6b; }
+
+.form-status a {
+  border-bottom: 1px solid var(--line-bright);
+  color: #fff;
+  padding-bottom: 1px;
+}
+
+.form-status a:hover { border-bottom-color: var(--accent); }
+
+.contact-form input:user-invalid,
+.contact-form textarea:user-invalid {
+  border-color: var(--accent);
+}
+
+/* Custom select: native mirror for submission + validation, placeholder state, keyboard highlight. */
+.custom-select__native {
+  height: 100%;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  width: 100%;
+}
+
+.custom-select:has(.custom-select__native:user-invalid) .custom-select__trigger,
+.custom-select__trigger[aria-invalid='true'] { border-color: var(--accent); }
+
+/* Validation message sits under the trigger, in place of the browser bubble the native mirror would have anchored off-screen. */
+.custom-select__error { margin-top: 9px; }
+
+.custom-select__value:not(.has-value) {
+  color: #7f8b90;
+  font-weight: 400;
+}
+
+.custom-select__option.is-active {
+  background: rgba(255, 90, 31, 0.12);
+  color: var(--accent-bright);
+}
+
+.custom-select__option.is-active .custom-select__option-bullet {
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+}
+
+.custom-select__option.is-active .custom-select__option-text strong { color: var(--accent-bright); }
+
+/* Thank-you: sized h1, two CTAs, right column carries the three-step track. */
+.conversion-form-section--thanks {
+  align-items: start;
+  padding-top: calc(var(--site-header-height) + clamp(80px, 9vw, 150px));
+}
+
+.conversion-form-section__header > h1 {
+  font-family: var(--display);
+  font-size: clamp(38px, 5vw, 60px);
+  font-weight: 700;
+  letter-spacing: -0.055em;
+  line-height: 0.94;
+  margin: 0;
+  text-wrap: balance;
+}
+
+.conversion-form-section__header > h1 em {
+  color: var(--accent);
+  font-style: normal;
+}
+
+.conversion-form-section__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 36px;
+}
+
+/* A pair that fits shares the row; a pair that wraps becomes two full-width buttons (same layout across all three variants). */
+.conversion-form-section__actions .button {
+  flex: 1 1 auto;
+  min-width: 0;
+  white-space: nowrap;
+}
+
+.conversion-form-section--thanks .conversion-track h3 { margin-top: 0; }
+
+@media (max-width: 820px) {
+  .contact-route h3 { min-height: 0; }
+}
+
+@media (max-width: 600px) {
+  /* Portrait crops show ~1/3 of each landscape hero: join lands on the two students in conversation instead of the window and flag;
+     contact keeps every face intact (60% sliced the crew member at the right edge in half). */
+  .conversion-hero--join > img { object-position: 28% center; }
+  .conversion-hero--partner > img { object-position: 45% 55%; }
+  .conversion-hero--contact > img { object-position: 35% center; }
+  .conversion-form-section--thanks { padding-top: calc(var(--site-header-height) + 64px); }
+  .conversion-form-section__header > h1 { font-size: clamp(38px, 11vw, 50px); }
+  .conversion-form-section__actions { flex-direction: column; }
+  .conversion-form-section__actions .button { width: 100%; }
+}

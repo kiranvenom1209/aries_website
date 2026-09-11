@@ -7,14 +7,15 @@ import { PageShell } from '@/components/PageShell'
 import { pageMetadata } from '@/lib/seo'
 
 export const metadata: Metadata = pageMetadata({
-  description: 'Apply to join the HSM Aries student space initiative and build planetary rovers for international competitions.',
-  image: '/media/space-night-team.jpg',
+  description: 'Join HSM Aries at Hochschule Schmalkalden and build Leap-2: eight student departments across mechanical, electrical, software, autonomy, drone and science.',
+  image: '/media/og/join.jpg',
+  imageAlt: 'Students repair the wiring on LEAP-One in the field at the ERC 2026 finals',
   path: '/join',
-  title: 'Join the Crew',
+  title: 'Join the crew',
 })
 
 const crewPath = [
-  ['01', 'Find your system', 'Choose a division that fits your curiosity, from autonomy and electronics to science and operations.'],
+  ['01', 'Find your department', 'Choose one of eight departments, from drivetrain and electronics to autonomy, payload and outreach.'],
   ['02', 'Build with the crew', 'Turn ideas into hardware and software in the workshop with a multidisciplinary team.'],
   ['03', 'Prove it in the field', 'Test, iterate and take the rover into a live European Rover Challenge campaign.'],
 ]
@@ -31,10 +32,10 @@ export default function JoinPage() {
           <p className="conversion-hero__kicker">Not a spectator sport.</p>
           <h1>Bring the curiosity.<br /><em>Build the rover.</em></h1>
           <p className="conversion-hero__summary">HSM Aries is for students who want to make space robotics real — in CAD, code, the workshop and the field.</p>
-          <div className="conversion-hero__metrics" aria-label="Crew recruitment highlights">
-            <span><strong>08</strong>specialist divisions</span>
-            <span><strong>01</strong>shared rover mission</span>
-            <span><strong>Leap-2</strong>rover in development</span>
+          <div className="conversion-hero__metrics" aria-label="Crew recruitment facts">
+            <span><strong>08</strong>departments</span>
+            <span><strong>17/25</strong>ERC 2026 finals</span>
+            <span><strong>Leap-2</strong>in development</span>
           </div>
         </div>
       </section>
@@ -50,8 +51,8 @@ export default function JoinPage() {
               <dd>Students of Hochschule Schmalkalden and partner universities across all semesters and faculties.</dd>
             </div>
             <div>
-              <dt>Active campaign</dt>
-              <dd>Leap-2 — the second LEAP rover, designed around the ERC 2026 result.</dd>
+              <dt>Next rover</dt>
+              <dd>Leap-2 · Project 02 of the LEAP series, in development</dd>
             </div>
           </dl>
         </div>
@@ -69,17 +70,17 @@ export default function JoinPage() {
 
       <section className="conversion-form-section conversion-form-section--join" aria-labelledby="join-form-title">
         <header className="conversion-form-section__header">
-          <span className="hero__eyebrow">Crew intake // Leap-2</span>
-          <h2 id="join-form-title">Start with<br /><em>your signal.</em></h2>
+          <span className="hero__eyebrow">Crew intake // Project 02</span>
+          <h2 id="join-form-title">Apply to<br /><em>the crew.</em></h2>
           <p>There is no perfect CV for a rover team. Tell us what interests you, what you have tried and where you want to learn.</p>
           <div className="conversion-form-section__location">
-            <span>Lab location</span>
-            <strong>Robotics workshop &amp; proving grounds</strong>
-            <p>Hochschule Schmalkalden<br />Blechhammer 9, 98574 Schmalkalden</p>
+            <span>Address</span>
+            <strong>Robotics lab, Hochschule Schmalkalden</strong>
+            <p>Blechhammer 9, 98574 Schmalkalden, Germany</p>
           </div>
         </header>
 
-        <NetlifyForm className="contact-form conversion-form" name="join-aries" successContext="join">
+        <NetlifyForm className="contact-form conversion-form" name="join-aries" submitLabel="Send application" successContext="join">
           <div>
             <label htmlFor="join-first-name">First name</label>
             <input autoComplete="given-name" id="join-first-name" name="first-name" required />
@@ -101,9 +102,8 @@ export default function JoinPage() {
             <input id="join-semester" name="semester" placeholder="e.g. 3rd semester B.Eng" required />
           </div>
           <div className="contact-form__wide">
-            <label htmlFor="join-division">Primary division preference</label>
+            <label htmlFor="join-division" id="join-division-label">Primary department preference</label>
             <CustomSelect
-              defaultValue="Mechanical & Drivetrain"
               id="join-division"
               name="division-preference"
               options={[
@@ -112,9 +112,11 @@ export default function JoinPage() {
                 { label: 'Software & Autonomy', value: 'Software & Autonomy', detail: 'ROS 2, RealSense perception, EKF and path planning' },
                 { label: 'Communications & RF', value: 'Communications & RF', detail: 'AirMAX TDMA, ELRS backup and base station dashboard' },
                 { label: 'Drill & Manipulator', value: 'Drill & Manipulator', detail: '6-DoF inverse kinematics and sampling auger' },
-                { label: 'Science & Astrobiology', value: 'Science & Astrobiology', detail: 'Spectroscopy, chemical assays and life detection' },
-                { label: 'Media, Sponsorship & Ops', value: 'Media, Sponsorship & Ops', detail: 'Logistics, video, partner relations and outreach' },
+                { label: 'Astroflight (AQUILA UAV)', value: 'Astroflight (AQUILA UAV)', detail: 'Reconnaissance UAV, orthomosaic mapping and rover-drone telemetry' },
+                { label: 'Scientific Payload', value: 'Science & Astrobiology', detail: 'Spectroscopy, chemical assays and life detection' },
+                { label: 'Mission Resources & Outreach', value: 'Media, Sponsorship & Ops', detail: 'Logistics, video, partner relations and outreach' },
               ]}
+              placeholder="Select a department"
               required
             />
           </div>
@@ -122,7 +124,6 @@ export default function JoinPage() {
             <label htmlFor="join-motivation">Technical background &amp; motivation</label>
             <textarea id="join-motivation" name="motivation" placeholder="Tell us about your interests, previous projects, software or hardware tools you use, or why you want to build rovers." required rows={5} />
           </div>
-          <button className="button button--solid" type="submit">Submit application <span aria-hidden="true">→</span></button>
         </NetlifyForm>
       </section>
     </PageShell>

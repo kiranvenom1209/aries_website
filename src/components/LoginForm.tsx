@@ -1,14 +1,34 @@
 'use client'
 
 import Link from 'next/link'
-import { FormEvent, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 
 import { EyeIcon } from './Icons'
+
+// Visitor-facing copy only; developer detail goes to console.error.
+const INCORRECT_CREDENTIALS = 'Incorrect username or password.'
+const UNAVAILABLE = 'Sign-in is temporarily unavailable. Please try again in a few minutes.'
+const REMEMBERED_ID_KEY = 'hsm-aries-login-id'
 
 export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
   const [submitting, setSubmitting] = useState(false)
+  const [identifier, setIdentifier] = useState('')
+  const [remember, setRemember] = useState(false)
+
+  // Prefill a remembered username after hydration so server and client markup match.
+  useEffect(() => {
+    try {
+      const stored = window.localStorage.getItem(REMEMBERED_ID_KEY)
+      if (stored) {
+        setIdentifier(stored)
+        setRemember(true)
+      }
+    } catch {
+      // Storage unavailable (private mode, blocked site data): nothing to prefill.
+    }
+  }, [])
 
   const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -23,7 +43,7 @@ export function LoginForm() {
       return
     }
 
-    // Support both username (e.g. 'admin') and full email (e.g. 'admin@hsmaries.space')
+    // A bare username is completed to the team domain; a full email is used as typed.
     const email = rawIdentifier.includes('@')
       ? rawIdentifier
       : `${rawIdentifier}@hsmaries.space`
@@ -41,18 +61,28 @@ export function LoginForm() {
       const isJsonResponse = contentType.includes('application/json')
 
       if (response.ok && isJsonResponse) {
+        try {
+          if (remember) window.localStorage.setItem(REMEMBERED_ID_KEY, rawIdentifier)
+          else window.localStorage.removeItem(REMEMBERED_ID_KEY)
+        } catch {
+          // Storage unavailable: the sign-in still succeeds.
+        }
         window.location.assign('/admin')
         return
       }
 
       if (!isJsonResponse) {
-        throw new Error(
-          'Online CMS backend is not connected. Connect a cloud database (DATABASE_URL) in your Netlify/Vercel settings to enable online editing.'
+        console.error(
+          `Login API returned a non-JSON response (HTTP ${response.status}); check DATABASE_URL on the host.`
         )
+        throw new Error(UNAVAILABLE)
       }
 
       const result = (await response.json().catch(() => null)) as { message?: string } | null
-      throw new Error(result?.message ?? 'The username/email or password is incorrect.')
+      if (response.status === 401) throw new Error(INCORRECT_CREDENTIALS)
+
+      console.error(`Login API responded with HTTP ${response.status}: ${result?.message ?? 'no message'}`)
+      throw new Error(response.status >= 500 ? UNAVAILABLE : result?.message ?? INCORRECT_CREDENTIALS)
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : 'Unable to sign in. Please try again.')
       setSubmitting(false)
@@ -60,22 +90,30 @@ export function LoginForm() {
   }
 
   return (
-    <form className="login-form" noValidate onSubmit={submit}>
-      <label htmlFor="email">Username or Email</label>
+    <form className="login-form" noValidate onSubmit={submit} id="login-form">
+      <label htmlFor="email">Username or email</label>
       <input
-        autoComplete="username email"
+        aria-describedby="login-error"
+        aria-invalid={Boolean(error)}
+        autoComplete="username"
         id="email"
         name="email"
-        placeholder="admin or you@hsmaries.space"
+        onChange={(event) => setIdentifier(event.target.value)}
+        placeholder="you@hsmaries.space"
+        required
         type="text"
+        value={identifier}
       />
       <label htmlFor="password">Password</label>
       <div className="password-field">
         <input
+          aria-describedby="login-error"
+          aria-invalid={Boolean(error)}
           autoComplete="current-password"
           id="password"
           name="password"
           placeholder="Enter your password"
+          required
           type={showPassword ? 'text' : 'password'}
         />
         <button
@@ -87,11 +125,17 @@ export function LoginForm() {
         </button>
       </div>
 
-      {error ? <p aria-live="polite" className="form-error">{error}</p> : null}
+      {/* Always mounted so the live region exists before an error lands and the layout stays put. */}
+      <p aria-live="polite" className="form-error" id="login-error" role="status">{error}</p>
 
       <label className="remember-field">
-        <input name="remember" type="checkbox" />
-        <span>Remember me</span>
+        <input
+          checked={remember}
+          name="remember"
+          onChange={(event) => setRemember(event.target.checked)}
+          type="checkbox"
+        />
+        <span>Remember my username</span>
       </label>
 
       <button className="login-submit" disabled={submitting} type="submit">
@@ -100,7 +144,6 @@ export function LoginForm() {
 
       <div className="login-form__links">
         <Link href="/admin/forgot">Forgot password?</Link>
-        <Link href="/admin">Mission Control Panel</Link>
       </div>
     </form>
   )

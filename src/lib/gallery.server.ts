@@ -1,6 +1,6 @@
 import 'server-only'
 
-import { authoritativeGalleryImages, type GalleryImage } from './gallery'
+import { authoritativeGalleryImages, type GalleryGroup, type GalleryImage } from './gallery'
 
 type UnknownRecord = Record<string, unknown>
 
@@ -17,7 +17,21 @@ const mediaKey = (src: string) => {
   }
 }
 
-const galleryMedia = (value: unknown, fallbackAlt: string): GalleryImage | null => {
+/**
+ * Maps a CMS gallery document title to a chapter. Anything that does not name
+ * one of the known chapters lands in the archive.
+ */
+const groupFromTitle = (title: string): GalleryGroup => {
+  const text = title.toLowerCase()
+  if (text.includes('erc') || text.includes('krak')) return 'erc-2026'
+  if (text.includes('space night')) return 'space-night-2026'
+  if (text.includes('trial') || text.includes('field')) return 'field-trials'
+  if (text.includes('workshop') || text.includes('build')) return 'workshop'
+  if (text.includes('outreach') || text.includes('member') || text.includes('visit')) return 'outreach'
+  return 'archive'
+}
+
+const galleryMedia = (value: unknown, fallbackAlt: string, group: GalleryGroup): GalleryImage | null => {
   if (!isRecord(value)) return null
   const mimeType = typeof value.mimeType === 'string' ? value.mimeType : ''
   const src = typeof value.url === 'string' ? value.url : ''
@@ -25,6 +39,7 @@ const galleryMedia = (value: unknown, fallbackAlt: string): GalleryImage | null 
 
   return {
     alt: typeof value.alt === 'string' && value.alt.trim() ? value.alt : fallbackAlt,
+    group,
     src,
   }
 }
@@ -48,12 +63,17 @@ export async function getGalleryImages(): Promise<GalleryImage[]> {
 
     for (const document of result.docs as unknown[]) {
       if (!isRecord(document)) continue
-      const fallbackAlt =
-        typeof document.title === 'string' ? document.title : 'HSM Aries field record'
+      const title = typeof document.title === 'string' ? document.title : ''
+      const fallbackAlt = title || 'HSM Aries field record'
+      const group = groupFromTitle(title)
       const items = Array.isArray(document.items) ? document.items : []
       for (const item of items) {
-        const media = galleryMedia(item, fallbackAlt)
-        if (media) merged.set(mediaKey(media.src), media)
+        const media = galleryMedia(item, fallbackAlt, group)
+        if (!media) continue
+        const key = mediaKey(media.src)
+        // A CMS copy of a curated photo keeps the chapter it was filed under.
+        const curated = merged.get(key)
+        merged.set(key, curated?.group ? { ...media, group: curated.group } : media)
       }
     }
   } catch {

@@ -3,13 +3,12 @@
 import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 
+// Every third frame of the 360-frame render: 120 frames at 3° steps, ~2.6 MB instead of 7.8 MB.
 const sequenceFrames = Array.from(
-  { length: 360 },
-  (_, index) => `/media/leap-one-turntable/frame_${String(index).padStart(3, '0')}.webp`,
+  { length: 120 },
+  (_, index) => `/media/leap-one-turntable/frame_${String(index * 3).padStart(3, '0')}.webp`,
 )
-const mobileSequenceFrames = sequenceFrames.filter((_, index) => index % 3 === 0)
-const fullOrbitDuration = 6_000
-const mobileOrbitDuration = 10_000
+const fullOrbitDuration = 8_000
 
 /**
  * A pre-rendered orbit replaces the interactive WebGL scene while preserving
@@ -19,11 +18,9 @@ export function RoverViewer() {
   const sectionRef = useRef<HTMLElement>(null)
   const preloadedFramesRef = useRef<HTMLImageElement[]>([])
   const [isNearViewport, setIsNearViewport] = useState(false)
-  const [isMobile, setIsMobile] = useState(false)
   const [reducedMotion, setReducedMotion] = useState(false)
   const [isSequenceReady, setIsSequenceReady] = useState(false)
   const [frame, setFrame] = useState(0)
-  const activeFrames = isMobile ? mobileSequenceFrames : sequenceFrames
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -33,16 +30,6 @@ export function RoverViewer() {
     mediaQuery.addEventListener('change', updateMotionPreference)
 
     return () => mediaQuery.removeEventListener('change', updateMotionPreference)
-  }, [])
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia('(max-width: 820px)')
-    const updateViewport = () => setIsMobile(mediaQuery.matches)
-
-    updateViewport()
-    mediaQuery.addEventListener('change', updateViewport)
-
-    return () => mediaQuery.removeEventListener('change', updateViewport)
   }, [])
 
   useEffect(() => {
@@ -59,17 +46,13 @@ export function RoverViewer() {
   }, [])
 
   useEffect(() => {
-    preloadedFramesRef.current = []
-    setFrame(0)
-    setIsSequenceReady(false)
-  }, [isMobile])
-
-  useEffect(() => {
     if (!isNearViewport || reducedMotion || isSequenceReady) return
 
     let cancelled = false
-    const images = activeFrames.map((source) => {
+    const images = sequenceFrames.map((source) => {
       const image = new window.Image()
+      // Let the hero and the Mission Control photos win the bandwidth race.
+      image.fetchPriority = 'low'
       image.src = source
       return image
     })
@@ -82,7 +65,7 @@ export function RoverViewer() {
     return () => {
       cancelled = true
     }
-  }, [activeFrames, isNearViewport, isSequenceReady, reducedMotion])
+  }, [isNearViewport, isSequenceReady, reducedMotion])
 
   useEffect(() => {
     if (!isNearViewport || reducedMotion || !isSequenceReady) return
@@ -93,10 +76,8 @@ export function RoverViewer() {
     const advanceSequence = (timestamp: number) => {
       startedAt ??= timestamp
       const nextFrame =
-        Math.floor(
-          ((timestamp - startedAt) / (isMobile ? mobileOrbitDuration : fullOrbitDuration)) *
-            activeFrames.length,
-        ) % activeFrames.length
+        Math.floor(((timestamp - startedAt) / fullOrbitDuration) * sequenceFrames.length) %
+        sequenceFrames.length
 
       setFrame((currentFrame) => (currentFrame === nextFrame ? currentFrame : nextFrame))
       animationFrame = window.requestAnimationFrame(advanceSequence)
@@ -105,35 +86,35 @@ export function RoverViewer() {
     animationFrame = window.requestAnimationFrame(advanceSequence)
 
     return () => window.cancelAnimationFrame(animationFrame)
-  }, [activeFrames, isMobile, isNearViewport, isSequenceReady, reducedMotion])
+  }, [isNearViewport, isSequenceReady, reducedMotion])
 
   return (
     <section className="rover-explorer" ref={sectionRef} aria-labelledby="vehicle-architecture-title">
       <div className="rover-explorer__header">
         <div>
-          <p>Vehicle architecture / LEAP-One</p>
+          <p>Vehicle architecture // LEAP-One</p>
           <h2 id="vehicle-architecture-title">
-            Four mission systems.<br />
-            <em>The first rover.</em>
+            Six wheels, one&nbsp;arm,<br />
+            <em>one drill.</em>
           </h2>
         </div>
         <p>
           LEAP-One integrates six-wheel mobility, autonomous navigation, precision manipulation
-          and deep-sampling science on one field-ready research platform.
+          and deep-sampling science on one research platform.
         </p>
       </div>
 
       <div className="rover-explorer__deck">
         <div className="rover-explorer__stage">
           <div className="rover-explorer__stage-rail" aria-hidden="true">
-            <span>LEAP-ONE / COMPLETE VEHICLE</span>
+            <span>LEAP-ONE // COMPLETE VEHICLE</span>
             <i />
             <span>FULL 360° ORBIT</span>
           </div>
           <div className="rover-explorer__media">
             <Image
               className="rover-explorer__sequence-image"
-              src={activeFrames[frame]}
+              src={sequenceFrames[frame]}
               alt="LEAP-One rover in a complete vehicle view"
               fill
               sizes="(max-width: 980px) 100vw, 68vw"
@@ -141,7 +122,7 @@ export function RoverViewer() {
             />
           </div>
           <p className="rover-explorer__view-index" aria-hidden="true">
-            ORBIT VIEW {String(frame + 1).padStart(3, '0')} / {String(activeFrames.length).padStart(3, '0')}
+            ORBIT VIEW {String(frame + 1).padStart(3, '0')} / {String(sequenceFrames.length).padStart(3, '0')}
           </p>
         </div>
 
@@ -150,10 +131,10 @@ export function RoverViewer() {
             <p>System overview</p>
             <h3>Driven on the terrain.</h3>
             <p>
-              Six independently driven wheels, a precision manipulator and a deep-sampling drill
-              turn LEAP-One into a field-ready planetary research platform.
+              The configuration that ran in Kraków: six BLDC hub wheels, a 6-DoF ReBeL arm and a
+              530 mm auger, all on one 25.6 V bus.
             </p>
-            <strong>One platform / four mission systems</strong>
+            <strong>ERC 2026 competition build</strong>
           </div>
 
           <dl className="rover-explorer__spec-list">
@@ -178,7 +159,7 @@ export function RoverViewer() {
       </div>
 
       <div className="rover-explorer__footer" aria-hidden="true">
-        <span>LEAP ROVERS / PROJECT 01</span>
+        <span>LEAP ROVERS // PROJECT 01</span>
         <i />
         <span>COMPETED AT ERC 2026</span>
       </div>

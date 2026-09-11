@@ -1,0 +1,371 @@
+/* Polish layer: leap-2 — loaded after styles.css; equal-specificity rules here override the base sheet. */
+
+/* Hero: anchor the frame on the machined chassis and wheels so the deck clutter and
+   the yellow e-stop leave the top of the frame, and darken the header row. The image
+   box is made taller and bottom-anchored (next/image sets the inset inline, hence the
+   !important) rather than transformed, because the base sheet's hero-parallax
+   animation owns `transform` on .hero > img. */
+.hero--leap-2 > img {
+  height: 122% !important;
+  object-position: 50% 100%;
+  top: auto !important;
+}
+
+.hero--leap-2 .hero__shade {
+  background:
+    linear-gradient(180deg, rgba(2, 3, 4, 0.8), rgba(2, 3, 4, 0.34) 15%, transparent 30%),
+    linear-gradient(90deg, #020304 0%, rgba(2, 3, 4, 0.96) 25%, rgba(2, 3, 4, 0.48) 54%, rgba(2, 3, 4, 0.03) 79%),
+    linear-gradient(0deg, rgba(2, 3, 4, 0.48), transparent 32%);
+}
+
+.hero__content--low {
+  bottom: 15%;
+  right: var(--page-pad);
+  top: auto;
+  transform: none;
+}
+
+/* Series statement: the centred "in development" block, previously inline-styled. */
+.series-statement {
+  margin: 0 auto;
+  max-width: 900px;
+  padding: 112px var(--page-pad) 72px;
+  text-align: center;
+}
+
+.series-statement > p {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 20px;
+  line-height: 1.8;
+  margin: 0 0 24px;
+}
+
+.series-statement > .series-statement__eyebrow {
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  line-height: 1.4;
+  margin: 0 0 16px;
+  text-transform: uppercase;
+}
+
+.series-statement h2 {
+  font-size: clamp(32px, 4.5vw, 56px);
+  letter-spacing: 0.08em;
+  margin: 0 0 30px;
+}
+
+.series-statement__actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+/* Dossier readout: the bottom caption at the same scale as the sibling eyebrow. */
+.vehicle-dossier__readout > span:last-child {
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+}
+
+/* Dossier groups: group 01 is the full-width trade study, 02 and 03 stay as cards. */
+.vehicle-dossier__groups--leap-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.vehicle-dossier__groups--leap-2 > .leap-2-trade-study {
+  border-right: 1px solid var(--line-bright);
+  grid-column: 1 / -1;
+}
+
+.vehicle-dossier__groups--leap-2 > .vehicle-dossier__group:last-child {
+  grid-column: auto;
+}
+
+/* Close the void between the Programme status card and the Mission Control section;
+   the id scopes this to /leap-2 so /leap-one keeps the base padding. */
+#roadmap.vehicle-dossier {
+  padding-bottom: 64px;
+}
+
+.leap-2-trade-study > header {
+  min-height: 0;
+}
+
+.leap-2-trade-study > header > p {
+  max-width: 560px;
+}
+
+/* Trade-study rows: one per scoreboard line — photo · LEAP-One in Kraków · Leap-2 has to. */
+.leap-2-trade-study__rows {
+  list-style: none;
+  margin: 38px 0 0;
+  padding: 0;
+}
+
+.leap-2-trade-study__row {
+  align-items: start;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: grid;
+  gap: clamp(22px, 2.8vw, 48px);
+  grid-template-columns: minmax(200px, 0.82fr) minmax(0, 1.25fr) minmax(0, 1fr);
+  padding: 28px 0 30px;
+}
+
+.leap-2-trade-study__photo {
+  aspect-ratio: 4 / 3;
+  background: #0b1013;
+  border: 1px solid var(--line);
+  margin: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Each row passes its framing as custom properties: the 4:3 desktop box takes
+   --photo-position, the 16:9 box under 820px takes --photo-position-narrow. */
+.leap-2-trade-study__photo img {
+  object-position: var(--photo-position, 50% 50%);
+}
+
+.leap-2-trade-study__photo figcaption {
+  background: rgba(2, 3, 4, 0.74);
+  bottom: 0;
+  color: var(--accent-bright);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  left: 0;
+  letter-spacing: 0.14em;
+  padding: 7px 10px;
+  position: absolute;
+  text-transform: uppercase;
+}
+
+.leap-2-trade-study__result > span,
+.leap-2-trade-study__requirement > span {
+  color: #87949a;
+  display: block;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  margin: 0 0 14px;
+  text-transform: uppercase;
+}
+
+.leap-2-trade-study__result strong {
+  color: var(--text);
+  display: block;
+  font-family: var(--display);
+  font-size: clamp(38px, 3.1vw, 54px);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.065em;
+  line-height: 0.88;
+  margin: 0 0 16px;
+}
+
+.leap-2-trade-study__result strong small {
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 0.3em;
+  letter-spacing: 0;
+  margin-left: 5px;
+  vertical-align: 0.25em;
+}
+
+.leap-2-trade-study__result p {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0;
+  max-width: 400px;
+}
+
+.leap-2-trade-study__requirement p {
+  color: var(--text);
+  font-size: clamp(15px, 1.25vw, 18px);
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  line-height: 1.3;
+  margin: 0;
+  max-width: 340px;
+}
+
+/* Field record lead tile: the portrait maintenance-panel frame sits in a landscape
+   tile, so anchor it high enough that marker 14 and the arm stay inside the crop. */
+.leap-2-field-record .gallery-rail > button:first-child img {
+  object-position: 50% 28%;
+}
+
+/* Field record: links to the finals report and the full gallery beside the heading. */
+.leap-2-field-record__links {
+  align-items: flex-end;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 8px;
+}
+
+.leap-2-field-record__links .text-link {
+  margin-top: 0;
+  white-space: nowrap;
+}
+
+/* Join band: centred variant shared with /leap-one, previously inline-styled. */
+.join-band--centred {
+  padding: 112px var(--page-pad);
+  text-align: center;
+}
+
+.join-band--centred h2 {
+  letter-spacing: 0.08em;
+  margin: 0 0 30px;
+}
+
+.join-band.join-band--centred > .join-band__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0;
+}
+
+@media (max-width: 1100px) {
+  .leap-2-trade-study__row {
+    grid-template-columns: minmax(170px, 0.75fr) minmax(0, 1.2fr) minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 820px) {
+  .hero--leap-2 > img {
+    object-position: 62% 100%;
+  }
+
+  .hero--leap-2 .hero__shade {
+    background:
+      linear-gradient(180deg, rgba(2, 3, 4, 0.82), rgba(2, 3, 4, 0.36) 16%, transparent 32%),
+      linear-gradient(90deg, rgba(2, 3, 4, 0.94), rgba(2, 3, 4, 0.35)),
+      linear-gradient(0deg, rgba(2, 3, 4, 0.8), transparent 45%);
+  }
+
+  .hero__content--low {
+    bottom: 70px;
+    left: var(--page-pad);
+  }
+
+  /* Stats band: once the base sheet stacks the cards, put number and caption side by side
+     so all three lines and the intro fit one screen. */
+  .leap-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .leap-stats__intro {
+    min-height: 0;
+  }
+
+  .leap-stats__item,
+  .leap-stats__item:last-child {
+    align-items: baseline;
+    column-gap: 18px;
+    display: grid;
+    grid-column: auto;
+    grid-template-columns: auto 1fr;
+    min-height: 0;
+    padding: 20px var(--page-pad);
+  }
+
+  .leap-stats__item > p {
+    grid-column: 1 / -1;
+    margin-bottom: 8px;
+  }
+
+  .leap-stats__item strong {
+    font-size: 44px;
+  }
+
+  .leap-stats__item > span {
+    max-width: none;
+  }
+
+  .series-statement {
+    padding: 88px var(--page-pad) 64px;
+  }
+
+  .vehicle-dossier__groups--leap-2 {
+    grid-template-columns: 1fr;
+  }
+
+  .vehicle-dossier__groups--leap-2 > .vehicle-dossier__group {
+    border-right: 1px solid var(--line-bright);
+  }
+
+  .leap-2-trade-study__row {
+    gap: 22px 26px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .leap-2-trade-study__photo {
+    aspect-ratio: 16 / 9;
+    grid-column: 1 / -1;
+  }
+
+  .leap-2-trade-study__photo img {
+    object-position: var(--photo-position-narrow, var(--photo-position, 50% 50%));
+  }
+
+  .leap-2-field-record .gallery-rail > button:first-child img {
+    object-position: 50% 21%;
+  }
+
+  .leap-2-field-record__links {
+    align-items: flex-start;
+    margin-bottom: 0;
+  }
+
+  .join-band.join-band--centred > .join-band__actions {
+    align-items: stretch;
+    flex-direction: column;
+    width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  /* Mission Control capability strip: two columns instead of four orphaned labels
+     (shared component, so home and /leap-one pick this up at the same width). */
+  .mission-control-showcase__capabilities {
+    border-top: 1px solid var(--line);
+    display: grid;
+    gap: 10px 16px;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 14px;
+  }
+
+  .mission-control-showcase__capabilities li::after {
+    display: none;
+  }
+
+  .series-statement > p {
+    font-size: 17px;
+    line-height: 1.7;
+  }
+
+  .leap-2-trade-study__rows {
+    margin-top: 28px;
+  }
+
+  .leap-2-trade-study__row {
+    gap: 20px;
+    grid-template-columns: 1fr;
+    padding: 22px 0 26px;
+  }
+
+  .leap-2-trade-study__result p,
+  .leap-2-trade-study__requirement p {
+    max-width: none;
+  }
+
+  .join-band--centred {
+    padding: 88px var(--page-pad);
+  }
+}

@@ -12,98 +12,109 @@ export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = pageMetadata({
   description: 'Meet the advisors, mentors and student departments that took LEAP-One to the ERC 2026 finals and are now building Leap-2, the second LEAP rover.',
-  image: '/media/space-night-team.jpg',
+  image: '/media/og/team.jpg',
+  imageAlt: 'The HSM Aries crew with LEAP-One and the German and Thuringian flags on the Mars yard at the ERC 2026 finals',
   path: '/team',
-  title: 'The Team & Crew',
+  title: 'Engineering crew',
 })
 
-type DepartmentMember = { primary?: boolean; role: string; slug: string }
+// primary: rank insignia is shown here. lead: leads this department (keeps a full card even on a repeat listing).
+type DepartmentMember = { lead?: boolean; primary?: boolean; role: string; slug: string }
 
+// Role strings are the engineer's actual title (fallbackTeam.position, shortened), never the department name.
+// Roster order, leads and ranks are facts owned by the team — do not reorder or re-rank here.
 const departments: Array<{
   badge: string
   code: string
   label: string
   members: DepartmentMember[]
+  record?: string
 }> = [
   {
     badge: '/media/l1-mech-crop.png',
     code: 'MECH',
-    label: 'Mechanical Department',
+    label: 'Mechanical & Drivetrain',
     members: [
       { primary: true, role: 'Mechanical Lead', slug: 'brahama-teja-naroju' },
-      { role: 'Mechanical Department', slug: 'shreyas-patel' },
-      { role: 'Mechanical Department', slug: 'naveen-kumar-shivakumar' },
-      { role: 'Mechanical Department', slug: 'rahul-kamatagi' },
+      { role: 'Mechanical Engineer', slug: 'shreyas-patel' },
+      { role: 'Mechanical & Drill Specialist', slug: 'naveen-kumar-shivakumar' },
+      { role: 'Mechanical & Manipulator Specialist', slug: 'rahul-kamatagi' },
     ],
+    record: 'ERC 2026 · mass penalty −22, the only one in the field',
   },
   {
     badge: '/media/l1-electric-crop.png',
     code: 'ELEC',
-    label: 'Electrical Department',
+    label: 'Electrical & Power Systems',
     members: [
       { primary: true, role: 'Electrical Lead', slug: 'ayan-akbar-ali' },
-      { role: 'Electrical Department', slug: 'mohammad-abdulaziz' },
-      { role: 'Electrical Department', slug: 'yash-lohar' },
-      { role: 'Electrical Department', slug: 'md-bashar' },
+      { role: 'Electrical & Teleoperation Engineer', slug: 'mohammad-abdulaziz' },
+      { role: 'Electrical & Power Systems Engineer', slug: 'yash-lohar' },
+      { role: 'Electrical Hardware Specialist', slug: 'md-bashar' },
     ],
   },
   {
     badge: '/media/l1-software-crop.png',
     code: 'SOFT',
-    label: 'Software & Navigation Department',
+    label: 'Software & Autonomy',
     members: [
       { primary: true, role: 'Software Lead', slug: 'omar-abdelrady' },
-      { role: 'Software Department', slug: 'vighnesh-madhav-deshmukh' },
-      { role: 'Software Department', slug: 'harsha-vardhan-raju-gottimukkala' },
-      { role: 'Software Department', slug: 'rahul-khandait' },
-      { role: 'Software Department', slug: 'mukul-bimbra' },
-      { role: 'Software Department', slug: 'priyam-bhatnagar' },
+      { role: 'Software Engineer', slug: 'vighnesh-madhav-deshmukh' },
+      { role: 'Team Lead LEAP-One', slug: 'harsha-vardhan-raju-gottimukkala' },
+      { role: 'Software Engineer', slug: 'rahul-khandait' },
+      { role: 'Software & Navigation Engineer', slug: 'mukul-bimbra' },
+      { role: 'Software & Perception Engineer', slug: 'priyam-bhatnagar' },
     ],
+    record: 'ERC 2026 · traverse 43 / 340 · exploration 123 / 340',
   },
   {
     badge: '/media/l1-comm-crop.png',
     code: 'COMM',
-    label: 'Communication Department',
+    label: 'Communications & RF',
     members: [{ primary: true, role: 'Communication Lead', slug: 'vighnesh-madhav-deshmukh' }],
   },
   {
     badge: '/media/l1-drill-arm-crop.png',
     code: 'DRILL',
-    label: 'Drill & Manipulator Department',
+    label: 'Drill & Manipulator',
     members: [
       { primary: true, role: 'Manipulator Lead', slug: 'brahama-teja-naroju' },
-      { role: 'Mechanical Department', slug: 'rahul-kamatagi' },
-      { role: 'Drill Department', slug: 'danny-sneham' },
-      { role: 'Mechanical Department', slug: 'naveen-kumar-shivakumar' },
+      { role: 'Mechanical & Manipulator Specialist', slug: 'rahul-kamatagi' },
+      { lead: true, role: 'Drill Lead', slug: 'danny-sneham' },
+      { role: 'Mechanical & Drill Specialist', slug: 'naveen-kumar-shivakumar' },
     ],
+    record: 'ERC 2026 · maintenance 66 / 340 · probing 12 / 240',
   },
   {
     badge: '/media/l1_astro-1.png',
     code: 'ASTRO',
-    label: 'Astroflight Department',
+    label: 'Astroflight (AQUILA UAV)',
     members: [
       { primary: true, role: 'Drone Lead', slug: 'rahul-khandait' },
-      { role: 'Drone Department', slug: 'omar-abdelrady' },
+      { role: 'Software Lead', slug: 'omar-abdelrady' },
     ],
+    record: 'ERC 2026 · navigation droning 265 / 300, 6th of 25',
   },
   {
     badge: '/media/l1-science-crop.png',
     code: 'SCI',
-    label: 'Scientific Payload Department',
+    label: 'Scientific Payload',
     members: [
-      { primary: true, role: 'Scientific Payload Department', slug: 'anantha-pathmanabhan' },
-      { role: 'Scientific Payload Department Lead', slug: 'harsha-vardhan-raju-gottimukkala' },
-      { role: 'Scientific Payload Department', slug: 'ashwin-dinesh-ayinipully' },
+      { lead: true, role: 'Interim Lead Scientific Payload', slug: 'harsha-vardhan-raju-gottimukkala' },
+      { primary: true, role: 'Scientific Payload Engineer', slug: 'anantha-pathmanabhan' },
+      { role: 'Scientific Payload Specialist', slug: 'ashwin-dinesh-ayinipully' },
     ],
+    record: 'ERC 2026 · AstroBio 215 / 300 · surface & deep sampling 197 / 440',
   },
   {
     badge: '/media/l1_mro-1.png',
     code: 'MRO',
-    label: 'Mission, Resources & Outreach',
+    label: 'Mission Resources & Outreach',
     members: [
-      { primary: true, role: 'Mission, Resources & Outreach', slug: 'reeba-biju' },
-      { role: 'Mission, Resources & Outreach', slug: 'harsha-vardhan-raju-gottimukkala' },
+      { primary: true, role: 'MRO Lead', slug: 'reeba-biju' },
+      { role: 'Team Lead LEAP-One', slug: 'harsha-vardhan-raju-gottimukkala' },
     ],
+    record: 'ERC 2026 · documentation 364.25 / 400, 4th of 25 · presentation 229 / 300',
   },
 ]
 
@@ -115,7 +126,7 @@ function PrincipalAdvisor({ member, index }: { index: number; member: TeamMember
         <meta content={member.image} itemProp="contentUrl" />
         {member.imageCredit ? <meta content={member.imageCredit} itemProp="creditText" /> : null}
         {member.imageCreditUrl ? <link href={member.imageCreditUrl} itemProp="acquireLicensePage" /> : null}
-        <span>{String(index + 1).padStart(2, '0')}</span>
+        <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
       </div>
       <div className="principal-advisor__copy">
         <small>PRINCIPAL ADVISOR / {String(index + 1).padStart(2, '0')}</small>
@@ -134,7 +145,7 @@ function RosterPerson({ member, role, showBadge = false }: { member: TeamMember;
         <Image alt={`${member.name} — ${role}`} fill sizes="(max-width: 600px) 100vw, 25vw" src={member.image} />
         {showBadge && member.rankBadge ? (
           <Image
-            alt={`${member.rank ?? 'Leadership'} badge`}
+            alt={`${member.rank ?? 'Leadership'} rank insignia`}
             className="roster-person__rank"
             height={97}
             src={member.rankBadge}
@@ -147,6 +158,22 @@ function RosterPerson({ member, role, showBadge = false }: { member: TeamMember;
         <p>{role}</p>
       </div>
     </article>
+  )
+}
+
+// Secondary assignment: the engineer already has a full card at an earlier post, so this is a one-line row.
+function RosterRow({ also, member, role }: { also: string[]; member: TeamMember; role: string }) {
+  return (
+    <li className={`roster-row roster-row--${member.slug}`}>
+      <span className="roster-row__thumb">
+        <Image alt="" fill sizes="48px" src={member.image} />
+      </span>
+      <span className="roster-row__copy">
+        <strong>{member.name}</strong>
+        <span>{role}</span>
+      </span>
+      {also.length > 0 ? <span className="roster-row__chip">Also {also.join(' · ')}</span> : null}
+    </li>
   )
 }
 
@@ -171,30 +198,31 @@ export default async function TeamPage() {
   return (
     <PageShell>
       <section className="crew-hero">
-        <Image alt="HSM Aries mission crew at Space Night" fill priority sizes="100vw" src="/media/space-night-team.jpg" />
+        <Image alt="HSM Aries mission crew at Space Night" fetchPriority="high" fill preload sizes="100vw" src="/media/space-night-team.jpg" />
         <div aria-hidden="true" className="crew-hero__shade" />
         <div className="crew-hero__copy">
           <span>PERSONNEL / HSM ARIES</span>
-          <h1>HSM Aries has<br /><em>no passengers.</em></h1>
-          <p>Every contributor shapes the initiative through research, systems engineering and hands-on projects. The crew took LEAP-One to the ERC 2026 finals in Kraków and is now building Leap-2.</p>
+          <h1>HSM Aries has <em>no passengers.</em></h1>
+          <p>{studentCount} student engineers, 2 principal advisors and 5 mentors at Hochschule Schmalkalden. The crew took LEAP-One to the ERC 2026 finals in Kraków — 17th of 25, 4th in documentation — and is now building Leap-2.</p>
         </div>
-        <div className="crew-hero__ticker" aria-label="Crew summary">
+        <div className="crew-hero__ticker" aria-label="Crew summary" role="group">
           <span>CREW MANIFEST</span>
           <strong>{String(studentCount).padStart(2, '0')} STUDENT ENGINEERS</strong>
-          <i /><strong>02 PRINCIPAL ADVISORS</strong><i /><strong>05 MENTORS</strong><i /><strong>08 MISSION DIVISIONS</strong><i /><strong>ERC 2026 FINALIST · 17 / 25</strong>
+          <i /><strong>02 PRINCIPAL ADVISORS</strong><i /><strong>05 MENTORS</strong><i /><strong>08 DEPARTMENTS</strong><i /><strong>ERC 2026 FINALS · 17TH OF 25 · 1492.25 PTS</strong>
         </div>
       </section>
 
       <section className="crew-intro">
         <span>01 / GUIDANCE</span>
-        <h2>One organization.<br />Clear technical ownership.</h2>
-          <p>The structure is presented as it operates: principal advisors, a dedicated mentor council, program command, and every department with its complete membership—now carrying LEAP-One’s lessons into Leap-2.</p>
+        <h2>One organisation.<br />Clear technical ownership.</h2>
+        <p>A student-run programme: one project commander, eight departments and a named lead accountable for every subsystem. Two principal advisors and a five-person mentor council back the work; what LEAP-One taught in Kraków is now shaping Leap-2.</p>
       </section>
 
       <section className="roster-guidance">
         <header className="section-command">
-          <div><span>01A / PRINCIPAL ADVISORS</span><h2>The two people<br />guiding the program.</h2></div>
-          <p>Academic and industry leadership at the highest level of the HSM Aries organization.</p>
+          <div><span>02 / PRINCIPAL ADVISORS</span><i /></div>
+          <h2>The two people<br />guiding the programme.</h2>
+          <p>A faculty advisor at Hochschule Schmalkalden and an industry advisor from precision manufacturing anchor the programme.</p>
         </header>
         <div className="principal-advisors">
           {principalAdvisors.map((member, index) => <PrincipalAdvisor index={index} key={member.slug} member={member} />)}
@@ -202,13 +230,13 @@ export default async function TeamPage() {
       </section>
 
       <section className="mentor-council">
-        <header><span>01B / MENTOR COUNCIL</span><h2>Specialist guidance<br />across the program.</h2></header>
+        <header><span>03 / MENTOR COUNCIL</span><h2>Specialist guidance<br />across the programme.</h2></header>
         <div className="mentor-council__grid">
           {mentors.map((member, index) => (
-            <article className="mentor-profile" key={member.slug}>
+            <article className={`mentor-profile mentor-profile--${member.slug}`} key={member.slug}>
               <div>
                 <Image alt={member.imageAlt} fill sizes="(max-width: 600px) 50vw, 20vw" src={member.image} />
-                <span>{String(index + 1).padStart(2, '0')}</span>
+                <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
               </div>
               <h3>{member.name}</h3>
               <p>{member.position}</p>
@@ -221,10 +249,10 @@ export default async function TeamPage() {
         <section className="mission-command-profile">
           <div className="mission-command-profile__portrait">
             <Image alt={commander.imageAlt} fill sizes="(max-width: 760px) 100vw, 45vw" src={commander.image} />
-            {commander.rankBadge ? <Image alt="Commander badge" className="mission-command-profile__rank" height={135} src={commander.rankBadge} width={86} /> : null}
+            {commander.rankBadge ? <Image alt="Commander rank insignia" className="mission-command-profile__rank" height={135} src={commander.rankBadge} width={86} /> : null}
           </div>
           <div className="mission-command-profile__copy">
-            <span>02 / PROJECT COMMAND</span><small>LEAP-ONE PROJECT COMMANDER</small>
+            <span>04 / PROJECT COMMAND</span><small>LEAP-ONE PROJECT COMMANDER</small>
             <h2>{commander.name}</h2><strong>{commander.position}</strong><p>{commander.bio}</p>
           </div>
         </section>
@@ -232,27 +260,49 @@ export default async function TeamPage() {
 
       <section className="department-manifests">
         <header className="section-command">
-          <div><span>03 / LEAP ROVERS / LEAP-One → Leap-2</span><h2>Eight teams.<br />One integrated rover.</h2></div>
-          <p>Members appear in every department they serve. Rank insignia is shown only at the person’s primary command post, never on a repeated secondary assignment.</p>
+          <div><span>05 / DEPARTMENTS</span><i /></div>
+          <h2>Eight teams.<br />One integrated rover.</h2>
+          <p>Eight departments built LEAP-One and are now designing Leap-2. Engineers who serve in more than one appear in each; rank insignia are shown at primary posts only.</p>
         </header>
 
         {departments.map((department, departmentIndex) => {
           const departmentMembers = department.members
             .map((entry) => ({ entry, member: bySlug.get(entry.slug) }))
             .filter((item): item is { entry: DepartmentMember; member: TeamMember } => Boolean(item.member))
+          // A full card at the primary post, at this department's lead post, or at the first listing;
+          // later listings become one-line rows that point back to the earlier post.
+          const earlierPosts = (slug: string) =>
+            departments
+              .slice(0, departmentIndex)
+              .filter((other) => other.members.some((entry) => entry.slug === slug))
+              .map((other) => other.code)
+          const cards = departmentMembers.filter(
+            ({ entry }) => entry.primary || entry.lead || earlierPosts(entry.slug).length === 0,
+          )
+          const rows = departmentMembers.filter((item) => !cards.includes(item))
 
           return (
             <section className="department-manifest" id={`department-${department.code.toLowerCase()}`} key={department.code}>
               <header className="department-manifest__header">
-                <span>{String(departmentIndex + 1).padStart(2, '0')} / {department.code}</span>
+                <span>05.{departmentIndex + 1} / {department.code}</span>
                 <Image alt={`${department.label} badge`} height={92} src={department.badge} width={92} />
                 <h3>{department.label}</h3>
                 <strong>{String(departmentMembers.length).padStart(2, '0')} CREW</strong>
+                {department.record ? <em className="department-manifest__record">{department.record}</em> : null}
               </header>
-              <div className="department-manifest__members">
-                {departmentMembers.map(({ entry, member }) => (
-                  <RosterPerson key={`${department.code}-${member.slug}`} member={member} role={entry.role} showBadge={entry.primary} />
-                ))}
+              <div className="department-manifest__body">
+                <div className="department-manifest__members">
+                  {cards.map(({ entry, member }) => (
+                    <RosterPerson key={`${department.code}-${member.slug}`} member={member} role={entry.role} showBadge={entry.primary} />
+                  ))}
+                </div>
+                {rows.length > 0 ? (
+                  <ul className="department-manifest__secondary">
+                    {rows.map(({ entry, member }) => (
+                      <RosterRow also={earlierPosts(member.slug)} key={`${department.code}-${member.slug}`} member={member} role={entry.role} />
+                    ))}
+                  </ul>
+                ) : null}
               </div>
             </section>
           )
@@ -265,7 +315,7 @@ export default async function TeamPage() {
           <div aria-hidden="true" /><span>ERC 2026 / CONTROL STATION</span>
         </div>
         <div className="collaboration-lab__copy">
-          <span>04 / SYSTEMS INTEGRATION</span><h2>Integrated by design.</h2>
+          <span>06 / SYSTEMS INTEGRATION</span><h2>Integrated by design.</h2>
           <p>Weekly design reviews align mechanical interfaces, power distribution, communications, autonomous software, scientific payloads and mission operations. Each subsystem is verified against shared requirements before vehicle-level integration.</p>
           <div><span>CAD ↔ FABRICATION</span><span>POWER ↔ CONTROL</span><span>PERCEPTION ↔ MOTION</span><span>SCIENCE ↔ SAMPLING</span></div>
         </div>
@@ -274,10 +324,10 @@ export default async function TeamPage() {
       <PartnersBand />
       <section className="mission-cta">
         <span>OPEN CALL / ALL SEMESTERS + DISCIPLINES</span><h2>Your name belongs<br />on the next manifest.</h2>
-        <p>Code in ROS 2, machine aluminum, design high-current PCBs, run science experiments or build partner relationships—there is a mission role for you.</p>
+        <p>Code in ROS 2, machine aluminium, design high-current PCBs, run science experiments or build partner relationships—there is a mission role for you.</p>
         <div>
-          <MagneticLink className="button button--solid" href="/join">Apply to join Aries</MagneticLink>
-          <MagneticLink className="button button--outline" href="/partner">Partner / Sponsor</MagneticLink>
+          <MagneticLink className="button button--solid" href="/join">Join the crew</MagneticLink>
+          <MagneticLink className="button button--outline" href="/partner">Partner with Aries</MagneticLink>
         </div>
       </section>
     </PageShell>

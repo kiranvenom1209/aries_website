@@ -7,6 +7,25 @@ const isRecord = (value: unknown): value is UnknownRecord =>
 
 const stringValue = (value: unknown) => (typeof value === 'string' ? value : undefined)
 
+/**
+ * Repairs the artefacts the WordPress export left behind: the literal
+ * '[&hellip;]' auto-excerpt marker, em dashes decoded as a bare apostrophe
+ * ("Germany ' The team") and the whitespace stripped inline tags left before
+ * punctuation ("239.75 points ."). Safe on clean text.
+ */
+export const cleanLegacyText = (value: string) =>
+  value
+    .replace(/\s*\[&hellip;\]\s*$/i, '')
+    .replace(/&hellip;/gi, '…')
+    .replace(/(\S)\s'\s(\S)/g, '$1 — $2')
+    .replace(/\s+([.,;:])(?=\s|$)/g, '$1')
+    .trim()
+
+const cleanValue = (value: unknown) => {
+  const text = stringValue(value)
+  return text ? cleanLegacyText(text) : undefined
+}
+
 export const extractNewsText = (value: unknown): string[] => {
   if (typeof value === 'string') return value.trim() ? [value.trim()] : []
   if (Array.isArray(value)) return value.flatMap(extractNewsText)
@@ -58,8 +77,11 @@ export const previewNewsStory = (value: unknown, fallback: NewsStory): NewsStory
 
   const imageValue = value.heroImage ?? value.featuredImage ?? value.image
   const image = mediaFromValue(imageValue)
-  const paragraphs = extractNewsText(value.content ?? value.body)
+  const paragraphs = extractNewsText(value.content ?? value.body).map(cleanLegacyText)
   const title = stringValue(value.title) ?? fallback.title
+  const slug = stringValue(value.slug) ?? fallback.slug
+  // Story-specific static data only carries over to the same story, never to an unrelated CMS document.
+  const sameStory = slug === fallback.slug
 
   return {
     ...fallback,
@@ -71,13 +93,18 @@ export const previewNewsStory = (value: unknown, fallback: NewsStory): NewsStory
     category: stringValue(value.category) ?? fallback.category,
     externalVideoUrl: stringValue(value.externalVideoUrl) ?? fallback.externalVideoUrl,
     excerpt:
-      stringValue(value.excerpt) ?? stringValue(value.summary) ?? paragraphs[0] ?? fallback.excerpt,
+      cleanValue(value.excerpt) ?? cleanValue(value.summary) ?? paragraphs[0] ?? fallback.excerpt,
     featuredVideo: mediaFromValue(value.featuredVideo) ?? fallback.featuredVideo,
     image: image?.url ?? fallback.image,
     imageAlt: image?.alt ?? fallback.imageAlt ?? `${title} — HSM Aries mission update`,
     mediaDeck: deckFromValue(value.mediaDeck).length > 0 ? deckFromValue(value.mediaDeck) : fallback.mediaDeck,
     publishedAt: stringValue(value.publishedAt) ?? stringValue(value.createdAt) ?? fallback.publishedAt,
-    slug: stringValue(value.slug) ?? fallback.slug,
+    scoreboard: sameStory ? fallback.scoreboard : undefined,
+    seoDescription:
+      cleanValue(value.seoDescription) ??
+      cleanValue(value.metaDescription) ??
+      (sameStory ? fallback.seoDescription : undefined),
+    slug,
     title,
   }
 }

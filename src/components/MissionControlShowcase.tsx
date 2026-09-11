@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import type { ReactNode } from 'react'
 
 const workspaces = [
   {
@@ -31,17 +32,27 @@ const workspaces = [
   },
 ] as const
 
-export function MissionControlShowcase() {
+const DEFAULT_INTRO =
+  'A purpose-built LEAP-One workstation brings mapping, telemetry, camera supervision and subsystem operations into one field-ready control environment. Used at the ERC 2026 finals, it carries forward to Leap-2.'
+
+type MissionControlShowcaseProps = {
+  /** Body copy beside the headline; pages pass their own so the block is not repeated verbatim across routes. Accepts nodes so product names can be wrapped in non-breaking spans. */
+  intro?: ReactNode
+  /** Mono eyebrow above the headline (on the home page this carries the section number). */
+  label?: string
+  /** `home` lets the home polish layer restyle the eyebrow as a numbered section label. */
+  variant?: 'home'
+}
+
+export function MissionControlShowcase({ intro = DEFAULT_INTRO, label = 'LEAP-ONE / OPERATIONS SOFTWARE', variant }: MissionControlShowcaseProps = {}) {
   return (
-    <section className="mission-control-showcase">
+    <section className={variant ? `mission-control-showcase mission-control-showcase--${variant}` : 'mission-control-showcase'}>
       <header className="mission-control-showcase__header">
         <div>
-          <span>LEAP-ONE / OPERATIONS SOFTWARE</span>
+          <span className="section-label">{label}</span>
           <h2>The view from<br /><em>mission control.</em></h2>
         </div>
-        <p>
-          A purpose-built LEAP-One workstation brings mapping, telemetry, camera supervision and subsystem operations into one field-ready control environment. Used at the ERC 2026 finals, it carries forward to Leap-2.
-        </p>
+        <p>{intro}</p>
       </header>
 
       <div className="mission-control-showcase__grid">
@@ -56,12 +67,12 @@ export function MissionControlShowcase() {
         ))}
       </div>
 
-      <div aria-label="Mission Control capabilities" className="mission-control-showcase__capabilities">
-        <span>CAMERA SUPERVISION</span><i />
-        <span>ROVER TELEMETRY</span><i />
-        <span>DRIVE + ARM + DRILL</span><i />
-        <span>SCIENCE PAYLOAD</span>
-      </div>
+      <ul aria-label="Mission Control capabilities" className="mission-control-showcase__capabilities">
+        <li>CAMERA SUPERVISION</li>
+        <li>ROVER TELEMETRY</li>
+        <li>DRIVE + ARM + DRILL</li>
+        <li>SCIENCE PAYLOAD</li>
+      </ul>
     </section>
   )
 }

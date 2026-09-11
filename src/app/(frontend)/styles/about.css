@@ -1,0 +1,341 @@
+/* Polish layer: about — loaded after styles.css; equal-specificity rules here override the base sheet. */
+
+/* Tiny-type floor: nothing informational below 10px mono. */
+.mission-hero__readout span {
+  font-size: 10px;
+}
+
+.culture-grid__principles article > span,
+.build-loop article > span,
+.mentor-orbit__grid article > span {
+  font-size: 10px;
+}
+
+.culture-grid__media > span {
+  font-size: 10px;
+}
+
+/* Campus coordinates sit over light paving; give the caption a backdrop. */
+.university-home__media > span {
+  background: rgba(3, 5, 6, 0.72);
+  bottom: 20px;
+  font-size: 10px;
+  left: 20px;
+  padding: 6px 8px;
+}
+
+/* Programme record: compact horizontal rail in the build-loop cell style. */
+.programme-record {
+  margin: 0 auto;
+  max-width: var(--max);
+  padding: 0 var(--page-pad) 150px;
+}
+
+.programme-record__header {
+  align-items: center;
+  display: grid;
+  gap: 22px;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  margin-bottom: 26px;
+}
+
+.programme-record__header > span {
+  color: var(--accent-bright);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.programme-record__header > i {
+  background: var(--line-bright);
+  display: block;
+  height: 1px;
+}
+
+.programme-record__header > p {
+  color: var(--muted);
+  font-size: 13px;
+  margin: 0;
+}
+
+.programme-record__rail {
+  border-top: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.programme-record__rail > li {
+  border-left: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 28px 24px 32px;
+  position: relative;
+}
+
+.programme-record__rail > li:last-child {
+  border-right: 1px solid var(--line);
+}
+
+.programme-record__rail > li::after {
+  background: var(--accent);
+  bottom: 0;
+  content: "";
+  height: 2px;
+  left: 0;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 360ms ease;
+  width: 100%;
+}
+
+.programme-record__rail > li:hover::after {
+  transform: scaleX(1);
+}
+
+.programme-record__rail > li > span {
+  color: var(--accent-bright);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.programme-record__rail > li > strong {
+  display: block;
+  font-family: var(--display);
+  font-size: clamp(30px, 2.6vw, 40px);
+  font-weight: 550;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin: 22px 0 12px;
+  overflow-wrap: anywhere;
+}
+
+.programme-record__rail > li > p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.programme-record__next > strong {
+  color: var(--accent);
+}
+
+.programme-record .text-link {
+  border: 0;
+  font-family: var(--mono);
+  font-size: 10px;
+  gap: 12px;
+  justify-content: flex-start;
+  letter-spacing: 0.12em;
+  margin-top: auto;
+  min-height: 0;
+  min-width: 0;
+  padding: 18px 0 0;
+  text-transform: uppercase;
+  white-space: nowrap;
+  width: auto;
+}
+
+/* Build loop: close the dead gap under the step label. */
+.build-loop article {
+  min-height: 0;
+  padding: 30px 26px 34px;
+}
+
+.build-loop h3 {
+  margin-top: 22px;
+}
+
+/* Command crew: uniform portrait grade, consistent face anchor, badge on a quiet corner. */
+.command-crew__rail img {
+  filter: grayscale(0.25) contrast(1.04);
+  object-position: center 22%;
+}
+
+.command-crew__rail article:hover img {
+  filter: grayscale(0) contrast(1.04);
+}
+
+.command-crew__rail article > div::after {
+  background: linear-gradient(160deg, rgba(3, 5, 6, 0.8) 0%, transparent 55%);
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 2;
+}
+
+.command-crew__rail {
+  scrollbar-color: var(--line-bright) transparent;
+  scrollbar-width: thin;
+}
+
+.command-crew__rail p {
+  font-size: 10px;
+  letter-spacing: 0.05em;
+}
+
+/* Campus aerial: the source is 16:9 and the container is squarer at every breakpoint, so the crop
+   is horizontal. Anchor right so the main building stays whole instead of a frame of empty paving
+   with the building's east end cut off. */
+.university-home__media img {
+  object-position: 100% 50%;
+}
+
+/* Mentor portraits: the square tile crops tall sources vertically. The industry advisor's source
+   has the crown of the head at the top edge, so a centred crop clips it; anchor that one to the top.
+   The other tall sources carry the face mid-frame and stay centred. */
+.mentor-orbit__portrait--alexander-kolbai img {
+  object-position: center top;
+}
+
+/* University link as the shared text-link with a real tap target. */
+.university-home__copy > a {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  margin-top: 18px;
+  min-height: 44px;
+  text-transform: uppercase;
+}
+
+/* Industry photo: anchor the crop on the presenter and audience, not the ceiling.
+   Desktop only — the base sheet's 460/390px mobile heights stay in force. */
+@media (min-width: 821px) {
+  .industry-bridge__media {
+    min-height: 560px;
+  }
+}
+
+.industry-bridge__media img {
+  object-position: center 78%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .programme-record__rail > li::after {
+    transition: none;
+  }
+}
+
+@media (max-width: 1100px) {
+  .programme-record__rail {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .programme-record__rail > li {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .programme-record__rail > li:nth-child(3n) {
+    border-right: 1px solid var(--line);
+  }
+}
+
+@media (max-width: 820px) {
+  /* Mobile hero: the base 62% anchor lands the right-hand face half outside the frame;
+     56% keeps every face in the clear right third whole. */
+  .mission-hero > img {
+    object-position: 56% center;
+  }
+
+  /* Mobile hero flows: copy and readout stack instead of being pinned to both ends. */
+  .mission-hero {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    min-height: 100svh;
+    padding: 144px 0 0;
+  }
+
+  .mission-hero__copy {
+    bottom: auto;
+    left: auto;
+    margin: 0 var(--page-pad) 44px;
+    max-width: none;
+    position: relative;
+    right: auto;
+    top: auto;
+  }
+
+  .mission-hero__copy > span {
+    font-size: 10px;
+  }
+
+  .mission-hero__readout {
+    bottom: auto;
+    left: auto;
+    margin: auto var(--page-pad) 0;
+    position: relative;
+    right: auto;
+    width: auto;
+  }
+
+  .programme-record {
+    padding-bottom: 110px;
+  }
+
+  .programme-record__header {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .programme-record__header > p {
+    grid-column: 1 / -1;
+  }
+
+  .programme-record__rail > li {
+    padding: 24px 18px 28px;
+  }
+
+  .build-loop article {
+    border-bottom: 1px solid var(--line);
+  }
+}
+
+@media (max-width: 600px) {
+  .mission-hero__readout span {
+    font-size: 10px;
+  }
+
+  .programme-record__rail {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .programme-record__rail > li:nth-child(3n) {
+    border-right: 0;
+  }
+
+  .programme-record__rail > li:nth-child(2n) {
+    border-right: 1px solid var(--line);
+  }
+
+  .programme-record__rail > li > strong {
+    font-size: 28px;
+  }
+
+  .build-loop {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .build-loop article {
+    border-right: 0;
+  }
+
+  .build-loop article:nth-child(2),
+  .build-loop article:last-child {
+    border-right: 1px solid var(--line);
+  }
+}
+
+@media (max-width: 430px) {
+  .mission-hero__readout span {
+    font-size: 10px;
+    letter-spacing: 0.08em;
+  }
+}

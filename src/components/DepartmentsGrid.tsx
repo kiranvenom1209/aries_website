@@ -15,7 +15,7 @@ export const departments = [
     id: 'drill-manipulator',
     teamCode: 'drill',
     name: 'Drill & Manipulator',
-    lead: 'Danny Sneham & Brahama Teja',
+    lead: 'Danny Sneham & Brahama Teja Naroju',
     badge: '/media/l1-drill-arm-crop.png',
     description: 'Igus ReBeL 6-DoF manipulation with a modular 3D-printed gripper, paired with a 530 mm coaxial auger system for deep regolith collection.',
     specs: ['2 kg Arm Payload', '≥300 mm Drill Depth', 'Modular End-Effector'],
@@ -59,7 +59,7 @@ export const departments = [
   {
     id: 'communication',
     teamCode: 'comm',
-    name: 'Communication & Comms',
+    name: 'Communications & RF',
     lead: 'Vighnesh Madhav Deshmukh',
     badge: '/media/l1-comm-crop.png',
     description: 'The primary Ubiquiti AirMAX TDMA link carries telemetry and 720p video, while 2.4 GHz ExpressLRS provides an independent command and backup path.',
@@ -89,7 +89,7 @@ export function DepartmentsGrid() {
           <span className="department-card__number">{String(index + 1).padStart(2, '0')}</span>
           <div className="department-card__top">
             <div className="department-card__badge">
-              <Image alt={`${dept.name} badge`} fill sizes="72px" src={dept.badge} />
+              <Image alt="" fill sizes="72px" src={dept.badge} />
             </div>
             <div>
               <p>LEAD / {dept.lead}</p>

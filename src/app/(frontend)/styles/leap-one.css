@@ -1,0 +1,311 @@
+/* Polish layer: leap-one — loaded after styles.css; equal-specificity rules here override the base sheet. */
+
+:root {
+  --leap-section-gap: clamp(72px, 10vw, 140px);
+}
+
+/* Result band: headline numbers never wrap, and the intro links to the evidence. */
+.leap-stats {
+  grid-template-columns: 1.1fr repeat(3, 1fr);
+}
+
+.leap-stats__intro {
+  gap: 22px;
+}
+
+.leap-stats__item {
+  min-width: 0;
+}
+
+.leap-stats__item strong {
+  align-items: baseline;
+  display: flex;
+  font-size: clamp(38px, 3.5vw, 64px);
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.leap-stats__item strong small {
+  margin-left: 0;
+  vertical-align: baseline;
+}
+
+.leap-stats__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 28px;
+}
+
+.leap-stats__links .text-link {
+  font-size: 13px;
+  gap: 12px;
+  margin-top: 0;
+}
+
+/* Feature sections (core subsystems, drivetrain, power, manufacturing, CTA): one class family, one rhythm. */
+.leap-feature,
+.leap-feature-split {
+  margin: 0 auto;
+  max-width: 1400px;
+  padding: var(--leap-section-gap) var(--page-pad);
+}
+
+.leap-feature__header {
+  margin: 0 auto clamp(40px, 5vw, 72px);
+  max-width: 800px;
+  text-align: center;
+}
+
+.leap-feature__eyebrow {
+  color: var(--accent-bright);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  margin: 0 0 18px;
+  text-transform: uppercase;
+}
+
+.leap-feature__title {
+  color: var(--text);
+  font-family: var(--display);
+  font-size: clamp(36px, 4.4vw, 62px);
+  font-weight: 500;
+  letter-spacing: -0.05em;
+  line-height: 0.92;
+  margin: 0 0 22px;
+  text-wrap: balance;
+}
+
+.leap-feature__header .leap-feature__title {
+  margin-bottom: 0;
+}
+
+.leap-feature__title em {
+  color: var(--accent);
+  font-style: normal;
+}
+
+.leap-feature__lede {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: clamp(16px, 1.4vw, 20px);
+  line-height: 1.7;
+  margin: 0 0 18px;
+}
+
+.leap-feature__note {
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.leap-feature__lede:last-child,
+.leap-feature__note:last-child {
+  margin-bottom: 0;
+}
+
+/* Drivetrain: full-bleed field photo with a proper shade under the copy. */
+.leap-feature-bleed {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  min-height: min(80vh, 720px);
+  overflow: hidden;
+  padding: var(--leap-section-gap) var(--page-pad);
+  position: relative;
+}
+
+.leap-feature-bleed__image {
+  object-fit: cover;
+  object-position: 50% 78%;
+  z-index: 0;
+}
+
+.leap-feature-bleed__shade {
+  background:
+    radial-gradient(ellipse 46% 60% at 50% 55%, rgba(5, 9, 11, 0.62), transparent),
+    linear-gradient(180deg, rgba(5, 9, 11, 0.5), rgba(5, 9, 11, 0.88));
+  inset: 0;
+  position: absolute;
+  z-index: 0;
+}
+
+.leap-feature-bleed__copy {
+  max-width: 640px;
+  position: relative;
+  text-align: center;
+  z-index: 1;
+}
+
+.leap-feature-bleed .leap-feature__lede {
+  color: rgba(255, 255, 255, 0.86);
+}
+
+/* Split sections: copy beside a photo, photo first on phones. */
+.leap-feature-split {
+  align-items: center;
+  display: grid;
+  gap: clamp(32px, 6vw, 80px);
+  grid-template-columns: 1fr 1fr;
+}
+
+.leap-feature-split + .leap-feature-split {
+  padding-top: 0;
+}
+
+.leap-feature-split + .vehicle-dossier {
+  margin-bottom: clamp(48px, 6vw, 80px);
+  margin-top: 0;
+}
+
+/* Section rhythm: the dossier blocks bring their own padding, so drop the base sheet's outer margin where they meet a neighbour that already pads. */
+.leap-stats + .vehicle-dossier {
+  border-top: 0;
+  margin-top: 0;
+}
+
+#roadmap {
+  margin-bottom: 0;
+}
+
+.leap-feature-split__copy {
+  min-width: 0;
+}
+
+.leap-feature-split__media {
+  height: clamp(260px, 32vw, 450px);
+  position: relative;
+  width: 100%;
+}
+
+/* Closing CTA band. */
+.join-band.leap-feature-cta {
+  padding: var(--leap-section-gap) var(--page-pad);
+  text-align: center;
+}
+
+.leap-feature-cta h2 {
+  margin: 0 auto 30px;
+  text-wrap: balance;
+}
+
+.leap-feature-cta h2 em {
+  color: var(--accent);
+  font-style: normal;
+}
+
+.join-band.leap-feature-cta > .join-band__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0;
+}
+
+/* Mission systems: real tabs, four stacked frames, opacity toggle for instant switching. */
+.mission-systems__tablist {
+  display: flex;
+  flex-direction: column;
+}
+
+.mission-systems__tabs button:focus-visible {
+  outline: 2px solid var(--accent-bright);
+  outline-offset: -2px;
+}
+
+.mission-systems__image img {
+  animation: none;
+  opacity: 0;
+  transition: opacity 320ms ease;
+}
+
+.mission-systems__image img.is-active {
+  opacity: 1;
+}
+
+/* Mission-system photo framing (the base sheet sets no object-position here). The panel is ~2:1 on desktop, so each crop is chosen to keep the named subject inside the frame. */
+.mission-systems__image .mission-systems__photo--mobility {
+  object-position: 50% 60%;
+}
+
+/* Quadcopter rides on top of the mast: keep the top of the frame low enough that it is not cut off. */
+.mission-systems__image .mission-systems__photo--autonomy {
+  object-position: 45% 36%;
+}
+
+.mission-systems__image .mission-systems__photo--manipulation {
+  object-position: 50% 45%;
+}
+
+.mission-systems__image .mission-systems__photo--science {
+  object-position: 50% 55%;
+}
+
+/* Turntable: fill the stage rather than leaving headroom above the mast. */
+.rover-explorer__media .rover-explorer__sequence-image {
+  transform: translateY(9%) scale(1.5);
+}
+
+/* Tablet-landscape: restore the base sheet's two-column result band (the 4-column rule above would otherwise hold until 820 px). */
+@media (max-width: 980px) {
+  .leap-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .leap-stats__intro,
+  .leap-stats__item:last-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 820px) {
+  /* The base sheet pads "the section after the result band" for the deleted One-series block; restore the dossier rhythm. */
+  main > .hero + .leap-stats + .vehicle-dossier {
+    padding: 72px var(--page-pad) 66px !important;
+  }
+
+  .leap-feature-split {
+    grid-template-columns: 1fr;
+  }
+
+  .leap-feature-split__media {
+    height: min(90vw, 420px);
+  }
+
+  .leap-feature-split--reverse > .leap-feature-split__media,
+  .leap-feature-split > .leap-feature-split__media {
+    order: -1;
+  }
+
+  .leap-feature-bleed {
+    min-height: 600px;
+  }
+
+  /* Portrait frame on a 4:3 field photo: pull the crop left so the big front tyre is in the frame, not the flag plate alone. */
+  .leap-feature-bleed__image {
+    object-position: 14% 78%;
+  }
+
+  .leap-feature__title {
+    font-size: clamp(34px, 9.6vw, 44px);
+  }
+
+  /* Tablet stages are height-limited: keep the mast clear of the top edge. */
+  .rover-explorer__media .rover-explorer__sequence-image {
+    transform: scale(1.35);
+  }
+}
+
+@media (max-width: 480px) {
+  /* Near-square phone panel on a portrait photo: frame from the collar down so the crew member's face is not cut at the chin. */
+  .mission-systems__image .mission-systems__photo--science {
+    object-position: 50% 72%;
+  }
+}
+
+@media (max-width: 430px) {
+  /* Phone stages are width-limited, so the frame has vertical slack to spend. */
+  .rover-explorer__media .rover-explorer__sequence-image {
+    transform: scale(1.65);
+  }
+}

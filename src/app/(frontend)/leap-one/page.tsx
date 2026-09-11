@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
+import Link from 'next/link'
 
 import { MagneticLink } from '@/components/MagneticLink'
 import { MissionControlShowcase } from '@/components/MissionControlShowcase'
@@ -7,14 +8,17 @@ import { MissionSystems } from '@/components/MissionSystems'
 import { PageShell } from '@/components/PageShell'
 import { PartnersBand } from '@/components/PartnersBand'
 import { RoverViewer } from '@/components/RoverViewer'
-import { pageMetadata } from '@/lib/seo'
+import { breadcrumbJsonLd, pageMetadata, serializeJsonLd } from '@/lib/seo'
 
 export const metadata: Metadata = pageMetadata({
-  description: 'LEAP-One, Project 01 of the HSM Aries LEAP series: the rover that competed at the ERC 2026 finals in Kraków — its result, vehicle dossier and the road to Leap-2.',
-  image: '/media/erc-2026-finals-hero-leap-one.jpg',
+  description: 'LEAP-One is Project 01 of the HSM Aries LEAP series: the rover that competed at the ERC 2026 finals in Kraków. Result, vehicle dossier and the road to Leap-2.',
+  image: '/media/og/leap-one.jpg',
+  imageAlt: 'LEAP-One reaches out with its arm on the Mars yard at the ERC 2026 finals',
   path: '/leap-one',
-  title: 'LEAP-One — Project 01 / LEAP Rovers',
+  title: 'LEAP-One — Project 01, LEAP Rovers',
 })
+
+const finalsStoryHref = '/news/mission-complete-hsm-aries-space-finishes-17th-of-25-at-the-erc-2026-finals-in-krakow'
 
 const specGroups = [
   {
@@ -22,7 +26,6 @@ const specGroups = [
     description: 'Load-bearing structure, terrain handling and motive force.',
     title: 'Mobility & structure',
     items: [
-      { label: 'Estimated system mass', value: '≈74.8 kg' },
       { label: 'Chassis material', value: 'Aluminium 3.3535 (5754)' },
       { label: 'Suspension type', value: '6-Wheel Rocker-Bogie with Differential' },
       { label: 'Ground clearance', value: '180 mm nominal' },
@@ -56,11 +59,17 @@ const specGroups = [
   },
 ]
 
+const breadcrumbs = breadcrumbJsonLd([
+  { name: 'Home', path: '/' },
+  { name: 'LEAP-One' },
+])
+
 export default function LeapOnePage() {
   return (
     <PageShell>
+      <script dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbs) }} type="application/ld+json" />
       <section className="hero">
-        <Image alt="LEAP-One reaches out with its arm on the Mars yard at the ERC 2026 finals" fill priority sizes="100vw" src="/media/erc-2026-finals-hero-leap-one.jpg" style={{ objectFit: 'cover' }} />
+        <Image alt="LEAP-One reaches out with its arm on the Mars yard at the ERC 2026 finals" fetchPriority="high" fill preload sizes="100vw" src="/media/erc-2026-finals-hero-leap-one.jpg" style={{ objectFit: 'cover' }} />
         <div aria-hidden="true" className="hero__shade" />
         <div className="hero__content" style={{ bottom: '15%', top: 'auto', transform: 'none', width: '100%' }}>
           <div className="leap-one-hero__mission">
@@ -68,7 +77,7 @@ export default function LeapOnePage() {
               <Image alt="LEAP-One mission badge" height={154} src="/media/leapone.png" width={154} />
             </div>
             <div className="leap-one-hero__mission-copy">
-              <p>HSM ARIES // LEAP ROVERS / PROJECT 01</p>
+              <p>HSM ARIES // LEAP ROVERS // PROJECT 01</p>
             </div>
           </div>
           <h1>LEAP-One.<br />The first leap.</h1>
@@ -77,8 +86,12 @@ export default function LeapOnePage() {
 
       <section aria-labelledby="leap-stats-title" className="leap-stats">
         <div className="leap-stats__intro">
-          <p>PROJECT 01 / ERC 2026 RESULT</p>
+          <p>PROJECT 01 // ERC 2026 RESULT</p>
           <h2 id="leap-stats-title">Tested at<br /><em>ERC 2026.</em></h2>
+          <div className="leap-stats__links">
+            <Link className="text-link" href={finalsStoryHref}>Read the finals report <span aria-hidden="true">→</span></Link>
+            <Link className="text-link" href="/gallery">Field gallery <span aria-hidden="true">→</span></Link>
+          </div>
         </div>
         <div className="leap-stats__item">
           <p>Overall</p>
@@ -97,49 +110,23 @@ export default function LeapOnePage() {
         </div>
       </section>
 
-      <section style={{ maxWidth: '900px', margin: '0 auto', padding: '160px 24px 80px', textAlign: 'center' }}>
-        <p style={{ textTransform: 'uppercase', letterSpacing: '0.15em', fontSize: '12px', color: 'rgba(255,255,255,0.5)', marginBottom: '16px' }}>A growing rover programme</p>
-        <h2 style={{ textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: 'clamp(32px, 4.5vw, 56px)', marginBottom: '30px' }}>ONE SERIES. THE NEXT ROVER.</h2>
-        <p style={{ fontSize: '20px', lineHeight: 1.8, color: 'rgba(255,255,255,0.7)', marginBottom: '24px' }}>
-          LEAP Rovers is HSM Aries’ evolving family of planetary robotic platforms. LEAP-One is Project 01, the rover that took the series to the ERC 2026 finals in Kraków.
-        </p>
-        <p style={{ fontSize: '20px', lineHeight: 1.8, color: 'rgba(255,255,255,0.7)' }}>
-          Leap-2 is Project 02, now in development. Where LEAP-One had to be better, the next rover starts from the scoreboard.
-        </p>
-        <div className="join-band__actions" style={{ justifyContent: 'center', marginTop: '36px' }}>
-          <MagneticLink className="button button--outline" href="/leap-2">Explore Leap-2</MagneticLink>
-        </div>
-      </section>
-
       <section aria-labelledby="leap-2-title" className="vehicle-dossier" id="roadmap">
         <header className="vehicle-dossier__header">
           <div>
             <p>LEAP SERIES // PROJECT ROADMAP</p>
             <h2 id="leap-2-title">From <span style={{ whiteSpace: 'nowrap' }}>LEAP-One</span><br /><em>to Leap-2.</em></h2>
           </div>
-          <p className="vehicle-dossier__intro">Not the placing we wanted. What the scoreboard says LEAP-One did well—and where Leap-2 has to be better.</p>
+          <p className="vehicle-dossier__intro">Not the placing we wanted. The scoreboard says what LEAP-One did well and what Leap-2 has to do better; the vehicle dossier below records the configuration that competed.</p>
         </header>
 
         <div className="vehicle-dossier__groups">
           <section className="vehicle-dossier__group">
             <header>
-              <span>01 // project</span>
-              <h3>LEAP-One</h3>
-              <p>Competed · ERC 2026 finals, Kraków</p>
+              <span>01 // scored</span>
+              <h3>Points scored</h3>
+              <p>The rest of the ERC 2026 scoreboard, task by task.</p>
             </header>
             <dl>
-              <div>
-                <dt>Result</dt>
-                <dd>17th of 25 · 1492.25 pts</dd>
-              </div>
-              <div>
-                <dt>Documentation</dt>
-                <dd>364.25 / 400 · 4th</dd>
-              </div>
-              <div>
-                <dt>Navigation droning</dt>
-                <dd>265 / 300 · 6th</dd>
-              </div>
               <div>
                 <dt>Presentation</dt>
                 <dd>229 / 300</dd>
@@ -148,13 +135,46 @@ export default function LeapOnePage() {
                 <dt>AstroBio</dt>
                 <dd>215 / 300</dd>
               </div>
+              <div>
+                <dt>Surface &amp; deep sampling</dt>
+                <dd>197 / 440</dd>
+              </div>
+              <div>
+                <dt>Exploration</dt>
+                <dd>123 / 340</dd>
+              </div>
             </dl>
           </section>
           <section className="vehicle-dossier__group">
             <header>
-              <span>02 // project</span>
+              <span>02 // the brief</span>
+              <h3>Points lost</h3>
+              <p>The four lines that decide Leap-2.</p>
+            </header>
+            <dl>
+              <div>
+                <dt>Traverse</dt>
+                <dd>43 / 340</dd>
+              </div>
+              <div>
+                <dt>Maintenance</dt>
+                <dd>66 / 340</dd>
+              </div>
+              <div>
+                <dt>Probing</dt>
+                <dd>12 / 240</dd>
+              </div>
+              <div>
+                <dt>Mass</dt>
+                <dd>−22 · only penalty in the field</dd>
+              </div>
+            </dl>
+          </section>
+          <section className="vehicle-dossier__group">
+            <header>
+              <span>03 // project</span>
               <h3>Leap-2</h3>
-              <p>In development · design phase</p>
+              <p>Project 02 · in development</p>
             </header>
             <dl>
               <div>
@@ -179,35 +199,6 @@ export default function LeapOnePage() {
               </div>
             </dl>
           </section>
-          <section className="vehicle-dossier__group">
-            <header>
-              <span>03 // scoreboard</span>
-              <h3>What ERC 2026 taught us</h3>
-              <p>The tasks that decide the next rover.</p>
-            </header>
-            <dl>
-              <div>
-                <dt>Traverse</dt>
-                <dd>43 / 340</dd>
-              </div>
-              <div>
-                <dt>Maintenance</dt>
-                <dd>66 / 340</dd>
-              </div>
-              <div>
-                <dt>Probing</dt>
-                <dd>12 / 240</dd>
-              </div>
-              <div>
-                <dt>Mass</dt>
-                <dd>−22 · only penalty in the field</dd>
-              </div>
-              <div>
-                <dt>Overall</dt>
-                <dd>1492.25 / 3000 · 17th of 25</dd>
-              </div>
-            </dl>
-          </section>
         </div>
       </section>
 
@@ -215,52 +206,54 @@ export default function LeapOnePage() {
 
       <MissionControlShowcase />
 
-      <section style={{ padding: '160px 24px', maxWidth: '1400px', margin: '0 auto' }}>
-        <div style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto 80px' }}>
-          <p style={{ textTransform: 'uppercase', letterSpacing: '0.15em', fontSize: '12px', color: 'rgba(255,255,255,0.5)', marginBottom: '16px' }}>Core Subsystems</p>
-          <h2 style={{ textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: 'clamp(30px, 4vw, 50px)', margin: 0 }}>FOUR MISSION SYSTEMS</h2>
-        </div>
+      <section aria-labelledby="leap-systems-title" className="leap-feature">
+        <header className="leap-feature__header">
+          <p className="leap-feature__eyebrow">LEAP-ONE // CORE SUBSYSTEMS</p>
+          <h2 className="leap-feature__title" id="leap-systems-title">Four <em>mission systems.</em></h2>
+        </header>
         <MissionSystems />
       </section>
 
-      <section style={{ position: 'relative', height: '80vh', minHeight: '600px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '80px 0' }}>
-        <Image alt="Custom 3D-printed flexible rover wheel" fill sizes="100vw" src="/media/3d-tyre-scaled.jpg" style={{ objectFit: 'cover', opacity: 0.6, zIndex: 0 }} />
-        <div style={{ position: 'relative', zIndex: 1, maxWidth: '800px', textAlign: 'center', padding: '0 24px' }}>
-          <h2 style={{ textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: 'clamp(30px, 4vw, 50px)', marginBottom: '20px' }}>CUSTOM DRIVETRAIN &amp; 3D TYRES</h2>
-          <p style={{ fontSize: '20px', lineHeight: 1.8, color: 'rgba(255,255,255,0.8)' }}>
-          The passive differential rocker-bogie keeps all six custom TPU wheels in contact over rough terrain. Its 180 mm nominal clearance, 35° slope target and 60 mm obstacle capability are designed for demanding analogue field work.
+      <section aria-labelledby="leap-drivetrain-title" className="leap-feature-bleed">
+        <Image alt="LEAP-One's 3D-printed TPU wheels dig into the sand at the ERC 2026 Mars yard" className="leap-feature-bleed__image" fill sizes="100vw" src="/media/erc-2026-finals-07-wheels-in-the-sand.jpg" />
+        <div aria-hidden="true" className="leap-feature-bleed__shade" />
+        <div className="leap-feature-bleed__copy">
+          <p className="leap-feature__eyebrow">LEAP-ONE // DRIVETRAIN</p>
+          <h2 className="leap-feature__title" id="leap-drivetrain-title">Custom drivetrain. <em>3D-printed tyres.</em></h2>
+          <p className="leap-feature__lede">
+            The passive differential rocker-bogie keeps all six custom TPU wheels in contact over rough terrain. Its 180 mm nominal clearance, 35° slope target and 60 mm obstacle capability are designed for demanding analogue field work.
           </p>
-        </div>
-      </section>
-      
-      <section style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', maxWidth: '1400px', margin: '160px auto', padding: '0 24px', alignItems: 'center' }}>
-        <div>
-          <p style={{ textTransform: 'uppercase', letterSpacing: '0.15em', fontSize: '12px', color: 'rgba(255,255,255,0.5)', marginBottom: '16px' }}>Power Architecture</p>
-          <h2 style={{ textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: 'clamp(30px, 4vw, 50px)', marginBottom: '20px' }}>2S2P LiFePO₄ POWER SYSTEM</h2>
-          <p style={{ fontSize: '20px', lineHeight: 1.8, color: 'rgba(255,255,255,0.7)', marginBottom: '20px' }}>
-            Four 12.8 V, 30 Ah LiFePO₄ modules are configured in 2S2P to form a 25.6 V, 60 Ah main bus with approximately 1.5 kWh of stored energy.
-          </p>
-          <p style={{ fontSize: '16px', lineHeight: 1.8, color: 'rgba(255,255,255,0.5)' }}>
-            Regulated DC-DC conversion, centralized distribution and a solid-state-relay E-Stop isolate the mobility bus while retaining computation and communications for diagnostics.
-          </p>
-        </div>
-        <div style={{ position: 'relative', height: '450px', width: '100%' }}>
-          <Image alt="LiFePO4 battery and motor calibration test bench" fill sizes="50vw" src="/media/testing.jpg" style={{ objectFit: 'cover' }} />
         </div>
       </section>
 
-      <section style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', maxWidth: '1400px', margin: '0 auto 160px', padding: '0 24px', alignItems: 'center' }}>
-        <div style={{ position: 'relative', height: '450px', width: '100%' }}>
-          <Image alt="Precision CNC machined aluminum chassis at Boehm facility" fill sizes="50vw" src="/media/boehm-manufacturing-scaled.jpg" style={{ objectFit: 'cover' }} />
+      <section aria-labelledby="leap-power-title" className="leap-feature-split">
+        <div className="leap-feature-split__copy">
+          <p className="leap-feature__eyebrow">LEAP-ONE // POWER ARCHITECTURE</p>
+          <h2 className="leap-feature__title" id="leap-power-title">2S2P LiFePO₄ <em>power system.</em></h2>
+          <p className="leap-feature__lede">
+            Four 12.8 V, 30 Ah LiFePO₄ modules are configured in 2S2P to form a 25.6 V, 60 Ah main bus with approximately 1.5 kWh of stored energy.
+          </p>
+          <p className="leap-feature__note">
+            Regulated DC-DC conversion, centralized distribution and a solid-state-relay E-Stop isolate the mobility bus while retaining computation and communications for diagnostics.
+          </p>
         </div>
-        <div>
-          <p style={{ textTransform: 'uppercase', letterSpacing: '0.15em', fontSize: '12px', color: 'rgba(255,255,255,0.5)', marginBottom: '16px' }}>Industrial Manufacturing</p>
-          <h2 style={{ textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: 'clamp(30px, 4vw, 50px)', marginBottom: '20px' }}>AEROSPACE-GRADE FABRICATION</h2>
-          <p style={{ fontSize: '20px', lineHeight: 1.8, color: 'rgba(255,255,255,0.7)', marginBottom: '20px' }}>
+        <div className="leap-feature-split__media">
+          <Image alt="LiFePO4 battery and motor calibration test bench" fill sizes="(max-width: 820px) 100vw, 50vw" src="/media/testing.jpg" style={{ objectFit: 'cover' }} />
+        </div>
+      </section>
+
+      <section aria-labelledby="leap-structure-title" className="leap-feature-split leap-feature-split--reverse">
+        <div className="leap-feature-split__media">
+          <Image alt="Machined 5754 aluminium rover base and rocker linkages on a lift cart at Boehm Group" fill sizes="(max-width: 820px) 100vw, 50vw" src="/media/boehm-manufacturing-scaled.jpg" style={{ objectFit: 'cover' }} />
+        </div>
+        <div className="leap-feature-split__copy">
+          <p className="leap-feature__eyebrow">LEAP-ONE // MANUFACTURING</p>
+          <h2 className="leap-feature__title" id="leap-structure-title">Machined to the <em>CAD.</em></h2>
+          <p className="leap-feature__lede">
             The lightweight primary structure uses aluminium 3.3535 (5754), with 20×40 mm rocker linkages and a 20×20 mm differential bar. Boehm Group GmbH manufactured the rover base as part of the team’s industrial collaboration.
           </p>
-          <p style={{ fontSize: '16px', lineHeight: 1.8, color: 'rgba(255,255,255,0.5)' }}>
-            Every structural component is engineered to withstand high impact shocks, extreme vibration, and Martian thermal cycles.
+          <p className="leap-feature__note">
+            Machining the base to drawing keeps the rocker linkages, differential bar and mounting pattern within tolerance — the reference every other subsystem is aligned to. The structure is sized for transport, repeated field handling and rebuilds between runs: in Kraków the chassis was rebuilt on the pavement before LEAP-One’s first run.
           </p>
         </div>
       </section>
@@ -271,11 +264,11 @@ export default function LeapOnePage() {
             <p>Engineering data // project 01</p>
             <h2 id="vehicle-dossier-title">Vehicle <em>dossier.</em></h2>
           </div>
-          <p className="vehicle-dossier__intro">The LEAP-One configuration that competed at ERC 2026: a field-ready planetary rover platform built for mobility, science and autonomous operation.</p>
+          <p className="vehicle-dossier__intro">Every number below is the LEAP-One configuration that competed at ERC 2026 — not a target, not a render.</p>
           <div className="vehicle-dossier__readout">
-            <span>Validated entries</span>
-            <strong>{specGroups.reduce((total, group) => total + group.items.length, 0)}</strong>
-            <span>Systems baseline</span>
+            <span>System mass, est.</span>
+            <strong>74.8</strong>
+            <span>kg · ERC 2026 competition build</span>
           </div>
         </header>
 
@@ -302,12 +295,12 @@ export default function LeapOnePage() {
 
       <PartnersBand />
 
-      <section className="join-band" style={{ textAlign: 'center', padding: '160px 24px' }}>
-        <h2 style={{ textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '30px' }}>Ready for the next leap?</h2>
-        <div className="join-band__actions" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+      <section aria-labelledby="leap-cta-title" className="join-band leap-feature-cta">
+        <h2 id="leap-cta-title">Ready for the <em>next leap?</em></h2>
+        <div className="join-band__actions">
           <MagneticLink className="button button--solid" href="/leap-2">Explore Leap-2</MagneticLink>
           <MagneticLink className="button button--outline" href="/join">Join the crew</MagneticLink>
-          <MagneticLink className="button button--outline" href="/partner">Partner With Aries</MagneticLink>
+          <MagneticLink className="button button--outline" href="/partner">Partner with Aries</MagneticLink>
         </div>
       </section>
     </PageShell>

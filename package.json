@@ -14,6 +14,7 @@
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
     "build:netlify-folder": "cross-env NODE_OPTIONS=\"--no-deprecation --max-old-space-size=8000\" next build && node scripts/build-netlify-folder.mjs",
     "lint": "cross-env NODE_OPTIONS=--no-deprecation eslint .",
+    "media:responsive": "node scripts/build-responsive-media.mjs",
     "render:leap-one-turntable": "node scripts/render-leap-one-turntable.mjs",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start",

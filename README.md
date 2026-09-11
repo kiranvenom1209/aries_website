@@ -42,6 +42,7 @@ npm run build
 ## Content and assets
 
 - Public assets are served from `public/media`.
+- Responsive photos: `npm run media:responsive` (`scripts/build-responsive-media.mjs`) scans `src/` for every `/media/<file>.(jpg|jpeg|png)` reference and writes WebP variants to `public/media/r/<stem>-<width>.webp` (144 / 384 / 640 / 960 / 1280 / 1920 / 2560, only widths below the original), recording them in `src/lib/responsive-manifest.json`. `next.config.ts` uses the custom loader `src/lib/imageLoader.ts` so `next/image` emits a real `srcset` from those static files with no image CDN; anything not in the manifest (CMS uploads under `/api/media/file/`, SVGs, sub-folders) is served unchanged. Re-run the script after adding or replacing a photo and commit `public/media/r/` and the manifest; `--force` re-encodes existing variants.
 - The native LEAP-One viewer uses an optimized 12.16 MB GLB and a 360-frame fixed-horizon turntable sequence at `/media/leap-one-turntable`.
 - All 29 recovered public news stories plus the ERC 2026 finals report remain available; CMS versions override matching stories by slug.
 - The ERC 2026 finals photo set is the 39 curated `public/media/erc-2026-finals-NN-<slug>.jpg` files (1920/2560 px long edge, mozjpeg, EXIF stripped), registered in `src/lib/gallery.ts` and the `erc-2026-finals` gallery seed; the raw event dump in `erc-2026/` is gitignored and must never be committed or deployed.

@@ -4,10 +4,10 @@ import { SITE_URL } from '@/lib/seo'
 
 export default function robots(): MetadataRoute.Robots {
   return {
-    host: SITE_URL,
     rules: {
       allow: '/',
-      disallow: ['/admin/', '/api/', '/login', '/thank-you'],
+      // /login and /thank-you are noindex in their metadata; leaving them crawlable lets robots see it.
+      disallow: ['/admin/', '/api/'],
       userAgent: '*',
     },
     sitemap: `${SITE_URL}/sitemap.xml`,

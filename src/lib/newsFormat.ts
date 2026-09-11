@@ -9,4 +9,12 @@ export function formatNewsDate(value: string) {
   })
     .format(date)
     .toUpperCase()
+    // ICU renders September as "Sept" in en-GB; keep every month at three letters.
+    .replace(/\bSEPT\b/, 'SEP')
+}
+
+/** Reading time in whole minutes at ~220 words per minute, never below 1. */
+export function readingTimeMinutes(paragraphs: string[]) {
+  const words = paragraphs.join(' ').split(/\s+/).filter(Boolean).length
+  return Math.max(1, Math.round(words / 220))
 }

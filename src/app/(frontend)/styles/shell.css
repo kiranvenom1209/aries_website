@@ -1,0 +1,317 @@
+/* Polish layer: shell — loaded after styles.css; equal-specificity rules here override the base sheet. */
+
+/* -------------------------------------------------------------------------- */
+/* Skip link                                                                   */
+/* -------------------------------------------------------------------------- */
+
+.skip-link {
+  background: var(--accent);
+  color: #050607;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 600;
+  left: var(--page-pad);
+  letter-spacing: .14em;
+  padding: 12px 18px;
+  position: fixed;
+  text-transform: uppercase;
+  top: 12px;
+  transform: translateY(-200%);
+  transition: transform 160ms ease;
+  z-index: 10001;
+}
+
+.skip-link:focus-visible {
+  outline-color: #050607;
+  outline-offset: -4px;
+  transform: none;
+}
+
+#main:focus,
+#main:focus-visible {
+  outline: none;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Fixed mission bar: scrim on the hero, translucent blur once scrolled        */
+/* -------------------------------------------------------------------------- */
+
+.site-header {
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  position: fixed;
+  transition: height 220ms ease, border-color 220ms ease;
+}
+
+/* Hero scrim at every viewport (the base sheet only had one on phones). */
+.site-header::before {
+  background: linear-gradient(180deg, rgba(2, 5, 7, .78), rgba(2, 5, 7, .42) 58%, transparent);
+  content: "";
+  inset: 0 0 -40px;
+  pointer-events: none;
+  position: absolute;
+  transition: opacity 220ms ease;
+  z-index: -1;
+}
+
+/* Scrolled backdrop lives on a pseudo-element so backdrop-filter never becomes the
+   containing block of the fixed mobile drawer inside the header. */
+.site-header::after {
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  background: rgba(2, 5, 7, .86);
+  content: "";
+  /* Extends 1px below the box so the border-bottom row is backed by the blur, not the page. */
+  inset: 0 0 -1px;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  transition: opacity 220ms ease;
+  z-index: -1;
+}
+
+.site-header.is-scrolled {
+  border-bottom-color: var(--line);
+  height: 72px;
+}
+
+.site-header.is-scrolled::before {
+  opacity: 0;
+}
+
+.site-header.is-scrolled::after {
+  opacity: 1;
+}
+
+.brand-logo__image {
+  transition: width 220ms ease;
+}
+
+.site-header.is-scrolled .brand-logo__image {
+  height: auto;
+  width: 124px;
+}
+
+/* 2px accent scroll-progress line along the top edge (base rule at styles.css .scroll-progress). */
+.site-header .scroll-progress {
+  pointer-events: none;
+}
+
+.site-header.is-nav-open .scroll-progress {
+  opacity: 0;
+}
+
+/* Section readout: mirrors the current numbered eyebrow while the bar is scrolled. */
+.site-header__readout {
+  border-left: 1px solid var(--line-bright);
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .14em;
+  line-height: 1;
+  margin-left: 26px;
+  margin-right: auto;
+  max-width: min(26vw, 340px);
+  opacity: 0;
+  overflow: hidden;
+  padding: 4px 0 4px 26px;
+  pointer-events: none;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  transition: opacity 220ms ease;
+  white-space: nowrap;
+}
+
+.site-header.is-scrolled .site-header__readout:not([data-empty]) {
+  opacity: 1;
+}
+
+/* Primary CTA hover: dark ink on orange (white on #ff5a1f is ~3.1:1). */
+.site-nav .header-cta:hover {
+  color: #050607;
+}
+
+/* Leap Rovers disclosure: tap-to-open state for pointers without hover, plus data-active
+   underline so only the child link carries aria-current. */
+.site-nav__group > a[data-active]::after,
+.site-nav__group.is-open > a::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.site-nav__group.is-open .site-nav__caret {
+  transform: translateY(1px) rotate(225deg);
+}
+
+.site-nav__group.is-open .site-nav__menu {
+  opacity: 1;
+  transform: translate(-50%, 0);
+  transition-delay: 0s;
+  visibility: visible;
+}
+
+/* Escape on the keyboard-revealed disclosure: hide the menu although focus is still inside
+   the group (:focus-within), until focus leaves and the group resets. */
+.site-nav__group.is-dismissed:focus-within .site-nav__menu {
+  opacity: 0;
+  transform: translate(-50%, 8px);
+  visibility: hidden;
+}
+
+.site-nav__group.is-dismissed:focus-within .site-nav__caret {
+  transform: none;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Preloader: every hard load, shorter, near-instant with reduced motion         */
+/* -------------------------------------------------------------------------- */
+
+html.preloader-skip .site-preloader {
+  display: none;
+}
+
+.site-preloader {
+  transition-duration: 640ms;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Footer                                                                      */
+/* -------------------------------------------------------------------------- */
+
+.site-footer__status {
+  align-items: flex-start;
+  font-size: 11px;
+  letter-spacing: .08em;
+  line-height: 1.5;
+  text-transform: none;
+}
+
+.site-footer__status .status-dot {
+  flex: 0 0 auto;
+  margin-top: 5px;
+}
+
+.site-footer__nowrap {
+  white-space: nowrap;
+}
+
+.site-footer__subtext a {
+  border-bottom: 1px solid var(--line-bright);
+  color: var(--text);
+  display: inline-block;
+  margin-top: 8px;
+  padding-bottom: 1px;
+  transition: border-color 200ms ease, color 200ms ease;
+}
+
+.site-footer__subtext a:hover {
+  border-bottom-color: var(--accent-bright);
+  color: var(--accent-bright);
+}
+
+.site-footer__nav a {
+  color: rgba(239, 244, 246, .78);
+}
+
+.site-footer__tagline {
+  color: rgba(239, 244, 246, .62);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Responsive                                                                  */
+/* -------------------------------------------------------------------------- */
+
+@media (max-width: 1379px) {
+  .site-header__readout {
+    display: none;
+  }
+}
+
+@media (max-width: 820px) {
+  /* The scrim now lives on ::before at every width; drop the base sheet's mobile-only background. */
+  .site-header {
+    background: transparent;
+  }
+
+  .site-header.is-scrolled {
+    height: 64px;
+  }
+
+  .site-header.is-scrolled .brand-logo__image {
+    width: 118px;
+  }
+
+  /* Closed drawer leaves the accessibility tree and the Tab order; open drawer is opaque so
+     page copy no longer ghosts through the .985 alpha of the base sheet. */
+  .site-nav {
+    background:
+      radial-gradient(circle at 78% 18%, rgba(255, 90, 31, .16), transparent 28%),
+      linear-gradient(rgba(255, 255, 255, .035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, .035) 1px, transparent 1px),
+      #020507;
+    background-size: auto, 42px 42px, 42px 42px, auto;
+    transition: opacity 220ms ease, transform 220ms ease, visibility 0s linear 220ms;
+    visibility: hidden;
+  }
+
+  .site-nav.is-open {
+    transition-delay: 0s;
+    visibility: visible;
+  }
+
+  /* The base sheet re-enables visibility on the sub-menu at this width; keep its links out of
+     the Tab order and the accessibility tree while the drawer is closed. */
+  .site-nav:not(.is-open) .site-nav__menu {
+    visibility: hidden;
+  }
+
+  /* Scroll lock for the open drawer: the base sheet clips html here, which stops
+     body.nav-open { overflow: hidden } from propagating to the viewport. */
+  html.nav-open {
+    overflow: hidden;
+  }
+
+  /* Footer type floor on phones. */
+  .site-footer__heading {
+    font-size: 10px;
+    letter-spacing: .14em;
+  }
+
+  .site-footer__status {
+    font-size: 10px;
+    line-height: 1.6;
+  }
+
+  .site-footer__subtext {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .site-footer__bottom {
+    font-size: 10px;
+    gap: 10px;
+    line-height: 1.6;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header,
+  .site-header::before,
+  .site-header::after,
+  .site-header__readout,
+  .brand-logo__image,
+  .skip-link {
+    transition: none;
+  }
+
+  .site-preloader {
+    transition: none;
+  }
+}
+
+/* The scrolled readout truncates; it never pushes the primary nav onto two lines. */
+.site-nav { flex-shrink: 0; }
+.site-nav > a,
+.site-nav__group > a,
+.site-nav .header-cta { white-space: nowrap; }
+.site-header__readout { flex: 0 1 auto; margin-right: 24px; min-width: 0; }
