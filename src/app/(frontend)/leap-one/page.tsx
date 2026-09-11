@@ -10,10 +10,10 @@ import { RoverViewer } from '@/components/RoverViewer'
 import { pageMetadata } from '@/lib/seo'
 
 export const metadata: Metadata = pageMetadata({
-  description: 'LEAP-One competed at the ERC 2026 finals in Kraków, finishing 17th of 25. Leap-2, Project 02 of the LEAP series, is now in development.',
+  description: 'LEAP-One, Project 01 of the HSM Aries LEAP series: the rover that competed at the ERC 2026 finals in Kraków — its result, vehicle dossier and the road to Leap-2.',
   image: '/media/erc-2026-finals-hero-leap-one.jpg',
   path: '/leap-one',
-  title: 'LEAP Rovers — LEAP-One, ERC 2026 and Leap-2',
+  title: 'LEAP-One — Project 01 / LEAP Rovers',
 })
 
 const specGroups = [
@@ -68,10 +68,10 @@ export default function LeapOnePage() {
               <Image alt="LEAP-One mission badge" height={154} src="/media/leapone.png" width={154} />
             </div>
             <div className="leap-one-hero__mission-copy">
-              <p>HSM ARIES // LEAP ROVERS / PROJECT 01 → 02</p>
+              <p>HSM ARIES // LEAP ROVERS / PROJECT 01</p>
             </div>
           </div>
-          <h1>LEAP Rovers.<br />From LEAP-One to Leap-2.</h1>
+          <h1>LEAP-One.<br />The first leap.</h1>
         </div>
       </section>
 
@@ -106,9 +106,12 @@ export default function LeapOnePage() {
         <p style={{ fontSize: '20px', lineHeight: 1.8, color: 'rgba(255,255,255,0.7)' }}>
           Leap-2 is Project 02, now in development. Where LEAP-One had to be better, the next rover starts from the scoreboard.
         </p>
+        <div className="join-band__actions" style={{ justifyContent: 'center', marginTop: '36px' }}>
+          <MagneticLink className="button button--outline" href="/leap-2">Explore Leap-2</MagneticLink>
+        </div>
       </section>
 
-      <section aria-labelledby="leap-2-title" className="vehicle-dossier" id="leap-2">
+      <section aria-labelledby="leap-2-title" className="vehicle-dossier" id="roadmap">
         <header className="vehicle-dossier__header">
           <div>
             <p>LEAP SERIES // PROJECT ROADMAP</p>
@@ -300,10 +303,10 @@ export default function LeapOnePage() {
       <PartnersBand />
 
       <section className="join-band" style={{ textAlign: 'center', padding: '160px 24px' }}>
-        <h2 style={{ textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '30px' }}>Ready to build Leap-2?</h2>
-        <div className="join-band__actions" style={{ justifyContent: 'center' }}>
-          <MagneticLink className="button button--solid" href="/join">Join Leap-2</MagneticLink>
-          <MagneticLink className="button button--outline" href="/team">Meet The Team</MagneticLink>
+        <h2 style={{ textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '30px' }}>Ready for the next leap?</h2>
+        <div className="join-band__actions" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+          <MagneticLink className="button button--solid" href="/leap-2">Explore Leap-2</MagneticLink>
+          <MagneticLink className="button button--outline" href="/join">Join the crew</MagneticLink>
           <MagneticLink className="button button--outline" href="/partner">Partner With Aries</MagneticLink>
         </div>
       </section>

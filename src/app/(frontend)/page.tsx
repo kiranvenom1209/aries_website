@@ -152,7 +152,7 @@ export default async function HomePage() {
           <span>NEXT ROVER</span>
           <strong>Leap-2</strong>
           <p>Project 02 — designed around what ERC 2026 taught us.</p>
-          <Link href="/leap-one#leap-2">Follow the build <b aria-hidden="true">↗</b></Link>
+          <Link href="/leap-2">Follow the build <b aria-hidden="true">↗</b></Link>
         </div>
         <div aria-hidden="true" className="aries-home-hero__signal">
           <i /><span>EXPLORATION SYSTEMS / 02</span>
@@ -205,8 +205,8 @@ export default async function HomePage() {
 
       <section className="aries-home-platform">
         <div className="aries-home-platform__image">
-          <Image alt="HSM Aries rover during a field engineering test" fill sizes="(max-width: 820px) 100vw, 50vw" src="/media/dsc01556-scaled.jpg" />
-          <span>FIELD TEST / THURINGIA</span>
+          <Image alt="Team members repair wiring beside LEAP-One’s arm and signal tower in the pit at ERC 2026" fill sizes="(max-width: 820px) 100vw, 50vw" src="/media/erc-2026-finals-12-field-wiring-repair.jpg" />
+          <span>PIT LANE / ERC 2026</span>
         </div>
         <div className="aries-home-platform__copy">
           <span className="section-label">HOW WE BUILD / 03</span>
@@ -258,7 +258,10 @@ export default async function HomePage() {
             <span><b>43/340</b> traverse · autonomous navigation first</span>
             <span><b>66/340</b> maintenance · serviceable manipulation</span>
           </div>
-          <MagneticLink className="button button--outline" href="/join">Build Leap-2 with us</MagneticLink>
+          <div className="join-band__actions">
+            <MagneticLink className="button button--solid" href="/leap-2">Explore Leap-2</MagneticLink>
+            <MagneticLink className="button button--outline" href="/join">Join the build</MagneticLink>
+          </div>
         </div>
         <div className="aries-home-leap-proof__image">
           <Image alt="LEAP-One climbs the rocky slope with its suspension articulating over the stones." fill sizes="(max-width: 820px) 100vw, 50vw" src="/media/erc-2026-finals-17-leap-one-climbs-rocky-slope.jpg" />

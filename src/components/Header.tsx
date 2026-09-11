@@ -6,9 +6,22 @@ import { useEffect, useState } from 'react'
 
 import { BrandLogo } from './BrandLogo'
 
-const navigation = [
+type NavItem = {
+  children?: Array<{ detail: string; href: string; label: string }>
+  href: string
+  label: string
+}
+
+const navigation: NavItem[] = [
   { href: '/about', label: 'About Us' },
-  { href: '/leap-one', label: 'Leap Rovers' },
+  {
+    children: [
+      { detail: 'Project 01 · ERC 2026 finalist', href: '/leap-one', label: 'LEAP-One' },
+      { detail: 'Project 02 · in development', href: '/leap-2', label: 'Leap-2' },
+    ],
+    href: '/leap-one',
+    label: 'Leap Rovers',
+  },
   { href: '/team', label: 'Team' },
   { href: '/news', label: 'News' },
   { href: '/gallery', label: 'Gallery' },
@@ -41,9 +54,28 @@ export function Header() {
       </button>
       <nav aria-label="Primary navigation" className={open ? 'site-nav is-open' : 'site-nav'} id="site-navigation">
         {navigation.map((item) => {
-          const active = pathname === item.href || pathname.startsWith(`${item.href}/`)
+          const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`)
+          if (item.children) {
+            const groupActive = item.children.some((child) => isActive(child.href))
+            return (
+              <div className="site-nav__group" key={item.href}>
+                <Link aria-current={groupActive ? 'page' : undefined} href={item.href}>
+                  {item.label}
+                  <span aria-hidden="true" className="site-nav__caret" />
+                </Link>
+                <div aria-label={`${item.label} pages`} className="site-nav__menu">
+                  {item.children.map((child) => (
+                    <Link aria-current={isActive(child.href) ? 'page' : undefined} href={child.href} key={child.href}>
+                      <strong>{child.label}</strong>
+                      <small>{child.detail}</small>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )
+          }
           return (
-            <Link aria-current={active ? 'page' : undefined} href={item.href} key={item.href}>
+            <Link aria-current={isActive(item.href) ? 'page' : undefined} href={item.href} key={item.href}>
               {item.label}
             </Link>
           )

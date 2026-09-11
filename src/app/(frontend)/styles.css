@@ -1115,7 +1115,8 @@ img {
   gap: clamp(25px, 3.6vw, 66px);
 }
 
-.site-nav > a {
+.site-nav > a,
+.site-nav__group > a {
   color: rgba(239, 244, 246, 0.82);
   font-family: var(--display);
   font-size: 16px;
@@ -1124,7 +1125,8 @@ img {
   text-shadow: 0 2px 14px rgba(0, 0, 0, 0.8);
 }
 
-.site-nav > a:not(.header-cta)::after {
+.site-nav > a:not(.header-cta)::after,
+.site-nav__group > a::after {
   background: var(--accent);
   bottom: 4px;
   content: "";
@@ -1138,7 +1140,10 @@ img {
 }
 
 .site-nav > a:hover::after,
-.site-nav > a[aria-current="page"]::after {
+.site-nav > a[aria-current="page"]::after,
+.site-nav__group:hover > a::after,
+.site-nav__group:focus-within > a::after,
+.site-nav__group > a[aria-current="page"]::after {
   transform: scaleX(1);
   transform-origin: left;
 }
@@ -1156,6 +1161,97 @@ img {
   background: var(--accent);
   border-color: var(--accent);
   color: white;
+}
+
+/* Leap Rovers disclosure: LEAP-One / Leap-2 */
+.site-nav__group {
+  position: relative;
+}
+
+.site-nav__group > a {
+  align-items: center;
+  display: inline-flex;
+  gap: 8px;
+}
+
+.site-nav__group::before {
+  content: "";
+  height: 18px;
+  inset: 100% 0 auto;
+  position: absolute;
+}
+
+.site-nav__caret {
+  border-bottom: 1.5px solid currentColor;
+  border-right: 1.5px solid currentColor;
+  height: 6px;
+  opacity: .7;
+  transform: translateY(-2px) rotate(45deg);
+  transition: transform 200ms ease;
+  width: 6px;
+}
+
+.site-nav__group:hover .site-nav__caret,
+.site-nav__group:focus-within .site-nav__caret {
+  transform: translateY(1px) rotate(225deg);
+}
+
+.site-nav__menu {
+  background: rgba(5, 8, 10, .96);
+  border: 1px solid var(--line-bright);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .55);
+  display: grid;
+  gap: 2px;
+  left: 50%;
+  min-width: 260px;
+  opacity: 0;
+  padding: 8px;
+  position: absolute;
+  top: calc(100% + 10px);
+  transform: translate(-50%, 8px);
+  transition: opacity 180ms ease, transform 180ms ease, visibility 0s linear 180ms;
+  visibility: hidden;
+  z-index: 30;
+}
+
+.site-nav__group:hover .site-nav__menu,
+.site-nav__group:focus-within .site-nav__menu {
+  opacity: 1;
+  transform: translate(-50%, 0);
+  transition-delay: 0s;
+  visibility: visible;
+}
+
+.site-nav__menu a {
+  color: var(--text);
+  display: grid;
+  font-family: var(--display);
+  font-size: 15px;
+  gap: 5px;
+  padding: 12px 14px;
+  transition: background 160ms ease;
+}
+
+.site-nav__menu a:hover,
+.site-nav__menu a:focus-visible,
+.site-nav__menu a[aria-current="page"] {
+  background: rgba(255, 90, 31, .12);
+}
+
+.site-nav__menu a strong {
+  font-weight: 600;
+}
+
+.site-nav__menu a[aria-current="page"] strong {
+  color: var(--accent-bright);
+}
+
+.site-nav__menu a small {
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
 }
 
 .menu-toggle {
@@ -5528,6 +5624,13 @@ img {
   }
   .site-nav.is-open { opacity: 1; pointer-events: auto; transform: none; }
   .site-nav > a { border-bottom: 1px solid var(--line); font-size: 28px; padding: 18px 5px; }
+  .site-nav__group { border-bottom: 1px solid var(--line); }
+  .site-nav__group > a { border-bottom: 0; display: flex; font-size: 28px; justify-content: space-between; padding: 18px 5px; }
+  .site-nav__group::before { display: none; }
+  .site-nav__caret { display: none; }
+  .site-nav__menu { background: none; border: 0; box-shadow: none; left: auto; min-width: 0; opacity: 1; padding: 0 5px 16px 24px; position: static; transform: none; transition: none; visibility: visible; }
+  .site-nav__menu a { padding: 10px 0; }
+  .site-nav__menu a strong { font-size: 20px; }
   .site-nav .header-cta { border-color: var(--accent); margin-top: 24px; padding: 18px; }
   .site-nav.is-open + * { display: none; }
   .menu-toggle[aria-expanded="true"] span:first-child { transform: translateY(4px) rotate(45deg); }
@@ -5824,7 +5927,8 @@ img {
     padding: 112px var(--page-pad) 34px;
   }
 
-  .site-nav > a {
+  .site-nav > a,
+  .site-nav__group > a {
     font-size: clamp(28px, 8vw, 38px);
     letter-spacing: -.035em;
     min-height: 58px;

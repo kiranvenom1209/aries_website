@@ -1574,5 +1574,24 @@
     "leapone-rover2.png",
     "01.jpg",
     "mars-rover-leap-one-2.png"
-  ]
+  ],
+  "hero_leap_2": {
+    "stem": "IMG_5988",
+    "filename": "erc-2026-finals-hero-leap-2.jpg",
+    "roles": [
+      "hero_leap_2",
+      "admin_preview_leap_2"
+    ],
+    "caption": "Hands fasten the suspension of LEAP-One’s bare chassis during the rebuild at ERC 2026 — the baseline Leap-2 starts from",
+    "crop": "left 0, top 550, 3300x1856 of 4032x3024",
+    "width": 2560,
+    "height": 1440
+  },
+  "home_platform_image": {
+    "filename": "erc-2026-finals-12-field-wiring-repair.jpg",
+    "roles": [
+      "home_how_we_build"
+    ],
+    "replaced": "dsc01556-scaled.jpg"
+  }
 }

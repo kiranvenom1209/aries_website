@@ -41,7 +41,8 @@ export function Footer() {
             <span className="site-footer__heading">MISSION DIRECTORY</span>
             <nav aria-label="Footer primary navigation" className="site-footer__nav">
               <Link href="/about">About HSM Aries</Link>
-              <Link href="/leap-one">LEAP-One · Leap-2 / LEAP Series</Link>
+              <Link href="/leap-one">LEAP-One / Project 01</Link>
+              <Link href="/leap-2">Leap-2 / Project 02</Link>
               <Link href="/team">Engineering Crew</Link>
               <Link href="/news">Mission Dispatches</Link>
               <Link href="/gallery">Field Gallery</Link>

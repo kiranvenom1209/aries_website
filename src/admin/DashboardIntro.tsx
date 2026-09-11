@@ -21,7 +21,8 @@ const Icon = ({ name }: { name: IconName }) => {
 const previews = [
   { href: '/', image: '/media/erc-2026-finals-hero-home.jpg', label: 'HSM Aries', title: 'Space robotics, built in Schmalkalden' },
   { href: '/about', image: '/media/space-night-team.jpg', label: 'About the initiative', title: 'The people and ambition behind Aries' },
-  { href: '/leap-one', image: '/media/erc-2026-finals-hero-leap-one.jpg', label: 'LEAP Rover programme', title: 'LEAP-One, ERC 2026 and the road to Leap-2' },
+  { href: '/leap-one', image: '/media/erc-2026-finals-hero-leap-one.jpg', label: 'LEAP Rover programme', title: 'LEAP-One — Project 01, as competed at ERC 2026' },
+  { href: '/leap-2', image: '/media/erc-2026-finals-hero-leap-2.jpg', label: 'LEAP Rover programme', title: 'Leap-2 — Project 02, the design brief' },
   { href: '/news', image: '/media/space-night-rover.jpg', label: 'Mission updates', title: 'Follow field work and milestones' },
 ]
 

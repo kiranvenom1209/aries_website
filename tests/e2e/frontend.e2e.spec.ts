@@ -13,7 +13,7 @@ test.describe('Frontend', () => {
 
     // Check nav links
     await expect(page.getByRole('link', { name: 'Mission' }).first()).toBeVisible()
-    await expect(page.getByRole('link', { name: 'LEAP-One' }).first()).toBeVisible()
+    await expect(page.locator('.site-footer').getByRole('link', { name: 'LEAP-One' }).first()).toBeVisible()
     await expect(page.getByRole('link', { name: 'News' }).first()).toBeVisible()
     await expect(page.getByRole('link', { name: 'Gallery' }).first()).toBeVisible()
     await expect(page.getByRole('link', { name: 'Contact' }).first()).toBeVisible()
@@ -33,10 +33,23 @@ test.describe('Frontend', () => {
     await expect(page.locator('.hero')).toBeVisible()
   })
 
-  test('LEAP-One page heading introduces Leap-2', async ({ page }) => {
-    await page.goto('http://localhost:3000/leap-one')
+  test('Leap Rovers nav item reveals LEAP-One and Leap-2 on hover', async ({ page }) => {
+    await page.goto('http://localhost:3000')
+    const group = page.locator('.site-nav__group')
+    await group.getByRole('link', { name: 'Leap Rovers' }).hover()
+    const menu = group.locator('.site-nav__menu')
+    await expect(menu.getByRole('link', { name: 'LEAP-One' })).toBeVisible()
+    await expect(menu.getByRole('link', { name: 'Leap-2' })).toBeVisible()
+    await menu.getByRole('link', { name: 'Leap-2' }).click()
+    await expect(page).toHaveURL(/\/leap-2$/)
+  })
+
+  test('can navigate to Leap-2 page', async ({ page }) => {
+    await page.goto('http://localhost:3000/leap-2')
     const heading = page.locator('h1').first()
     await expect(heading).toContainText('Leap-2')
+    await expect(page.locator('.leap-stats')).toBeVisible()
+    await expect(page.locator('.vehicle-dossier__group')).toHaveCount(3)
   })
 
   test('can navigate to About page', async ({ page }) => {

@@ -12,6 +12,7 @@ const routes = [
   '/',
   '/about',
   '/leap-one',
+  '/leap-2',
   '/team',
   '/news',
   '/gallery',
