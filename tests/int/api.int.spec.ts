@@ -114,8 +114,30 @@ describe('News Library Functions', () => {
     expect(story?.title).toContain('Number One Worldwide')
   })
 
+  it('getNewsBySlug retrieves the ERC 2026 finals story with its Evidence Locker', async () => {
+    const story = await getNewsBySlug(
+      'mission-complete-hsm-aries-space-finishes-17th-of-25-at-the-erc-2026-finals-in-krakow',
+    )
+    expect(story).toBeDefined()
+    expect(story?.title).toContain('Mission Complete')
+    expect(story?.mediaDeck?.length ?? 0).toBeGreaterThanOrEqual(6)
+  })
+
+  it('getNews lists the ERC 2026 finals story first', async () => {
+    const stories = await getNews(1)
+    expect(stories.length).toBe(1)
+    expect(stories[0].slug).toBe(
+      'mission-complete-hsm-aries-space-finishes-17th-of-25-at-the-erc-2026-finals-in-krakow',
+    )
+  })
+
   it('formatNewsDate formats ISO dates to UK military format', () => {
     const formatted = formatNewsDate('2026-06-28T17:34:00.000Z')
     expect(formatted).toBe('28 JUN 2026')
+  })
+
+  it('formatNewsDate formats the ERC 2026 finals publish date', () => {
+    const formatted = formatNewsDate('2026-09-11T12:00:00.000Z')
+    expect(formatted).toMatch(/^11 SEPT? 2026$/)
   })
 })

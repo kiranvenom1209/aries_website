@@ -23,6 +23,43 @@ export type NewsStory = {
 
 const sourceNews: NewsStory[] = [
   {
+    "slug": "mission-complete-hsm-aries-space-finishes-17th-of-25-at-the-erc-2026-finals-in-krakow",
+    "title": "Mission Complete: HSM Aries.space Finishes 17th of 25 at the ERC 2026 Finals in Kraków",
+    "excerpt": "HSM Aries.space took LEAP-One to the European Rover Challenge 2026 finals at AGH in Kraków and finished 17th of 25 with 1492.25 points — 4th in documentation, 6th in navigation droning. Here is what the scoreboard says, and what it sets for Leap-2, the next rover.",
+    "publishedAt": "2026-09-11T12:00:00.000Z",
+    "category": "Competition",
+    "image": "/media/erc-2026-finals-15-leap-one-mars-yard-arm-raised.jpg",
+    "imageAlt": "LEAP-One crosses the sand and rock of the Mars yard with its arm raised and a marker on its mast.",
+    "mediaDeck": [
+      { "alt": "The rebuild continues on the grass with the tool kit and spare wheels laid out around the chassis.", "url": "/media/erc-2026-finals-05-chassis-rebuild-wiring.jpg", "caption": "The rebuild continues on the grass with the tool kit and spare wheels laid out around the chassis." },
+      { "alt": "The crew huddles around the control-station monitor in the pit tent, the table draped in the Thuringian and German flags.", "url": "/media/erc-2026-finals-10-control-station-pit-tent.jpg", "caption": "The crew huddles around the control-station monitor in the pit tent, the table draped in the Thuringian and German flags." },
+      { "alt": "The gripper operates the switches on the maintenance panel.", "url": "/media/erc-2026-finals-21-gripper-on-maintenance-panel.jpg", "caption": "The gripper operates the switches on the maintenance panel." },
+      { "alt": "On the rain day LEAP-One works the rocky terrain under an umbrella with its arm wrapped in protective plastic.", "url": "/media/erc-2026-finals-22-rain-day-umbrella.jpg", "caption": "On the rain day LEAP-One works the rocky terrain under an umbrella with its arm wrapped in protective plastic." },
+      { "alt": "LEAP-One carries the quadcopter on its top deck beside marker 9.", "url": "/media/erc-2026-finals-23-carrying-the-quadcopter.jpg", "caption": "LEAP-One carries the quadcopter on its top deck beside marker 9." },
+      { "alt": "The team's quadcopter rests on its cardboard landing pad with a fiducial marker on the grass.", "url": "/media/erc-2026-finals-29-quadcopter-landing-pad.jpg", "caption": "The team's quadcopter rests on its cardboard landing pad with a fiducial marker on the grass." },
+      { "alt": "A team member presents LEAP-One's mobility results during the team presentation in the lecture hall.", "url": "/media/erc-2026-finals-31-presentation-lecture-hall.jpg", "caption": "A team member presents LEAP-One's mobility results during the team presentation in the lecture hall." },
+      { "alt": "The team poses with the Japanese team, both flags side by side and LEAP-One behind them.", "url": "/media/erc-2026-finals-37-with-the-japanese-team.jpg", "caption": "The team poses with the Japanese team, both flags side by side and LEAP-One behind them." }
+    ],
+    "body": [
+      "Kraków, Poland — LEAP-One competed in the European Rover Challenge 2026 on-site finals, held 4–6 September 2026 at AGH University. Twenty-five teams took the field. HSM Aries.space finished 17th of 25 with 1492.25 of 3000 points.",
+      "The scoreboard",
+      "Documentation was the strongest line: 364.25 of 400 points and 4th of 25. It was built on the joint-highest qualification score in the finals field, 239.75 of 250, and a final report of 124.5 of 150.",
+      "Navigation droning scored 265 of 300, 6th of 25. Presentation scored 229 of 300 and AstroBio 215 of 300.",
+      "The remaining field tasks scored lower: surface and deep sampling 197 of 440, exploration 123 of 340, maintenance 66 of 340, traverse 43 of 340 and probing 12 of 240. A mass penalty of −22 points was applied, the only one in the field.",
+      "What worked",
+      "The documentation held up from the qualification report through the final report. Navigation droning finished 6th of 25 and the presentation scored 229 of 300.",
+      "The operations software and the control station ran through the whole competition. The rover itself came through a chassis rebuild before its first run and a rain day on the Mars yard.",
+      "What did not",
+      "The field tasks that depend on autonomous traverse and on manipulation scored low. Traverse finished at 43 of 340, maintenance at 66 of 340 and probing at 12 of 240.",
+      "LEAP-One was also over the mass allowance, which cost 22 points that no other team lost. 17th of 25 is not the finish we wanted. The scoreboard tells us exactly where the next rover has to be better.",
+      "The next rover: Leap-2",
+      "Leap-2 is Project 02 of the LEAP series and is now in development. Its design priorities come straight from the scoreboard: mass under the allowance from day one, robust autonomous traverse, and serviceable manipulation for maintenance and probing.",
+      "The documentation, droning and operations strengths carry over. Students who want to build the next rover, and partners who want to back it, are invited to join the next competition campaign.",
+      "Thank you",
+      "Our thanks go to the ERC organisers and AGH University for hosting the finals, to the other teams for three days of shared work on the Mars yard, and to Hochschule Schmalkalden, our sponsors and our supporters for carrying LEAP-One to Kraków."
+    ]
+  },
+  {
     "slug": "number-one-worldwide-hsm-aries-space-tops-erc-qualifications-with-239-75-points",
     "title": "Number One Worldwide: HSM Aries.space Tops ERC Qualifications with 239.75 Points!",
     "excerpt": "Schmalkalden, Germany ' History has been made at Hochschule Schmalkalden! HSM Aries.space is incredibly proud to announce that we have officially conquered the ERC qualifications, securing the 1st-place position globally. Out of a highly competitive field of 124 international teams fighting for a spot in the ERC, our LEAP-One Mars Rover project achieved the top [&hellip;]",

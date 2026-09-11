@@ -9,7 +9,7 @@ export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = pageMetadata({
   description: 'Explore the complete field-test, engineering, outreach and behind-the-scenes image archive from the HSM Aries space robotics programme.',
-  image: '/media/DSC02769-scaled.jpg',
+  image: '/media/erc-2026-finals-10-control-station-pit-tent.jpg',
   path: '/gallery',
   title: 'Field Gallery',
 })
@@ -39,7 +39,7 @@ export default async function GalleryPage() {
         <div>
           <span className="hero__eyebrow">HSM ARIES // FIELD RECONNAISSANCE</span>
           <h1>Tested in the field.</h1>
-          <p>Field tests, engineering work and life behind the scenes with HSM Aries.</p>
+          <p>Field tests, engineering work and life behind the scenes with HSM Aries. The record now opens with LEAP-One on the Mars yard at the ERC 2026 finals in Kraków.</p>
         </div>
       </section>
       <section className="gallery-index">

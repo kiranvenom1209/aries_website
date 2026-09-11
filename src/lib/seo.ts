@@ -4,7 +4,7 @@ export const SITE_NAME = 'HSM Aries'
 export const SITE_URL = 'https://hsmaries.space'
 export const DEFAULT_DESCRIPTION =
   'HSM Aries is the student-led space robotics initiative of the Chair of Drive, Automation, and Robotics Technologies at Hochschule Schmalkalden.'
-export const DEFAULT_SOCIAL_IMAGE = '/media/rover-hero-mars-v3.jpg'
+export const DEFAULT_SOCIAL_IMAGE = '/media/erc-2026-finals-hero-home.jpg'
 
 export const absoluteUrl = (path = '/') => new URL(path, SITE_URL).toString()
 

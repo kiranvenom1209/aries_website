@@ -19,9 +19,9 @@ const Icon = ({ name }: { name: IconName }) => {
 }
 
 const previews = [
-  { href: '/', image: '/media/rover-hero-cinematic.jpg', label: 'HSM Aries', title: 'Space robotics, built in Schmalkalden' },
+  { href: '/', image: '/media/erc-2026-finals-hero-home.jpg', label: 'HSM Aries', title: 'Space robotics, built in Schmalkalden' },
   { href: '/about', image: '/media/space-night-team.jpg', label: 'About the initiative', title: 'The people and ambition behind Aries' },
-  { href: '/leap-one', image: '/media/leap-one-hero-cinematic-v2.png', label: 'LEAP Rover programme', title: 'Explore the LEAP-One platform' },
+  { href: '/leap-one', image: '/media/erc-2026-finals-hero-leap-one.jpg', label: 'LEAP Rover programme', title: 'LEAP-One, ERC 2026 and the road to Leap-2' },
   { href: '/news', image: '/media/space-night-rover.jpg', label: 'Mission updates', title: 'Follow field work and milestones' },
 ]
 

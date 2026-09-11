@@ -37,7 +37,7 @@ The public article uses the cover as its masthead, a native video player when su
 
 ## Local development
 
-`npm run dev` uses `DATABASE_URL=file:./hsm-aries.db` and local `./media` files. This is intentionally separate from production. `npm run seed` refreshes the curated content in that local database.
+`npm run dev` uses `DATABASE_URL=file:./hsm-aries.db` and local `public/media` files. This is intentionally separate from production. `npm run seed` refreshes the curated content in that local database.
 
 ## Production schema changes
 

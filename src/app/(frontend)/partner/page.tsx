@@ -14,7 +14,7 @@ export const metadata: Metadata = pageMetadata({
 })
 
 const partnershipTracks = [
-  ['01', 'Fund the mission', 'Put resources directly into development, field testing and ERC readiness.'],
+  ['01', 'Fund the mission', 'Put resources directly into the Leap-2 build, field testing and the next competition campaign.'],
   ['02', 'Supply the capability', 'Place hardware, tooling and specialist manufacturing in the hands of the crew.'],
   ['03', 'Grow future engineers', 'Work alongside ambitious student engineers on a live planetary robotics programme.'],
 ]
@@ -32,9 +32,9 @@ export default function PartnerPage() {
           <h1>Back the mission.<br /><em>Build the future.</em></h1>
           <p className="conversion-hero__summary">A partnership with HSM Aries puts your technology, expertise or support at the centre of a student-built planetary robotics programme.</p>
           <div className="conversion-hero__metrics" aria-label="Partnership highlights">
-            <span><strong>#01</strong>ERC 2026 qualification</span>
+            <span><strong>17/25</strong>ERC 2026 finals</span>
             <span><strong>25</strong>crew &amp; advisors</span>
-            <span><strong>01</strong>live rover programme</span>
+            <span><strong>02</strong>LEAP rover projects</span>
           </div>
         </div>
       </section>
@@ -46,8 +46,12 @@ export default function PartnerPage() {
           <p>HSM Aries combines student ambition with industrial-grade engineering rigour. Your support directly accelerates rover development, testing campaigns and competition readiness.</p>
           <dl className="conversion-facts">
             <div>
-              <dt>Worldwide ranking</dt>
-              <dd>#1 worldwide ERC qualification 2026 — 239.75 points across 124 international teams.</dd>
+              <dt>ERC 2026 record</dt>
+              <dd>#1 worldwide in the ERC 2026 qualification (239.75 points across 124 international teams), then 17th of 25 at the on-site finals in Kraków with 1492.25 points — documentation ranked 4th, navigation droning 6th.</dd>
+            </div>
+            <div>
+              <dt>Next mission</dt>
+              <dd>Leap-2 — Project 02 of the LEAP series, now in development.</dd>
             </div>
             <div>
               <dt>Institution</dt>
@@ -99,7 +103,7 @@ export default function PartnerPage() {
               id="partner-scope"
               name="partnership-scope"
               options={[
-                { label: 'Financial Mission Sponsorship', value: 'Financial Mission Sponsorship', detail: 'ERC 2026 competition & logistics campaign' },
+                { label: 'Financial Mission Sponsorship', value: 'Financial Mission Sponsorship', detail: 'Leap-2 build & next competition campaign' },
                 { label: 'Hardware & Component Donation', value: 'Hardware & Component Donation', detail: 'Motors, LiDAR, cameras, batteries and encoders' },
                 { label: 'Tooling & Manufacturing Support', value: 'Tooling & Manufacturing Support', detail: 'CNC machining, 3D printing, carbon fibre and anodizing' },
                 { label: 'Software & Compute Partner', value: 'Software & Compute Partner', detail: 'Edge AI, simulation and ROS 2 cloud infrastructure' },

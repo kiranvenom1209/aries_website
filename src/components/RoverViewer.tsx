@@ -114,7 +114,7 @@ export function RoverViewer() {
           <p>Vehicle architecture / LEAP-One</p>
           <h2 id="vehicle-architecture-title">
             Four mission systems.<br />
-            <em>One rover.</em>
+            <em>The first rover.</em>
           </h2>
         </div>
         <p>
@@ -148,7 +148,7 @@ export function RoverViewer() {
         <aside className="rover-explorer__console" aria-label="LEAP-One vehicle architecture">
           <div className="rover-explorer__readout">
             <p>System overview</p>
-            <h3>Ready for the terrain.</h3>
+            <h3>Driven on the terrain.</h3>
             <p>
               Six independently driven wheels, a precision manipulator and a deep-sampling drill
               turn LEAP-One into a field-ready planetary research platform.
@@ -180,7 +180,7 @@ export function RoverViewer() {
       <div className="rover-explorer__footer" aria-hidden="true">
         <span>LEAP ROVERS / PROJECT 01</span>
         <i />
-        <span>ENGINEERED FOR FIELD TESTS</span>
+        <span>COMPETED AT ERC 2026</span>
       </div>
     </section>
   )

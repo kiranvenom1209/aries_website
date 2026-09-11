@@ -38,7 +38,7 @@ export default function ContactPage() {
   return (
     <PageShell>
       <section className="conversion-hero conversion-hero--contact">
-        <Image alt="HSM Aries rover undergoing a laboratory test" fill priority sizes="100vw" src="/media/cleanroom-lab.jpg" />
+        <Image alt="The HSM Aries crew at the LEAP-One control station in the pit tent at ERC 2026" fill priority sizes="100vw" src="/media/erc-2026-finals-10-control-station-pit-tent.jpg" />
         <div className="conversion-hero__veil" />
         <div className="conversion-hero__scan" />
         <div className="conversion-hero__content">
@@ -85,7 +85,11 @@ export default function ContactPage() {
             </div>
             <div>
               <dt>Current project</dt>
-              <dd>LEAP-One · project 01 in the LEAP rover series</dd>
+              <dd>Leap-2 · project 02 in the LEAP rover series</dd>
+            </div>
+            <div>
+              <dt>Last mission</dt>
+              <dd>LEAP-One · ERC 2026 finalist, 17th of 25</dd>
             </div>
             <div>
               <dt>Headquarters</dt>

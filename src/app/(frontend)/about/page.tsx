@@ -11,7 +11,7 @@ import { pageMetadata } from '@/lib/seo'
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = pageMetadata({
-  description: 'HSM Aries is the space robotics initiative of the Chair of Drive, Automation, and Robotics Technologies at Hochschule Schmalkalden.',
+  description: 'HSM Aries is the space robotics initiative at Hochschule Schmalkalden — an ERC 2026 finalist with LEAP-One, now building Leap-2.',
   image: '/media/space-night-team.jpg',
   path: '/about',
   title: 'About HSM Aries',
@@ -78,7 +78,7 @@ export default async function AboutPage() {
         <div className="mission-hero__readout" aria-label="Mission team facts">
           <div><strong>{String(team.length).padStart(2, '0')}</strong><span>Crew + advisors</span></div>
           <div><strong>08</strong><span>Specialist divisions</span></div>
-          <div><strong>#01</strong><span>ERC qualification 2026</span></div>
+          <div><strong>17/25</strong><span>ERC 2026 finals · documentation 4th</span></div>
         </div>
       </section>
 
@@ -94,7 +94,7 @@ export default async function AboutPage() {
               HSM Aries brings mechanical engineering, electronics, autonomous software, scientific payloads and mission operations into one space robotics initiative.
             </p>
             <p>
-              LEAP-One is the first rover project in the LEAP series. It is one way the initiative turns research, collaboration and systems thinking into real hardware.
+              LEAP-One is Project 01 in the LEAP series. It competed at the ERC 2026 finals at AGH in Kraków and finished 17th of 25 with 1492.25 points—4th in documentation, 6th in navigation droning. Leap-2, Project 02, is now being designed around those lessons.
             </p>
           </div>
         </div>
@@ -141,7 +141,7 @@ export default async function AboutPage() {
         <header className="section-command">
           <div><span>03 / DIVISION ARCHITECTURE</span><i /></div>
           <h2>Eight disciplines.<br /><em>Zero silos.</em></h2>
-          <p>LEAP-One is the first project in the LEAP series. Its eight departments show how HSM Aries integrates a complete rover platform.</p>
+          <p>LEAP-One was the first project in the LEAP series; the same eight departments are now building Leap-2. Together they show how HSM Aries integrates a complete rover platform.</p>
         </header>
         <DepartmentsGrid />
       </section>
@@ -232,7 +232,7 @@ export default async function AboutPage() {
       <PartnersBand />
 
       <section className="mission-cta">
-        <span>THE NEXT MISSION NEEDS YOUR DISCIPLINE</span>
+        <span>THE NEXT ROVER NEEDS YOUR DISCIPLINE</span>
         <h2>Build something<br />that leaves the classroom.</h2>
         <div>
           <MagneticLink className="button button--solid" href="/join">Join HSM Aries</MagneticLink>

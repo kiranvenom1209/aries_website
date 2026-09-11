@@ -13,7 +13,7 @@ import { DEFAULT_DESCRIPTION, pageMetadata } from '@/lib/seo'
 
 export const metadata: Metadata = pageMetadata({
   description: DEFAULT_DESCRIPTION,
-  image: '/media/rover-hero-mars-v3.jpg',
+  image: '/media/erc-2026-finals-hero-home.jpg',
   path: '/',
   title: 'Space Robotics at Hochschule Schmalkalden',
 })
@@ -23,7 +23,7 @@ const programmes = [
     code: '01',
     description:
       'The LEAP series is our field programme for mobility, manipulation, autonomous navigation and scientific operations.',
-    label: 'Fielded now',
+    label: 'ERC 2026 finalist · Leap-2 next',
     signal: 'LEAP-One / field validation',
     title: 'LEAP Rovers',
   },
@@ -128,12 +128,12 @@ export default async function HomePage() {
     <PageShell>
       <section className="aries-home-hero">
         <Image
-          alt="HSM Aries LEAP-One Mars Rover exploring Martian terrain"
+          alt="LEAP-One carries the team’s quadcopter across the Mars yard at the ERC 2026 finals in Kraków"
           className="aries-home-hero__image"
           fill
           priority
           sizes="100vw"
-          src="/media/rover-hero-mars-v3.jpg"
+          src="/media/erc-2026-finals-hero-home.jpg"
         />
         <div aria-hidden="true" className="aries-home-hero__grid" />
         <div aria-hidden="true" className="aries-home-hero__wash" />
@@ -149,13 +149,13 @@ export default async function HomePage() {
           </div>
         </div>
         <div className="aries-home-hero__mission-card">
-          <span>NOW FIELDING</span>
-          <strong>LEAP-One</strong>
-          <p>The opening rover in the LEAP series.</p>
-          <Link href="/leap-one">View project <b aria-hidden="true">↗</b></Link>
+          <span>NEXT ROVER</span>
+          <strong>Leap-2</strong>
+          <p>Project 02 — designed around what ERC 2026 taught us.</p>
+          <Link href="/leap-one#leap-2">Follow the build <b aria-hidden="true">↗</b></Link>
         </div>
         <div aria-hidden="true" className="aries-home-hero__signal">
-          <i /><span>EXPLORATION SYSTEMS / 01</span>
+          <i /><span>EXPLORATION SYSTEMS / 02</span>
         </div>
       </section>
 
@@ -226,35 +226,55 @@ export default async function HomePage() {
       <section className="aries-home-leap-proof">
         <div className="aries-home-leap-proof__content">
           <span className="section-label">PROOF IN THE FIELD / 04</span>
-          <p className="aries-home-leap-proof__kicker">LEAP SERIES / PROJECT 01</p>
-          <h2>LEAP-One is the first leap—not the whole story.</h2>
+          <p className="aries-home-leap-proof__kicker">LEAP SERIES / PROJECT 01 · ERC 2026</p>
+          <h2>LEAP-One made the first leap. ERC 2026 showed us the next one.</h2>
           <p>
-            A six-wheel research rover that brings mobility, autonomous navigation, precision manipulation and deep-sampling science onto one field-ready platform.
+            LEAP-One competed at the ERC 2026 on-site finals at AGH in Kraków. The placing is not the one we wanted; the scoreboard shows what this rover already does well, and where the next one has to be better.
           </p>
           <div className="aries-home-leap-proof__facts">
-            <span><b>06</b> independent drive wheels</span>
-            <span><b>04</b> integrated mission systems</span>
-            <span><b>#01</b> ERC 2026 qualification</span>
+            <span><b>17/25</b> ERC 2026 finals · 1492.25 pts</span>
+            <span><b>04/25</b> documentation · 364.25/400</span>
+            <span><b>06/25</b> navigation droning · 265/300</span>
           </div>
           <MagneticLink className="button button--solid" href="/leap-one">Enter the LEAP rover dossier</MagneticLink>
         </div>
         <div className="aries-home-leap-proof__image">
-          <Image alt="LEAP-One rover on a Mars-like landscape" fill sizes="(max-width: 820px) 100vw, 50vw" src="/media/leap-one-hero-cinematic-v2.png" />
+          <Image alt="The team gathers around LEAP-One on the Mars yard with the German and Thuringian flags." fill sizes="(max-width: 820px) 100vw, 50vw" src="/media/erc-2026-finals-33-team-with-leap-one-and-flags.jpg" />
         </div>
       </section>
 
       <MissionControlShowcase />
 
+      <section className="aries-home-leap-proof" id="leap-2">
+        <div className="aries-home-leap-proof__content">
+          <span className="section-label">NEXT LEAP / 05</span>
+          <p className="aries-home-leap-proof__kicker">LEAP SERIES / PROJECT 02</p>
+          <h2>Leap-2 starts where ERC 2026 ended.</h2>
+          <p>
+            Leap-2 is the second LEAP rover, now in development. The scoreboard sets its brief: mass under the allowance, robust autonomous traverse, and manipulation that can be serviced for maintenance (66/340) and probing (12/240)—while keeping the documentation, droning and operations strengths that carried LEAP-One.
+          </p>
+          <div className="aries-home-leap-proof__facts">
+            <span><b>−22</b> mass penalty · under the allowance next time</span>
+            <span><b>43/340</b> traverse · autonomous navigation first</span>
+            <span><b>66/340</b> maintenance · serviceable manipulation</span>
+          </div>
+          <MagneticLink className="button button--outline" href="/join">Build Leap-2 with us</MagneticLink>
+        </div>
+        <div className="aries-home-leap-proof__image">
+          <Image alt="LEAP-One climbs the rocky slope with its suspension articulating over the stones." fill sizes="(max-width: 820px) 100vw, 50vw" src="/media/erc-2026-finals-17-leap-one-climbs-rocky-slope.jpg" />
+        </div>
+      </section>
+
       <section className="aries-home-collaboration">
         <div>
-          <span className="section-label">NEXT HORIZON / 05</span>
+          <span className="section-label">NEXT HORIZON / 06</span>
           <h2>From a strong first platform to systems that help others fly.</h2>
         </div>
         <div>
           <p>
             The long view is collaborative: bring the practical lessons from rover development to teams working on rocketry automation, recovery and landing systems, CubeSats, payloads and the ground stations that support them.
           </p>
-          <p className="aries-home-collaboration__note">This is the direction of the HSM Aries programme. New mission concepts will be announced as they become real.</p>
+          <p className="aries-home-collaboration__note">This is the direction of the HSM Aries programme. Leap-2 is the next concrete step; further mission concepts will be announced as they become real.</p>
           <div className="join-band__actions">
             <MagneticLink className="button button--solid" href="/partner">Build with Aries</MagneticLink>
             <MagneticLink className="button button--outline" href="/contact">Start a conversation</MagneticLink>
@@ -275,7 +295,7 @@ export default async function HomePage() {
 
       <section className="field-gallery aries-home-gallery">
         <div className="aries-home-gallery__header">
-          <span className="section-label">FIELD RECORD / 06</span>
+          <span className="section-label">FIELD RECORD / 07</span>
           <h2>Engineering proves itself in the field.</h2>
         </div>
         <GalleryRail />
@@ -284,7 +304,7 @@ export default async function HomePage() {
       <PartnersBand />
 
       <section className="join-band aries-home-join">
-        <span className="section-label">MAKE THE NEXT LEAP / 07</span>
+        <span className="section-label">MAKE THE NEXT LEAP / 08</span>
         <h2>Bring your curiosity.<br /><em>Build the capability.</em></h2>
         <p>Join the crew, partner on a programme or start a mission conversation with HSM Aries.</p>
         <div className="join-band__actions">

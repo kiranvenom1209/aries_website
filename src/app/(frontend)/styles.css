@@ -391,7 +391,7 @@
 .aries-home-hero__image {
   filter: saturate(.76) contrast(1.06) brightness(.76);
   object-fit: cover;
-  object-position: center;
+  object-position: center 28%;
   transform: scale(1.012);
   z-index: -3;
 }

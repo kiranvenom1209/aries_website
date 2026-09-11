@@ -126,8 +126,8 @@ export function SitePreloader() {
       role="progressbar"
     >
       <div className="site-preloader__chrome site-preloader__chrome--top" aria-hidden="true">
-        <span>HSM ARIES / LEAP-ONE</span>
-        <span>FIELD TRAVERSE · 01</span>
+        <span>HSM ARIES / LEAP ROVERS</span>
+        <span>ERC 2026 · KRAKÓW</span>
       </div>
 
       <div className="site-preloader__identity">
@@ -215,8 +215,8 @@ export function SitePreloader() {
       </div>
 
       <div className="site-preloader__chrome site-preloader__chrome--bottom" aria-hidden="true">
-        <span>06 WHEELS / 04 MISSION SYSTEMS</span>
-        <span>THE FIRST LEAP</span>
+        <span>LEAP-ONE / ERC 2026 FINALIST</span>
+        <span>THE NEXT LEAP</span>
       </div>
     </div>
   )

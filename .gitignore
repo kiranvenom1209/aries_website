@@ -69,3 +69,6 @@ node_modules/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+# Raw ERC 2026 event photos/videos extracted from Google Drive zips (never commit)
+/erc-2026/

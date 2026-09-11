@@ -34,7 +34,7 @@ export default function JoinPage() {
           <div className="conversion-hero__metrics" aria-label="Crew recruitment highlights">
             <span><strong>08</strong>specialist divisions</span>
             <span><strong>01</strong>shared rover mission</span>
-            <span><strong>ERC</strong>field-driven learning</span>
+            <span><strong>Leap-2</strong>rover in development</span>
           </div>
         </div>
       </section>
@@ -51,7 +51,7 @@ export default function JoinPage() {
             </div>
             <div>
               <dt>Active campaign</dt>
-              <dd>ERC 2026 competition rover development.</dd>
+              <dd>Leap-2 — the second LEAP rover, designed around the ERC 2026 result.</dd>
             </div>
           </dl>
         </div>
@@ -69,7 +69,7 @@ export default function JoinPage() {
 
       <section className="conversion-form-section conversion-form-section--join" aria-labelledby="join-form-title">
         <header className="conversion-form-section__header">
-          <span className="hero__eyebrow">Crew intake // 2026</span>
+          <span className="hero__eyebrow">Crew intake // Leap-2</span>
           <h2 id="join-form-title">Start with<br /><em>your signal.</em></h2>
           <p>There is no perfect CV for a rover team. Tell us what interests you, what you have tried and where you want to learn.</p>
           <div className="conversion-form-section__location">

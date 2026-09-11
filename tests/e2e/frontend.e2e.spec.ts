@@ -8,8 +8,8 @@ test.describe('Frontend', () => {
     await expect(heading).toContainText('Build the systems')
 
     // Check achievement stats
-    const proofFacts = page.locator('.aries-home-leap-proof__facts')
-    await expect(proofFacts).toContainText('#01')
+    const proofFacts = page.locator('.aries-home-leap-proof__facts').first()
+    await expect(proofFacts).toContainText('17/25')
 
     // Check nav links
     await expect(page.getByRole('link', { name: 'Mission' }).first()).toBeVisible()
@@ -19,11 +19,24 @@ test.describe('Frontend', () => {
     await expect(page.getByRole('link', { name: 'Contact' }).first()).toBeVisible()
   })
 
+  test('homepage footer status shows the ERC 2026 result and the next rover', async ({ page }) => {
+    await page.goto('http://localhost:3000')
+    const status = page.locator('.site-footer__status')
+    await expect(status).toContainText('Leap-2')
+    await expect(status).toContainText('17TH OF 25')
+  })
+
   test('can navigate to LEAP-One page', async ({ page }) => {
     await page.goto('http://localhost:3000/leap-one')
     const heading = page.locator('h1').first()
     await expect(heading).toContainText('LEAP')
     await expect(page.locator('.hero')).toBeVisible()
+  })
+
+  test('LEAP-One page heading introduces Leap-2', async ({ page }) => {
+    await page.goto('http://localhost:3000/leap-one')
+    const heading = page.locator('h1').first()
+    await expect(heading).toContainText('Leap-2')
   })
 
   test('can navigate to About page', async ({ page }) => {
@@ -58,6 +71,15 @@ test.describe('Frontend', () => {
     await expect(page.locator('.gallery-rail')).toBeVisible()
   })
 
+  test('gallery rail counter includes the ERC 2026 finals photo set', async ({ page }) => {
+    await page.goto('http://localhost:3000/gallery')
+    const counter = page.locator('.gallery-controls span').first()
+    await expect(counter).toHaveText(/01 \/ \d+/)
+    const match = (await counter.textContent())?.match(/01 \/ (\d+)/)
+    expect(match).toBeTruthy()
+    expect(Number(match?.[1])).toBeGreaterThanOrEqual(39)
+  })
+
   test('can navigate to Contact page', async ({ page }) => {
     await page.goto('http://localhost:3000/contact')
     const heading = page.locator('h1').first()
@@ -77,6 +99,27 @@ test.describe('Frontend', () => {
     await page.goto('http://localhost:3000/news/hardware-milestone-hsm-aries-space-successfully-assembles-latest-high-performance-flight-unit')
     const heading = page.locator('h1').first()
     await expect(heading).toBeVisible()
+
+    // Click on the first Evidence Locker image
+    const deckButton = page.locator('.mission-story__deck-asset').first()
+    await expect(deckButton).toBeVisible()
+    await deckButton.click()
+
+    // Verify modal is open
+    const modal = page.locator('.mission-story__modal')
+    await expect(modal).toBeVisible()
+    await expect(page.locator('.mission-story__modal-counter')).toContainText('ASSET')
+
+    // Close modal
+    const closeBtn = page.locator('.mission-story__modal-close')
+    await closeBtn.click()
+    await expect(modal).not.toBeVisible()
+  })
+
+  test('can open the ERC 2026 finals story and expand its Evidence Locker in a modal', async ({ page }) => {
+    await page.goto('http://localhost:3000/news/mission-complete-hsm-aries-space-finishes-17th-of-25-at-the-erc-2026-finals-in-krakow')
+    const heading = page.locator('h1').first()
+    await expect(heading).toContainText('17th of 25')
 
     // Click on the first Evidence Locker image
     const deckButton = page.locator('.mission-story__deck-asset').first()

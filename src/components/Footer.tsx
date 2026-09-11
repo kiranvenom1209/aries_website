@@ -16,7 +16,7 @@ export function Footer() {
             </p>
             <div className="site-footer__status">
               <span className="status-dot" />
-              <span>ERC 2026 QUALIFIED · #1 WORLDWIDE</span>
+              <span>ERC 2026 FINALIST · 17TH OF 25 · NEXT: Leap-2</span>
             </div>
           </div>
 
@@ -41,7 +41,7 @@ export function Footer() {
             <span className="site-footer__heading">MISSION DIRECTORY</span>
             <nav aria-label="Footer primary navigation" className="site-footer__nav">
               <Link href="/about">About HSM Aries</Link>
-              <Link href="/leap-one">LEAP-One / LEAP Series</Link>
+              <Link href="/leap-one">LEAP-One · Leap-2 / LEAP Series</Link>
               <Link href="/team">Engineering Crew</Link>
               <Link href="/news">Mission Dispatches</Link>
               <Link href="/gallery">Field Gallery</Link>

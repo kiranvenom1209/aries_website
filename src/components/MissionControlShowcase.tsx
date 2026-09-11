@@ -40,7 +40,7 @@ export function MissionControlShowcase() {
           <h2>The view from<br /><em>mission control.</em></h2>
         </div>
         <p>
-          A purpose-built LEAP-One workstation brings mapping, telemetry, camera supervision and subsystem operations into one field-ready control environment.
+          A purpose-built LEAP-One workstation brings mapping, telemetry, camera supervision and subsystem operations into one field-ready control environment. Used at the ERC 2026 finals, it carries forward to Leap-2.
         </p>
       </header>
 

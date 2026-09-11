@@ -6,14 +6,14 @@ import { useState } from 'react'
 const systems = [
   {
     description: 'Rocker-bogie suspension built for steep inclines, loose gravel and complex obstacles.',
-    focus: '50% 56%',
-    image: '/media/leap-one-mobility-cinematic.png',
+    focus: '50% 60%',
+    image: '/media/erc-2026-finals-42-suspension-over-the-rocks.jpg',
     label: 'Mobility',
   },
   {
     description: 'Onboard perception, dual stereocams, and compute architecture for autonomous field navigation.',
-    focus: '50% 52%',
-    image: '/media/leap-one-autonomy-cinematic.png',
+    focus: '45% 55%',
+    image: '/media/erc-2026-finals-43-carrying-the-quadcopter-past-the-markers.jpg',
     label: 'Autonomy',
   },
   {

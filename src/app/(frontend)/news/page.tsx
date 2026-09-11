@@ -9,7 +9,7 @@ export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = pageMetadata({
   description: 'Read the complete HSM Aries archive of mission updates, engineering milestones, competition results, field reports and team stories.',
-  image: '/media/hsm-png.png',
+  image: '/media/erc-2026-finals-15-leap-one-mars-yard-arm-raised.jpg',
   path: '/news',
   title: 'News & Mission Updates',
 })
@@ -49,7 +49,7 @@ export default async function NewsPage() {
         <div className="editorial-hero__archive" aria-label={`${stories.length} mission dispatches published`}>
           <span>Mission archive</span>
           <strong>{String(stories.length).padStart(2, '0')}</strong>
-          <p>Dispatches charting the road from first sketch to field test.</p>
+          <p>Dispatches charting the road from first sketch to the ERC 2026 finals — and on to Leap-2.</p>
         </div>
       </section>
       <section className="news-index">

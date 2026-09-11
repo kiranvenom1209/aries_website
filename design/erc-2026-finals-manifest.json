@@ -1,0 +1,1578 @@
+{
+  "news_hero": {
+    "order": 15,
+    "stem": "IMG_6142",
+    "filename": "erc-2026-finals-15-leap-one-mars-yard-arm-raised.jpg",
+    "roles": [
+      "gallery",
+      "news_hero"
+    ],
+    "caption": "LEAP-One crosses the sand and rock of the Mars yard with its arm raised and a marker on its mast.",
+    "section": "On the Mars yard",
+    "width": 2560,
+    "height": 1920,
+    "orientation": "landscape",
+    "bytes": 959509
+  },
+  "home_erc_image": {
+    "order": 33,
+    "stem": "IMG_2793",
+    "filename": "erc-2026-finals-33-team-with-leap-one-and-flags.jpg",
+    "roles": [
+      "gallery",
+      "home_erc_image"
+    ],
+    "caption": "The team gathers around LEAP-One on the Mars yard with the German and Thuringian flags.",
+    "section": "The team",
+    "width": 2560,
+    "height": 1707,
+    "orientation": "landscape",
+    "bytes": 1221617
+  },
+  "leap2_section_image": {
+    "order": 17,
+    "stem": "IMG_6446",
+    "filename": "erc-2026-finals-17-leap-one-climbs-rocky-slope.jpg",
+    "roles": [
+      "gallery",
+      "leap2_section_image"
+    ],
+    "caption": "LEAP-One climbs the rocky slope with its suspension articulating over the stones.",
+    "section": "On the Mars yard",
+    "width": 1920,
+    "height": 2560,
+    "orientation": "portrait",
+    "bytes": 1039801
+  },
+  "team_photo": {
+    "order": 10,
+    "stem": "IMG_6093",
+    "filename": "erc-2026-finals-10-control-station-pit-tent.jpg",
+    "roles": [
+      "gallery",
+      "team_photo",
+      "rail",
+      "news_inline"
+    ],
+    "caption": "The crew huddles around the control-station monitor in the pit tent, the table draped in the Thuringian and German flags.",
+    "section": "In the pit",
+    "width": 2560,
+    "height": 1920,
+    "orientation": "landscape",
+    "bytes": 656652
+  },
+  "rail": [
+    {
+      "order": 7,
+      "stem": "IMG_5014",
+      "filename": "erc-2026-finals-07-wheels-in-the-sand.jpg",
+      "roles": [
+        "gallery",
+        "rail"
+      ],
+      "caption": "LEAP-One's wheels dig into the sand during the test, with the sponsor and flag decals on its flank.",
+      "section": "Before the yard",
+      "width": 1920,
+      "height": 1440,
+      "orientation": "landscape",
+      "bytes": 474311
+    },
+    {
+      "order": 10,
+      "stem": "IMG_6093",
+      "filename": "erc-2026-finals-10-control-station-pit-tent.jpg",
+      "roles": [
+        "gallery",
+        "team_photo",
+        "rail",
+        "news_inline"
+      ],
+      "caption": "The crew huddles around the control-station monitor in the pit tent, the table draped in the Thuringian and German flags.",
+      "section": "In the pit",
+      "width": 2560,
+      "height": 1920,
+      "orientation": "landscape",
+      "bytes": 656652
+    },
+    {
+      "order": 34,
+      "stem": "IMG_6398",
+      "filename": "erc-2026-finals-34-team-on-the-steps.jpg",
+      "roles": [
+        "gallery",
+        "rail"
+      ],
+      "caption": "The team lines up on the steps with the German flag, LEAP-One carrying the quadcopter in front.",
+      "section": "The team",
+      "width": 1920,
+      "height": 1440,
+      "orientation": "landscape",
+      "bytes": 443762
+    },
+    {
+      "order": 28,
+      "stem": "IMG_6686",
+      "filename": "erc-2026-finals-28-leapone-plate-mars-yard.jpg",
+      "roles": [
+        "gallery",
+        "rail"
+      ],
+      "caption": "The LEAPONE competition plate is held up against the rocky Mars yard.",
+      "section": "On the Mars yard",
+      "width": 1920,
+      "height": 1080,
+      "orientation": "landscape",
+      "bytes": 239921
+    },
+    {
+      "order": 37,
+      "stem": "428fb179-f0cc-41ee-9adc-90c55d30f471",
+      "filename": "erc-2026-finals-37-with-the-japanese-team.jpg",
+      "roles": [
+        "gallery",
+        "rail",
+        "news_inline"
+      ],
+      "caption": "The team poses with the Japanese team, both flags side by side and LEAP-One behind them.",
+      "section": "The team",
+      "width": 1920,
+      "height": 1440,
+      "orientation": "landscape",
+      "bytes": 679735
+    },
+    {
+      "order": 39,
+      "stem": "IMG_6757",
+      "filename": "erc-2026-finals-39-agh-team-zone-sunset.jpg",
+      "roles": [
+        "gallery",
+        "rail"
+      ],
+      "caption": "The sunset is reflected in the glass facade above the ERC team-zone entrance at AGH.",
+      "section": "The team",
+      "width": 1920,
+      "height": 1080,
+      "orientation": "landscape",
+      "bytes": 290895
+    }
+  ],
+  "news_inline": [
+    {
+      "order": 5,
+      "stem": "IMG_5995",
+      "filename": "erc-2026-finals-05-chassis-rebuild-wiring.jpg",
+      "roles": [
+        "gallery",
+        "news_inline"
+      ],
+      "caption": "The rebuild continues on the grass with the tool kit and spare wheels laid out around the chassis.",
+      "section": "Before the yard",
+      "width": 1920,
+      "height": 1440,
+      "orientation": "landscape",
+      "bytes": 470059
+    },
+    {
+      "order": 10,
+      "stem": "IMG_6093",
+      "filename": "erc-2026-finals-10-control-station-pit-tent.jpg",
+      "roles": [
+        "gallery",
+        "team_photo",
+        "rail",
+        "news_inline"
+      ],
+      "caption": "The crew huddles around the control-station monitor in the pit tent, the table draped in the Thuringian and German flags.",
+      "section": "In the pit",
+      "width": 2560,
+      "height": 1920,
+      "orientation": "landscape",
+      "bytes": 656652
+    },
+    {
+      "order": 21,
+      "stem": "IMG_5083",
+      "filename": "erc-2026-finals-21-gripper-on-maintenance-panel.jpg",
+      "roles": [
+        "gallery",
+        "news_inline"
+      ],
+      "caption": "The gripper operates the switches on the maintenance panel.",
+      "section": "On the Mars yard",
+      "width": 1440,
+      "height": 1920,
+      "orientation": "portrait",
+      "bytes": 383730
+    },
+    {
+      "order": 22,
+      "stem": "IMG_6200",
+      "filename": "erc-2026-finals-22-rain-day-umbrella.jpg",
+      "roles": [
+        "gallery",
+        "news_inline"
+      ],
+      "caption": "On the rain day LEAP-One works the rocky terrain under an umbrella with its arm wrapped in protective plastic.",
+      "section": "On the Mars yard",
+      "width": 1080,
+      "height": 1920,
+      "orientation": "portrait",
+      "bytes": 464830
+    },
+    {
+      "order": 23,
+      "stem": "IMG_6310",
+      "filename": "erc-2026-finals-23-carrying-the-quadcopter.jpg",
+      "roles": [
+        "gallery",
+        "news_inline"
+      ],
+      "caption": "LEAP-One carries the quadcopter on its top deck beside marker 9.",
+      "section": "On the Mars yard",
+      "width": 1440,
+      "height": 1920,
+      "orientation": "portrait",
+      "bytes": 481646
+    },
+    {
+      "order": 29,
+      "stem": "IMG_6346",
+      "filename": "erc-2026-finals-29-quadcopter-landing-pad.jpg",
+      "roles": [
+        "gallery",
+        "news_inline"
+      ],
+      "caption": "The team's quadcopter rests on its cardboard landing pad with a fiducial marker on the grass.",
+      "section": "Droning",
+      "width": 1440,
+      "height": 1920,
+      "orientation": "portrait",
+      "bytes": 359048
+    },
+    {
+      "order": 31,
+      "stem": "IMG_5146",
+      "filename": "erc-2026-finals-31-presentation-lecture-hall.jpg",
+      "roles": [
+        "gallery",
+        "news_inline"
+      ],
+      "caption": "A team member presents LEAP-One's mobility results during the team presentation in the lecture hall.",
+      "section": "Presentation",
+      "width": 1920,
+      "height": 1440,
+      "orientation": "landscape",
+      "bytes": 277088
+    },
+    {
+      "order": 37,
+      "stem": "428fb179-f0cc-41ee-9adc-90c55d30f471",
+      "filename": "erc-2026-finals-37-with-the-japanese-team.jpg",
+      "roles": [
+        "gallery",
+        "rail",
+        "news_inline"
+      ],
+      "caption": "The team poses with the Japanese team, both flags side by side and LEAP-One behind them.",
+      "section": "The team",
+      "width": 1920,
+      "height": 1440,
+      "orientation": "landscape",
+      "bytes": 679735
+    }
+  ],
+  "gallery": [
+    {
+      "order": 1,
+      "stem": "IMG_4725",
+      "filename": "erc-2026-finals-01-campus-plaza-before-departure.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "LEAP-One stands on the campus plaza with its flag and sponsor decals.",
+      "section": "Before the yard",
+      "width": 1440,
+      "height": 1920,
+      "orientation": "portrait",
+      "bytes": 684067
+    },
+    {
+      "order": 2,
+      "stem": "IMG_4888",
+      "filename": "erc-2026-finals-02-agh-banner.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "The ERC 2026 banner on the AGH fence announces the event dates in Kraków.",
+      "section": "Before the yard",
+      "width": 1920,
+      "height": 1440,
+      "orientation": "landscape",
+      "bytes": 517017
+    },
+    {
+      "order": 3,
+      "stem": "IMG_4983",
+      "filename": "erc-2026-finals-03-mars-yard-morning.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "Morning light falls on the Mars yard, the ERC banner and the blue pit tents before the first runs.",
+      "section": "Before the yard",
+      "width": 1920,
+      "height": 1440,
+      "orientation": "landscape",
+      "bytes": 692332
+    },
+    {
+      "order": 4,
+      "stem": "IMG_5988",
+      "filename": "erc-2026-finals-04-chassis-rebuild-suspension.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "A team member fastens the suspension of the bare LEAP-One chassis on the pavement with a hex key set beside it.",
+      "section": "Before the yard",
+      "width": 1920,
+      "height": 1440,
+      "orientation": "landscape",
+      "bytes": 429853
+    },
+    {
+      "order": 5,
+      "stem": "IMG_5995",
+      "filename": "erc-2026-finals-05-chassis-rebuild-wiring.jpg",
+      "roles": [
+        "gallery",
+        "news_inline"
+      ],
+      "caption": "The rebuild continues on the grass with the tool kit and spare wheels laid out around the chassis.",
+      "section": "Before the yard",
+      "width": 1920,
+      "height": 1440,
+      "orientation": "landscape",
+      "bytes": 470059
+    },
+    {
+      "order": 6,
+      "stem": "IMG_5011",
+      "filename": "erc-2026-finals-06-first-sand-test.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "Team members crouch beside LEAP-One as it drives onto the sand of the Mars yard for a test run.",
+      "section": "Before the yard",
+      "width": 1920,
+      "height": 1440,
+      "orientation": "landscape",
+      "bytes": 569991
+    },
+    {
+      "order": 7,
+      "stem": "IMG_5014",
+      "filename": "erc-2026-finals-07-wheels-in-the-sand.jpg",
+      "roles": [
+        "gallery",
+        "rail"
+      ],
+      "caption": "LEAP-One's wheels dig into the sand during the test, with the sponsor and flag decals on its flank.",
+      "section": "Before the yard",
+      "width": 1920,
+      "height": 1440,
+      "orientation": "landscape",
+      "bytes": 474311
+    },
+    {
+      "order": 8,
+      "stem": "IMG_4991",
+      "filename": "erc-2026-finals-08-mars-yard-other-team-run.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "Another team runs its rover on the gravel mounds of the Mars yard with the AGH campus behind.",
+      "section": "Before the yard",
+      "width": 1920,
+      "height": 1440,
+      "orientation": "landscape",
+      "bytes": 713601
+    },
+    {
+      "order": 9,
+      "stem": "_9040067",
+      "filename": "erc-2026-finals-09-laptop-check-indoor-hall.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "Two team members lean over a laptop beside LEAP-One's mast in the indoor hall.",
+      "section": "In the pit",
+      "width": 1280,
+      "height": 720,
+      "orientation": "landscape",
+      "bytes": 73853
+    },
+    {
+      "order": 10,
+      "stem": "IMG_6093",
+      "filename": "erc-2026-finals-10-control-station-pit-tent.jpg",
+      "roles": [
+        "gallery",
+        "team_photo",
+        "rail",
+        "news_inline"
+      ],
+      "caption": "The crew huddles around the control-station monitor in the pit tent, the table draped in the Thuringian and German flags.",
+      "section": "In the pit",
+      "width": 2560,
+      "height": 1920,
+      "orientation": "landscape",
+      "bytes": 656652
+    },
+    {
+      "order": 11,
+      "stem": "IMG_5108",
+      "filename": "erc-2026-finals-11-pit-tent-laptop.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "A team member works at a laptop under the pit tent with the arena netting behind.",
+      "section": "In the pit",
+      "width": 1440,
+      "height": 1920,
+      "orientation": "portrait",
+      "bytes": 328764
+    },
+    {
+      "order": 12,
+      "stem": "IMG_6079",
+      "filename": "erc-2026-finals-12-field-wiring-repair.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "Team members repair wiring beside LEAP-One's arm and signal tower with a toolbox open on the grass.",
+      "section": "In the pit",
+      "width": 1440,
+      "height": 1920,
+      "orientation": "portrait",
+      "bytes": 542322
+    },
+    {
+      "order": 13,
+      "stem": "IMG_5078",
+      "filename": "erc-2026-finals-13-arm-setup-on-the-lawn.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "One team member sets the arm while another sorts tools on the lawn before a run.",
+      "section": "In the pit",
+      "width": 1440,
+      "height": 1920,
+      "orientation": "portrait",
+      "bytes": 746029
+    },
+    {
+      "order": 14,
+      "stem": "IMG_6170",
+      "filename": "erc-2026-finals-14-walking-leap-one-to-the-field.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "Three team members walk LEAP-One out to the field with the controller in hand.",
+      "section": "In the pit",
+      "width": 1440,
+      "height": 1920,
+      "orientation": "portrait",
+      "bytes": 469914
+    },
+    {
+      "order": 15,
+      "stem": "IMG_6142",
+      "filename": "erc-2026-finals-15-leap-one-mars-yard-arm-raised.jpg",
+      "roles": [
+        "gallery",
+        "news_hero"
+      ],
+      "caption": "LEAP-One crosses the sand and rock of the Mars yard with its arm raised and a marker on its mast.",
+      "section": "On the Mars yard",
+      "width": 2560,
+      "height": 1920,
+      "orientation": "landscape",
+      "bytes": 959509
+    },
+    {
+      "order": 16,
+      "stem": "IMG_6143",
+      "filename": "erc-2026-finals-16-sample-containers-arm-raised.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "A team member kneels beside LEAP-One with sample containers mounted and the arm raised.",
+      "section": "On the Mars yard",
+      "width": 1440,
+      "height": 1920,
+      "orientation": "portrait",
+      "bytes": 499925
+    },
+    {
+      "order": 17,
+      "stem": "IMG_6446",
+      "filename": "erc-2026-finals-17-leap-one-climbs-rocky-slope.jpg",
+      "roles": [
+        "gallery",
+        "leap2_section_image"
+      ],
+      "caption": "LEAP-One climbs the rocky slope with its suspension articulating over the stones.",
+      "section": "On the Mars yard",
+      "width": 1920,
+      "height": 2560,
+      "orientation": "portrait",
+      "bytes": 1039801
+    },
+    {
+      "order": 18,
+      "stem": "IMG_6451",
+      "filename": "erc-2026-finals-18-arm-extended-solar-stand.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "LEAP-One extends its arm on the Mars yard in front of the solar-panel stand and the red ERC dome.",
+      "section": "On the Mars yard",
+      "width": 1440,
+      "height": 1920,
+      "orientation": "portrait",
+      "bytes": 461704
+    },
+    {
+      "order": 19,
+      "stem": "IMG_6455",
+      "filename": "erc-2026-finals-19-leap-one-gravel-arm-extended.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "LEAP-One faces the camera on the gravel with its arm extended and a sample container on top.",
+      "section": "On the Mars yard",
+      "width": 1440,
+      "height": 1920,
+      "orientation": "portrait",
+      "bytes": 476154
+    },
+    {
+      "order": 20,
+      "stem": "IMG_5082",
+      "filename": "erc-2026-finals-20-maintenance-panel-marker-14.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "LEAP-One reaches its arm toward the ERC maintenance panel beside marker 14.",
+      "section": "On the Mars yard",
+      "width": 1440,
+      "height": 1920,
+      "orientation": "portrait",
+      "bytes": 441670
+    },
+    {
+      "order": 21,
+      "stem": "IMG_5083",
+      "filename": "erc-2026-finals-21-gripper-on-maintenance-panel.jpg",
+      "roles": [
+        "gallery",
+        "news_inline"
+      ],
+      "caption": "The gripper operates the switches on the maintenance panel.",
+      "section": "On the Mars yard",
+      "width": 1440,
+      "height": 1920,
+      "orientation": "portrait",
+      "bytes": 383730
+    },
+    {
+      "order": 22,
+      "stem": "IMG_6200",
+      "filename": "erc-2026-finals-22-rain-day-umbrella.jpg",
+      "roles": [
+        "gallery",
+        "news_inline"
+      ],
+      "caption": "On the rain day LEAP-One works the rocky terrain under an umbrella with its arm wrapped in protective plastic.",
+      "section": "On the Mars yard",
+      "width": 1080,
+      "height": 1920,
+      "orientation": "portrait",
+      "bytes": 464830
+    },
+    {
+      "order": 23,
+      "stem": "IMG_6310",
+      "filename": "erc-2026-finals-23-carrying-the-quadcopter.jpg",
+      "roles": [
+        "gallery",
+        "news_inline"
+      ],
+      "caption": "LEAP-One carries the quadcopter on its top deck beside marker 9.",
+      "section": "On the Mars yard",
+      "width": 1440,
+      "height": 1920,
+      "orientation": "portrait",
+      "bytes": 481646
+    },
+    {
+      "order": 24,
+      "stem": "IMG_5069",
+      "filename": "erc-2026-finals-24-sponsor-panel-low-angle.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "A low angle shows LEAP-One's sponsor panel, German flag and LEAPONE plate above the chevron wheels.",
+      "section": "On the Mars yard",
+      "width": 1920,
+      "height": 1440,
+      "orientation": "landscape",
+      "bytes": 497727
+    },
+    {
+      "order": 25,
+      "stem": "IMG_6150",
+      "filename": "erc-2026-finals-25-gripper-depth-camera-front.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "The gripper, depth camera and emergency stop sit above the sponsor logos on LEAP-One's front.",
+      "section": "On the Mars yard",
+      "width": 1440,
+      "height": 1920,
+      "orientation": "portrait",
+      "bytes": 364697
+    },
+    {
+      "order": 26,
+      "stem": "20260906_125338",
+      "filename": "erc-2026-finals-26-arm-mast-erc-banner.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "LEAP-One's arm, sensor mast and sample container in front of the ERC banner.",
+      "section": "On the Mars yard",
+      "width": 1440,
+      "height": 1920,
+      "orientation": "portrait",
+      "bytes": 713915
+    },
+    {
+      "order": 27,
+      "stem": "IMG_6460",
+      "filename": "erc-2026-finals-27-arm-raised-welcome-banner.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "LEAP-One raises its arm on the grass beneath the blue ERC welcome banner.",
+      "section": "On the Mars yard",
+      "width": 1440,
+      "height": 1920,
+      "orientation": "portrait",
+      "bytes": 655266
+    },
+    {
+      "order": 28,
+      "stem": "IMG_6686",
+      "filename": "erc-2026-finals-28-leapone-plate-mars-yard.jpg",
+      "roles": [
+        "gallery",
+        "rail"
+      ],
+      "caption": "The LEAPONE competition plate is held up against the rocky Mars yard.",
+      "section": "On the Mars yard",
+      "width": 1920,
+      "height": 1080,
+      "orientation": "landscape",
+      "bytes": 239921
+    },
+    {
+      "order": 29,
+      "stem": "IMG_6346",
+      "filename": "erc-2026-finals-29-quadcopter-landing-pad.jpg",
+      "roles": [
+        "gallery",
+        "news_inline"
+      ],
+      "caption": "The team's quadcopter rests on its cardboard landing pad with a fiducial marker on the grass.",
+      "section": "Droning",
+      "width": 1440,
+      "height": 1920,
+      "orientation": "portrait",
+      "bytes": 359048
+    },
+    {
+      "order": 30,
+      "stem": "0b52eae3-c2e8-4773-bf56-e1428fa58b08",
+      "filename": "erc-2026-finals-30-quadcopter-marker-sheet.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "The carbon quadcopter sits on its printed marker sheet seen from above.",
+      "section": "Droning",
+      "width": 1440,
+      "height": 1920,
+      "orientation": "portrait",
+      "bytes": 917993
+    },
+    {
+      "order": 31,
+      "stem": "IMG_5146",
+      "filename": "erc-2026-finals-31-presentation-lecture-hall.jpg",
+      "roles": [
+        "gallery",
+        "news_inline"
+      ],
+      "caption": "A team member presents LEAP-One's mobility results during the team presentation in the lecture hall.",
+      "section": "Presentation",
+      "width": 1920,
+      "height": 1440,
+      "orientation": "landscape",
+      "bytes": 277088
+    },
+    {
+      "order": 32,
+      "stem": "IMG_6272",
+      "filename": "erc-2026-finals-32-team-after-presentation.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "The team lines up under the projector screen after the presentation.",
+      "section": "Presentation",
+      "width": 1920,
+      "height": 1440,
+      "orientation": "landscape",
+      "bytes": 304972
+    },
+    {
+      "order": 33,
+      "stem": "IMG_2793",
+      "filename": "erc-2026-finals-33-team-with-leap-one-and-flags.jpg",
+      "roles": [
+        "gallery",
+        "home_erc_image"
+      ],
+      "caption": "The team gathers around LEAP-One on the Mars yard with the German and Thuringian flags.",
+      "section": "The team",
+      "width": 2560,
+      "height": 1707,
+      "orientation": "landscape",
+      "bytes": 1221617
+    },
+    {
+      "order": 34,
+      "stem": "IMG_6398",
+      "filename": "erc-2026-finals-34-team-on-the-steps.jpg",
+      "roles": [
+        "gallery",
+        "rail"
+      ],
+      "caption": "The team lines up on the steps with the German flag, LEAP-One carrying the quadcopter in front.",
+      "section": "The team",
+      "width": 1920,
+      "height": 1440,
+      "orientation": "landscape",
+      "bytes": 443762
+    },
+    {
+      "order": 35,
+      "stem": "IMG_6367",
+      "filename": "erc-2026-finals-35-team-at-agh.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "The team gathers around LEAP-One under the AGH faculty lettering at the host university.",
+      "section": "The team",
+      "width": 1920,
+      "height": 1440,
+      "orientation": "landscape",
+      "bytes": 483036
+    },
+    {
+      "order": 36,
+      "stem": "IMG_6797(1)",
+      "filename": "erc-2026-finals-36-three-members-with-quadcopter.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "Three team members stand behind LEAP-One with the quadcopter in hand.",
+      "section": "The team",
+      "width": 1440,
+      "height": 1920,
+      "orientation": "portrait",
+      "bytes": 693754
+    },
+    {
+      "order": 37,
+      "stem": "428fb179-f0cc-41ee-9adc-90c55d30f471",
+      "filename": "erc-2026-finals-37-with-the-japanese-team.jpg",
+      "roles": [
+        "gallery",
+        "rail",
+        "news_inline"
+      ],
+      "caption": "The team poses with the Japanese team, both flags side by side and LEAP-One behind them.",
+      "section": "The team",
+      "width": 1920,
+      "height": 1440,
+      "orientation": "landscape",
+      "bytes": 679735
+    },
+    {
+      "order": 38,
+      "stem": "IMG_6472",
+      "filename": "erc-2026-finals-38-teams-with-rovers-and-drones.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "Several teams gather with their rovers and drones under Indian and German flags.",
+      "section": "The team",
+      "width": 1920,
+      "height": 1440,
+      "orientation": "landscape",
+      "bytes": 791241
+    },
+    {
+      "order": 39,
+      "stem": "IMG_6757",
+      "filename": "erc-2026-finals-39-agh-team-zone-sunset.jpg",
+      "roles": [
+        "gallery",
+        "rail"
+      ],
+      "caption": "The sunset is reflected in the glass facade above the ERC team-zone entrance at AGH.",
+      "section": "The team",
+      "width": 1920,
+      "height": 1080,
+      "orientation": "landscape",
+      "bytes": 290895
+    },
+    {
+      "order": 40,
+      "stem": "20260905_134851",
+      "filename": "erc-2026-finals-40-rover-on-the-rocks.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "LEAP-One picks its way across the rocks of the Mars yard beside marker 9, with the crowd and the ERC flag behind.",
+      "section": "On the Mars yard",
+      "width": 1920,
+      "height": 1440,
+      "orientation": "landscape",
+      "source": "Photos-1-001.zip"
+    },
+    {
+      "order": 41,
+      "stem": "20260905_135024",
+      "filename": "erc-2026-finals-41-quadcopter-on-deck.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "LEAP-One climbs the gravel with the team’s quadcopter riding on its deck.",
+      "section": "On the Mars yard",
+      "width": 1920,
+      "height": 1440,
+      "orientation": "landscape",
+      "source": "Photos-1-001.zip"
+    },
+    {
+      "order": 42,
+      "stem": "20260905_134844",
+      "filename": "erc-2026-finals-42-suspension-over-the-rocks.jpg",
+      "roles": [
+        "gallery",
+        "mission_systems_mobility"
+      ],
+      "caption": "LEAP-One’s rocker-bogie suspension works over the loose rock of the Mars yard.",
+      "section": "On the Mars yard",
+      "width": 1920,
+      "height": 1440,
+      "orientation": "landscape",
+      "source": "Photos-1-001.zip"
+    },
+    {
+      "order": 43,
+      "stem": "20260905_135019",
+      "filename": "erc-2026-finals-43-carrying-the-quadcopter-past-the-markers.jpg",
+      "roles": [
+        "gallery",
+        "mission_systems_autonomy"
+      ],
+      "caption": "LEAP-One carries the quadcopter past the navigation markers on the Mars yard.",
+      "section": "On the Mars yard",
+      "width": 1920,
+      "height": 1440,
+      "orientation": "landscape",
+      "source": "Photos-1-001.zip"
+    }
+  ],
+  "all": [
+    {
+      "order": 1,
+      "stem": "IMG_4725",
+      "filename": "erc-2026-finals-01-campus-plaza-before-departure.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "LEAP-One stands on the campus plaza with its flag and sponsor decals.",
+      "section": "Before the yard",
+      "width": 1440,
+      "height": 1920,
+      "orientation": "portrait",
+      "bytes": 684067
+    },
+    {
+      "order": 2,
+      "stem": "IMG_4888",
+      "filename": "erc-2026-finals-02-agh-banner.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "The ERC 2026 banner on the AGH fence announces the event dates in Kraków.",
+      "section": "Before the yard",
+      "width": 1920,
+      "height": 1440,
+      "orientation": "landscape",
+      "bytes": 517017
+    },
+    {
+      "order": 3,
+      "stem": "IMG_4983",
+      "filename": "erc-2026-finals-03-mars-yard-morning.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "Morning light falls on the Mars yard, the ERC banner and the blue pit tents before the first runs.",
+      "section": "Before the yard",
+      "width": 1920,
+      "height": 1440,
+      "orientation": "landscape",
+      "bytes": 692332
+    },
+    {
+      "order": 4,
+      "stem": "IMG_5988",
+      "filename": "erc-2026-finals-04-chassis-rebuild-suspension.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "A team member fastens the suspension of the bare LEAP-One chassis on the pavement with a hex key set beside it.",
+      "section": "Before the yard",
+      "width": 1920,
+      "height": 1440,
+      "orientation": "landscape",
+      "bytes": 429853
+    },
+    {
+      "order": 5,
+      "stem": "IMG_5995",
+      "filename": "erc-2026-finals-05-chassis-rebuild-wiring.jpg",
+      "roles": [
+        "gallery",
+        "news_inline"
+      ],
+      "caption": "The rebuild continues on the grass with the tool kit and spare wheels laid out around the chassis.",
+      "section": "Before the yard",
+      "width": 1920,
+      "height": 1440,
+      "orientation": "landscape",
+      "bytes": 470059
+    },
+    {
+      "order": 6,
+      "stem": "IMG_5011",
+      "filename": "erc-2026-finals-06-first-sand-test.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "Team members crouch beside LEAP-One as it drives onto the sand of the Mars yard for a test run.",
+      "section": "Before the yard",
+      "width": 1920,
+      "height": 1440,
+      "orientation": "landscape",
+      "bytes": 569991
+    },
+    {
+      "order": 7,
+      "stem": "IMG_5014",
+      "filename": "erc-2026-finals-07-wheels-in-the-sand.jpg",
+      "roles": [
+        "gallery",
+        "rail"
+      ],
+      "caption": "LEAP-One's wheels dig into the sand during the test, with the sponsor and flag decals on its flank.",
+      "section": "Before the yard",
+      "width": 1920,
+      "height": 1440,
+      "orientation": "landscape",
+      "bytes": 474311
+    },
+    {
+      "order": 8,
+      "stem": "IMG_4991",
+      "filename": "erc-2026-finals-08-mars-yard-other-team-run.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "Another team runs its rover on the gravel mounds of the Mars yard with the AGH campus behind.",
+      "section": "Before the yard",
+      "width": 1920,
+      "height": 1440,
+      "orientation": "landscape",
+      "bytes": 713601
+    },
+    {
+      "order": 9,
+      "stem": "_9040067",
+      "filename": "erc-2026-finals-09-laptop-check-indoor-hall.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "Two team members lean over a laptop beside LEAP-One's mast in the indoor hall.",
+      "section": "In the pit",
+      "width": 1280,
+      "height": 720,
+      "orientation": "landscape",
+      "bytes": 73853
+    },
+    {
+      "order": 10,
+      "stem": "IMG_6093",
+      "filename": "erc-2026-finals-10-control-station-pit-tent.jpg",
+      "roles": [
+        "gallery",
+        "team_photo",
+        "rail",
+        "news_inline"
+      ],
+      "caption": "The crew huddles around the control-station monitor in the pit tent, the table draped in the Thuringian and German flags.",
+      "section": "In the pit",
+      "width": 2560,
+      "height": 1920,
+      "orientation": "landscape",
+      "bytes": 656652
+    },
+    {
+      "order": 11,
+      "stem": "IMG_5108",
+      "filename": "erc-2026-finals-11-pit-tent-laptop.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "A team member works at a laptop under the pit tent with the arena netting behind.",
+      "section": "In the pit",
+      "width": 1440,
+      "height": 1920,
+      "orientation": "portrait",
+      "bytes": 328764
+    },
+    {
+      "order": 12,
+      "stem": "IMG_6079",
+      "filename": "erc-2026-finals-12-field-wiring-repair.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "Team members repair wiring beside LEAP-One's arm and signal tower with a toolbox open on the grass.",
+      "section": "In the pit",
+      "width": 1440,
+      "height": 1920,
+      "orientation": "portrait",
+      "bytes": 542322
+    },
+    {
+      "order": 13,
+      "stem": "IMG_5078",
+      "filename": "erc-2026-finals-13-arm-setup-on-the-lawn.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "One team member sets the arm while another sorts tools on the lawn before a run.",
+      "section": "In the pit",
+      "width": 1440,
+      "height": 1920,
+      "orientation": "portrait",
+      "bytes": 746029
+    },
+    {
+      "order": 14,
+      "stem": "IMG_6170",
+      "filename": "erc-2026-finals-14-walking-leap-one-to-the-field.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "Three team members walk LEAP-One out to the field with the controller in hand.",
+      "section": "In the pit",
+      "width": 1440,
+      "height": 1920,
+      "orientation": "portrait",
+      "bytes": 469914
+    },
+    {
+      "order": 15,
+      "stem": "IMG_6142",
+      "filename": "erc-2026-finals-15-leap-one-mars-yard-arm-raised.jpg",
+      "roles": [
+        "gallery",
+        "news_hero"
+      ],
+      "caption": "LEAP-One crosses the sand and rock of the Mars yard with its arm raised and a marker on its mast.",
+      "section": "On the Mars yard",
+      "width": 2560,
+      "height": 1920,
+      "orientation": "landscape",
+      "bytes": 959509
+    },
+    {
+      "order": 16,
+      "stem": "IMG_6143",
+      "filename": "erc-2026-finals-16-sample-containers-arm-raised.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "A team member kneels beside LEAP-One with sample containers mounted and the arm raised.",
+      "section": "On the Mars yard",
+      "width": 1440,
+      "height": 1920,
+      "orientation": "portrait",
+      "bytes": 499925
+    },
+    {
+      "order": 17,
+      "stem": "IMG_6446",
+      "filename": "erc-2026-finals-17-leap-one-climbs-rocky-slope.jpg",
+      "roles": [
+        "gallery",
+        "leap2_section_image"
+      ],
+      "caption": "LEAP-One climbs the rocky slope with its suspension articulating over the stones.",
+      "section": "On the Mars yard",
+      "width": 1920,
+      "height": 2560,
+      "orientation": "portrait",
+      "bytes": 1039801
+    },
+    {
+      "order": 18,
+      "stem": "IMG_6451",
+      "filename": "erc-2026-finals-18-arm-extended-solar-stand.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "LEAP-One extends its arm on the Mars yard in front of the solar-panel stand and the red ERC dome.",
+      "section": "On the Mars yard",
+      "width": 1440,
+      "height": 1920,
+      "orientation": "portrait",
+      "bytes": 461704
+    },
+    {
+      "order": 19,
+      "stem": "IMG_6455",
+      "filename": "erc-2026-finals-19-leap-one-gravel-arm-extended.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "LEAP-One faces the camera on the gravel with its arm extended and a sample container on top.",
+      "section": "On the Mars yard",
+      "width": 1440,
+      "height": 1920,
+      "orientation": "portrait",
+      "bytes": 476154
+    },
+    {
+      "order": 20,
+      "stem": "IMG_5082",
+      "filename": "erc-2026-finals-20-maintenance-panel-marker-14.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "LEAP-One reaches its arm toward the ERC maintenance panel beside marker 14.",
+      "section": "On the Mars yard",
+      "width": 1440,
+      "height": 1920,
+      "orientation": "portrait",
+      "bytes": 441670
+    },
+    {
+      "order": 21,
+      "stem": "IMG_5083",
+      "filename": "erc-2026-finals-21-gripper-on-maintenance-panel.jpg",
+      "roles": [
+        "gallery",
+        "news_inline"
+      ],
+      "caption": "The gripper operates the switches on the maintenance panel.",
+      "section": "On the Mars yard",
+      "width": 1440,
+      "height": 1920,
+      "orientation": "portrait",
+      "bytes": 383730
+    },
+    {
+      "order": 22,
+      "stem": "IMG_6200",
+      "filename": "erc-2026-finals-22-rain-day-umbrella.jpg",
+      "roles": [
+        "gallery",
+        "news_inline"
+      ],
+      "caption": "On the rain day LEAP-One works the rocky terrain under an umbrella with its arm wrapped in protective plastic.",
+      "section": "On the Mars yard",
+      "width": 1080,
+      "height": 1920,
+      "orientation": "portrait",
+      "bytes": 464830
+    },
+    {
+      "order": 23,
+      "stem": "IMG_6310",
+      "filename": "erc-2026-finals-23-carrying-the-quadcopter.jpg",
+      "roles": [
+        "gallery",
+        "news_inline"
+      ],
+      "caption": "LEAP-One carries the quadcopter on its top deck beside marker 9.",
+      "section": "On the Mars yard",
+      "width": 1440,
+      "height": 1920,
+      "orientation": "portrait",
+      "bytes": 481646
+    },
+    {
+      "order": 24,
+      "stem": "IMG_5069",
+      "filename": "erc-2026-finals-24-sponsor-panel-low-angle.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "A low angle shows LEAP-One's sponsor panel, German flag and LEAPONE plate above the chevron wheels.",
+      "section": "On the Mars yard",
+      "width": 1920,
+      "height": 1440,
+      "orientation": "landscape",
+      "bytes": 497727
+    },
+    {
+      "order": 25,
+      "stem": "IMG_6150",
+      "filename": "erc-2026-finals-25-gripper-depth-camera-front.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "The gripper, depth camera and emergency stop sit above the sponsor logos on LEAP-One's front.",
+      "section": "On the Mars yard",
+      "width": 1440,
+      "height": 1920,
+      "orientation": "portrait",
+      "bytes": 364697
+    },
+    {
+      "order": 26,
+      "stem": "20260906_125338",
+      "filename": "erc-2026-finals-26-arm-mast-erc-banner.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "LEAP-One's arm, sensor mast and sample container in front of the ERC banner.",
+      "section": "On the Mars yard",
+      "width": 1440,
+      "height": 1920,
+      "orientation": "portrait",
+      "bytes": 713915
+    },
+    {
+      "order": 27,
+      "stem": "IMG_6460",
+      "filename": "erc-2026-finals-27-arm-raised-welcome-banner.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "LEAP-One raises its arm on the grass beneath the blue ERC welcome banner.",
+      "section": "On the Mars yard",
+      "width": 1440,
+      "height": 1920,
+      "orientation": "portrait",
+      "bytes": 655266
+    },
+    {
+      "order": 28,
+      "stem": "IMG_6686",
+      "filename": "erc-2026-finals-28-leapone-plate-mars-yard.jpg",
+      "roles": [
+        "gallery",
+        "rail"
+      ],
+      "caption": "The LEAPONE competition plate is held up against the rocky Mars yard.",
+      "section": "On the Mars yard",
+      "width": 1920,
+      "height": 1080,
+      "orientation": "landscape",
+      "bytes": 239921
+    },
+    {
+      "order": 29,
+      "stem": "IMG_6346",
+      "filename": "erc-2026-finals-29-quadcopter-landing-pad.jpg",
+      "roles": [
+        "gallery",
+        "news_inline"
+      ],
+      "caption": "The team's quadcopter rests on its cardboard landing pad with a fiducial marker on the grass.",
+      "section": "Droning",
+      "width": 1440,
+      "height": 1920,
+      "orientation": "portrait",
+      "bytes": 359048
+    },
+    {
+      "order": 30,
+      "stem": "0b52eae3-c2e8-4773-bf56-e1428fa58b08",
+      "filename": "erc-2026-finals-30-quadcopter-marker-sheet.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "The carbon quadcopter sits on its printed marker sheet seen from above.",
+      "section": "Droning",
+      "width": 1440,
+      "height": 1920,
+      "orientation": "portrait",
+      "bytes": 917993
+    },
+    {
+      "order": 31,
+      "stem": "IMG_5146",
+      "filename": "erc-2026-finals-31-presentation-lecture-hall.jpg",
+      "roles": [
+        "gallery",
+        "news_inline"
+      ],
+      "caption": "A team member presents LEAP-One's mobility results during the team presentation in the lecture hall.",
+      "section": "Presentation",
+      "width": 1920,
+      "height": 1440,
+      "orientation": "landscape",
+      "bytes": 277088
+    },
+    {
+      "order": 32,
+      "stem": "IMG_6272",
+      "filename": "erc-2026-finals-32-team-after-presentation.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "The team lines up under the projector screen after the presentation.",
+      "section": "Presentation",
+      "width": 1920,
+      "height": 1440,
+      "orientation": "landscape",
+      "bytes": 304972
+    },
+    {
+      "order": 33,
+      "stem": "IMG_2793",
+      "filename": "erc-2026-finals-33-team-with-leap-one-and-flags.jpg",
+      "roles": [
+        "gallery",
+        "home_erc_image"
+      ],
+      "caption": "The team gathers around LEAP-One on the Mars yard with the German and Thuringian flags.",
+      "section": "The team",
+      "width": 2560,
+      "height": 1707,
+      "orientation": "landscape",
+      "bytes": 1221617
+    },
+    {
+      "order": 34,
+      "stem": "IMG_6398",
+      "filename": "erc-2026-finals-34-team-on-the-steps.jpg",
+      "roles": [
+        "gallery",
+        "rail"
+      ],
+      "caption": "The team lines up on the steps with the German flag, LEAP-One carrying the quadcopter in front.",
+      "section": "The team",
+      "width": 1920,
+      "height": 1440,
+      "orientation": "landscape",
+      "bytes": 443762
+    },
+    {
+      "order": 35,
+      "stem": "IMG_6367",
+      "filename": "erc-2026-finals-35-team-at-agh.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "The team gathers around LEAP-One under the AGH faculty lettering at the host university.",
+      "section": "The team",
+      "width": 1920,
+      "height": 1440,
+      "orientation": "landscape",
+      "bytes": 483036
+    },
+    {
+      "order": 36,
+      "stem": "IMG_6797(1)",
+      "filename": "erc-2026-finals-36-three-members-with-quadcopter.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "Three team members stand behind LEAP-One with the quadcopter in hand.",
+      "section": "The team",
+      "width": 1440,
+      "height": 1920,
+      "orientation": "portrait",
+      "bytes": 693754
+    },
+    {
+      "order": 37,
+      "stem": "428fb179-f0cc-41ee-9adc-90c55d30f471",
+      "filename": "erc-2026-finals-37-with-the-japanese-team.jpg",
+      "roles": [
+        "gallery",
+        "rail",
+        "news_inline"
+      ],
+      "caption": "The team poses with the Japanese team, both flags side by side and LEAP-One behind them.",
+      "section": "The team",
+      "width": 1920,
+      "height": 1440,
+      "orientation": "landscape",
+      "bytes": 679735
+    },
+    {
+      "order": 38,
+      "stem": "IMG_6472",
+      "filename": "erc-2026-finals-38-teams-with-rovers-and-drones.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "Several teams gather with their rovers and drones under Indian and German flags.",
+      "section": "The team",
+      "width": 1920,
+      "height": 1440,
+      "orientation": "landscape",
+      "bytes": 791241
+    },
+    {
+      "order": 39,
+      "stem": "IMG_6757",
+      "filename": "erc-2026-finals-39-agh-team-zone-sunset.jpg",
+      "roles": [
+        "gallery",
+        "rail"
+      ],
+      "caption": "The sunset is reflected in the glass facade above the ERC team-zone entrance at AGH.",
+      "section": "The team",
+      "width": 1920,
+      "height": 1080,
+      "orientation": "landscape",
+      "bytes": 290895
+    },
+    {
+      "order": 40,
+      "stem": "20260905_134851",
+      "filename": "erc-2026-finals-40-rover-on-the-rocks.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "LEAP-One picks its way across the rocks of the Mars yard beside marker 9, with the crowd and the ERC flag behind.",
+      "section": "On the Mars yard",
+      "width": 1920,
+      "height": 1440,
+      "orientation": "landscape",
+      "source": "Photos-1-001.zip"
+    },
+    {
+      "order": 41,
+      "stem": "20260905_135024",
+      "filename": "erc-2026-finals-41-quadcopter-on-deck.jpg",
+      "roles": [
+        "gallery"
+      ],
+      "caption": "LEAP-One climbs the gravel with the team’s quadcopter riding on its deck.",
+      "section": "On the Mars yard",
+      "width": 1920,
+      "height": 1440,
+      "orientation": "landscape",
+      "source": "Photos-1-001.zip"
+    },
+    {
+      "order": 42,
+      "stem": "20260905_134844",
+      "filename": "erc-2026-finals-42-suspension-over-the-rocks.jpg",
+      "roles": [
+        "gallery",
+        "mission_systems_mobility"
+      ],
+      "caption": "LEAP-One’s rocker-bogie suspension works over the loose rock of the Mars yard.",
+      "section": "On the Mars yard",
+      "width": 1920,
+      "height": 1440,
+      "orientation": "landscape",
+      "source": "Photos-1-001.zip"
+    },
+    {
+      "order": 43,
+      "stem": "20260905_135019",
+      "filename": "erc-2026-finals-43-carrying-the-quadcopter-past-the-markers.jpg",
+      "roles": [
+        "gallery",
+        "mission_systems_autonomy"
+      ],
+      "caption": "LEAP-One carries the quadcopter past the navigation markers on the Mars yard.",
+      "section": "On the Mars yard",
+      "width": 1920,
+      "height": 1440,
+      "orientation": "landscape",
+      "source": "Photos-1-001.zip"
+    }
+  ],
+  "hero_home": {
+    "stem": "20260905_135022",
+    "filename": "erc-2026-finals-hero-home.jpg",
+    "roles": [
+      "hero_home",
+      "og_default",
+      "login_background",
+      "admin_preview_home"
+    ],
+    "caption": "LEAP-One carries the team’s quadcopter across the Mars yard at the ERC 2026 finals in Kraków",
+    "crop": "left 0, top 250, 3300x2200 of 4000x3000",
+    "width": 2560,
+    "height": 1707,
+    "source": "Photos-1-001.zip"
+  },
+  "hero_leap_one": {
+    "stem": "IMG_6142",
+    "filename": "erc-2026-finals-hero-leap-one.jpg",
+    "roles": [
+      "hero_leap_one",
+      "admin_preview_leap_one"
+    ],
+    "caption": "LEAP-One reaches out with its arm on the Mars yard at the ERC 2026 finals",
+    "crop": "left 0, top 600, 3500x1969 of 4032x3024",
+    "width": 2560,
+    "height": 1440
+  },
+  "retired_generated_images": [
+    "rover-hero-mars-v3.jpg",
+    "rover-hero-cinematic.jpg",
+    "leap-one-hero-cinematic-v2.png",
+    "leap-one-mobility-cinematic.png",
+    "leap-one-autonomy-cinematic.png",
+    "cleanroom-lab.jpg"
+  ],
+  "retired_gallery_entries": [
+    "logo.png",
+    "rover.svg",
+    "rover-isometric-1-1-scaled.png",
+    "websitebg-scaled.png",
+    "mobile-bg.png",
+    "leapone-rover1-scaled.png",
+    "leapone-rover2.png",
+    "01.jpg",
+    "mars-rover-leap-one-2.png"
+  ]
+}

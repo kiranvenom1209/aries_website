@@ -42,8 +42,9 @@ npm run build
 ## Content and assets
 
 - Public assets are served from `public/media`.
-- The native LEAP-One viewer uses an optimized 12.16 MB GLB and an 80-frame fixed-horizon sequence.
-- All 29 recovered public news stories remain available; CMS versions override matching stories by slug.
+- The native LEAP-One viewer uses an optimized 12.16 MB GLB and a 360-frame fixed-horizon turntable sequence at `/media/leap-one-turntable`.
+- All 29 recovered public news stories plus the ERC 2026 finals report remain available; CMS versions override matching stories by slug.
+- The ERC 2026 finals photo set is the 39 curated `public/media/erc-2026-finals-NN-<slug>.jpg` files (1920/2560 px long edge, mozjpeg, EXIF stripped), registered in `src/lib/gallery.ts` and the `erc-2026-finals` gallery seed; the raw event dump in `erc-2026/` is gitignored and must never be committed or deployed.
 - The team page follows the live hierarchy: two principal advisors, five mentors, mission command and eight departmental manifests.
 - Raw WordPress archives and private migration materials are excluded through `.gitignore` and must never be deployed.
 

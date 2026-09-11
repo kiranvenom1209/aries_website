@@ -11,7 +11,7 @@ import { pageMetadata } from '@/lib/seo'
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = pageMetadata({
-  description: 'Meet the advisors, mentors and student departments building LEAP-One, the first rover project in the HSM Aries LEAP series.',
+  description: 'Meet the advisors, mentors and student departments that took LEAP-One to the ERC 2026 finals and are now building Leap-2, the second LEAP rover.',
   image: '/media/space-night-team.jpg',
   path: '/team',
   title: 'The Team & Crew',
@@ -176,19 +176,19 @@ export default async function TeamPage() {
         <div className="crew-hero__copy">
           <span>PERSONNEL / HSM ARIES</span>
           <h1>HSM Aries has<br /><em>no passengers.</em></h1>
-          <p>Every contributor shapes the initiative through research, systems engineering and hands-on projects. The current crew is building LEAP-One, the first rover in the LEAP series.</p>
+          <p>Every contributor shapes the initiative through research, systems engineering and hands-on projects. The crew took LEAP-One to the ERC 2026 finals in Kraków and is now building Leap-2.</p>
         </div>
         <div className="crew-hero__ticker" aria-label="Crew summary">
           <span>CREW MANIFEST</span>
           <strong>{String(studentCount).padStart(2, '0')} STUDENT ENGINEERS</strong>
-          <i /><strong>02 PRINCIPAL ADVISORS</strong><i /><strong>05 MENTORS</strong><i /><strong>08 MISSION DIVISIONS</strong>
+          <i /><strong>02 PRINCIPAL ADVISORS</strong><i /><strong>05 MENTORS</strong><i /><strong>08 MISSION DIVISIONS</strong><i /><strong>ERC 2026 FINALIST · 17 / 25</strong>
         </div>
       </section>
 
       <section className="crew-intro">
         <span>01 / GUIDANCE</span>
         <h2>One organization.<br />Clear technical ownership.</h2>
-          <p>The structure is presented as it operates: principal advisors, a dedicated mentor council, program command, and every LEAP-One department with its complete membership.</p>
+          <p>The structure is presented as it operates: principal advisors, a dedicated mentor council, program command, and every department with its complete membership—now carrying LEAP-One’s lessons into Leap-2.</p>
       </section>
 
       <section className="roster-guidance">
@@ -232,7 +232,7 @@ export default async function TeamPage() {
 
       <section className="department-manifests">
         <header className="section-command">
-          <div><span>03 / LEAP-ONE / PROJECT 01</span><h2>Eight teams.<br />One integrated rover.</h2></div>
+          <div><span>03 / LEAP ROVERS / LEAP-One → Leap-2</span><h2>Eight teams.<br />One integrated rover.</h2></div>
           <p>Members appear in every department they serve. Rank insignia is shown only at the person’s primary command post, never on a repeated secondary assignment.</p>
         </header>
 
@@ -261,8 +261,8 @@ export default async function TeamPage() {
 
       <section className="collaboration-lab">
         <div className="collaboration-lab__media">
-          <Image alt="HSM Aries engineering team brainstorming in the robotics lab" fill sizes="(max-width: 900px) 100vw, 58vw" src="/media/whatsapp-image-2025-03-26-at-4.01.37-pm-scaled.jpeg" />
-          <div aria-hidden="true" /><span>DESIGN REVIEW / ROBOTICS LAB</span>
+          <Image alt="The crew huddles around the control-station monitor in the pit tent, the table draped in the Thuringian and German flags." fill sizes="(max-width: 900px) 100vw, 58vw" src="/media/erc-2026-finals-10-control-station-pit-tent.jpg" />
+          <div aria-hidden="true" /><span>ERC 2026 / CONTROL STATION</span>
         </div>
         <div className="collaboration-lab__copy">
           <span>04 / SYSTEMS INTEGRATION</span><h2>Integrated by design.</h2>

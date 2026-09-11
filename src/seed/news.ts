@@ -160,6 +160,15 @@ const curatedMediaSeed: SeedMedia[] = [
   { filename: 'dsc01541.jpg', alt: 'Rover suspension articulation test on steep grade' },
   { filename: 'dsc01546.jpg', alt: 'Field engineering and diagnostics check' },
   { filename: 'dsc01556.jpg', alt: 'Team members analyzing live field telemetry' },
+  { filename: 'erc-2026-finals-15-leap-one-mars-yard-arm-raised.jpg', alt: 'LEAP-One crosses the sand and rock of the Mars yard with its arm raised and a marker on its mast.' },
+  { filename: 'erc-2026-finals-05-chassis-rebuild-wiring.jpg', alt: 'The rebuild continues on the grass with the tool kit and spare wheels laid out around the chassis.' },
+  { filename: 'erc-2026-finals-10-control-station-pit-tent.jpg', alt: 'The crew huddles around the control-station monitor in the pit tent, the table draped in the Thuringian and German flags.' },
+  { filename: 'erc-2026-finals-21-gripper-on-maintenance-panel.jpg', alt: 'The gripper operates the switches on the maintenance panel.' },
+  { filename: 'erc-2026-finals-22-rain-day-umbrella.jpg', alt: 'On the rain day LEAP-One works the rocky terrain under an umbrella with its arm wrapped in protective plastic.' },
+  { filename: 'erc-2026-finals-23-carrying-the-quadcopter.jpg', alt: 'LEAP-One carries the quadcopter on its top deck beside marker 9.' },
+  { filename: 'erc-2026-finals-29-quadcopter-landing-pad.jpg', alt: "The team's quadcopter rests on its cardboard landing pad with a fiducial marker on the grass." },
+  { filename: 'erc-2026-finals-31-presentation-lecture-hall.jpg', alt: "A team member presents LEAP-One's mobility results during the team presentation in the lecture hall." },
+  { filename: 'erc-2026-finals-37-with-the-japanese-team.jpg', alt: 'The team poses with the Japanese team, both flags side by side and LEAP-One behind them.' },
 ]
 
 export const sponsorSeed = [
@@ -235,6 +244,104 @@ export type SeedNewsArticle = {
 }
 
 const curatedNewsSeed: SeedNewsArticle[] = [
+  {
+    title: 'Mission Complete: HSM Aries.space Finishes 17th of 25 at the ERC 2026 Finals in Kraków',
+    slug: 'mission-complete-hsm-aries-space-finishes-17th-of-25-at-the-erc-2026-finals-in-krakow',
+    publishedAt: '2026-09-11T12:00:00.000Z',
+    excerpt: 'HSM Aries.space took LEAP-One to the European Rover Challenge 2026 finals at AGH in Kraków and finished 17th of 25 with 1492.25 points — 4th in documentation, 6th in navigation droning. Here is what the scoreboard says, and what it sets for Leap-2, the next rover.',
+    category: 'competition',
+    tags: ['ERC 2026', 'Finals', 'LEAP-One', 'Leap-2', 'Results'],
+    featured: true,
+    featuredImage: 'erc-2026-finals-15-leap-one-mars-yard-arm-raised.jpg',
+    mediaDeck: [
+      {
+        filename: 'erc-2026-finals-05-chassis-rebuild-wiring.jpg',
+        caption: 'The rebuild continues on the grass with the tool kit and spare wheels laid out around the chassis.',
+      },
+      {
+        filename: 'erc-2026-finals-10-control-station-pit-tent.jpg',
+        caption: 'The crew huddles around the control-station monitor in the pit tent, the table draped in the Thuringian and German flags.',
+      },
+      {
+        filename: 'erc-2026-finals-21-gripper-on-maintenance-panel.jpg',
+        caption: 'The gripper operates the switches on the maintenance panel.',
+      },
+      {
+        filename: 'erc-2026-finals-22-rain-day-umbrella.jpg',
+        caption: 'On the rain day LEAP-One works the rocky terrain under an umbrella with its arm wrapped in protective plastic.',
+      },
+      {
+        filename: 'erc-2026-finals-23-carrying-the-quadcopter.jpg',
+        caption: 'LEAP-One carries the quadcopter on its top deck beside marker 9.',
+      },
+      {
+        filename: 'erc-2026-finals-29-quadcopter-landing-pad.jpg',
+        caption: "The team's quadcopter rests on its cardboard landing pad with a fiducial marker on the grass.",
+      },
+      {
+        filename: 'erc-2026-finals-31-presentation-lecture-hall.jpg',
+        caption: "A team member presents LEAP-One's mobility results during the team presentation in the lecture hall.",
+      },
+      {
+        filename: 'erc-2026-finals-37-with-the-japanese-team.jpg',
+        caption: 'The team poses with the Japanese team, both flags side by side and LEAP-One behind them.',
+      },
+    ],
+    source: {
+      url: 'https://hsmaries.space/news/mission-complete-hsm-aries-space-finishes-17th-of-25-at-the-erc-2026-finals-in-krakow',
+    },
+    body: richText(
+      {
+        kind: 'paragraph',
+        text: 'Kraków, Poland — LEAP-One competed in the European Rover Challenge 2026 on-site finals, held 4–6 September 2026 at AGH University. Twenty-five teams took the field. HSM Aries.space finished 17th of 25 with 1492.25 of 3000 points.',
+      },
+      { kind: 'heading', text: 'The scoreboard' },
+      {
+        kind: 'paragraph',
+        text: 'Documentation was the strongest line: 364.25 of 400 points and 4th of 25. It was built on the joint-highest qualification score in the finals field, 239.75 of 250, and a final report of 124.5 of 150.',
+      },
+      {
+        kind: 'paragraph',
+        text: 'Navigation droning scored 265 of 300, 6th of 25. Presentation scored 229 of 300 and AstroBio 215 of 300.',
+      },
+      {
+        kind: 'paragraph',
+        text: 'The remaining field tasks scored lower: surface and deep sampling 197 of 440, exploration 123 of 340, maintenance 66 of 340, traverse 43 of 340 and probing 12 of 240. A mass penalty of −22 points was applied, the only one in the field.',
+      },
+      { kind: 'heading', text: 'What worked' },
+      {
+        kind: 'paragraph',
+        text: 'The documentation held up from the qualification report through the final report. Navigation droning finished 6th of 25 and the presentation scored 229 of 300.',
+      },
+      {
+        kind: 'paragraph',
+        text: 'The operations software and the control station ran through the whole competition. The rover itself came through a chassis rebuild before its first run and a rain day on the Mars yard.',
+      },
+      { kind: 'heading', text: 'What did not' },
+      {
+        kind: 'paragraph',
+        text: 'The field tasks that depend on autonomous traverse and on manipulation scored low. Traverse finished at 43 of 340, maintenance at 66 of 340 and probing at 12 of 240.',
+      },
+      {
+        kind: 'paragraph',
+        text: 'LEAP-One was also over the mass allowance, which cost 22 points that no other team lost. 17th of 25 is not the finish we wanted. The scoreboard tells us exactly where the next rover has to be better.',
+      },
+      { kind: 'heading', text: 'The next rover: Leap-2' },
+      {
+        kind: 'paragraph',
+        text: 'Leap-2 is Project 02 of the LEAP series and is now in development. Its design priorities come straight from the scoreboard: mass under the allowance from day one, robust autonomous traverse, and serviceable manipulation for maintenance and probing.',
+      },
+      {
+        kind: 'paragraph',
+        text: 'The documentation, droning and operations strengths carry over. Students who want to build the next rover, and partners who want to back it, are invited to join the next competition campaign.',
+      },
+      { kind: 'heading', text: 'Thank you' },
+      {
+        kind: 'paragraph',
+        text: 'Our thanks go to the ERC organisers and AGH University for hosting the finals, to the other teams for three days of shared work on the Mars yard, and to Hochschule Schmalkalden, our sponsors and our supporters for carrying LEAP-One to Kraków.',
+      },
+    ),
+  },
   {
     title: 'Number One Worldwide: HSM Aries.space Tops ERC Qualifications with 239.75 Points!',
     slug: 'number-one-worldwide-hsm-aries-space-tops-erc-qualifications-with-239-75-points',
@@ -638,6 +745,65 @@ export const gallerySeed: SeedGallery[] = [
     location: 'Schmalkalden, Germany',
     tags: ['ERC 2026', 'Qualification', 'Milestone'],
     sortOrder: 20,
+    isPublic: true,
+  },
+  {
+    title: 'ERC 2026 Finals',
+    slug: 'erc-2026-finals',
+    description: richText({
+      kind: 'paragraph',
+      text: 'LEAP-One at the ERC 2026 on-site finals at AGH in Kraków: the rebuild, the pit tent, the Mars yard, the droning task, the presentation and the team. HSM Aries.space finished 17th of 25.',
+    }),
+    coverImage: 'erc-2026-finals-33-team-with-leap-one-and-flags.jpg',
+    items: [
+      'erc-2026-finals-01-campus-plaza-before-departure.jpg',
+      'erc-2026-finals-02-agh-banner.jpg',
+      'erc-2026-finals-03-mars-yard-morning.jpg',
+      'erc-2026-finals-04-chassis-rebuild-suspension.jpg',
+      'erc-2026-finals-05-chassis-rebuild-wiring.jpg',
+      'erc-2026-finals-06-first-sand-test.jpg',
+      'erc-2026-finals-07-wheels-in-the-sand.jpg',
+      'erc-2026-finals-08-mars-yard-other-team-run.jpg',
+      'erc-2026-finals-09-laptop-check-indoor-hall.jpg',
+      'erc-2026-finals-10-control-station-pit-tent.jpg',
+      'erc-2026-finals-11-pit-tent-laptop.jpg',
+      'erc-2026-finals-12-field-wiring-repair.jpg',
+      'erc-2026-finals-13-arm-setup-on-the-lawn.jpg',
+      'erc-2026-finals-14-walking-leap-one-to-the-field.jpg',
+      'erc-2026-finals-15-leap-one-mars-yard-arm-raised.jpg',
+      'erc-2026-finals-16-sample-containers-arm-raised.jpg',
+      'erc-2026-finals-17-leap-one-climbs-rocky-slope.jpg',
+      'erc-2026-finals-18-arm-extended-solar-stand.jpg',
+      'erc-2026-finals-19-leap-one-gravel-arm-extended.jpg',
+      'erc-2026-finals-20-maintenance-panel-marker-14.jpg',
+      'erc-2026-finals-21-gripper-on-maintenance-panel.jpg',
+      'erc-2026-finals-22-rain-day-umbrella.jpg',
+      'erc-2026-finals-23-carrying-the-quadcopter.jpg',
+      'erc-2026-finals-24-sponsor-panel-low-angle.jpg',
+      'erc-2026-finals-25-gripper-depth-camera-front.jpg',
+      'erc-2026-finals-26-arm-mast-erc-banner.jpg',
+      'erc-2026-finals-27-arm-raised-welcome-banner.jpg',
+      'erc-2026-finals-28-leapone-plate-mars-yard.jpg',
+      'erc-2026-finals-29-quadcopter-landing-pad.jpg',
+      'erc-2026-finals-30-quadcopter-marker-sheet.jpg',
+      'erc-2026-finals-31-presentation-lecture-hall.jpg',
+      'erc-2026-finals-32-team-after-presentation.jpg',
+      'erc-2026-finals-33-team-with-leap-one-and-flags.jpg',
+      'erc-2026-finals-34-team-on-the-steps.jpg',
+      'erc-2026-finals-35-team-at-agh.jpg',
+      'erc-2026-finals-36-three-members-with-quadcopter.jpg',
+      'erc-2026-finals-37-with-the-japanese-team.jpg',
+      'erc-2026-finals-38-teams-with-rovers-and-drones.jpg',
+      'erc-2026-finals-39-agh-team-zone-sunset.jpg',
+      'erc-2026-finals-40-rover-on-the-rocks.jpg',
+      'erc-2026-finals-41-quadcopter-on-deck.jpg',
+      'erc-2026-finals-42-suspension-over-the-rocks.jpg',
+      'erc-2026-finals-43-carrying-the-quadcopter-past-the-markers.jpg',
+    ],
+    eventDate: '2026-09-05T00:00:00.000Z',
+    location: 'Kraków, Poland',
+    tags: ['ERC 2026', 'Finals', 'LEAP-One', 'Kraków'],
+    sortOrder: 8,
     isPublic: true,
   },
   {

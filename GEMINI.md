@@ -2,7 +2,7 @@
 
 > **Project:** HSM Aries Space Initiative Platform (`hsmaries.space`)  
 > **Institution:** Hochschule Schmalkalden — University of Applied Sciences  
-> **Competition Campaign:** European Rover Challenge (ERC) 2026 — Qualified #1 Worldwide (239.75 Points)  
+> **Competition Campaign:** European Rover Challenge (ERC) 2026 — Finalist, 17th of 25 (1492.25 pts; documentation 4th, navigation droning 6th) · Next: Leap-2  
 > **Tech Stack:** Next.js 16.3.3 (Turbopack), Payload CMS 3.88.0, React 19, TypeScript, SQLite / Drizzle, Tailwind CSS v4 / Custom Design Tokens, Playwright, Vitest.
 
 ---
@@ -169,6 +169,27 @@ Result: 11 / 11 PASSED (100% Success Rate)
   - Enhanced multi-variable serverless detection (`AWS_LAMBDA_FUNCTION_NAME`, `LAMBDA_TASK_ROOT`, `NETLIFY_SITE_ID`, `SITE_ID`, `NETLIFY_DB_URL`, `NODE_ENV === 'production'`) ensuring `cloudStoragePlugin` is always active in production Lambda runtimes.
   - Explicitly configured `disableLocalStorage: isServerless` and writeable `/tmp/media` path on `Media.ts`, eliminating `ENOENT: no such file or directory, mkdir '/var/task/public'` errors.
   - Wrapped `getConnectionString()` in `payload.config.ts` and `handleUpload` in `netlifyBlobs.ts` with defensive try/catch blocks and safe buffer conversions for seamless CMS upload operations.
+
+### 3.9 ERC 2026 Results, Curated Finals Photography & Leap-2 Pivot
+- **Official Result (ERC 2026 on-site finals, AGH University, Kraków, 4–6 September 2026):**
+  - HSM ARIES competed with LEAP-One (scoreboard spelling `LEAPONE`) in a field of 25 finalist teams and finished **17th of 25** with an ERC final score of **1492.25 / 3000**.
+  - Strengths on the scoreboard: **documentation 364.25 / 400 (4th of 25)** — qualification 239.75 / 250 (joint-highest in the finals field) plus final report 124.5 / 150; **navigation droning 265 / 300 (6th of 25)**; presentation 229 / 300; AstroBio 215 / 300.
+  - Weaknesses: navigation traverse 43 / 340, maintenance 66 / 340, probing 12 / 240, and a −22 mass penalty (the only team in the field over the mass allowance).
+  - The June 2026 "#1 worldwide qualification, 239.75 points" milestone remains true as history (June news story, partner facts row) but is no longer presented anywhere as the site's current status.
+- **Curated Finals Photography (`public/media/erc-2026-finals-NN-<slug>.jpg`):**
+  - 39 curated event photos, flat in `public/media/` (no subfolder), numbered `01`–`39` in narrative order (before the yard → in the pit → on the Mars yard → droning → presentation → the team).
+  - Re-encoded with sharp exactly like `scripts/optimize-public-media.mjs`: `.rotate()` to bake EXIF orientation, downscaled to a 1920/2560 px long edge (never enlarged), `jpeg({ mozjpeg: true, progressive: true })`, EXIF/GPS metadata stripped. Typical size 240 KB–1.2 MB each.
+  - Registered as `{ alt, src: '/media/erc-2026-finals-NN-….jpg' }` entries at the top of `authoritativeGalleryImages` in `src/lib/gallery.ts` (newest-first; the six `rail` photos first so the home `GalleryRail` shows them, then the rest of the set, no duplicate filenames), which automatically feeds `mediaSeed` via `galleryArchiveMediaSeed`.
+  - Added the `gallerySeed` album `erc-2026-finals` in `src/seed/news.ts` (title `ERC 2026 Finals`, location `Kraków, Poland`, eventDate `2026-09-05`, tags `ERC 2026` / `Finals` / `LEAP-One` / `Kraków`, sortOrder 8) listing every curated filename.
+  - Role assignments (news hero, home ERC image, Leap-2 section image, rail, news inline deck, team photo) are recorded in [`design/erc-2026-finals-manifest.json`](./design/erc-2026-finals-manifest.json) (a tracked copy of the curation manifest); each manifest `caption` is the image's alt text. `DEFAULT_SOCIAL_IMAGE` (the Mars render) and the home hero are unchanged.
+  - Real photography replaced every generated render in the shell: the home hero, `DEFAULT_SOCIAL_IMAGE` and the login background now use `erc-2026-finals-hero-home.jpg` (a crop of a Mars-yard shot with the quadcopter on deck), the `/leap-one` hero uses `erc-2026-finals-hero-leap-one.jpg` (a crop of the arm-raised Mars-yard shot), `MissionSystems` mobility/autonomy panels use `erc-2026-finals-42/43-*.jpg`, the `/contact` hero uses the control-station photo, and the admin preview cards follow. The Mars/blue-hour renders (`rover-hero-mars-v3.jpg`, `rover-hero-cinematic.jpg`, `leap-one-hero-cinematic-v2.png`, `leap-one-*-cinematic.png`, `cleanroom-lab.jpg`) stay on disk but are no longer referenced. Nine render/diagram entries were retired from `authoritativeGalleryImages` (logo, rover.svg, isometric/wallpaper/Blender renders, design perspectives, early render); four extra Mars-yard photos (`erc-2026-finals-40..43`) were added from a second export (`Photos-1-001.zip`).
+  - Raw material (HEIC/DNG originals, the HEIC→JPG conversions, 900 px review previews and `MANIFEST.tsv`) lives in the gitignored `erc-2026/` folder (`.gitignore` rule `/erc-2026/`) and must never be committed or deployed.
+- **Finals News Story:** new story with slug `mission-complete-hsm-aries-space-finishes-17th-of-25-at-the-erc-2026-finals-in-krakow` (title *Mission Complete: HSM Aries.space Finishes 17th of 25 at the ERC 2026 Finals in Kraków*, publishedAt `2026-09-11T12:00:00.000Z`, identical in `fallbackNews.ts` and the seed), covered by `erc-2026-finals-15-leap-one-mars-yard-arm-raised.jpg` and carrying the `news_inline` photos as its media deck. Historical stories' bodies were not touched.
+- **Leap-2 Pivot (Project 02 of the LEAP series, in development):**
+  - Home page: hero mission card now reads `NEXT ROVER / Leap-2 — Project 02 — designed around what ERC 2026 taught us.` linking to `/leap-one#leap-2`; the "PROOF IN THE FIELD" section uses `erc-2026-finals-33-team-with-leap-one-and-flags.jpg` with the stat rows `17/25 ERC 2026 finals · 1492.25 pts`, `04/25 documentation · 364.25/400`, `06/25 navigation droning · 265/300`; a new `NEXT LEAP / 05` section (image `erc-2026-finals-17-leap-one-climbs-rocky-slope.jpg`) introduces Leap-2 and renumbers NEXT HORIZON → `/ 06`, FIELD RECORD → `/ 07`, MAKE THE NEXT LEAP → `/ 08`.
+  - `/leap-one#leap-2`: roadmap entry for Leap-2 whose design priorities are derived only from the scoreboard — mass under the allowance from day one, robust autonomous traverse, serviceable manipulation for maintenance and probing, and keeping the documentation / droning / operations strengths. No specs, dates or target competition are published.
+  - Footer status pill: `ERC 2026 FINALIST · 17TH OF 25 · NEXT: Leap-2`; rover link label `LEAP-One · Leap-2 / LEAP Series`.
+  - Naming rule: the next rover is written exactly `Leap-2` (this casing, with the hyphen) everywhere in source, prose, eyebrows, alt text and tests; no uppercase, spaced or spelled-out variants. The previous rover keeps its existing `LEAP-One` spelling.
 
 ---
 
