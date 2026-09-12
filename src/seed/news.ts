@@ -97,8 +97,9 @@ const curatedMediaSeed: SeedMedia[] = [
   { filename: 'hsm-powered-by.png', alt: 'Powered by Hochschule Schmalkalden' },
   { filename: 'sick-logo-1.png', alt: 'SICK Sensor Intelligence logo' },
   { filename: 'boehm-logo-2.png', alt: 'Boehm Group GmbH logo' },
-  { filename: 'skyforce-logo.png', alt: 'Skyforce Drone Solutions logo' },
-  { filename: 'eviotech-logo.jpg', alt: 'Eviotech logo' },
+  { filename: 'skyforce-logo.png', alt: 'Skyforce Innovations logo' },
+  { filename: 'eviotech-logo.jpg', alt: 'Eviotec logo' },
+  { filename: 'odrive-logo.png', alt: 'ODrive Robotics logo' },
   { filename: 'leap-one-hero.jpg', alt: 'HSM Aries LEAP-One planetary rover' },
   { filename: 'qualification-announcement.jpg', alt: 'HSM Aries ERC 2026 qualification announcement' },
   { filename: 'qualification-score.png', alt: 'ERC 2026 qualification result showing HSM Aries ranked first' },
@@ -173,10 +174,11 @@ const curatedMediaSeed: SeedMedia[] = [
 
 export const sponsorSeed = [
   { name: 'Hochschule Schmalkalden', logo: 'hsm-powered-by.png', tier: 'principal', sortOrder: 10, website: 'https://www.hs-schmalkalden.de' },
-  { name: 'Boehm Group GmbH', logo: 'boehm-logo-2.png', tier: 'gold', sortOrder: 20 },
+  { name: 'Boehm Group GmbH', logo: 'boehm-logo-2.png', tier: 'gold', sortOrder: 20, website: 'https://www.boehm-group.com' },
   { name: 'SICK Sensor Intelligence', logo: 'sick-logo-1.png', tier: 'partner', sortOrder: 30, website: 'https://www.sick.com' },
-  { name: 'Skyforce Drone Solutions', logo: 'skyforce-logo.png', tier: 'partner', sortOrder: 40 },
-  { name: 'Eviotech', logo: 'eviotech-logo.jpg', tier: 'partner', sortOrder: 50 },
+  { name: 'Skyforce Innovations', logo: 'skyforce-logo.png', tier: 'partner', sortOrder: 40, website: 'https://skyforceinnovations.com' },
+  { name: 'Eviotec', logo: 'eviotech-logo.jpg', tier: 'partner', sortOrder: 50 },
+  { name: 'ODrive Robotics', logo: 'odrive-logo.png', tier: 'partner', sortOrder: 60, website: 'https://odriverobotics.com' },
 ] as const
 
 const filenameFromPublicURL = (url: string) => {
