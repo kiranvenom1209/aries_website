@@ -1,0 +1,46 @@
+/* Restrained programme accents; import after the existing home styles. */
+.aries-programme-card {
+  transition: border-top-color 220ms ease;
+}
+
+.aries-programme-card:hover,
+.aries-programme-card:focus-within {
+  border-top-color: var(--accent);
+}
+
+.aries-programme-card::after {
+  pointer-events: none;
+}
+
+.aries-programme-card:focus-within::after {
+  opacity: 1;
+}
+
+.aries-programme-card__topline {
+  gap: 16px;
+  min-height: 34px;
+}
+
+.aries-programme-card__topline > span {
+  flex-shrink: 0;
+  font-family: var(--display);
+  font-size: 32px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+  letter-spacing: -.055em;
+  line-height: 1;
+}
+
+.aries-programme-card__topline small {
+  line-height: 1.5;
+  min-width: 0;
+  text-align: right;
+  text-wrap: balance;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aries-programme-card,
+  .aries-programme-card::after {
+    transition: none;
+  }
+}

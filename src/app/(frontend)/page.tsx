@@ -129,21 +129,20 @@ export default async function HomePage() {
     <PageShell>
       <section className="aries-home-hero">
         <Image
-          alt="LEAP-One carries the team’s quadcopter across the Mars yard at the ERC 2026 finals in Kraków"
+          alt="Cinematic AI treatment of an ERC photograph showing LEAP-One and its quadcopter on the Mars yard"
           className="aries-home-hero__image"
           fetchPriority="high"
           fill
           preload
           sizes="100vw"
-          src="/media/erc-2026-finals-hero-home.jpg"
+          src="/media/erc-2026-cinematic-hero.jpg"
         />
-        <div aria-hidden="true" className="aries-home-hero__grid" />
         <div aria-hidden="true" className="aries-home-hero__wash" />
         <div className="aries-home-hero__content">
-          <p className="aries-home-hero__eyebrow">HSM ARIES / CHAIR OF DRIVE, AUTOMATION, AND ROBOTICS TECHNOLOGIES</p>
-          <h1>Build the systems<br /><em>that take us further.</em></h1>
+          <p className="aries-home-hero__eyebrow">HSM ARIES / HOCHSCHULE SCHMALKALDEN</p>
+          <h1><span>Build the</span><span>systems that</span><em><span>take us</span><span>further.</span></em></h1>
           <p className="aries-home-hero__summary">
-            HSM Aries is the space robotics initiative at Hochschule Schmalkalden. Students design, build and field-test planetary rovers: LEAP-One competed at the ERC 2026 finals in Kraków, and Leap-2 is now in development.
+            Students designing, building and field-testing the next generation of planetary rovers.
           </p>
           <div className="hero__actions">
             <MagneticLink className="button button--solid" href="/about">Explore HSM Aries</MagneticLink>
@@ -153,13 +152,17 @@ export default async function HomePage() {
         <Link className="aries-home-hero__mission-card" href="/leap-2">
           <span>NEXT ROVER</span>
           <strong>Leap-2</strong>
-          <p>Project 02 · in development — designed around what ERC 2026 taught us.</p>
+          <p>Project 02 · in development</p>
           <span className="aries-home-hero__mission-card__cta">Follow the build <b aria-hidden="true">↗</b></span>
         </Link>
-        <div aria-hidden="true" className="aries-home-hero__signal">
-          <i /><span>EXPLORATION SYSTEMS · LEAP SERIES</span>
-        </div>
+        <p className="aries-home-hero__credit">ERC imagery · AI cinematic treatment</p>
       </section>
+
+      <div aria-label="LEAP programme milestones" className="aries-home-fieldline">
+        <span>ERC 2026 / KRAKÓW</span>
+        <span>LEAP-One <i aria-hidden="true">·</i> field tested</span>
+        <Link href="/leap-2">Leap-2 <i aria-hidden="true">·</i> in development <b aria-hidden="true">↗</b></Link>
+      </div>
 
       <section className="aries-home-manifesto">
         <div>
