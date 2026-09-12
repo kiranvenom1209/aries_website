@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 680" fill="none" stroke="#b8cbd4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <title>LEAP-One side elevation — illustrated from the rover CAD model</title>
+  <!-- Coordinates follow the orthographic side elevation, with the arm at the front. -->
+  <g transform="translate(1000 0) scale(-1 1)">
+    <!-- Rear sampling gantry: two full-height rails, motor, carriage and bottom support. -->
+    <path d="M734 101H860V514H734Z" fill="#091014"/>
+    <path d="M745 110H849V503H745Z" stroke="#667e8b"/>
+    <path d="M752 112V499M842 112V499M740 107V508M854 107V508" stroke="#f17945" stroke-width="3"/>
+    <path d="M734 102H860M734 509H860M734 514H860" stroke="#ff713b" stroke-width="3"/>
+    <path d="M773 22H806V101H773Z" fill="#0d161c"/>
+    <path d="M779 30H800M789 105V458M781 112V458M799 112V458" stroke="#718995"/>
+    <path d="M782 121H800V151H782ZM781 152V217H799V152M782 219V448"/>
+    <path d="M759 108V138H776V108M764 115V128"/>
+    <path d="M755 473H822V493H755ZM774 451H811L823 466V475H773Z" fill="#142128"/>
+    <circle cx="806" cy="467" r="10"/><circle cx="806" cy="467" r="4"/>
+    <path d="M681 476H758V494H681M686 484H751M627 498H735V516H627"/>
+    <path d="M603 371H735V382H603M603 377H735M609 505H850" stroke="#ff713b" stroke-width="3"/>
+    <!-- Sensor mast and stack light, at their measured heights. -->
+    <path d="M531 65H570V370H531Z" fill="#0c151a"/>
+    <path d="M533 234H561V291H533M540 244V280M549 244V280" stroke="#708792"/>
+    <path d="M553 233H579L601 158H637V166H610L587 245H563Z" fill="#101b21"/>
+    <path d="M608 40H635V149H608Z" fill="#0e171c"/>
+    <path d="M609 45H634M609 68H634M609 92H634M609 116H634M609 140H634"/>
+    <path d="M612 48H631V65H612Z" fill="#b4533a" stroke="none"/>
+    <path d="M612 72H631V89H612Z" fill="#e5a65d" stroke="none"/>
+    <path d="M612 96H631V113H612Z" fill="#14392e" stroke="none"/>
+    <path d="M620 151V325" stroke="#dc794d"/>
+    <!-- Equipment tray, control enclosures and the black battery cases. -->
+    <path d="M326 328H425V381H326ZM327 316H387V328M335 316V328M376 316V328" fill="#111d24"/>
+    <path d="M298 336H325V350H298M299 340H322M304 349V356H317V350"/>
+    <path d="M430 311H509V381H430ZM430 321H437V369H430M505 321H516V369H505" fill="#111d24"/>
+    <path d="M450 370H495V381H450Z" fill="#182830"/>
+    <path d="M510 243H560V333H510Z" fill="#101b21"/>
+    <path d="M563 244H594V344H563Z" fill="#0c151b"/>
+    <path d="M526 350L530 335Q533 330 546 331H588Q600 331 602 342L605 361H527Z" fill="#0c1419"/>
+    <path d="M526 362H607V379H526ZM534 363V370H600M535 334L533 350M589 334L592 350"/>
+    <!-- ReBeL arm: rounded joint housings and the real downward gripper pose. -->
+    <path d="M416 308V275Q407 264 406 243L410 209Q412 191 428 182L449 177Q469 183 477 201L480 235Q480 255 469 269V292H427V308Z" fill="#080e12"/>
+    <path d="M409 213Q409 183 439 183Q473 183 476 216L478 240Q475 273 443 274Q413 273 412 246Z" stroke="#d0dce1"/>
+    <path d="M423 202Q439 189 453 198M461 204L466 233M429 265H459" stroke="#526a77"/>
+    <path d="M419 287H475V305H419Z" fill="#111b21"/>
+    <path d="M420 297H475" stroke="#f77c43" stroke-width="4"/>
+    <path d="M410 200L397 174L372 168L348 162L359 118Q397 119 415 141L432 176Z" fill="#0b1217"/>
+    <path d="M396 128L391 157L414 175M367 130L375 158" stroke="#708591"/>
+    <path d="M393 174L427 163M397 179L431 168" stroke="#ff7c43" stroke-width="3"/>
+    <path d="M297 139Q289 112 315 109L365 111Q383 113 389 130L386 159Q380 174 359 171L316 165Q300 161 297 139Z" fill="#0b1318"/>
+    <path d="M310 120Q324 113 339 117M307 146Q311 158 329 158M359 116L356 163M365 117L362 165" stroke="#81959f"/>
+    <circle cx="320" cy="128" r="3"/><circle cx="320" cy="150" r="3"/>
+    <path d="M298 120L260 141L222 165L194 197L211 223L242 217L284 190L316 164Z" fill="#0b1318"/>
+    <path d="M254 149L277 187M262 144L286 182" stroke="#ff7c43" stroke-width="4"/>
+    <path d="M246 158L218 179L207 197M270 184L241 204L224 207" stroke="#6d828d"/>
+    <path d="M209 209Q202 194 186 203L158 215Q141 223 146 241Q149 252 163 255L197 242Q214 233 209 209Z" fill="#0b1318"/>
+    <circle cx="166" cy="231" r="13"/><circle cx="166" cy="231" r="4"/>
+    <path d="M183 207L199 238M187 205L204 234" stroke="#697f8a"/>
+    <path d="M151 249L195 247V302H150Z" fill="#0d151a"/>
+    <path d="M153 268H193M153 292H192" stroke="#fb7840" stroke-width="4"/>
+    <path d="M156 276H190M156 285H190M157 297H188" stroke="#617783"/>
+    <!-- Gripper adapter, two fingers, and their mechanical linkage. -->
+    <path d="M145 302H198V313H145ZM139 309H153V323L140 326ZM171 313H183V387H171Z" fill="#132128"/>
+    <path d="M162 319H192V332H162M181 327H205V339H183M176 336L178 381M168 342H186"/>
+    <path d="M166 379L181 384L179 409L166 427L168 441H190L189 424L180 408M181 386L190 400L186 414" fill="#0c161c"/>
+    <path d="M167 387L170 408M181 428L180 435" stroke="#708994"/>
+    <!-- Main body and the two horizontal extrusion rails. -->
+    <path d="M324 384H625V453H324Z" fill="#111d24"/>
+    <path d="M329 390H619M329 447H619" stroke="#617986"/>
+    <circle cx="357" cy="414" r="6"/><circle cx="387" cy="414" r="6"/>
+    <circle cx="416" cy="406" r="2"/><circle cx="346" cy="440" r="2"/>
+    <path d="M329 455H625V478H329ZM335 461H621M334 471H621" fill="#132027"/>
+    <path d="M371 482H625V500H371Z" fill="#101b21"/>
+    <path d="M382 488H614M384 494H611" stroke="#617986"/>
+    <!-- Rocker-bogie suspension, with hubs at the CAD wheel centres. -->
+    <path d="M454 451L476 406L498 451Z" fill="#15242c"/>
+    <path d="M482 402H659V411H482Z" fill="#17262e"/>
+    <circle cx="476" cy="407" r="9" fill="#0b151b"/><circle cx="476" cy="407" r="4"/>
+    <circle cx="663" cy="407" r="9" fill="#0b151b"/><circle cx="663" cy="407" r="4"/>
+    <!-- The articulated links and wheel hubs are separate animated SVG elements. -->
+  </g>
+</svg>

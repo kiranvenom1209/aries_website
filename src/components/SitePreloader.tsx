@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import { LeapOnePreloaderRover } from './LeapOnePreloaderRover'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 
 const PHASES = [
@@ -10,9 +11,9 @@ const PHASES = [
   { at: 94, label: 'MISSION READY' },
 ]
 
-const MIN_FILL_MS = 700
+const MIN_FILL_MS = 3800
 const EXIT_MS = 700
-const FILL_TAIL_MS = 260
+const FILL_TAIL_MS = 450
 
 // The mission-ready sequence plays on every full page load (first visit, reload, external link),
 // never on client-side navigations between pages.
@@ -84,7 +85,7 @@ export function SitePreloader() {
 
     const draw = (now: number) => {
       const elapsed = now - startedAt
-      const initialProgress = Math.min(92, 92 * (1 - Math.exp(-elapsed / 420)))
+      const initialProgress = 92 * (1 - Math.pow(1 - Math.min(elapsed / MIN_FILL_MS, 1), 1.3))
       const canComplete = loadedAt > 0 && elapsed >= MIN_FILL_MS
       const completionProgress = canComplete
         ? Math.min(100, 92 + ((now - Math.max(loadedAt, startedAt + MIN_FILL_MS)) / FILL_TAIL_MS) * 8)
@@ -157,65 +158,7 @@ export function SitePreloader() {
         </div>
 
         <div aria-hidden="true" className="site-preloader__rover-stage">
-          <svg className="site-preloader__rover" viewBox="0 0 720 280">
-            <g className="site-preloader__track-marks">
-              <path d="M35 233H685" />
-              <path d="M55 248H160M190 248H295M325 248H430M460 248H565M595 248H665" />
-            </g>
-
-            <g className="site-preloader__vehicle">
-              <g className="site-preloader__suspension">
-                <path d="M190 187L253 205L327 177L401 205L474 182" />
-                <path d="M253 205L327 205M401 205L474 205" />
-              </g>
-
-              <path className="site-preloader__chassis" d="M164 137H479L518 170L496 192H190L152 169Z" />
-              <path className="site-preloader__deck" d="M206 112H440L468 137H184Z" />
-              <path className="site-preloader__panel" d="M254 122H382M397 122H433" />
-
-              <g className="site-preloader__mast">
-                <path d="M305 111V60M319 111V60" />
-                <path d="M290 61H334L327 47H297Z" />
-                <circle cx="305" cy="54" r="3" />
-                <circle cx="320" cy="54" r="3" />
-              </g>
-
-              <g className="site-preloader__arm">
-                <path d="M410 112L448 77L486 91L530 55" />
-                <circle cx="410" cy="112" r="7" />
-                <circle cx="448" cy="77" r="7" />
-                <circle cx="486" cy="91" r="7" />
-                <path d="M529 54L548 43M529 54L548 65" />
-              </g>
-
-              <path className="site-preloader__antenna" d="M243 111V77M234 77H252M238 70H248" />
-              <path className="site-preloader__accent-line" d="M160 170H508" />
-
-              <g className="site-preloader__wheel site-preloader__wheel--one">
-                <circle cx="225" cy="205" r="35" />
-                <circle cx="225" cy="205" r="17" />
-                <path d="M225 170V240M190 205H260M200 180L250 230M250 180L200 230" />
-              </g>
-              <g className="site-preloader__wheel site-preloader__wheel--two">
-                <circle cx="345" cy="205" r="35" />
-                <circle cx="345" cy="205" r="17" />
-                <path d="M345 170V240M310 205H380M320 180L370 230M370 180L320 230" />
-              </g>
-              <g className="site-preloader__wheel site-preloader__wheel--three">
-                <circle cx="465" cy="205" r="35" />
-                <circle cx="465" cy="205" r="17" />
-                <path d="M465 170V240M430 205H500M440 180L490 230M490 180L440 230" />
-              </g>
-
-              <circle className="site-preloader__signal" cx="171" cy="154" r="5" />
-            </g>
-
-            <g className="site-preloader__vector-dust">
-              <circle cx="144" cy="218" r="3" />
-              <circle cx="121" cy="224" r="2" />
-              <circle cx="98" cy="216" r="1.5" />
-            </g>
-          </svg>
+          <LeapOnePreloaderRover />
         </div>
 
         <div className="site-preloader__status">

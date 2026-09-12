@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import { GalleryRail } from '@/components/GalleryRail'
+import { LeapOneProgrammeGraphic } from '@/components/LeapOneProgrammeGraphic'
 import { MagneticLink } from '@/components/MagneticLink'
 import { MissionControlShowcase } from '@/components/MissionControlShowcase'
 import { NewsRows } from '@/components/NewsList'
@@ -57,31 +58,7 @@ const programmes = [
 function ProgrammeGraphic({ code }: { code: (typeof programmes)[number]['code'] }) {
   return (
     <svg aria-hidden="true" className="aries-programme-card__graphic" viewBox="0 0 320 180">
-      {code === '01' ? (
-        <>
-          <path className="programme-line programme-line--muted" d="M28 148h264" />
-          <path className="programme-scan" d="M38 45h92" />
-          <path className="programme-line" d="M72 105h164l20 23H54l18-23Z" />
-          <path className="programme-line" d="M94 104V75h87v30M181 76l25-24 27 18m-27-18-8-12m35 30 17 24" />
-          <path className="programme-line" d="M122 75V49h16v26m-19-26h22m-14-7h7m-3 0V29" />
-          <g className="programme-rover__far-wheels">
-            <circle cx="91" cy="132" r="16" />
-            <circle cx="159" cy="132" r="16" />
-            <circle cx="227" cy="132" r="16" />
-          </g>
-          <g className="programme-rover__wheels">
-            <circle cx="84" cy="137" r="18" />
-            <circle cx="152" cy="137" r="18" />
-            <circle cx="220" cy="137" r="18" />
-          </g>
-          <g className="programme-rover__hubs">
-            <circle cx="84" cy="137" r="6" />
-            <circle cx="152" cy="137" r="6" />
-            <circle cx="220" cy="137" r="6" />
-          </g>
-          <path className="programme-line programme-line--accent" d="M64 128h184" />
-        </>
-      ) : null}
+      {code === '01' ? <LeapOneProgrammeGraphic /> : null}
       {code === '02' ? (
         <>
           <path className="programme-contour" d="M32 130c31-34 61-13 84-48 20-30 55-20 72 1 26 32 57 8 96 32" />
