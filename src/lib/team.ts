@@ -1,5 +1,6 @@
 import type { TeamMember } from './fallbackTeam'
 import { disciplineLabels, fallbackTeam } from './fallbackTeam'
+import { resolveLegacyMediaPath } from './mediaPaths'
 
 type UnknownRecord = Record<string, unknown>
 
@@ -21,9 +22,9 @@ const extractText = (value: unknown): string[] => {
 }
 
 const mediaUrl = (value: unknown) => {
-  if (typeof value === 'string') return value.startsWith('/') ? value : undefined
+  if (typeof value === 'string') return value.startsWith('/') ? resolveLegacyMediaPath(value) : undefined
   if (!isRecord(value)) return undefined
-  return stringValue(value.url) ?? stringValue(value.src)
+  return resolveLegacyMediaPath(stringValue(value.url) ?? stringValue(value.src))
 }
 
 const normalizeMember = (doc: unknown, index: number): TeamMember | null => {

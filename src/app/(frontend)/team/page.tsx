@@ -18,7 +18,7 @@ export const metadata: Metadata = pageMetadata({
   title: 'Engineering crew',
 })
 
-// primary: rank insignia is shown here. lead: leads this department (keeps a full card even on a repeat listing).
+// primary: rank insignia is shown here. lead: leads this department (a team fact; the role string carries it on the page).
 type DepartmentMember = { lead?: boolean; primary?: boolean; role: string; slug: string }
 
 // Role strings are the engineer's actual title (fallbackTeam.position, shortened), never the department name.
@@ -122,7 +122,7 @@ function PrincipalAdvisor({ member, index }: { index: number; member: TeamMember
   return (
     <article className="principal-advisor">
       <div className="principal-advisor__portrait" itemScope itemType="https://schema.org/ImageObject">
-        <Image alt={member.imageAlt} fill sizes="(max-width: 760px) 100vw, 50vw" src={member.image} />
+        <Image alt={member.imageAlt} fill sizes="(max-width: 760px) 100vw, 58vw" src={member.image} />
         <meta content={member.image} itemProp="contentUrl" />
         {member.imageCredit ? <meta content={member.imageCredit} itemProp="creditText" /> : null}
         {member.imageCreditUrl ? <link href={member.imageCreditUrl} itemProp="acquireLicensePage" /> : null}
@@ -138,11 +138,17 @@ function PrincipalAdvisor({ member, index }: { index: number; member: TeamMember
   )
 }
 
-function RosterPerson({ member, role, showBadge = false }: { member: TeamMember; role: string; showBadge?: boolean }) {
+// Portraits that team.css enlarges with transform: scale() need that many more source pixels than the tile.
+const portraitZoom: Record<string, number> = { 'ayan-akbar-ali': 2.6, 'brahama-teja-naroju': 1.45, 'reeba-biju': 1.6, 'omar-abdelrady': 1.25 }
+
+// One tile per listing. Rank insignia at the primary post only; a repeat listing carries an
+// "Also …" chip pointing back to the earlier department instead of a second full card.
+function RosterPerson({ also = [], member, role, showBadge = false }: { also?: string[]; member: TeamMember; role: string; showBadge?: boolean }) {
+  const zoom = portraitZoom[member.slug] ?? 1
   return (
     <article className={`roster-person roster-person--${member.slug}`}>
       <div className="roster-person__portrait">
-        <Image alt={`${member.name} — ${role}`} fill sizes="(max-width: 600px) 100vw, 25vw" src={member.image} />
+        <Image alt={`${member.name} — ${role}`} fill sizes={`(max-width: 820px) ${Math.ceil(50 * zoom)}vw, ${Math.ceil(200 * zoom)}px`} src={member.image} />
         {showBadge && member.rankBadge ? (
           <Image
             alt={`${member.rank ?? 'Leadership'} rank insignia`}
@@ -156,24 +162,9 @@ function RosterPerson({ member, role, showBadge = false }: { member: TeamMember;
       <div className="roster-person__copy">
         <h4>{member.name}</h4>
         <p>{role}</p>
+        {also.length > 0 ? <span className="roster-person__also">Also {also.join(' · ')}</span> : null}
       </div>
     </article>
-  )
-}
-
-// Secondary assignment: the engineer already has a full card at an earlier post, so this is a one-line row.
-function RosterRow({ also, member, role }: { also: string[]; member: TeamMember; role: string }) {
-  return (
-    <li className={`roster-row roster-row--${member.slug}`}>
-      <span className="roster-row__thumb">
-        <Image alt="" fill sizes="48px" src={member.image} />
-      </span>
-      <span className="roster-row__copy">
-        <strong>{member.name}</strong>
-        <span>{role}</span>
-      </span>
-      {also.length > 0 ? <span className="roster-row__chip">Also {also.join(' · ')}</span> : null}
-    </li>
   )
 }
 
@@ -235,7 +226,7 @@ export default async function TeamPage() {
           {mentors.map((member, index) => (
             <article className={`mentor-profile mentor-profile--${member.slug}`} key={member.slug}>
               <div>
-                <Image alt={member.imageAlt} fill sizes="(max-width: 600px) 50vw, 20vw" src={member.image} />
+                <Image alt={member.imageAlt} fill sizes="(max-width: 600px) 50vw, 44vw" src={member.image} />
                 <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
               </div>
               <h3>{member.name}</h3>
@@ -262,24 +253,19 @@ export default async function TeamPage() {
         <header className="section-command">
           <div><span>05 / DEPARTMENTS</span><i /></div>
           <h2>Eight teams.<br />One integrated rover.</h2>
-          <p>Eight departments built LEAP-One and are now designing Leap-2. Engineers who serve in more than one appear in each; rank insignia are shown at primary posts only.</p>
+          <p>Eight departments built LEAP-One and are now designing Leap-2. Engineers who serve in more than one are listed in each; rank insignia are shown at primary posts only.</p>
         </header>
 
         {departments.map((department, departmentIndex) => {
           const departmentMembers = department.members
             .map((entry) => ({ entry, member: bySlug.get(entry.slug) }))
             .filter((item): item is { entry: DepartmentMember; member: TeamMember } => Boolean(item.member))
-          // A full card at the primary post, at this department's lead post, or at the first listing;
-          // later listings become one-line rows that point back to the earlier post.
+          // Departments an engineer was already listed under, shown as an "Also …" chip on repeat listings.
           const earlierPosts = (slug: string) =>
             departments
               .slice(0, departmentIndex)
               .filter((other) => other.members.some((entry) => entry.slug === slug))
               .map((other) => other.code)
-          const cards = departmentMembers.filter(
-            ({ entry }) => entry.primary || entry.lead || earlierPosts(entry.slug).length === 0,
-          )
-          const rows = departmentMembers.filter((item) => !cards.includes(item))
 
           return (
             <section className="department-manifest" id={`department-${department.code.toLowerCase()}`} key={department.code}>
@@ -292,17 +278,10 @@ export default async function TeamPage() {
               </header>
               <div className="department-manifest__body">
                 <div className="department-manifest__members">
-                  {cards.map(({ entry, member }) => (
-                    <RosterPerson key={`${department.code}-${member.slug}`} member={member} role={entry.role} showBadge={entry.primary} />
+                  {departmentMembers.map(({ entry, member }) => (
+                    <RosterPerson also={earlierPosts(member.slug)} key={`${department.code}-${member.slug}`} member={member} role={entry.role} showBadge={entry.primary} />
                   ))}
                 </div>
-                {rows.length > 0 ? (
-                  <ul className="department-manifest__secondary">
-                    {rows.map(({ entry, member }) => (
-                      <RosterRow also={earlierPosts(member.slug)} key={`${department.code}-${member.slug}`} member={member} role={entry.role} />
-                    ))}
-                  </ul>
-                ) : null}
               </div>
             </section>
           )
