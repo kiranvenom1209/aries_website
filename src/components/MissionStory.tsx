@@ -44,7 +44,7 @@ function MediaAsset({ asset, className, priority = false }: { asset: NewsMedia; 
       alt={asset.alt ?? 'HSM Aries mission media'}
       fill
       preload={priority}
-      sizes="(max-width: 760px) 100vw, 760px"
+      sizes={priority ? '(max-width: 980px) 100vw, 64vw' : '(max-width: 760px) 100vw, 760px'}
       src={asset.url}
     />
   )

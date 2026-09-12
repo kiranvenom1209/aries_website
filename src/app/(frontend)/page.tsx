@@ -221,7 +221,7 @@ export default async function HomePage() {
 
       <section className="aries-home-platform">
         <div className="aries-home-platform__image">
-          <Image alt="Team members repair wiring beside LEAP-One’s arm and signal tower in the pit at ERC 2026" fill sizes="(max-width: 820px) 100vw, 50vw" src="/media/erc-2026-finals-12-field-wiring-repair.jpg" />
+          <Image alt="Team members repair wiring beside LEAP-One’s arm and signal tower in the pit at ERC 2026" fill sizes="(max-width: 820px) 100vw, 78vw" src="/media/erc-2026-finals-12-field-wiring-repair.jpg" />
           <span>PIT LANE / ERC 2026</span>
         </div>
         <div className="aries-home-platform__copy">
@@ -254,7 +254,7 @@ export default async function HomePage() {
           <MagneticLink className="button button--solid" href="/leap-one">LEAP-One dossier</MagneticLink>
         </div>
         <div className="aries-home-leap-proof__image aries-home-leap-proof__image--crew">
-          <Image alt="The team gathers around LEAP-One on the Mars yard with the German and Thuringian flags." fill sizes="(max-width: 820px) 100vw, 50vw" src="/media/erc-2026-finals-33-team-with-leap-one-and-flags.jpg" />
+          <Image alt="The team gathers around LEAP-One on the Mars yard with the German and Thuringian flags." fill sizes="(max-width: 820px) 100vw, 78vw" src="/media/erc-2026-finals-33-team-with-leap-one-and-flags.jpg" />
           <span>MARS YARD / ERC 2026</span>
         </div>
       </section>
@@ -293,7 +293,7 @@ export default async function HomePage() {
           </div>
         </div>
         <div className="aries-home-leap-proof__image aries-home-leap-proof__image--slope">
-          <Image alt="LEAP-One picks its way across the rocks of the Mars yard at the ERC 2026 finals" fill sizes="(max-width: 820px) 100vw, 50vw" src="/media/erc-2026-finals-40-rover-on-the-rocks.jpg" />
+          <Image alt="LEAP-One picks its way across the rocks of the Mars yard at the ERC 2026 finals" fill sizes="(max-width: 820px) 100vw, 78vw" src="/media/erc-2026-finals-40-rover-on-the-rocks.jpg" />
           <span>LEAP-One ON THE ROCK FIELD / ERC 2026</span>
         </div>
       </section>
