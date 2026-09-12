@@ -138,7 +138,7 @@ export default async function AboutPage() {
           <Image
             alt="The team around LEAP-One in the seminar room after the first build phase."
             fill
-            sizes="(max-width: 900px) 100vw, 52vw"
+            sizes="(max-width: 900px) 100vw, 92vw"
             src="/media/dsc01422-scaled.jpg"
           />
           <span>SEMINAR ROOM / SCHMALKALDEN</span>
@@ -237,7 +237,7 @@ export default async function AboutPage() {
           {mentors.map((mentor, index) => (
             <article key={mentor.slug}>
               <div className={`mentor-orbit__portrait mentor-orbit__portrait--${mentor.slug}`}>
-                <Image alt={mentor.imageAlt} fill sizes="(max-width: 700px) 44vw, 16vw" src={mentor.image} />
+                <Image alt={mentor.imageAlt} fill sizes="(max-width: 700px) 44vw, 25vw" src={mentor.image} />
               </div>
               <span>{String(index + 1).padStart(2, '0')}</span>
               <h3>{mentor.name}</h3>

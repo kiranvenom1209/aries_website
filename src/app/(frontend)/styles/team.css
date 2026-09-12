@@ -89,80 +89,55 @@
   text-transform: uppercase;
 }
 
-/* Members column holds the card grid plus the secondary-assignment rows. */
+/* Members column: fixed-size tiles that wrap, so a one-person department is one tile beside its
+   rail, not a row of empty columns, and a six-person department is one row instead of two. */
 .department-manifest__body {
   display: flex;
   flex-direction: column;
   min-width: 0;
 }
 
-.department-manifest__secondary {
-  border-top: 1px solid var(--line);
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.roster-row {
-  align-items: center;
-  display: grid;
-  gap: 16px;
-  grid-template-columns: 44px minmax(0, 1fr) auto;
-  padding: 14px 20px;
-}
-
-.roster-row + .roster-row {
-  border-top: 1px solid var(--line);
-}
-
-.roster-row__thumb {
-  aspect-ratio: 1;
-  background: var(--surface);
-  border-radius: 50%;
-  display: block;
-  overflow: hidden;
-  position: relative;
-  width: 44px;
-}
-
-.roster-row__thumb > img {
-  object-fit: cover;
-  object-position: center 22%;
-}
-
-.roster-row__copy {
-  align-items: baseline;
+.department-manifest__members {
+  align-content: start;
   display: flex;
   flex-wrap: wrap;
-  gap: 4px 14px;
-  min-width: 0;
+  gap: 26px 18px;
+  padding: 30px clamp(20px, 2.6vw, 40px) 38px;
 }
 
-.roster-row__copy strong {
-  font-family: var(--display);
-  font-size: 17px;
-  font-weight: 500;
-  letter-spacing: -0.03em;
-  line-height: 1.05;
+.roster-person {
+  border-right: 0;
+  flex: 0 0 auto;
+  width: clamp(148px, 14.4vw, 196px);
 }
 
-.roster-row__copy span {
-  color: var(--accent-bright);
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+.roster-person__copy {
+  min-height: 0;
+  padding: 12px 2px 0;
 }
 
-.roster-row__chip {
+.roster-person__copy h4 {
+  font-size: 16px;
+  margin-bottom: 7px;
+}
+
+.roster-person__rank {
+  right: 10px !important;
+  top: 10px !important;
+  width: 40px !important;
+}
+
+/* Repeat listing: points back to the department where the engineer's primary card sits. */
+.roster-person__also {
   border: 1px solid var(--line-bright);
   color: var(--muted);
+  display: inline-block;
   font-family: var(--mono);
-  font-size: 10px;
+  font-size: 9px;
   letter-spacing: 0.14em;
-  padding: 6px 9px;
+  margin-top: 9px;
+  padding: 4px 7px;
   text-transform: uppercase;
-  white-space: nowrap;
 }
 
 /* Portrait framing stop-gaps until the source files are re-cropped (CSS only; the files are untouched).
@@ -171,11 +146,6 @@
 .roster-person--omar-abdelrady .roster-person__portrait > img:first-child {
   transform: scale(1.25);
   transform-origin: 50% 70%;
-}
-
-.roster-row--omar-abdelrady .roster-row__thumb > img {
-  transform: scale(1.3);
-  transform-origin: 60% 40%;
 }
 
 .roster-person--brahama-teja-naroju .roster-person__portrait > img:first-child {
@@ -208,13 +178,6 @@
 
 .roster-person--vighnesh-madhav-deshmukh .roster-person__portrait > img:first-child {
   object-position: center 58%;
-}
-
-/* Wide desktop: four cards per row so the 4-crew departments fill one row instead of 3 + an orphan. */
-@media (min-width: 1100px) {
-  .department-manifest__members {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
 }
 
 @media (max-width: 1100px) {
@@ -275,22 +238,12 @@
   }
 
   .department-manifest__members {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px 14px;
+    padding: 22px 0 30px;
   }
 
-  .roster-row {
-    gap: 12px;
-    grid-template-columns: 40px minmax(0, 1fr);
-    padding: 12px 14px;
-  }
-
-  .roster-row__thumb {
-    width: 40px;
-  }
-
-  .roster-row__chip {
-    grid-column: 2;
-    justify-self: start;
+  .roster-person {
+    width: calc(50% - 7px);
   }
 }
 

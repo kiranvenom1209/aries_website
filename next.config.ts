@@ -39,7 +39,7 @@ const nextConfig: NextConfig = {
     // through a custom loader, so no image CDN or /_next/image function is involved.
     loader: 'custom',
     loaderFile: './src/lib/imageLoader.ts',
-    deviceSizes: [640, 960, 1280, 1920, 2560],
+    deviceSizes: [640, 960, 1280, 1920, 2560, 3840],
     imageSizes: [144, 384],
     localPatterns: [
       {
