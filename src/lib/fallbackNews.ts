@@ -159,7 +159,7 @@ const sourceNews: NewsStory[] = [
     "excerpt": "HSM Aries.space completed two ERC 2026 milestones on the same day: submission of its 100-plus-page Preliminary Design Review and hardware integration of the mission ground station.",
     "publishedAt": "2026-04-08T16:34:22.000Z",
     "category": "Competition",
-    "image": "/media/Screenshot-2026-05-10-203543.png",
+    "image": "/media/Screenshot-2026-05-10-203543.jpg",
     "imageAlt": "Double Milestone: HSM Aries.space Submits ERC 2026 PDR and Activates Unified Ground Station",
     "body": [
       "Schmalkalden, Germany — April has been a month of intense technical and operational synergy for HSM Aries.space. On April 27th, our team successfully reached two critical mission milestones simultaneously: the official submission of our Preliminary Design Review (PDR) and the complete hardware integration of our new Mission Ground Station.",
@@ -346,7 +346,7 @@ const sourceNews: NewsStory[] = [
     "excerpt": "LEAP-One is now fully manufactured and assembled — precision parts from Boehm Group and final 3D-printed wheels complete the platform. After months of design and testing, the rover moves from concept to mission-ready hardware. The team prepares for dynamic trials to validate performance, durability, and payload integration.",
     "publishedAt": "2025-09-09T14:39:20.000Z",
     "category": "LEAP-One",
-    "image": "/media/sirleloimage.png",
+    "image": "/media/sirleloimage.jpg",
     "imageAlt": "From Vision to Machine: Rover Fully Assembled",
     "body": [
       "A fusion of student innovation and industry support, now ready for trials.",
@@ -468,7 +468,7 @@ const sourceNews: NewsStory[] = [
     "excerpt": "LEAP-One has been selected for the European Rover Challenge 2025. This honor puts HSM Aries on an international stage to test autonomy, sampling systems, and a modular chassis under competition conditions. Over the coming months we'll intensify field tests, refine systems, and publish behind-the-scenes updates as we prepare to represent Hochschule Schmalkalden.",
     "publishedAt": "2025-03-13T04:46:16.000Z",
     "category": "Competition",
-    "image": "/media/mars-rover-render2.png",
+    "image": "/media/mars-rover-render2.jpg",
     "imageAlt": "LEAP-One Rover Selected for ERC 2025",
     "body": [
       "We're thrilled to share some exciting news: LEAP-ONE, our flagship rover at HSMaries.space (Aries.space), has been officially selected to compete in the European Rover Challenge (ERC) 2025. As one of Europe's premier events for next-generation space robotics, ERC brings together top student teams from around the globe to test their designs against rigorous planetary exploration tasks.",

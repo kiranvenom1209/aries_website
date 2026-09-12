@@ -4,8 +4,9 @@
  * Scans `src/` for every `/media/<file>.(jpg|jpeg|png)` reference, and for each
  * source that lives directly under `public/media/` writes WebP variants to
  * `public/media/r/<stem>-<width>.webp` for every bucket width strictly below
- * the original width (always including 2560 when the original is at least
- * 2560 wide). `src/lib/imageLoader.ts` reads the emitted manifest
+ * the original width, plus one at the original's own width (capped at 2560)
+ * so every photo has a 1:1 candidate and is never served upscaled from a
+ * smaller bucket. `src/lib/imageLoader.ts` reads the emitted manifest
  * (`src/lib/responsive-manifest.json`) so `next/image` can build a real srcset
  * without an image CDN.
  *
@@ -63,7 +64,10 @@ const stemOf = (filename) => filename.replace(/\.[^.]+$/, '')
 
 function variantWidths(originalWidth) {
   const widths = BUCKETS.filter((width) => width < originalWidth)
-  if (originalWidth >= MAX_BUCKET) widths.push(MAX_BUCKET)
+  // Top variant is the source's own width (capped): a 1920 px photo must be
+  // available at 1920, not stretched from 1280.
+  const top = Math.min(originalWidth, MAX_BUCKET)
+  if (widths.length === 0 || top > widths[widths.length - 1]) widths.push(top)
   return widths
 }
 

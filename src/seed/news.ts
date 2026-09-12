@@ -105,7 +105,7 @@ const curatedMediaSeed: SeedMedia[] = [
   { filename: 'hsm-png.png', alt: 'ERC 2026 qualification table showing HSM Aries in first place' },
   { filename: 'Thumbail-2-scaled.png', alt: 'LEAP-One featured in the ERC 2026 qualification video' },
   { filename: 'DSC02769-scaled.jpg', alt: 'HSM Aries team meeting aerospace leaders at Space Night 2026' },
-  { filename: 'Screenshot-2026-05-10-203543.png', alt: 'ERC 2026 preliminary design report submission' },
+  { filename: 'Screenshot-2026-05-10-203543.jpg', alt: 'ERC 2026 preliminary design report submission' },
   { filename: 'WhatsApp-Image-2026-05-10-at-20.29.43.jpeg', alt: 'LEAP-One high-performance compute unit integration' },
   { filename: 'WhatsApp-Image-2026-05-10-at-19.49.12-1.jpeg', alt: 'AQUILA manual flight trial' },
   { filename: 'WhatsApp-Image-2026-05-10-at-19.49.07.jpeg', alt: 'LEAP-One multi-terrain mobility testing' },
@@ -475,7 +475,7 @@ const curatedNewsSeed: SeedNewsArticle[] = [
     category: 'engineering',
     tags: ['ERC 2026', 'PDR', 'Ground Station', 'Telemetry'],
     featured: false,
-    featuredImage: 'Screenshot-2026-05-10-203543.png',
+    featuredImage: 'Screenshot-2026-05-10-203543.jpg',
     source: {
       wordpressId: 1373,
       url: 'https://hsmaries.space/double-milestone-hsm-aries-space-submits-erc-2026-pdr-and-activates-unified-ground-station/',
