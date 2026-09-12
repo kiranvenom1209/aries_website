@@ -1,6 +1,9 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import { preload } from 'react-dom'
+
+const BODY_HREF = '/media/leap-one-preloader-body.svg'
 
 // Wheel contact, body pitch, suspension links and rotation share one terrain model.
 const wheelCentres = [332, 484, 661]
@@ -8,6 +11,10 @@ const treadAngles = Array.from({ length: 20 }, (_, index) => index * 18)
 const spokeAngles = Array.from({ length: 8 }, (_, index) => index * 45)
 const wheelRadius = 65
 const travelSpeed = 180
+// The server-rendered terrain spans this range (viewBox units) so it already reaches the
+// screen edges on common desktop widths; the first client frame measures the real extent.
+const initialTerrainStart = -1200
+const initialTerrainEnd = 2200
 
 function terrainHeight(position: number) {
   const phase = ((position % 1500) + 1500) % 1500
@@ -41,7 +48,47 @@ function springPath(start: Point, end: Point) {
   return `${path}L${point(end)}`
 }
 
+function terrainPath(start: number, end: number, distance: number) {
+  let path = ''
+  for (let x = start; x <= end; x += 8) path += `${x === start ? 'M' : 'L'}${x} ${terrainHeight(x + distance).toFixed(2)}`
+  return path
+}
+
+// Every attribute the animation writes, so the server-rendered markup and frame 0 are identical
+// and nothing snaps when the client takes over.
+function pose(distance: number, terrainStart: number, terrainEnd: number) {
+  const wheels = wheelCentres.map((x) => ({ x, y: wheelHeight(x, distance) }))
+  const pitch = Math.atan2(wheels[2].y - wheels[0].y, wheels[2].x - wheels[0].x) * 0.7
+  const heave = (wheels[0].y + wheels[1].y * 2 + wheels[2].y) / 4 - 565
+  const bodyPoint = (x: number, y: number): Point => ({
+    x: 500 + (x - 500) * Math.cos(pitch) - (y - 460) * Math.sin(pitch),
+    y: 460 + heave + (x - 500) * Math.sin(pitch) + (y - 460) * Math.cos(pitch),
+  })
+
+  const rearPivot = bodyPoint(408, 466)
+  const frontPivot = bodyPoint(524, 466)
+  const rearLink = { x: (wheels[0].x + rearPivot.x) / 2, y: (wheels[0].y + rearPivot.y) / 2 }
+  const frontLink = { x: (wheels[2].x + frontPivot.x) / 2, y: (wheels[2].y + frontPivot.y) / 2 }
+  const terrain = terrainPath(terrainStart, terrainEnd, distance)
+
+  return {
+    body: `translate(0 ${heave.toFixed(2)}) rotate(${(pitch * 180 / Math.PI).toFixed(3)} 500 460)`,
+    wheels: wheels.map((wheel) => `translate(${point(wheel)})`),
+    spin: `rotate(${(distance / wheelRadius * 180 / Math.PI).toFixed(2)})`,
+    links: `M${point(wheels[0])}L${point(rearPivot)}L${point(wheels[1])}L${point(frontPivot)}L${point(wheels[2])}`,
+    springs: springPath(bodyPoint(452, 473), rearLink) + springPath(bodyPoint(574, 473), frontLink),
+    pivots: [rearPivot, frontPivot].map((pivot) => `translate(${point(pivot)})`),
+    terrain,
+    terrainFill: `${terrain}L${terrainEnd} 705H${terrainStart}Z`,
+  }
+}
+
+const initialPose = pose(0, initialTerrainStart, initialTerrainEnd)
+
 export function LeapOnePreloaderRover() {
+  // The body artwork is the only fetched part of the rover; hint it before the stylesheets.
+  preload(BODY_HREF, { as: 'image', fetchPriority: 'high' })
+
   const svgRef = useRef<SVGSVGElement>(null)
   const bodyRef = useRef<SVGGElement>(null)
   const wheelRefs = useRef<(SVGGElement | null)[]>([])
@@ -57,40 +104,30 @@ export function LeapOnePreloaderRover() {
     const motion = window.matchMedia('(prefers-reduced-motion: reduce)')
     let frame = 0
     let startedAt = performance.now()
-    let terrainStart = 0
-    let terrainEnd = 1000
+    let terrainStart = initialTerrainStart
+    let terrainEnd = initialTerrainEnd
+    let pixelsPerUnit = 1
     let lastElapsed = 0
 
     const draw = (elapsed: number) => {
       lastElapsed = elapsed
       const distance = elapsed / 1000 * travelSpeed
-      const wheels = wheelCentres.map((x) => ({ x, y: wheelHeight(x, distance) }))
-      const pitch = Math.atan2(wheels[2].y - wheels[0].y, wheels[2].x - wheels[0].x) * 0.7
-      const heave = (wheels[0].y + wheels[1].y * 2 + wheels[2].y) / 4 - 565
-      const bodyPoint = (x: number, y: number): Point => ({
-        x: 500 + (x - 500) * Math.cos(pitch) - (y - 460) * Math.sin(pitch),
-        y: 460 + heave + (x - 500) * Math.sin(pitch) + (y - 460) * Math.cos(pitch),
-      })
-      bodyRef.current?.setAttribute('transform', `translate(0 ${heave}) rotate(${pitch * 180 / Math.PI} 500 460)`)
-      wheels.forEach((wheel, index) => {
-        wheelRefs.current[index]?.setAttribute('transform', `translate(${point(wheel)})`)
-        spinRefs.current[index]?.setAttribute('transform', `rotate(${distance / wheelRadius * 180 / Math.PI})`)
-      })
+      const current = pose(distance, terrainStart, terrainEnd)
 
-      const rearPivot = bodyPoint(408, 466)
-      const frontPivot = bodyPoint(524, 466)
-      linksRef.current?.setAttribute('d', `M${point(wheels[0])}L${point(rearPivot)}L${point(wheels[1])}L${point(frontPivot)}L${point(wheels[2])}`)
-      const rearLink = { x: (wheels[0].x + rearPivot.x) / 2, y: (wheels[0].y + rearPivot.y) / 2 }
-      const frontLink = { x: (wheels[2].x + frontPivot.x) / 2, y: (wheels[2].y + frontPivot.y) / 2 }
-      springsRef.current?.setAttribute('d', springPath(bodyPoint(452, 473), rearLink) + springPath(bodyPoint(574, 473), frontLink))
-      ;[rearPivot, frontPivot].forEach((pivot, index) => pivotRefs.current[index]?.setAttribute('transform', `translate(${point(pivot)})`))
-
-      let terrain = ''
-      for (let x = terrainStart; x <= terrainEnd; x += 8) terrain += `${x === terrainStart ? 'M' : 'L'}${x} ${terrainHeight(x + distance).toFixed(2)}`
-      terrainRef.current?.setAttribute('d', terrain)
-      terrainFillRef.current?.setAttribute('d', `${terrain}L${terrainEnd} 705H${terrainStart}Z`)
-      terrainDetailRef.current?.setAttribute('d', terrain)
-      terrainDetailRef.current?.setAttribute('stroke-dashoffset', String(distance))
+      bodyRef.current?.setAttribute('transform', current.body)
+      current.wheels.forEach((transform, index) => {
+        wheelRefs.current[index]?.setAttribute('transform', transform)
+        spinRefs.current[index]?.setAttribute('transform', current.spin)
+      })
+      linksRef.current?.setAttribute('d', current.links)
+      springsRef.current?.setAttribute('d', current.springs)
+      current.pivots.forEach((transform, index) => pivotRefs.current[index]?.setAttribute('transform', transform))
+      terrainRef.current?.setAttribute('d', current.terrain)
+      terrainFillRef.current?.setAttribute('d', current.terrainFill)
+      terrainDetailRef.current?.setAttribute('d', current.terrain)
+      // The strokes are non-scaling, so the dash pattern lives in screen pixels: scale the
+      // offset the same way or the texture slides faster than the ground it sits on.
+      terrainDetailRef.current?.setAttribute('stroke-dashoffset', (distance * pixelsPerUnit).toFixed(2))
     }
     // The rover stays centred at its own scale; the terrain extends beyond its SVG
     // viewport to both screen edges, in the same coordinates as the wheel contacts.
@@ -98,6 +135,7 @@ export function LeapOnePreloaderRover() {
       const bounds = svgRef.current?.getBoundingClientRect()
       if (!bounds?.width) return
       const unitsPerPixel = 1000 / bounds.width
+      pixelsPerUnit = bounds.width / 1000
       terrainStart = Math.floor(-bounds.left * unitsPerPixel / 8) * 8 - 16
       terrainEnd = Math.ceil((window.innerWidth - bounds.left) * unitsPerPixel / 8) * 8 + 16
       draw(lastElapsed)
@@ -136,27 +174,27 @@ export function LeapOnePreloaderRover() {
         </linearGradient>
       </defs>
       <g className="site-preloader__terrain">
-        <path ref={terrainFillRef} className="site-preloader__terrain-fill" d="M80 635H920V705H80Z" />
-        <path ref={terrainRef} className="site-preloader__terrain-edge" d="M80 635H920" />
-        <path ref={terrainDetailRef} className="site-preloader__terrain-detail" d="M80 635H920" transform="translate(0 15)" />
+        <path ref={terrainFillRef} className="site-preloader__terrain-fill" d={initialPose.terrainFill} />
+        <path ref={terrainRef} className="site-preloader__terrain-edge" d={initialPose.terrain} />
+        <path ref={terrainDetailRef} className="site-preloader__terrain-detail" d={initialPose.terrain} transform="translate(0 15)" />
       </g>
       <g className="site-preloader__articulated-rover">
-        <g ref={bodyRef} className="site-preloader__body">
-          <image href="/media/leap-one-preloader-body.svg" width="1000" height="680" />
+        <g ref={bodyRef} className="site-preloader__body" transform={initialPose.body}>
+          <image href={BODY_HREF} width="1000" height="680" />
           <rect className="site-preloader__green-beacon" x="369" y="96" width="19" height="17" rx="1" />
         </g>
         <g className="site-preloader__moving-suspension">
-          <path ref={linksRef} className="site-preloader__suspension-links" d="M332 565L408 466L484 565L524 466L661 565" />
-          <path ref={springsRef} className="site-preloader__suspension-springs" />
-          {[408, 524].map((x, index) => (
-            <g key={x} ref={(element) => { pivotRefs.current[index] = element }} transform={`translate(${x} 466)`}>
+          <path ref={linksRef} className="site-preloader__suspension-links" d={initialPose.links} />
+          <path ref={springsRef} className="site-preloader__suspension-springs" d={initialPose.springs} />
+          {initialPose.pivots.map((transform, index) => (
+            <g key={index} ref={(element) => { pivotRefs.current[index] = element }} transform={transform}>
               <circle r="10" /><circle r="4" />
             </g>
           ))}
         </g>
         {wheelCentres.map((x, index) => (
-          <g key={x} ref={(element) => { wheelRefs.current[index] = element }} className="site-preloader__wheel-carrier" transform={`translate(${x} 565)`}>
-            <g ref={(element) => { spinRefs.current[index] = element }} className="site-preloader__wheel site-preloader__wheel--side">
+          <g key={x} ref={(element) => { wheelRefs.current[index] = element }} className="site-preloader__wheel-carrier" transform={initialPose.wheels[index]}>
+            <g ref={(element) => { spinRefs.current[index] = element }} className="site-preloader__wheel site-preloader__wheel--side" transform={initialPose.spin}>
               <circle r="65" className="site-preloader__tyre" />
               <circle r="50" className="site-preloader__rim" />
               <circle r="43" className="site-preloader__rim-inner" />

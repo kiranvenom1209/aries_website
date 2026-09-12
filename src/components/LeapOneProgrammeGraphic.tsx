@@ -32,6 +32,7 @@ export function LeapOneProgrammeGraphic() {
           {/* Rocker-bogie links connect to the three visible wheel hubs. */}
           <path className="programme-line" d="M339 564L408 485L476 466L516 565L592 466L668 565M454 452L476 406L498 452M482 406H660" />
           <circle className="programme-wheel" cx="476" cy="406" r="9" />
+          <circle className="programme-wheel" cx="663" cy="406" r="9" />
         </g>
         {[332, 484, 661].map((x) => (
           <g key={x} transform={`translate(${x} 565)`}>

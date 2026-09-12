@@ -729,9 +729,6 @@
 .programme-node { fill: var(--accent); stroke: #ffd1c0; stroke-width: 1; }
 .programme-pulse { fill: none; opacity: .45; stroke: var(--accent); stroke-width: 1; }
 .programme-scan { fill: none; opacity: .55; stroke: var(--accent); stroke-dasharray: 3 7; stroke-width: 1; }
-.programme-rover__far-wheels { fill: #05090a; opacity: .62; stroke: currentColor; stroke-width: 1.25; }
-.programme-rover__wheels { fill: #05090a; stroke: currentColor; stroke-width: 1.7; }
-.programme-rover__hubs { fill: rgba(255, 90, 31, .13); stroke: var(--accent); stroke-width: 1; }
 .programme-leap-rover .programme-line { stroke-width: 5.5; }
 .programme-leap-rover .programme-line--muted { opacity: .45; stroke-width: 4; }
 .programme-leap-rover .programme-leap-rover__panel { fill: #05090a; }
@@ -6887,7 +6884,7 @@ body.preloader-active {
 }
 
 .site-preloader__rover-stage {
-  animation: preloader-rover-arrive 760ms 160ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: preloader-rover-arrive 760ms 160ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
   left: 50%;
   position: absolute;
   top: 51%;
@@ -6913,64 +6910,6 @@ body.preloader-active {
   vector-effect: non-scaling-stroke;
 }
 
-.site-preloader__track-marks {
-  animation: preloader-vector-track 900ms linear infinite;
-}
-
-.site-preloader__track-marks path:first-child {
-  opacity: 0.36;
-}
-
-.site-preloader__track-marks path:last-child {
-  opacity: 0.14;
-  stroke-dasharray: 34 24;
-}
-
-.site-preloader__vehicle {
-  animation: preloader-rover-travel 720ms ease-in-out infinite alternate;
-  transform-origin: center;
-}
-
-.site-preloader__suspension,
-.site-preloader__panel,
-.site-preloader__mast,
-.site-preloader__arm,
-.site-preloader__antenna {
-  opacity: 0.76;
-}
-
-.site-preloader__chassis,
-.site-preloader__deck {
-  fill: rgba(8, 12, 14, 0.72) !important;
-  stroke-width: 2.3 !important;
-}
-
-.site-preloader__accent-line {
-  stroke: var(--accent) !important;
-  stroke-width: 2.5 !important;
-}
-
-.site-preloader__wheel {
-  animation: preloader-wheel-turn 820ms linear infinite;
-  transform-box: fill-box;
-  transform-origin: center;
-}
-
-.site-preloader__wheel circle:first-child {
-  fill: #050708;
-  stroke-width: 3;
-}
-
-.site-preloader__wheel path {
-  opacity: 0.42;
-  stroke-width: 1.4;
-}
-
-.site-preloader__wheel--side {
-  animation: none;
-  transform-box: view-box;
-  transform-origin: 0 0;
-}
 .site-preloader__wheel--side .site-preloader__tyre { fill: #070c10; stroke: #bacbd4; stroke-width: 1.8; }
 .site-preloader__wheel--side .site-preloader__rim { fill: #111e26; stroke: #8ca5b3; stroke-width: 1.2; }
 .site-preloader__wheel--side .site-preloader__rim-inner { stroke: #4d6675; stroke-width: .8; }
@@ -6998,16 +6937,13 @@ body.preloader-active {
   50%, 85% { opacity: .12; }
 }
 
-.site-preloader__signal {
-  animation: preloader-vector-signal 1.4s ease-in-out infinite;
-  fill: var(--accent) !important;
-  stroke: var(--accent) !important;
-}
-
 .site-preloader__vector-dust circle {
   animation: preloader-vector-dust 1.2s ease-out infinite;
   fill: rgba(255, 90, 31, 0.62) !important;
   stroke: none !important;
+  /* Grow and drift about each particle, not the viewBox origin. */
+  transform-box: fill-box;
+  transform-origin: center;
 }
 
 .site-preloader__vector-dust circle:nth-child(2) {
@@ -7103,23 +7039,6 @@ body.preloader-active {
   to { filter: blur(0); opacity: 1; }
 }
 
-@keyframes preloader-rover-travel {
-  from { transform: translate3d(0, -1px, 0) rotate(-0.25deg); }
-  to { transform: translate3d(0, 3px, 0) rotate(0.2deg); }
-}
-
-@keyframes preloader-wheel-turn {
-  to { transform: rotate(360deg); }
-}
-
-@keyframes preloader-vector-track {
-  to { transform: translateX(-32px); }
-}
-
-@keyframes preloader-vector-signal {
-  50% { filter: drop-shadow(0 0 9px var(--accent)); opacity: 0.42; }
-}
-
 @keyframes preloader-vector-dust {
   0% { opacity: 0; transform: translate3d(18px, 3px, 0) scale(0.7); }
   26% { opacity: 0.75; }
@@ -7161,10 +7080,6 @@ body.preloader-active {
   .site-preloader__rover-stage,
   .site-preloader__chrome,
   .site-preloader__status,
-  .site-preloader__track-marks,
-  .site-preloader__vehicle,
-  .site-preloader__wheel,
-  .site-preloader__signal,
   .site-preloader__green-beacon,
   .site-preloader__vector-dust circle {
     animation: none !important;

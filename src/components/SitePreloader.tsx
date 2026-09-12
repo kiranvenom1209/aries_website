@@ -14,6 +14,8 @@ const PHASES = [
 const MIN_FILL_MS = 3800
 const EXIT_MS = 700
 const FILL_TAIL_MS = 450
+// How long past the minimum fill the loader keeps waiting for the window load event.
+const LOAD_GRACE_MS = 1700
 
 // The mission-ready sequence plays on every full page load (first visit, reload, external link),
 // never on client-side navigations between pages.
@@ -115,7 +117,7 @@ export function SitePreloader() {
     }
 
     window.addEventListener('load', markLoaded, { once: true })
-    forcedFinishTimer = window.setTimeout(markLoaded, 2400)
+    forcedFinishTimer = window.setTimeout(markLoaded, MIN_FILL_MS + LOAD_GRACE_MS)
     animationFrame = window.requestAnimationFrame(draw)
 
     return () => {
