@@ -56,13 +56,13 @@ const formatPoints = (value: number) => {
 }
 
 function Scoreboard({ rows }: { rows: NewsScoreboardRow[] }) {
-  const tasks = rows.filter((row) => row.max > 0 && row.label.toLowerCase() !== 'total')
+  const lines = rows.filter((row) => row.label.toLowerCase() !== 'total')
 
   return (
     <section className="mission-story__scoreboard" aria-labelledby="mission-story-scoreboard-title">
       <header>
         <span id="mission-story-scoreboard-title">Scoreboard</span>
-        <p>{tasks.length} tasks · points of maximum · rank where placed</p>
+        <p>{lines.length} lines · points of maximum · rank where placed</p>
       </header>
       <table>
         <thead className="mission-story__sr-only">
@@ -76,8 +76,8 @@ function Scoreboard({ rows }: { rows: NewsScoreboardRow[] }) {
         <tbody>
           {rows.map((row) => {
             const isTotal = row.label.toLowerCase() === 'total'
-            const isPenalty = row.max <= 0
-            const share = isPenalty ? 0 : Math.max(0, Math.min(100, (row.points / row.max) * 100))
+            const isPenalty = row.points < 0
+            const share = row.max > 0 ? Math.max(0, Math.min(100, (row.points / row.max) * 100)) : 0
             const tone = isTotal ? 'is-total' : isPenalty ? 'is-penalty' : row.rank ? 'is-ranked' : ''
             return (
               <tr className={tone || undefined} key={row.label}>
@@ -87,7 +87,7 @@ function Scoreboard({ rows }: { rows: NewsScoreboardRow[] }) {
                 </td>
                 <td className="mission-story__scoreboard-points">
                   {formatPoints(row.points)}
-                  {isPenalty ? null : <small> / {row.max}</small>}
+                  {row.max > 0 ? <small> / {row.max}</small> : null}
                 </td>
                 <td className="mission-story__scoreboard-rank">{row.rank ?? ''}</td>
               </tr>

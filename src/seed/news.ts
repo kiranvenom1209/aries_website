@@ -105,7 +105,7 @@ const curatedMediaSeed: SeedMedia[] = [
   { filename: 'hsm-png.png', alt: 'ERC 2026 qualification table showing HSM Aries in first place' },
   { filename: 'Thumbail-2-scaled.png', alt: 'LEAP-One featured in the ERC 2026 qualification video' },
   { filename: 'DSC02769-scaled.jpg', alt: 'HSM Aries team meeting aerospace leaders at Space Night 2026' },
-  { filename: 'Screenshot-2026-05-10-203543.png', alt: 'ERC 2026 preliminary design report submission' },
+  { filename: 'Screenshot-2026-05-10-203543.jpg', alt: 'ERC 2026 preliminary design report submission' },
   { filename: 'WhatsApp-Image-2026-05-10-at-20.29.43.jpeg', alt: 'LEAP-One high-performance compute unit integration' },
   { filename: 'WhatsApp-Image-2026-05-10-at-19.49.12-1.jpeg', alt: 'AQUILA manual flight trial' },
   { filename: 'WhatsApp-Image-2026-05-10-at-19.49.07.jpeg', alt: 'LEAP-One multi-terrain mobility testing' },
@@ -306,7 +306,7 @@ const curatedNewsSeed: SeedNewsArticle[] = [
       },
       {
         kind: 'paragraph',
-        text: 'The remaining field tasks scored lower: surface and deep sampling 197 of 440, exploration 123 of 340, maintenance 66 of 340, traverse 43 of 340 and probing 12 of 240. A mass penalty of −22 points was applied, the only one in the field.',
+        text: 'The remaining field tasks scored lower: surface and deep sampling 197 of 440, exploration 123 of 340, maintenance 66 of 340, traverse 43 of 340 and probing 12 of 240. Mass scored −22 of a possible 200 — the only negative mass score in the field, on a line where nine teams took the full 200.',
       },
       { kind: 'heading', text: 'What worked' },
       {
@@ -324,7 +324,7 @@ const curatedNewsSeed: SeedNewsArticle[] = [
       },
       {
         kind: 'paragraph',
-        text: 'LEAP-One was also over the mass allowance, which cost 22 points that no other team lost. 17th of 25 is not the finish we wanted. The scoreboard tells us exactly where the next rover has to be better.',
+        text: 'LEAP-One was also over the mass allowance: −22 on a line worth up to 200 points, where nine teams scored the full 200 and no other team went negative. 17th of 25 is not the finish we wanted. The scoreboard tells us exactly where the next rover has to be better.',
       },
       { kind: 'heading', text: 'The next rover: Leap-2' },
       {
@@ -475,7 +475,7 @@ const curatedNewsSeed: SeedNewsArticle[] = [
     category: 'engineering',
     tags: ['ERC 2026', 'PDR', 'Ground Station', 'Telemetry'],
     featured: false,
-    featuredImage: 'Screenshot-2026-05-10-203543.png',
+    featuredImage: 'Screenshot-2026-05-10-203543.jpg',
     source: {
       wordpressId: 1373,
       url: 'https://hsmaries.space/double-milestone-hsm-aries-space-submits-erc-2026-pdr-and-activates-unified-ground-station/',

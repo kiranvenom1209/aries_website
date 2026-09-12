@@ -166,7 +166,7 @@ export default function LeapOnePage() {
               </div>
               <div>
                 <dt>Mass</dt>
-                <dd>−22 · only penalty in the field</dd>
+                <dd>−22 / 200 · only negative score in the field</dd>
               </div>
             </dl>
           </section>

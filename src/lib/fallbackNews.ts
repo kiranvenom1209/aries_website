@@ -55,7 +55,7 @@ const sourceNews: NewsStory[] = [
       { "label": "Maintenance", "points": 66, "max": 340 },
       { "label": "Traverse", "points": 43, "max": 340 },
       { "label": "Probing", "points": 12, "max": 240 },
-      { "label": "Mass penalty", "points": -22, "max": 0 },
+      { "label": "Mass", "points": -22, "max": 200 },
       { "label": "Total", "points": 1492.25, "max": 3000, "rank": "17th of 25" }
     ],
     "mediaDeck": [
@@ -73,13 +73,13 @@ const sourceNews: NewsStory[] = [
       "The scoreboard",
       "Documentation was the strongest line: 364.25 of 400 points and 4th of 25. It was built on the joint-highest qualification score in the finals field, 239.75 of 250, and a final report of 124.5 of 150.",
       "Navigation droning scored 265 of 300, 6th of 25. Presentation scored 229 of 300 and AstroBio 215 of 300.",
-      "The remaining field tasks scored lower: surface and deep sampling 197 of 440, exploration 123 of 340, maintenance 66 of 340, traverse 43 of 340 and probing 12 of 240. A mass penalty of −22 points was applied, the only one in the field.",
+      "The remaining field tasks scored lower: surface and deep sampling 197 of 440, exploration 123 of 340, maintenance 66 of 340, traverse 43 of 340 and probing 12 of 240. Mass scored −22 of a possible 200 — the only negative mass score in the field, on a line where nine teams took the full 200.",
       "What worked",
       "The documentation held up from the qualification report through the final report. Navigation droning finished 6th of 25 and the presentation scored 229 of 300.",
       "The operations software and the control station ran through the whole competition. The rover itself came through a chassis rebuild before its first run and a rain day on the Mars yard.",
       "What did not",
       "The field tasks that depend on autonomous traverse and on manipulation scored low. Traverse finished at 43 of 340, maintenance at 66 of 340 and probing at 12 of 240.",
-      "LEAP-One was also over the mass allowance, which cost 22 points that no other team lost. 17th of 25 is not the finish we wanted. The scoreboard tells us exactly where the next rover has to be better.",
+      "LEAP-One was also over the mass allowance: −22 on a line worth up to 200 points, where nine teams scored the full 200 and no other team went negative. 17th of 25 is not the finish we wanted. The scoreboard tells us exactly where the next rover has to be better.",
       "The next rover: Leap-2",
       "Leap-2 is Project 02 of the LEAP series and is now in development. Its design priorities come straight from the scoreboard: mass under the allowance from day one, robust autonomous traverse, and serviceable manipulation for maintenance and probing.",
       "The documentation, droning and operations strengths carry over. Students who want to build the next rover, and partners who want to back it, are invited to join the next competition campaign.",
@@ -159,7 +159,7 @@ const sourceNews: NewsStory[] = [
     "excerpt": "HSM Aries.space completed two ERC 2026 milestones on the same day: submission of its 100-plus-page Preliminary Design Review and hardware integration of the mission ground station.",
     "publishedAt": "2026-04-08T16:34:22.000Z",
     "category": "Competition",
-    "image": "/media/Screenshot-2026-05-10-203543.png",
+    "image": "/media/Screenshot-2026-05-10-203543.jpg",
     "imageAlt": "Double Milestone: HSM Aries.space Submits ERC 2026 PDR and Activates Unified Ground Station",
     "body": [
       "Schmalkalden, Germany — April has been a month of intense technical and operational synergy for HSM Aries.space. On April 27th, our team successfully reached two critical mission milestones simultaneously: the official submission of our Preliminary Design Review (PDR) and the complete hardware integration of our new Mission Ground Station.",
@@ -346,7 +346,7 @@ const sourceNews: NewsStory[] = [
     "excerpt": "LEAP-One is now fully manufactured and assembled — precision parts from Boehm Group and final 3D-printed wheels complete the platform. After months of design and testing, the rover moves from concept to mission-ready hardware. The team prepares for dynamic trials to validate performance, durability, and payload integration.",
     "publishedAt": "2025-09-09T14:39:20.000Z",
     "category": "LEAP-One",
-    "image": "/media/sirleloimage.png",
+    "image": "/media/sirleloimage.jpg",
     "imageAlt": "From Vision to Machine: Rover Fully Assembled",
     "body": [
       "A fusion of student innovation and industry support, now ready for trials.",
@@ -468,7 +468,7 @@ const sourceNews: NewsStory[] = [
     "excerpt": "LEAP-One has been selected for the European Rover Challenge 2025. This honor puts HSM Aries on an international stage to test autonomy, sampling systems, and a modular chassis under competition conditions. Over the coming months we'll intensify field tests, refine systems, and publish behind-the-scenes updates as we prepare to represent Hochschule Schmalkalden.",
     "publishedAt": "2025-03-13T04:46:16.000Z",
     "category": "Competition",
-    "image": "/media/mars-rover-render2.png",
+    "image": "/media/mars-rover-render2.jpg",
     "imageAlt": "LEAP-One Rover Selected for ERC 2025",
     "body": [
       "We're thrilled to share some exciting news: LEAP-ONE, our flagship rover at HSMaries.space (Aries.space), has been officially selected to compete in the European Rover Challenge (ERC) 2025. As one of Europe's premier events for next-generation space robotics, ERC brings together top student teams from around the globe to test their designs against rigorous planetary exploration tasks.",

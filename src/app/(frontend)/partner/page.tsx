@@ -44,11 +44,11 @@ export default function PartnerPage() {
         <div className="conversion-desk__intro">
           <span className="hero__eyebrow">Partnership // prospectus</span>
           <h2 id="partner-case-title">Make a visible<br /><em>contribution.</em></h2>
-          <p>Leap-2 is being designed around what the ERC 2026 finals exposed: a 22-point mass penalty beside a 4th-place documentation score. Mass is decided in the design phase, by materials, machining and the budget behind them. That is where a partner's hardware, tooling or funding shows on the vehicle rather than on a decal.</p>
+          <p>Leap-2 is being designed around what the ERC 2026 finals exposed: a mass score of −22 on a 200-point line beside a 4th-place documentation score. Mass is decided in the design phase, by materials, machining and the budget behind them. That is where a partner's hardware, tooling or funding shows on the vehicle rather than on a decal.</p>
           <dl className="conversion-facts">
             <div>
               <dt>ERC 2026 record</dt>
-              <dd>17th of 25 at the on-site finals in Kraków, 1492.25 points — documentation 4th, navigation droning 6th, mass −22 (the only penalty in the field). Qualified in June with 239.75 of 250 points, 1st of 124 entries.</dd>
+              <dd>17th of 25 at the on-site finals in Kraków, 1492.25 points — documentation 4th, navigation droning 6th, mass −22 of 200 (the only negative mass score in the field). Qualified in June with 239.75 of 250 points, 1st of 124 entries.</dd>
             </div>
             <div>
               <dt>Next rover</dt>

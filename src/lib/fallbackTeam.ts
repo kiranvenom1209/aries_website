@@ -61,7 +61,7 @@ export const fallbackTeam: TeamMember[] = [
     rank: 'Commander',
     rankBadge: '/media/l1_commander_new-cropped.png',
     tags: ['Team Lead', 'Mission Architecture', 'Scientific Payload', 'Systems Engineering'],
-    image: '/media/2-e1776807359413.png',
+    image: '/media/2-e1776807359413.jpg',
     imageAlt: 'Harsha Vardhan Raju Gottimukkala — Team Lead LEAP-One',
     sortOrder: 10,
     links: {
@@ -347,7 +347,7 @@ export const fallbackTeam: TeamMember[] = [
     discipline: 'mentors',
     disciplineLabel: 'Advisors & Mentors',
     tags: ['Faculty Advisor', 'Academic Sponsor', 'Hochschule Schmalkalden', 'Robotics Lab'],
-    image: '/media/frank-schroedel-wirtschaftsspiegel.png',
+    image: '/media/frank-schroedel-wirtschaftsspiegel.jpg',
     imageAlt: 'Prof. Dr.-Ing. Frank Schrödel — Faculty Advisor',
     imageCredit: 'Wirtschaftsspiegel Thüringen',
     imageCreditUrl: 'https://wirtschaftsspiegel-thueringen.com/2023/03/22/mit-ein-forschungsschwerpunkt-an-der-hochschule-schmalkalden/',

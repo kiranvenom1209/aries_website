@@ -40,7 +40,7 @@ const departments: Array<{
       { role: 'Mechanical & Drill Specialist', slug: 'naveen-kumar-shivakumar' },
       { role: 'Mechanical & Manipulator Specialist', slug: 'rahul-kamatagi' },
     ],
-    record: 'ERC 2026 · mass penalty −22, the only one in the field',
+    record: 'ERC 2026 · mass −22 / 200, the only negative score in the field',
   },
   {
     badge: '/media/l1-electric-crop.png',
