@@ -62,8 +62,8 @@ const tradeStudies = [
     code: '03',
     task: 'Mass',
     score: '−22',
-    max: 'pts',
-    happened: 'The chassis was rebuilt on the pavement before the first run. LEAP-One was over the mass allowance — 22 points that no other team in the field lost.',
+    max: '/ 200',
+    happened: 'The chassis was rebuilt on the pavement before the first run. LEAP-One was over the mass allowance and scored −22 on a line worth up to 200 points — nine teams took the full 200; no other team went negative.',
     requirement: 'Sit under the ERC allowance at the first design review, not after the build.',
     photo: {
       alt: 'A team member fastens the suspension of the bare LEAP-One chassis on the pavement with a hex key set beside it.',
@@ -77,7 +77,7 @@ const tradeStudies = [
     task: 'Probing',
     score: '12',
     max: '/ 240',
-    happened: 'The gripper worked the switches on the maintenance panel, but the probing task closed at 12 of 240 — the lowest line on the sheet.',
+    happened: 'The gripper worked the switches on the maintenance panel, but the probing task closed at 12 of 240 — the lowest task score on the sheet.',
     requirement: 'Run a probing workflow that is rehearsed before the field, not improvised in it.',
     photo: {
       alt: 'LEAP-One’s gripper operates the switches on the ERC maintenance panel.',
@@ -161,7 +161,7 @@ export default function LeapTwoPage() {
         </div>
         <div className="leap-stats__item">
           <p>Mass</p>
-          <strong>−22 <small>pts</small></strong>
+          <strong>−22 <small>/ 200</small></strong>
           <span>Under the allowance from day one</span>
         </div>
       </section>

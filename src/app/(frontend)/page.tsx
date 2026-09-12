@@ -244,7 +244,7 @@ export default async function HomePage() {
           <span className="section-label">PROOF IN THE FIELD / 04</span>
           <h2>LEAP-One made the first leap. ERC 2026 showed us the next one.</h2>
           <p>
-            LEAP-One competed at the ERC 2026 on-site finals at AGH in Kraków and finished 17th of 25. Documentation and navigation droning placed in the top six; traverse, maintenance and probing did not, and the rover carried the field&apos;s only mass penalty.
+            LEAP-One competed at the ERC 2026 on-site finals at AGH in Kraków and finished 17th of 25. Documentation and navigation droning placed in the top six; traverse, maintenance and probing did not, and the rover was the only one in the field to score negative on mass.
           </p>
           <div className="aries-home-leap-proof__facts">
             <span><b>17/25</b> ERC 2026 finals · 1492.25 pts</span>
@@ -280,7 +280,7 @@ export default async function HomePage() {
               </tr>
             </thead>
             <tbody>
-              <tr><td><b>−22</b> mass</td><td>Under the allowance</td></tr>
+              <tr><td><b>−22/200</b> mass</td><td>Under the allowance</td></tr>
               <tr><td><b>43/340</b> traverse</td><td>Autonomous navigation first</td></tr>
               <tr><td><b>12/240</b> probing</td><td>Probing workflow rehearsed before the field</td></tr>
               <tr><td><b>364.25/400</b> documentation · 4th</td><td>Keep</td></tr>
