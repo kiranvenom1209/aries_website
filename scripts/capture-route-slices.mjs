@@ -1,5 +1,5 @@
 // Capture viewport-sized slices of every route at desktop and mobile widths for visual auditing.
-// usage: node scripts/capture-route-slices.mjs [outDir] [routeKey,routeKey] — needs the dev server on :3000
+// usage: node scripts/capture-route-slices.mjs [outDir] [routeKey,routeKey] — needs the dev server on :3000 (or BASE_URL=http://localhost:<port>)
 import { chromium } from '@playwright/test'
 import { mkdir } from 'node:fs/promises'
 import path from 'node:path'
@@ -36,7 +36,7 @@ for (const [name, route] of Object.entries(routes)) {
     const errors = []
     page.on('console', (m) => { if (m.type() === 'error') errors.push(m.text().slice(0, 200)) })
     page.on('pageerror', (e) => errors.push('pageerror: ' + String(e).slice(0, 200)))
-    await page.goto('http://localhost:3000' + route, { waitUntil: 'networkidle' }).catch(() => {})
+    await page.goto((process.env.BASE_URL || 'http://localhost:3000') + route, { waitUntil: 'networkidle' }).catch(() => {})
     await page.waitForTimeout(3200) // preloader
     // walk the page so scroll-reveal animations fire, then capture each viewport slice
     let total = await page.evaluate(() => document.documentElement.scrollHeight)

@@ -4,7 +4,7 @@
  * Scans `src/` for every `/media/<file>.(jpg|jpeg|png)` reference, and for each
  * source that lives directly under `public/media/` writes WebP variants to
  * `public/media/r/<stem>-<width>.webp` for every bucket width strictly below
- * the original width, plus one at the original's own width (capped at 2560)
+ * the original width, plus one at the original's own width (capped at 3840)
  * so every photo has a 1:1 candidate and is never served upscaled from a
  * smaller bucket. `src/lib/imageLoader.ts` reads the emitted manifest
  * (`src/lib/responsive-manifest.json`) so `next/image` can build a real srcset
@@ -26,7 +26,7 @@ const outputRoot = path.join(mediaRoot, 'r')
 const manifestPath = path.join(sourceRoot, 'lib', 'responsive-manifest.json')
 
 /** Width buckets, ascending. Mirrors `images.imageSizes` + `images.deviceSizes` in next.config.ts. */
-const BUCKETS = [144, 384, 640, 960, 1280, 1920, 2560]
+const BUCKETS = [144, 384, 640, 960, 1280, 1920, 2560, 3840]
 const MAX_BUCKET = BUCKETS[BUCKETS.length - 1]
 /** Logos and badges narrower than this get no variants; they are small enough as they are. */
 const MIN_SOURCE_WIDTH = 300
@@ -52,8 +52,8 @@ async function* walk(directory) {
 async function collectReferences() {
   const references = new Set()
   for await (const file of walk(sourceRoot)) {
-    // The manifest itself is not a reference source.
-    if (file === manifestPath) continue
+    // The manifest itself is not a reference source, and the legacy-path map lists old names on purpose.
+    if (file === manifestPath || path.basename(file) === 'mediaPaths.ts') continue
     const text = await readFile(file, 'utf8')
     for (const match of text.matchAll(REFERENCE_PATTERN)) references.add(match[1])
   }
@@ -65,7 +65,8 @@ const stemOf = (filename) => filename.replace(/\.[^.]+$/, '')
 function variantWidths(originalWidth) {
   const widths = BUCKETS.filter((width) => width < originalWidth)
   // Top variant is the source's own width (capped): a 1920 px photo must be
-  // available at 1920, not stretched from 1280.
+  // available at 1920, not stretched from 1280. The 3840 cap is what lets a
+  // 100vw hero reach 1:1 on a 2x display.
   const top = Math.min(originalWidth, MAX_BUCKET)
   if (widths.length === 0 || top > widths[widths.length - 1]) widths.push(top)
   return widths

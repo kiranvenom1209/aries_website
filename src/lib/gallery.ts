@@ -178,7 +178,7 @@ export const authoritativeGalleryImages: GalleryImage[] = [
   { alt: 'The electrical department briefing during the introduction for new members.', group: 'outreach', src: '/media/presentation-01-02.jpg' },
   { alt: 'The team pitches the rover programme in a conference room at Boehm Group.', group: 'outreach', src: '/media/pitching-in-boehm-scaled.jpg' },
   { alt: 'The engineering team meets in the lounge, laptops open.', group: 'archive', src: '/media/whatsapp-image-2025-03-26-at-4.01.37-pm-scaled.jpeg' },
-  { alt: 'The founding members in the first HSM Aries team photo.', group: 'archive', src: '/media/hsm-aries-3.png' },
+  { alt: 'The founding members in the first HSM Aries team photo.', group: 'archive', src: '/media/hsm-aries-3.jpg' },
 ]
 
 const positionByFile = new Map(

@@ -481,7 +481,7 @@ const sourceNews: NewsStory[] = [
     "excerpt": "HSM Aries has released the final high-fidelity render of LEAP-One, showcasing the modular chassis, integrated sensors, and drive architecture developed after months of iteration. The image marks a design milestone ahead of subsystem integration and ERC 2025 preparations. With visuals public, the team now focuses on integration, testing, and field readiness.",
     "publishedAt": "2025-03-09T12:40:53.000Z",
     "category": "LEAP-One",
-    "image": "/media/mars-rover-leap-one-1.png",
+    "image": "/media/mars-rover-leap-one-1.jpg",
     "imageAlt": "Final Render of LEAP-One Unveiled by the Team",
     "body": [
       "The Vision Takes Shape as Our Flagship Rover's Design is Revealed",

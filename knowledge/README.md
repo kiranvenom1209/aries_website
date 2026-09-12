@@ -14,7 +14,7 @@ copy, then run the verifier.
 | [`erc-2026/field-analysis.md`](erc-2026/field-analysis.md) | What the whole field did: leaders per task, distributions, where LEAP-One sits, internal what-ifs (not for publication) |
 | [`erc-2026/site-claims-audit.md`](erc-2026/site-claims-audit.md) | Every place the result appears in the codebase, how it was verified against the sheet, and the corrections made |
 | [`erc-2026/verify.py`](erc-2026/verify.py) | Re-checks the CSV's internal sums, recomputes ranks, and greps the site for claims that contradict the data |
-| [`media-resolution.md`](media-resolution.md) | Which photos are real pixels and which are ML-upscaled, the never-under-1920 rule, the pipeline bug history, and the verification commands |
+| [`media-resolution.md`](media-resolution.md) | Which photos are real pixels and which are ML-upscaled, where the originals live, the never-under-1920 / cover-fit `sizes` rules, the pipeline bug history, and the verification commands |
 | [`site-content-rules.md`](site-content-rules.md) | Copy and naming rules the team has set (Leap-2 spelling, what is history vs. current status, dual news sources, push approval) |
 
 Run the verifier from the repo root:

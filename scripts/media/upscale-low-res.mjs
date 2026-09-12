@@ -32,7 +32,8 @@ const MIN_LONG = 1920, CAP = 2560
 const jobs = []
 for (const file of Object.keys(manifest)) {
   if (EXCLUDE.test(file)) continue
-  const md = await sharp(path.join(media, file)).metadata()
+  let md
+  try { md = await sharp(path.join(media, file)).metadata() } catch { continue } // renamed/removed since the manifest was written
   const rot = (md.orientation ?? 1) >= 5
   const w = rot ? md.height : md.width, h = rot ? md.width : md.height
   const long = Math.max(w, h)
