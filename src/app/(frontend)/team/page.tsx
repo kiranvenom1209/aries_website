@@ -194,7 +194,7 @@ export default async function TeamPage() {
         <div className="crew-hero__copy">
           <span>PERSONNEL / HSM ARIES</span>
           <h1>HSM Aries has <em>no passengers.</em></h1>
-          <p>{studentCount} student engineers, 2 principal advisors and 5 mentors at Hochschule Schmalkalden. The crew took LEAP-One to the ERC 2026 finals in Kraków — 17th of 25, 4th in documentation — and is now building Leap-2.</p>
+          <p>{studentCount} student engineers, 2 principal advisors and 5 mentors at Hochschule Schmalkalden. The crew took LEAP-One to the ERC 2026 finals in Kraków — 17th place from 124 registered teams, with 25 finalists and 4th in documentation — and is now building Leap-2.</p>
         </div>
         <div className="crew-hero__ticker" aria-label="Crew summary" role="group">
           <span>CREW MANIFEST</span>

@@ -200,7 +200,7 @@ export default async function HomePage() {
               <ProgrammeGraphic code={programme.code} />
               {programme.code === '01' ? (
                 <dl className="aries-programme-card__readout">
-                  <div><dt>ERC 2026 finals</dt><dd>17/25</dd></div>
+                  <div><dt>Place / registered teams</dt><dd>17/124</dd></div>
                   <div><dt>Score</dt><dd>1492.25 pts</dd></div>
                   <div><dt>Documentation</dt><dd>4th of 25</dd></div>
                 </dl>
@@ -247,10 +247,10 @@ export default async function HomePage() {
           <span className="section-label">PROOF IN THE FIELD / 04</span>
           <h2>LEAP-One made the first leap. ERC 2026 showed us the next one.</h2>
           <p>
-            LEAP-One competed at the ERC 2026 on-site finals at AGH in Kraków and finished 17th of 25. Documentation and navigation droning placed in the top six; traverse, maintenance and probing did not, and the rover was the only one in the field to score negative on mass.
+            From 124 registered teams worldwide, 25 qualified for the ERC 2026 finals. We finished 17th on our first attempt, without major sponsorship and with the help of partners who believed in us. That is a beginning to be proud of. Now we are taking everything LEAP-One taught us into Leap-2.
           </p>
           <div className="aries-home-leap-proof__facts">
-            <span><b>17/25</b> ERC 2026 finals · 1492.25 pts</span>
+            <span><b>17/124</b> place / registered teams · 25 finalists</span>
             <span><b>04/25</b> documentation · 364.25/400</span>
             <span><b>06/25</b> navigation droning · 265/300</span>
           </div>

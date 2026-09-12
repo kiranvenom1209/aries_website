@@ -33,7 +33,7 @@ export default function PartnerPage() {
           <h1>Back the mission.<br /><em>Build the next rover.</em></h1>
           <p className="conversion-hero__summary">LEAP-One carried its partners' names to the ERC 2026 finals. <span className="conversion-hero__nobreak">Leap-2</span> is on the drawing board now.</p>
           <div className="conversion-hero__metrics" aria-label="Partnership facts">
-            <span><strong>17/25</strong>ERC 2026 finals</span>
+            <span><strong>17/124</strong>Place / registered teams · 25 finalists</span>
             <span><strong>1492.25</strong>finals points</span>
             <span><strong>Leap-2</strong>in development</span>
           </div>
@@ -48,7 +48,7 @@ export default function PartnerPage() {
           <dl className="conversion-facts">
             <div>
               <dt>ERC 2026 record</dt>
-              <dd>17th of 25 at the on-site finals in Kraków, 1492.25 points — documentation 4th, navigation droning 6th, mass −22 of 200 (the only negative mass score in the field). Qualified in June with 239.75 of 250 points, 1st of 124 entries.</dd>
+              <dd>17th place at our first ERC finals, from a starting field of 124 registered teams; 25 qualified for Kraków. We earned 1492.25 points, placing 4th in documentation and 6th in navigation droning. Built without major sponsorship, with valued support from our partners. Help us take the next step with Leap-2.</dd>
             </div>
             <div>
               <dt>Next rover</dt>

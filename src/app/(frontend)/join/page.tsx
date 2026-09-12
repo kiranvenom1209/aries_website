@@ -34,7 +34,7 @@ export default function JoinPage() {
           <p className="conversion-hero__summary">HSM Aries is for students who want to make space robotics real — in CAD, code, the workshop and the field.</p>
           <div className="conversion-hero__metrics" aria-label="Crew recruitment facts">
             <span><strong>08</strong>departments</span>
-            <span><strong>17/25</strong>ERC 2026 finals</span>
+            <span><strong>17/124</strong>Place / registered teams · 25 finalists</span>
             <span><strong>Leap-2</strong>in development</span>
           </div>
         </div>

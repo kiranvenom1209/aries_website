@@ -32,7 +32,7 @@ mid-table field performance to 17th: documentation adds ~+18 over median, mass c
 
 ## Wording rules for the site
 
-Use exactly these formulations; each is literally true on the sheet.
+For detailed finals tables use these formulations. Public summary messaging now also includes the 124 registered teams and explains that 25 qualified; see the 12 September messaging update in ../site-content-rules.md.
 
 - "17th of 25" · "1492.25 of 3000 points" · "25 finalist teams" · "4–6 September 2026,
   AGH University, Kraków".

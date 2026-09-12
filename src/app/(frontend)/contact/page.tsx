@@ -49,7 +49,7 @@ export default function ContactPage() {
           <p className="conversion-hero__summary">Partnership, recruitment or a general enquiry: pick the route and it reaches the right lead.</p>
           <div className="conversion-hero__metrics" aria-label="Contact facts">
             <span><strong>08</strong>departments</span>
-            <span><strong>17/25</strong>ERC 2026 finals</span>
+            <span><strong>17/124</strong>Place / registered teams · 25 finalists</span>
             <span><strong>Leap-2</strong>in development</span>
           </div>
         </div>
@@ -90,7 +90,7 @@ export default function ContactPage() {
             </div>
             <div>
               <dt>Last mission</dt>
-              <dd>LEAP-One · ERC 2026 finals · 17th of 25 · 1492.25 pts</dd>
+              <dd>LEAP-One · ERC 2026 finals · 17th place · 124 teams entered · 1492.25 pts</dd>
             </div>
             <div>
               <dt>Email</dt>

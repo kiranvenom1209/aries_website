@@ -17,7 +17,7 @@ export function Footer() {
             <div className="site-footer__status">
               <span className="status-dot" />
               <span>
-                ERC 2026 finals · 17th of 25 · <span className="site-footer__nowrap">1492.25 pts</span>{' '}
+                ERC 2026 finals · 17th place · 124 teams entered · <span className="site-footer__nowrap">1492.25 pts</span>{' '}
                 <span className="site-footer__nowrap">· Leap-2 in development</span>
               </span>
             </div>

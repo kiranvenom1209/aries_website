@@ -38,9 +38,9 @@ export type NewsStory = {
 const sourceNews: NewsStory[] = [
   {
     "slug": "mission-complete-hsm-aries-space-finishes-17th-of-25-at-the-erc-2026-finals-in-krakow",
-    "title": "Mission complete: 17th of 25 at the ERC 2026 finals in Kraków",
-    "excerpt": "HSM Aries.space took LEAP-One to the European Rover Challenge 2026 finals at AGH in Kraków and finished 17th of 25 with 1492.25 points — 4th in documentation, 6th in navigation droning. Here is what the scoreboard says, and what it sets for Leap-2, the next rover.",
-    "seoDescription": "ERC 2026 finals, AGH Kraków: HSM Aries.space finished 17th of 25 with 1492.25 of 3000 points — 4th in documentation, 6th in navigation droning. The full scoreboard and what it sets for Leap-2.",
+    "title": "Our first leap: 17th place from a starting field of 124 teams",
+    "excerpt": "On our first ERC appearance, HSM Aries finished 17th in the 25-team finals, from 124 registered teams worldwide. Built without major sponsorship, LEAP-One earned 1492.25 points. A proud beginning — and the experience driving Leap-2 forward.",
+    "seoDescription": "ERC 2026 finals, AGH Kraków: HSM Aries.space finished 17th in the 25-team finals, from a starting field of 124 registered teams, with 1492.25 of 3000 points — 4th in documentation, 6th in navigation droning. The full scoreboard and what it sets for Leap-2.",
     "publishedAt": "2026-09-11T12:00:00.000Z",
     "category": "Competition",
     "image": "/media/erc-2026-finals-15-leap-one-mars-yard-arm-raised.jpg",
@@ -69,7 +69,7 @@ const sourceNews: NewsStory[] = [
       { "alt": "The team poses with the Japanese team, both flags side by side and LEAP-One behind them.", "url": "/media/erc-2026-finals-37-with-the-japanese-team.jpg", "caption": "The team poses with the Japanese team, both flags side by side and LEAP-One behind them." }
     ],
     "body": [
-      "Kraków, Poland — LEAP-One competed in the European Rover Challenge 2026 on-site finals, held 4–6 September 2026 at AGH University. Twenty-five teams took the field. HSM Aries.space finished 17th of 25 with 1492.25 of 3000 points.",
+      "Kraków, Poland — LEAP-One competed in the European Rover Challenge 2026 on-site finals, held 4–6 September 2026 at AGH University. From 124 registered teams worldwide, 25 qualified for the finals. HSM Aries.space finished 17th with 1492.25 of 3000 points.",
       "The scoreboard",
       "Documentation was the strongest line: 364.25 of 400 points and 4th of 25. It was built on the joint-highest qualification score in the finals field, 239.75 of 250, and a final report of 124.5 of 150.",
       "Navigation droning scored 265 of 300, 6th of 25. Presentation scored 229 of 300 and AstroBio 215 of 300.",
@@ -79,7 +79,7 @@ const sourceNews: NewsStory[] = [
       "The operations software and the control station ran through the whole competition. The rover itself came through a chassis rebuild before its first run and a rain day on the Mars yard.",
       "What did not",
       "The field tasks that depend on autonomous traverse and on manipulation scored low. Traverse finished at 43 of 340, maintenance at 66 of 340 and probing at 12 of 240.",
-      "LEAP-One was also over the mass allowance: −22 on a line worth up to 200 points, where nine teams scored the full 200 and no other team went negative. 17th of 25 is not the finish we wanted. The scoreboard tells us exactly where the next rover has to be better.",
+      "LEAP-One was also over the mass allowance: −22 on a line worth up to 200 points, where nine teams scored the full 200 and no other team went negative. For a first-time team without major sponsorship, reaching the finals and taking 17th place is an achievement to be proud of. We are grateful to the partners who helped us get here. This is just the beginning: the lessons from LEAP-One are driving Leap-2 forward.",
       "The next rover: Leap-2",
       "Leap-2 is Project 02 of the LEAP series and is now in development. Its design priorities come straight from the scoreboard: mass under the allowance from day one, robust autonomous traverse, and serviceable manipulation for maintenance and probing.",
       "The documentation, droning and operations strengths carry over. Students who want to build the next rover, and partners who want to back it, are invited to join the next competition campaign.",

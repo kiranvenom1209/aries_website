@@ -247,10 +247,10 @@ export type SeedNewsArticle = {
 
 const curatedNewsSeed: SeedNewsArticle[] = [
   {
-    title: 'Mission complete: 17th of 25 at the ERC 2026 finals in Kraków',
+    title: 'Our first leap: 17th place from a starting field of 124 teams',
     slug: 'mission-complete-hsm-aries-space-finishes-17th-of-25-at-the-erc-2026-finals-in-krakow',
     publishedAt: '2026-09-11T12:00:00.000Z',
-    excerpt: 'HSM Aries.space took LEAP-One to the European Rover Challenge 2026 finals at AGH in Kraków and finished 17th of 25 with 1492.25 points — 4th in documentation, 6th in navigation droning. Here is what the scoreboard says, and what it sets for Leap-2, the next rover.',
+    excerpt: 'On our first ERC appearance, HSM Aries finished 17th in the 25-team finals, from 124 registered teams worldwide. Built without major sponsorship, LEAP-One earned 1492.25 points. A proud beginning — and the experience driving Leap-2 forward.',
     category: 'competition',
     tags: ['ERC 2026', 'Finals', 'LEAP-One', 'Leap-2', 'Results'],
     featured: true,
@@ -295,7 +295,7 @@ const curatedNewsSeed: SeedNewsArticle[] = [
     body: richText(
       {
         kind: 'paragraph',
-        text: 'Kraków, Poland — LEAP-One competed in the European Rover Challenge 2026 on-site finals, held 4–6 September 2026 at AGH University. Twenty-five teams took the field. HSM Aries.space finished 17th of 25 with 1492.25 of 3000 points.',
+        text: 'Kraków, Poland — LEAP-One competed in the European Rover Challenge 2026 on-site finals, held 4–6 September 2026 at AGH University. From 124 registered teams worldwide, 25 qualified for the finals. HSM Aries.space finished 17th with 1492.25 of 3000 points.',
       },
       { kind: 'heading', text: 'The scoreboard' },
       {
@@ -326,7 +326,7 @@ const curatedNewsSeed: SeedNewsArticle[] = [
       },
       {
         kind: 'paragraph',
-        text: 'LEAP-One was also over the mass allowance: −22 on a line worth up to 200 points, where nine teams scored the full 200 and no other team went negative. 17th of 25 is not the finish we wanted. The scoreboard tells us exactly where the next rover has to be better.',
+        text: 'LEAP-One was also over the mass allowance: −22 on a line worth up to 200 points, where nine teams scored the full 200 and no other team went negative. For a first-time team without major sponsorship, reaching the finals and taking 17th place is an achievement to be proud of. We are grateful to the partners who helped us get here. This is just the beginning: the lessons from LEAP-One are driving Leap-2 forward.',
       },
       { kind: 'heading', text: 'The next rover: Leap-2' },
       {
@@ -754,7 +754,7 @@ export const gallerySeed: SeedGallery[] = [
     slug: 'erc-2026-finals',
     description: richText({
       kind: 'paragraph',
-      text: 'LEAP-One at the ERC 2026 on-site finals at AGH in Kraków: the rebuild, the pit tent, the Mars yard, the droning task, the presentation and the team. HSM Aries.space finished 17th of 25.',
+      text: 'LEAP-One at the ERC 2026 on-site finals at AGH in Kraków: the rebuild, the pit tent, the Mars yard, the droning task, the presentation and the team. HSM Aries.space finished 17th in the finals, from a starting field of 124 registered teams.',
     }),
     coverImage: 'erc-2026-finals-33-team-with-leap-one-and-flags.jpg',
     items: [

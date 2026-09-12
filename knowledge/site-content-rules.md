@@ -14,7 +14,7 @@ live in `GEMINI.md`; this file is the short list to check before writing copy.
 
 ## What is current status and what is history
 
-- **Current status:** ERC 2026 finalist, 17th of 25, 1492.25 pts, Leap-2 in development.
+- **Current status:** 17th place at the ERC 2026 finals, from 124 registered teams worldwide; 25 qualified for the finals. 1492.25 pts, Leap-2 in development.
   This is what the footer pill, hero cards and page intros say.
 - **History, kept but never as status:** the June 2026 qualification, 1st of 124 entries
   worldwide with 239.75 of 250. It survives in the June news story and as one line in the
@@ -80,3 +80,11 @@ live in `GEMINI.md`; this file is the short list to check before writing copy.
 - Open items that need the team, not a guess: Impressum/Datenschutz pages, the Scientific
   Payload lead ordering vs. rank on /team, replacement portraits for three members, an
   institutional mailbox.
+
+## Team messaging update — 12 September 2026
+
+Lead with the full entry-field context: “17th place, from a starting field of 124 registered teams”. A compact 17/124 statistic must be labelled “place / registered teams” with 25 finalists explained nearby. Do not call this an independently issued world ranking across 124 scored finalists. Keep official finals and task-score denominators at 25 in detailed tables. ERC confirms the 124 entry count: https://roverchallenge.eu/teams/ .
+
+The team describes this as its first ERC appearance, achieved without major sponsorship. Celebrate the debut, acknowledge existing partners, and frame Leap-2 as the next step. Avoid “not the finish we wanted”. Do not erase field results or score data.
+
+Image-reference instructions belong in internal design notes, not public copy. Do not add decal-reference explanations, prompt history, generation-limit messages, or pending-render descriptions to the website. A short concept label is sufficient.

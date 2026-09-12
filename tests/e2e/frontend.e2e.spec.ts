@@ -9,7 +9,7 @@ test.describe('Frontend', () => {
 
     // Check achievement stats
     const proofFacts = page.locator('.aries-home-leap-proof__facts').first()
-    await expect(proofFacts).toContainText('17/25')
+    await expect(proofFacts).toContainText('17/124')
 
     // Check nav links
     await expect(page.getByRole('link', { name: 'Mission' }).first()).toBeVisible()
@@ -23,14 +23,14 @@ test.describe('Frontend', () => {
     await page.goto('http://localhost:3000')
     const status = page.locator('.site-footer__status')
     await expect(status).toContainText('Leap-2')
-    await expect(status).toContainText('17th of 25')
+    await expect(status).toContainText('17th place')
   })
 
   test('can navigate to LEAP-One page', async ({ page }) => {
     await page.goto('http://localhost:3000/leap-one')
     const heading = page.locator('h1').first()
     await expect(heading).toContainText('LEAP')
-    await expect(page.locator('.hero')).toBeVisible()
+    await expect(page.locator('.project-hero')).toBeVisible()
   })
 
   test('Leap Rovers nav item reveals LEAP-One and Leap-2 on hover', async ({ page }) => {
@@ -48,8 +48,8 @@ test.describe('Frontend', () => {
     await page.goto('http://localhost:3000/leap-2')
     const heading = page.locator('h1').first()
     await expect(heading).toContainText('Leap-2')
-    await expect(page.locator('.leap-stats')).toBeVisible()
-    await expect(page.locator('.vehicle-dossier__group')).toHaveCount(3)
+    await expect(page.locator('#concept')).toBeVisible()
+    await expect(page.locator('.project-priorities > li')).toHaveCount(4)
   })
 
   test('can navigate to About page', async ({ page }) => {
@@ -132,7 +132,7 @@ test.describe('Frontend', () => {
   test('can open the ERC 2026 finals story and expand its Evidence Locker in a modal', async ({ page }) => {
     await page.goto('http://localhost:3000/news/mission-complete-hsm-aries-space-finishes-17th-of-25-at-the-erc-2026-finals-in-krakow')
     const heading = page.locator('h1').first()
-    await expect(heading).toContainText('17th of 25')
+    await expect(heading).toContainText('17th place')
 
     // Click on the first Evidence Locker image
     const deckButton = page.locator('.mission-story__deck-asset').first()

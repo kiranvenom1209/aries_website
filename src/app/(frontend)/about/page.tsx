@@ -22,7 +22,7 @@ export const metadata: Metadata = pageMetadata({
 const programmeRecord = [
   { label: 'Project 01', value: 'LEAP-One', note: 'First rover of the LEAP series.' },
   { label: 'ERC 2026 finals', value: '4–6 Sep', note: 'AGH Kraków, 25 finalist teams.' },
-  { label: 'Final result', value: '17/25', note: '1492.25 of 3000 points.' },
+  { label: 'Place / registered teams', value: '17/124', note: '25 finalists · 1492.25 of 3000 points.' },
   { label: 'Documentation', value: '4th', note: '364.25 of 400 points.' },
   { label: 'Navigation droning', value: '6th', note: '265 of 300 points.' },
 ]
@@ -88,7 +88,7 @@ export default async function AboutPage() {
         <div className="mission-hero__readout" aria-label="Mission team facts">
           <div><strong>{String(team.length).padStart(2, '0')}</strong><span>Crew + advisors</span></div>
           <div><strong>08</strong><span>Departments</span></div>
-          <div><strong>17/25</strong><span>ERC 2026 finals</span></div>
+          <div><strong>17/124</strong><span>Place / registered teams · 25 finalists</span></div>
         </div>
       </section>
 
@@ -104,7 +104,7 @@ export default async function AboutPage() {
               HSM Aries brings mechanical engineering, electronics, autonomous software, scientific payloads and mission operations into one space robotics initiative.
             </p>
             <p>
-              LEAP-One is Project 01 in the LEAP series. It competed at the ERC 2026 finals at AGH in Kraków and finished 17th of 25 with 1492.25 points—4th in documentation, 6th in navigation droning. Leap-2, Project 02, is now being designed around those lessons.
+              LEAP-One is Project 01 in the LEAP series. From 124 registered teams, 25 qualified for the ERC 2026 finals in Kraków. We finished 17th with 1492.25 points on our first attempt, without major sponsorship. With gratitude to the partners who supported us, we see this as the beginning. Leap-2, Project 02, takes that experience forward.
             </p>
           </div>
         </div>
