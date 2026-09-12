@@ -39,6 +39,20 @@ live in `GEMINI.md`; this file is the short list to check before writing copy.
   carries the `scoreboard` array.
 - Story slugs are stable and referenced from pages and tests; do not rename.
 
+## Partners strip
+
+- `src/lib/sponsors.ts` is the source of truth for partner names, logos and links; the CMS
+  `sponsors` collection owns order and on/off. `getSponsors()` overlays the code list onto
+  the database rows (matched by name or logo file), so a link added in code reaches the
+  deployed site without re-seeding, and a sponsor switched off in the CMS stays hidden.
+- Verified 2026-09-12: Hochschule Schmalkalden → hs-schmalkalden.de · Boehm Group →
+  boehm-group.com · SICK → sick.com · **Skyforce Innovations** (Mumbai; the site used to say
+  "Skyforce Drone Solutions") → skyforceinnovations.com · **Eviotec** (not "Eviotech";
+  Schmalkalden, Carina Schrödel) — owns eviotec.de/.com but both are parking pages, so no
+  link · **ODrive Robotics** → odriverobotics.com, logo from the official shop header;
+  their branding page asks for a quick review of materials using the logo
+  (info@odriverobotics.com) — the team should send that.
+
 ## Working on the site
 
 - Per-page styling goes in `src/app/(frontend)/styles/<page>.css`; do not edit
