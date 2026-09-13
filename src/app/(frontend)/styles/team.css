@@ -180,6 +180,21 @@
   object-position: center 58%;
 }
 
+.roster-person--tony-mathew .roster-person__portrait > img:first-child {
+  transform: scale(1.7);
+  transform-origin: 50% 64%;
+}
+
+.roster-person--shivansh-mehta .roster-person__portrait > img:first-child {
+  transform: scale(1.7);
+  transform-origin: 50% 85%;
+}
+
+.roster-person--anish-paul .roster-person__portrait > img:first-child {
+  transform: scale(1.25);
+  transform-origin: 50% 40%;
+}
+
 @media (max-width: 1100px) {
   /* Ticker wraps into rows instead of clipping the ERC result (tablets and small laptops included). */
   .crew-hero__ticker {

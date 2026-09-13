@@ -51,6 +51,7 @@ const departments: Array<{
       { role: 'Electrical & Teleoperation Engineer', slug: 'mohammad-abdulaziz' },
       { role: 'Electrical & Power Systems Engineer', slug: 'yash-lohar' },
       { role: 'Electrical Hardware Specialist', slug: 'md-bashar' },
+      { role: 'Electrical Engineer', slug: 'tony-mathew' },
     ],
   },
   {
@@ -62,8 +63,8 @@ const departments: Array<{
       { role: 'Software Engineer', slug: 'vighnesh-madhav-deshmukh' },
       { role: 'Team Lead LEAP-One', slug: 'harsha-vardhan-raju-gottimukkala' },
       { role: 'Software Engineer', slug: 'rahul-khandait' },
-      { role: 'Software & Navigation Engineer', slug: 'mukul-bimbra' },
-      { role: 'Software & Perception Engineer', slug: 'priyam-bhatnagar' },
+      { role: 'Software & Perception Engineer', slug: 'mukul-bimbra' },
+      { role: 'Software & Navigation Engineer', slug: 'priyam-bhatnagar' },
     ],
     record: 'ERC 2026 · traverse 43 / 340 · exploration 123 / 340',
   },
@@ -92,6 +93,7 @@ const departments: Array<{
     members: [
       { primary: true, role: 'Drone Lead', slug: 'rahul-khandait' },
       { role: 'Software Lead', slug: 'omar-abdelrady' },
+      { role: 'Drone Software Engineer', slug: 'anish-paul' },
     ],
     record: 'ERC 2026 · navigation droning 265 / 300, 6th of 25',
   },
@@ -103,6 +105,7 @@ const departments: Array<{
       { lead: true, role: 'Interim Lead Scientific Payload', slug: 'harsha-vardhan-raju-gottimukkala' },
       { primary: true, role: 'Scientific Payload Engineer', slug: 'anantha-pathmanabhan' },
       { role: 'Scientific Payload Specialist', slug: 'ashwin-dinesh-ayinipully' },
+      { role: 'Scientific Payload & Sensors Engineer', slug: 'shivansh-mehta' },
     ],
     record: 'ERC 2026 · AstroBio 215 / 300 · surface & deep sampling 197 / 440',
   },
@@ -139,7 +142,7 @@ function PrincipalAdvisor({ member, index }: { index: number; member: TeamMember
 }
 
 // Portraits that team.css enlarges with transform: scale() need that many more source pixels than the tile.
-const portraitZoom: Record<string, number> = { 'ayan-akbar-ali': 2.6, 'brahama-teja-naroju': 1.45, 'reeba-biju': 1.6, 'omar-abdelrady': 1.25 }
+const portraitZoom: Record<string, number> = { 'ayan-akbar-ali': 2.6, 'brahama-teja-naroju': 1.45, 'reeba-biju': 1.6, 'omar-abdelrady': 1.25, 'tony-mathew': 1.7, 'shivansh-mehta': 1.7, 'anish-paul': 1.25 }
 
 // One tile per listing. Rank insignia at the primary post only; a repeat listing carries an
 // "Also …" chip pointing back to the earlier department instead of a second full card.

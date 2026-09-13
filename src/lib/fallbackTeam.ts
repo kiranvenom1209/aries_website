@@ -280,11 +280,24 @@ export const fallbackTeam: TeamMember[] = [
     bio: 'Focuses on electronic enclosure fabrication, high-current board assembly, and electromagnetic interference shielding.',
   },
 
+  {
+    name: 'Tony Mathew',
+    slug: 'tony-mathew',
+    position: 'Electrical Engineer',
+    discipline: 'electrical',
+    disciplineLabel: 'Electrical & Power Systems',
+    tags: [],
+    image: '/media/tony-mathew.jpeg',
+    imageAlt: 'Tony Mathew — Electrical Department',
+    sortOrder: 145,
+    bio: 'Member of the Electrical & Power Systems department.',
+  },
+
   // SOFTWARE DEPARTMENT
   {
     name: 'Mukul Bimbra',
     slug: 'mukul-bimbra',
-    position: 'Software & Navigation Engineer',
+    position: 'Software & Perception Engineer',
     discipline: 'software',
     disciplineLabel: 'Software & Autonomy',
     tags: ['ROS 2', '3D SLAM', 'Point Clouds', 'Obstacle Avoidance'],
@@ -297,7 +310,7 @@ export const fallbackTeam: TeamMember[] = [
   {
     name: 'Priyam Bhatnagar',
     slug: 'priyam-bhatnagar',
-    position: 'Software & Perception Engineer',
+    position: 'Software & Navigation Engineer',
     discipline: 'software',
     disciplineLabel: 'Software & Autonomy',
     tags: ['Computer Vision', 'Depth Sensing', 'Object Detection'],
@@ -306,6 +319,19 @@ export const fallbackTeam: TeamMember[] = [
     sortOrder: 160,
     links: { linkedIn: 'https://www.linkedin.com/company/aries-space' },
     bio: 'Implements stereo depth perception models, object classification, and spatial map generation for autonomous field exploration.',
+  },
+
+  {
+    name: 'Anish Paul',
+    slug: 'anish-paul',
+    position: 'Drone Software Engineer',
+    discipline: 'astroflight',
+    disciplineLabel: 'Astroflight (AQUILA UAV)',
+    tags: ['Drone Software'],
+    image: '/media/anish-paul.jpeg',
+    imageAlt: 'Anish Paul — Drone Software Engineer',
+    sortOrder: 165,
+    bio: 'Works on drone software in the Astroflight department.',
   },
 
   // SCIENTIFIC PAYLOAD
@@ -337,6 +363,19 @@ export const fallbackTeam: TeamMember[] = [
     sortOrder: 180,
     links: { linkedIn: 'https://www.linkedin.com/company/aries-space' },
     bio: 'Conducts planetary regolith simulation experiments, onboard Raman/UV sensor integration, and soil sample classification.',
+  },
+
+  {
+    name: 'Shivansh Mehta',
+    slug: 'shivansh-mehta',
+    position: 'Scientific Payload & Sensors Engineer',
+    discipline: 'science',
+    disciplineLabel: 'Scientific Payload',
+    tags: ['Sensors'],
+    image: '/media/shivansh-mehta.jpeg',
+    imageAlt: 'Shivansh Mehta — Scientific Payload',
+    sortOrder: 185,
+    bio: 'Works on sensors for the Scientific Payload department.',
   },
 
   // ADVISORS & MENTORS
