@@ -1,10 +1,8 @@
-import Image from 'next/image'
 import Link from 'next/link'
 
 import { PageShell } from '@/components/PageShell'
 
-// Same visual chassis as /login: a real ERC 2026 photo full-bleed behind a left-to-right shade,
-// the site nav on top, a mono eyebrow, the display heading and a compact rail of routes back.
+// A fictional lost-signal scene, rendered inside the regular site shell.
 // This file cannot export `metadata`, and the catch-all in [...not-found]/page.tsx discards its own
 // export the moment it throws notFound(), so a live 404 carries the layout title and Next's injected
 // noindex. A distinct 404 title/robots needs `experimental.globalNotFound` in next.config.ts plus
@@ -12,25 +10,21 @@ import { PageShell } from '@/components/PageShell'
 export default function NotFound() {
   return (
     <PageShell>
-      <section className="not-found">
-        <div aria-hidden="true" className="not-found__photo">
-          <Image alt="" fill priority sizes="100vw" src="/media/erc-2026-finals-03-mars-yard-morning.jpg" />
+      <section className="lost-signal" aria-labelledby="lost-signal-heading">
+        <div className="lost-signal__main">
+          <div className="lost-signal__map" role="img" aria-label="404: a rover waits beyond radio contact on a topographic terrain map, with a broken orange signal path to its base station." />
+          <div className="lost-signal__content">
+            <p className="lost-signal__code"><span aria-hidden="true" />404 / Connection lost</p>
+            <h1 id="lost-signal-heading">Base,<br className="lost-signal__desktop-break" />{' '}do you<br /><em>copy?</em></h1>
+            <p className="lost-signal__description">Our rover has wandered beyond this address. The page you’re looking for may have moved, or never made it onto the map.</p>
+            <nav aria-label="Routes back" className="lost-signal__actions">
+              <Link className="button button--solid" href="/">Return to base <span aria-hidden="true">↗</span></Link>
+              <Link className="lost-signal__text-link" href="/leap-one">Explore the rovers <span aria-hidden="true">→</span></Link>
+            </nav>
+            <p className="lost-signal__report">Wrong coordinates? <Link href="/contact">Report a broken link <span aria-hidden="true">↗</span></Link></p>
+          </div>
         </div>
-        <div aria-hidden="true" className="not-found__shade" />
-        <div aria-hidden="true" className="not-found__marks">
-          <span>SMK 50.7147° N 10.4657° E</span><span>KRK 50.0647° N 19.9450° E</span>
-        </div>
-        <div className="not-found__content">
-          <span className="hero__eyebrow">Error 404 // No signal at this address</span>
-          <h1>Nothing here.<br /><em>The rover is elsewhere.</em></h1>
-          <p>The link is outdated or mistyped; the team, the ERC 2026 finals and the Leap-2 programme are all one step away.</p>
-          <nav aria-label="Routes back" className="not-found__rail">
-            <Link className="button button--solid" href="/">Return to HSM Aries <span aria-hidden="true">→</span></Link>
-            <Link className="button button--outline" href="/leap-one">LEAP-One dossier</Link>
-            <Link className="button button--outline" href="/leap-2">Explore Leap-2</Link>
-            <Link className="button button--outline" href="/contact">Report a broken link</Link>
-          </nav>
-        </div>
+        <div className="lost-signal__footer"><span>HSM Aries / Deep field operations</span><span>Some detours are part of exploration.</span></div>
       </section>
     </PageShell>
   )

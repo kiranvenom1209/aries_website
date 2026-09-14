@@ -16,6 +16,7 @@ import './styles/news.css'
 import './styles/gallery.css'
 import './styles/forms.css'
 import './styles/login.css'
+import './styles/not-found.css'
 
 import { SitePreloader } from '@/components/SitePreloader'
 import {
