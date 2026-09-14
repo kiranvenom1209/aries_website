@@ -1,16 +1,24 @@
 import { createServer } from 'node:http'
+import { existsSync } from 'node:fs'
 import { mkdir, readFile } from 'node:fs/promises'
 import path from 'node:path'
+import os from 'node:os'
 import { fileURLToPath } from 'node:url'
 import { chromium } from 'playwright'
 import sharp from 'sharp'
 
-const frames = 360
-const renderWidth = 1120
-const renderHeight = 840
+const frames = 720
+const preview = process.argv.includes('--preview')
+const version = process.argv.find(argument => argument.startsWith('--version='))?.split('=')[1] ?? 'v4'
+if (!/^[a-z0-9-]+$/.test(version)) throw new Error('Use a simple alphanumeric render version.')
+const renderWidth = 2400
+const renderHeight = 1800
 const rootDirectory = path.resolve(fileURLToPath(new URL('..', import.meta.url)))
 const modelPath = path.join(rootDirectory, 'public', 'media', 'models', 'leap-one.glb')
-const outputDirectory = path.join(rootDirectory, 'public', 'media', 'leap-one-turntable')
+const outputDirectory = preview ? path.join(os.tmpdir(), 'aries-turntable-preview') : path.join(rootDirectory, 'public', 'media', `leap-one-studio-${version}`)
+if (!preview && existsSync(outputDirectory)) {
+  throw new Error('This render version already exists. Choose a new --version to avoid mixing camera settings in the live sequence.')
+}
 
 const mimeTypes = {
   '.glb': 'model/gltf-binary',
@@ -33,112 +41,108 @@ const rendererPage = `<!doctype html>
       import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
       import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js'
 
+      import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js'
+      import { RectAreaLightUniformsLib } from 'three/addons/lights/RectAreaLightUniformsLib.js'
+      import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js'
+      import { SSAOPass } from 'three/addons/postprocessing/SSAOPass.js'
+      import { RenderPass } from 'three/addons/postprocessing/RenderPass.js'
+      import { OutputPass } from 'three/addons/postprocessing/OutputPass.js'
+
       const frames = ${frames}
-      const canvas = document.querySelector('canvas')
-      const renderer = new THREE.WebGLRenderer({ antialias: true, canvas, preserveDrawingBuffer: true })
-      renderer.setClearColor(0x000000, 1)
+      const renderer = new THREE.WebGLRenderer({ canvas: document.querySelector('canvas'), antialias: true, preserveDrawingBuffer: true, powerPreference: 'high-performance' })
       renderer.setPixelRatio(1)
       renderer.setSize(${renderWidth}, ${renderHeight}, false)
+      renderer.setClearColor(0x050809, 1)
       renderer.outputColorSpace = THREE.SRGBColorSpace
       renderer.toneMapping = THREE.ACESFilmicToneMapping
-      renderer.toneMappingExposure = 1.32
+      renderer.toneMappingExposure = 0.85
       renderer.shadowMap.enabled = true
-      renderer.shadowMap.type = THREE.PCFSoftShadowMap
-
+      renderer.shadowMap.type = THREE.VSMShadowMap
       const scene = new THREE.Scene()
-      const camera = new THREE.PerspectiveCamera(30, ${renderWidth} / ${renderHeight}, 0.01, 1000)
+      scene.background = new THREE.Color(0x050809)
+      scene.fog = new THREE.FogExp2(0x050809, .065)
+      const pmrem = new THREE.PMREMGenerator(renderer)
+      const room = new RoomEnvironment()
+      scene.environment = pmrem.fromScene(room, .06).texture
+      scene.environmentIntensity = .7
+      room.dispose()
+      pmrem.dispose()
+      const camera = new THREE.OrthographicCamera(-2.5, 2.5, 1.875, -1.875, .1, 45)
       const turntable = new THREE.Group()
       scene.add(turntable)
-
-      const key = new THREE.DirectionalLight(0xffeee0, 4.8)
-      key.position.set(7, 9, 10)
-      key.castShadow = true
-      scene.add(key)
-      const fill = new THREE.DirectionalLight(0x8ec5e8, 2.1)
-      fill.position.set(-8, 4, 3)
-      scene.add(fill)
-      const rim = new THREE.DirectionalLight(0xff5a1f, 2.6)
-      rim.position.set(-3, 8, -9)
-      scene.add(rim)
-      scene.add(new THREE.HemisphereLight(0x77b5db, 0x101316, 1.6))
-
       const loader = new GLTFLoader()
       loader.setMeshoptDecoder(MeshoptDecoder)
-      const gltf = await loader.loadAsync('/media/leap-one.glb')
-      const model = gltf.scene
-      const bounds = new THREE.Box3().setFromObject(model)
-      const size = bounds.getSize(new THREE.Vector3())
+      const { scene: model } = await loader.loadAsync('/media/leap-one.glb')
+      let bounds = new THREE.Box3().setFromObject(model)
+      let size = bounds.getSize(new THREE.Vector3())
+      model.scale.multiplyScalar(3.1 / Math.max(size.x, size.y, size.z))
+      model.updateMatrixWorld(true)
+      bounds = new THREE.Box3().setFromObject(model)
+      size = bounds.getSize(new THREE.Vector3())
       const center = bounds.getCenter(new THREE.Vector3())
-      const largestDimension = Math.max(size.x, size.y, size.z)
-
-      model.position.set(-center.x, -bounds.min.y, -center.z)
-      model.traverse((object) => {
+      model.position.sub(new THREE.Vector3(center.x, bounds.min.y, center.z))
+      model.traverse(object => {
         if (!object.isMesh) return
         object.castShadow = true
         object.receiveShadow = true
-        const materials = Array.isArray(object.material) ? object.material : [object.material]
-        materials.forEach((material) => {
-          if (!material?.isMeshStandardMaterial) return
-          material.envMapIntensity = 1.18
-          material.roughness = Math.min(Math.max(material.roughness, 0.25), 0.56)
-        })
+        for (const material of (Array.isArray(object.material) ? object.material : [object.material])) {
+          if (!material?.isMeshStandardMaterial) continue
+          // Preserve the CAD's material colours; remove the unrealistically polished default.
+          material.roughness = Math.max(material.roughness, .32)
+          material.envMapIntensity = .9
+          const hsl = material.color.getHSL({})
+          if (hsl.l > .28 && hsl.s < .2 && !material.map) {
+            material.metalness = Math.max(material.metalness, .72)
+            material.roughness = .3
+          }
+        }
       })
       turntable.add(model)
-
-      const random = (() => {
-        let seed = 318299
-        return () => {
-          seed = (seed * 16807) % 2147483647
-          return (seed - 1) / 2147483646
-        }
-      })()
-      const textureCanvas = document.createElement('canvas')
-      textureCanvas.width = 512
-      textureCanvas.height = 512
-      const textureContext = textureCanvas.getContext('2d')
-      textureContext.fillStyle = '#210e09'
-      textureContext.fillRect(0, 0, 512, 512)
-      for (let particle = 0; particle < 4200; particle += 1) {
-        const brightness = 18 + Math.floor(random() * 45)
-        const radius = 0.3 + random() * 2.2
-        textureContext.fillStyle = 'rgb(' + (brightness + 24) + ', ' + brightness + ', ' + Math.max(4, brightness - 10) + ')'
-        textureContext.beginPath()
-        textureContext.arc(random() * 512, random() * 512, radius, 0, Math.PI * 2)
-        textureContext.fill()
+      RectAreaLightUniformsLib.init()
+      const softbox = (color, power, width, height, position) => {
+        const light = new THREE.RectAreaLight(color, power, width, height)
+        light.position.set(...position)
+        light.lookAt(0, size.y * .45, 0)
+        scene.add(light)
       }
-      const marsTexture = new THREE.CanvasTexture(textureCanvas)
-      marsTexture.colorSpace = THREE.SRGBColorSpace
-      marsTexture.wrapS = THREE.RepeatWrapping
-      marsTexture.wrapT = THREE.RepeatWrapping
-      marsTexture.repeat.set(5, 5)
-      marsTexture.anisotropy = renderer.capabilities.getMaxAnisotropy()
-
-      const surface = new THREE.Mesh(
-        new THREE.PlaneGeometry(largestDimension * 14, largestDimension * 14),
-        new THREE.MeshStandardMaterial({ color: 0x552215, map: marsTexture, metalness: 0, roughness: 1 }),
-      )
-      surface.rotation.x = -Math.PI / 2
-      surface.position.y = -0.015
-      surface.receiveShadow = true
-      scene.add(surface)
-
-      const shadowExtent = largestDimension * 2.4
-      key.shadow.mapSize.set(1024, 1024)
-      key.shadow.camera.left = -shadowExtent
-      key.shadow.camera.right = shadowExtent
-      key.shadow.camera.top = shadowExtent
-      key.shadow.camera.bottom = -shadowExtent
-      key.shadow.camera.near = 0.1
-      key.shadow.camera.far = largestDimension * 7
-
-      const target = new THREE.Vector3(0, size.y * 0.36, 0)
-      const cameraDistance = largestDimension * 2.3
-      camera.position.set(cameraDistance, largestDimension * 1.08, cameraDistance * 1.18)
+      softbox(0xeaf3ff, 5, 5, 4, [1, 6, 4])
+      softbox(0xaccce3, 2.5, 3, 5, [-5, 2.5, 1])
+      softbox(0xff6428, 6, 2, 4, [2, 3, -4])
+      const key = new THREE.DirectionalLight(0xf5f4f0, 1.6)
+      key.position.set(-3, 7, 5)
+      key.target.position.set(0, 1, 0)
+      key.castShadow = true
+      key.shadow.mapSize.set(4096, 4096)
+      Object.assign(key.shadow.camera, { left: -4, right: 4, top: 4, bottom: -4, near: .1, far: 20 })
+      key.shadow.normalBias = .025
+      key.shadow.bias = -.0001
+      key.shadow.radius = 5
+      key.shadow.blurSamples = 12
+      scene.add(key, key.target)
+      const ground = new THREE.Mesh(new THREE.PlaneGeometry(200, 200), new THREE.MeshStandardMaterial({ color: 0x070a0c, roughness: .84, metalness: .2 }))
+      ground.rotation.x = -Math.PI / 2
+      ground.position.y = -.008
+      ground.receiveShadow = true
+      scene.add(ground)
+      // A restrained recessed orange ring grounds the model in the Aries visual language.
+      const ring = new THREE.Mesh(new THREE.RingGeometry(2.05, 2.055, 160), new THREE.MeshBasicMaterial({color: 0x8c361a, side: THREE.DoubleSide}))
+      ring.rotation.x = -Math.PI / 2
+      ring.position.y = -.005
+      scene.add(ring)
+      const target = new THREE.Vector3(0, size.y * .48, 0)
+      camera.position.set(4.4, 3.05, 5.35)
       camera.lookAt(target)
-
-      window.renderTurntableFrame = (frame) => {
-        turntable.rotation.y = -(frame / frames) * Math.PI * 2 + Math.PI * 0.13
-        renderer.render(scene, camera)
+      const composer = new EffectComposer(renderer)
+      const ao = new SSAOPass(scene, camera, ${renderWidth}, ${renderHeight}, 32)
+      ao.kernelRadius = .055
+      ao.minDistance = .0001
+      ao.maxDistance = .045
+      composer.addPass(new RenderPass(scene, camera))
+      composer.addPass(ao)
+      composer.addPass(new OutputPass())
+      window.renderTurntableFrame = frame => {
+        turntable.rotation.y = -(frame / frames) * Math.PI * 2 + Math.PI * .13
+        composer.render()
       }
       window.renderTurntableFrame(0)
       window.captureReady = true
@@ -181,32 +185,39 @@ const server = createServer(async (request, response) => {
   }
 })
 
-await mkdir(outputDirectory, { recursive: true })
+await mkdir(path.join(outputDirectory, 'mobile'), { recursive: true })
 
 await new Promise((resolve) => server.listen(3417, '127.0.0.1', resolve))
 
 const browser = await chromium.launch({
   headless: true,
-  args: ['--enable-webgl', '--ignore-gpu-blocklist', '--use-angle=swiftshader'],
+  args: ['--enable-webgl', '--ignore-gpu-blocklist', '--use-angle=d3d11'],
 })
 
 try {
   const page = await browser.newPage({ viewport: { width: renderWidth, height: renderHeight } })
+  page.on('console', message => { if (message.type() === 'error') process.stderr.write(message.text() + '\n') })
+  page.on('pageerror', error => process.stderr.write(error.message + '\n'))
   await page.goto('http://127.0.0.1:3417/turntable.html', { waitUntil: 'networkidle' })
   await page.waitForFunction(() => window.captureReady === true)
-  const canvas = page.locator('canvas')
 
-  for (let frame = 0; frame < frames; frame += 1) {
-    await page.evaluate((nextFrame) => window.renderTurntableFrame(nextFrame), frame)
-    const screenshot = await canvas.screenshot()
+  const selectedFrames = preview ? [0, 180, 270, 360, 540] : Array.from({length: frames}, (_, i) => i)
+  for (const frame of selectedFrames) {
+    const dataURL = await page.evaluate((nextFrame) => {
+      window.renderTurntableFrame(nextFrame)
+      return document.querySelector('canvas').toDataURL('image/png')
+    }, frame)
+    const screenshot = Buffer.from(dataURL.split(',')[1], 'base64')
     const outputPath = path.join(outputDirectory, `frame_${String(frame).padStart(3, '0')}.webp`)
 
-    await sharp(screenshot)
-      .webp({ alphaQuality: 100, quality: 82, smartSubsample: true })
-      .toFile(outputPath)
+    await Promise.all([
+      sharp(screenshot).resize(1600, 1200).webp({ quality: 90, smartSubsample: true }).toFile(outputPath),
+      sharp(screenshot).resize(900, 900, { fit: 'cover' }).webp({ quality: 85, smartSubsample: true }).toFile(path.join(outputDirectory, 'mobile', path.basename(outputPath))),
+    ])
+    if (frame % 15 === 0) process.stdout.write('Rendered frame ' + frame + '/' + frames + '\n')
   }
 
-  process.stdout.write(`Rendered ${frames} LEAP-One turntable frames to ${outputDirectory}\n`)
+  process.stdout.write(`Rendered ${selectedFrames.length} LEAP-One turntable frames to ${outputDirectory}\n`)
 } finally {
   await browser.close()
   await new Promise((resolve, reject) => server.close((error) => (error ? reject(error) : resolve())))
