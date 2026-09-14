@@ -7,6 +7,8 @@
  * 2026-09-12: five opaque PNG photos became JPEGs (26 MB → 1.7 MB).
  */
 const LEGACY_MEDIA_PATHS: Record<string, string> = {
+  // Rahul's replacement portrait, supplied by the team on 2026-09-14.
+  '/media/image-6.jpg': '/media/rahul-khandait-portrait.jpg',
   '/media/2-e1776807359413.png': '/media/2-e1776807359413.jpg',
   '/media/frank-schroedel-wirtschaftsspiegel.png': '/media/frank-schroedel-wirtschaftsspiegel.jpg',
   '/media/mars-rover-render2.png': '/media/mars-rover-render2.jpg',

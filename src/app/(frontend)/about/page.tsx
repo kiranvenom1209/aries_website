@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
+import Link from 'next/link'
+import { teamPortrait } from '@/lib/teamPortrait'
 
 import { DepartmentsGrid } from '@/components/DepartmentsGrid'
 import { ArrowIcon } from '@/components/Icons'
@@ -58,7 +60,7 @@ const buildLoop = [
 ]
 
 export default async function AboutPage() {
-  const team = await getTeam()
+  const team = (await getTeam()).filter((member) => !member.isAlumni)
   const leadership = team.filter((member) => member.rank === 'Commander' || member.rank === 'Captain').slice(0, 5)
   const mentors = team.filter((member) => member.discipline === 'mentors')
 
@@ -176,7 +178,7 @@ export default async function AboutPage() {
           <h2>Eight disciplines.<br /><em>Zero silos.</em></h2>
           <p>Each department owned one subsystem of LEAP-One and now carries that architecture into Leap-2. The cards list what was built, who leads it, and link to the people behind it.</p>
         </header>
-        <DepartmentsGrid />
+        <DepartmentsGrid members={team} />
       </section>
 
       <section className="command-crew">
@@ -187,9 +189,9 @@ export default async function AboutPage() {
         </header>
         <div className="command-crew__rail">
           {leadership.map((member, index) => (
-            <article key={member.slug}>
-              <div>
-                <Image alt={member.imageAlt} fill sizes="(max-width: 700px) 72vw, 25vw" src={member.image} />
+            <article className="profile-entry" key={member.slug}>
+              <div className={`about-person-portrait about-person-portrait--${teamPortrait(member).key}`}>
+                <Image alt={member.imageAlt} fill sizes={`(max-width: 700px) ${Math.ceil(72 * teamPortrait(member).zoom)}vw, ${Math.ceil(25 * teamPortrait(member).zoom)}vw`} src={member.image} />
                 <span>{String(index + 1).padStart(2, '0')}</span>
                 {member.rankBadge ? (
                   <div className="command-crew__rank">
@@ -197,8 +199,9 @@ export default async function AboutPage() {
                   </div>
                 ) : null}
               </div>
-              <h3>{member.name}</h3>
+              <h3><Link className="member-profile-link" href={`/team/${member.slug}`}>{member.name}</Link></h3>
               <p>{member.position}</p>
+              <span className="profile-entry__hint" aria-hidden="true">View profile ↗</span>
             </article>
           ))}
         </div>
@@ -235,13 +238,13 @@ export default async function AboutPage() {
         </header>
         <div className="mentor-orbit__grid">
           {mentors.map((mentor, index) => (
-            <article key={mentor.slug}>
-              <div className={`mentor-orbit__portrait mentor-orbit__portrait--${mentor.slug}`}>
-                <Image alt={mentor.imageAlt} fill sizes="(max-width: 700px) 44vw, 25vw" src={mentor.image} />
+            <article className="profile-entry" key={mentor.slug}>
+              <div className={`mentor-orbit__portrait about-person-portrait about-person-portrait--${teamPortrait(mentor).key}`}>
+                <Image alt={mentor.imageAlt} fill sizes={`(max-width: 700px) ${Math.ceil(44 * teamPortrait(mentor).zoom)}vw, ${Math.ceil(25 * teamPortrait(mentor).zoom)}vw`} src={mentor.image} />
               </div>
               <span>{String(index + 1).padStart(2, '0')}</span>
-              <h3>{mentor.name}</h3>
-              <p>{mentor.position}</p>
+              <h3><Link className="member-profile-link" href={`/team/${mentor.slug}`}>{mentor.name}</Link></h3>
+              <p>{mentor.position}<span className="profile-entry__hint" aria-hidden="true">View profile ↗</span></p>
             </article>
           ))}
         </div>

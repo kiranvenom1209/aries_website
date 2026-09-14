@@ -259,6 +259,13 @@ html.preloader-skip .site-preloader {
     visibility: visible;
   }
 
+  /* Desktop hover/focus centering must not move the in-flow mobile submenu. */
+  .site-nav.is-open .site-nav__group .site-nav__menu {
+    transform: none;
+    opacity: 1;
+    visibility: visible;
+  }
+
   /* The base sheet re-enables visibility on the sub-menu at this width; keep its links out of
      the Tab order and the accessibility tree while the drawer is closed. */
   .site-nav:not(.is-open) .site-nav__menu {

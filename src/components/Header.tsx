@@ -174,6 +174,13 @@ export function Header() {
     .filter(Boolean)
     .join(' ')
 
+  const closeNavigation = () => {
+    setOpen(false)
+    setGroupOpen(false)
+    setGroupFocus(false)
+    setGroupDismissed(false)
+  }
+
   return (
     <header className={headerClass}>
       <span aria-hidden="true" className="scroll-progress" ref={progressRef} />
@@ -225,6 +232,10 @@ export function Header() {
                   data-active={groupActive || undefined}
                   href={item.href}
                   onClick={(event) => {
+                    if (open) {
+                      closeNavigation()
+                      return
+                    }
                     // Pointers without hover (touch laptops, tablets) get a tap-to-open disclosure.
                     if (!groupOpen && window.matchMedia('(hover: none)').matches && !open) {
                       event.preventDefault()
@@ -237,7 +248,7 @@ export function Header() {
                 </Link>
                 <div aria-label={`${item.label} pages`} className="site-nav__menu" role="group">
                   {item.children.map((child) => (
-                    <Link aria-current={isActive(child.href) ? 'page' : undefined} href={child.href} key={child.href}>
+                    <Link aria-current={isActive(child.href) ? 'page' : undefined} href={child.href} key={child.href} onClick={closeNavigation}>
                       <strong>{child.label}</strong>
                       <small>{child.detail}</small>
                     </Link>
@@ -247,12 +258,12 @@ export function Header() {
             )
           }
           return (
-            <Link aria-current={isActive(item.href) ? 'page' : undefined} href={item.href} key={item.href}>
+            <Link aria-current={isActive(item.href) ? 'page' : undefined} href={item.href} key={item.href} onClick={closeNavigation}>
               {item.label}
             </Link>
           )
         })}
-        <Link className="header-cta" href="/join">
+        <Link className="header-cta" href="/join" onClick={closeNavigation}>
           Join the crew
         </Link>
       </nav>

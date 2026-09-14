@@ -2,18 +2,37 @@ import type { MetadataRoute } from 'next'
 
 import { getGalleryImages } from '@/lib/gallery.server'
 import { getNews } from '@/lib/news'
+import { getTeam, type TeamMember } from '@/lib/team'
+import { profileDate, profileImage } from '@/lib/teamSeo'
 import { absoluteUrl, SITE_UPDATED } from '@/lib/seo'
 
+export function teamSitemapEntries(members: TeamMember[]): MetadataRoute.Sitemap {
+  return members.map((member) => {
+    const lastModified = profileDate(member.updatedAt)
+    const image = profileImage(member)
+    return {
+      url: absoluteUrl(`/team/${member.slug}`),
+      ...(lastModified ? { lastModified } : {}),
+      ...(image ? { images: [image] } : {}),
+    }
+  })
+}
+
+export async function getTeamSitemapEntries(): Promise<MetadataRoute.Sitemap> {
+  return teamSitemapEntries(await getTeam())
+}
+
 export async function getSitemapEntries(): Promise<MetadataRoute.Sitemap> {
-  const [stories, galleryImages] = await Promise.all([getNews(100), getGalleryImages()])
+  const [stories, galleryImages, members] = await Promise.all([getNews(100), getGalleryImages(), getTeam()])
   const lastPublished = stories[0]?.publishedAt ?? SITE_UPDATED
+  const lastTeamUpdate = [profileDate(SITE_UPDATED)!, ...members.map((member) => profileDate(member.updatedAt)).filter((date): date is string => Boolean(date))].sort().at(-1)!
 
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: absoluteUrl('/'), lastModified: lastPublished, changeFrequency: 'weekly', priority: 1 },
     { url: absoluteUrl('/about'), lastModified: SITE_UPDATED, changeFrequency: 'monthly', priority: 0.9 },
     { url: absoluteUrl('/leap-one'), lastModified: SITE_UPDATED, changeFrequency: 'monthly', priority: 0.9 },
     { url: absoluteUrl('/leap-2'), lastModified: SITE_UPDATED, changeFrequency: 'monthly', priority: 0.9 },
-    { url: absoluteUrl('/team'), lastModified: SITE_UPDATED, changeFrequency: 'monthly', priority: 0.8 },
+    { url: absoluteUrl('/team'), lastModified: lastTeamUpdate, changeFrequency: 'monthly', priority: 0.8 },
     { url: absoluteUrl('/news'), lastModified: lastPublished, changeFrequency: 'weekly', priority: 0.9 },
     {
       url: absoluteUrl('/gallery'),
@@ -35,14 +54,15 @@ export async function getSitemapEntries(): Promise<MetadataRoute.Sitemap> {
     images: [absoluteUrl(story.image)],
   }))
 
-  return [...staticRoutes, ...newsRoutes]
+  const memberRoutes = teamSitemapEntries(members)
+  return [...staticRoutes, ...newsRoutes, ...memberRoutes]
 }
 
 const escapeXml = (value: string | number) => String(value)
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
   .replace(/"/g, '&quot;').replace(/'/g, '&apos;')
 
-export const sitemapSections = ['/page-sitemap.xml', '/post-sitemap.xml']
+export const sitemapSections = ['/page-sitemap.xml', '/post-sitemap.xml', '/team-sitemap.xml']
 
 export function sitemapXml(entries: MetadataRoute.Sitemap): string {
   const urls = entries.map((entry) => {
@@ -70,5 +90,8 @@ export function xmlResponse(xml: string): Response {
 export async function sectionSitemapResponse(section: 'pages' | 'posts'): Promise<Response> {
   const entries = await getSitemapEntries()
   const newsPrefix = absoluteUrl('/news/')
-  return xmlResponse(sitemapXml(entries.filter((entry) => entry.url.startsWith(newsPrefix) === (section === 'posts'))))
+  const teamPrefix = absoluteUrl('/team/')
+  return xmlResponse(sitemapXml(entries.filter((entry) => section === 'posts'
+    ? entry.url.startsWith(newsPrefix)
+    : !entry.url.startsWith(newsPrefix) && !entry.url.startsWith(teamPrefix))))
 }

@@ -14,8 +14,9 @@ export const Team: CollectionConfig = {
   admin: {
     useAsTitle: 'name',
     group: 'Organization',
-    defaultColumns: ['name', 'discipline', 'rank', 'isActive', 'sortOrder'],
-    description: 'Manage the people behind HSM Aries.',
+    defaultColumns: ['name', 'discipline', 'rank', 'isAlumni', 'isActive', 'sortOrder'],
+    description: 'Each active person has a public page at /team/their-slug. Edit the biography, role, portrait and personal links here, then save to update the website.',
+    preview: (data) => typeof data.slug === 'string' ? `/team/${data.slug}` : null,
     listSearchableFields: ['name', 'position', 'slug'],
     pagination: {
       defaultLimit: 25,
@@ -145,6 +146,7 @@ export const Team: CollectionConfig = {
     {
       name: 'bio',
       type: 'richText',
+      admin: { description: 'Biography for the member page. Use paragraphs, headings, lists and links for their background, work on the rover, projects and experience. Leave empty to hide this section.' },
     },
     {
       name: 'links',
@@ -152,12 +154,15 @@ export const Team: CollectionConfig = {
       fields: [
         {
           name: 'linkedIn',
+          label: 'Personal LinkedIn profile',
           type: 'text',
           maxLength: 300,
           validate: validateSafeURL,
+          admin: { description: 'Their own linkedin.com/in/ profile URL. Leave blank if unconfirmed; company-page placeholders are not shown.' },
         },
         {
           name: 'website',
+          label: 'Website, portfolio or GitHub',
           type: 'text',
           maxLength: 300,
           validate: validateSafeURL,
@@ -165,10 +170,22 @@ export const Team: CollectionConfig = {
       ],
     },
     {
+      name: 'isAlumni',
+      label: 'Alumni',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: {
+        description: 'Former member. Keeps their public profile and search visibility, and moves their card to the alumni section. Keep Public profile enabled.',
+        position: 'sidebar',
+      },
+    },
+    {
       name: 'isActive',
+      label: 'Public profile',
       type: 'checkbox',
       defaultValue: true,
       admin: {
+        description: 'Controls public visibility in the crew directory and on the individual profile page.',
         components: {
           Cell: '/admin/cells/TeamNameCell#TeamStatusCell',
         },

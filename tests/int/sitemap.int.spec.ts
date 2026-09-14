@@ -7,12 +7,16 @@ vi.mock('@/lib/news', async () => {
 vi.mock('@/lib/gallery.server', () => ({
   getGalleryImages: async () => [{ src: '/api/media/file/gallery.jpg' }],
 }))
+vi.mock('@/lib/team', () => ({
+  getTeam: async () => [{ slug: 'public-engineer', image: '/media/portrait.jpg', updatedAt: '2026-09-14T00:00:00Z' }, { slug: 'former-engineer', isAlumni: true, image: '/media/cropped-falcon-1.png', updatedAt: 'invalid' }],
+}))
 vi.mock('@payloadcms/next/withPayload', () => ({ withPayload: (config: unknown) => config }))
 
 import sitemap from '@/app/sitemap'
 import robots from '@/app/robots'
 import { GET as pageSitemap } from '@/app/page-sitemap.xml/route'
 import { GET as postSitemap } from '@/app/post-sitemap.xml/route'
+import { GET as teamSitemap } from '@/app/team-sitemap.xml/route'
 import { GET as sitemapIndex } from '@/app/sitemap_index.xml/route'
 import { sitemapXml } from '@/lib/sitemap'
 import nextConfig from '../../next.config'
@@ -25,7 +29,7 @@ const parse = (xml: string) => {
 const locations = (document: Document) => [...document.querySelectorAll('url > loc')].map((node) => node.textContent)
 
 describe('Sitemap migration compatibility', () => {
-  it('serves a valid index referencing both restored sitemap URLs', async () => {
+  it('serves a valid index referencing restored URLs and the dedicated team sitemap', async () => {
     const response = sitemapIndex()
     expect(response.status).toBe(200)
     expect(response.headers.get('Content-Type')).toContain('application/xml')
@@ -34,16 +38,24 @@ describe('Sitemap migration compatibility', () => {
     expect([...document.querySelectorAll('sitemap > loc')].map((node) => node.textContent)).toEqual([
       'https://hsmaries.space/page-sitemap.xml',
       'https://hsmaries.space/post-sitemap.xml',
+      'https://hsmaries.space/team-sitemap.xml',
     ])
   })
 
-  it('covers every current sitemap URL exactly once across pages and posts', async () => {
+  it('covers every current sitemap URL exactly once across pages, posts and team profiles', async () => {
     const pages = parse(await (await pageSitemap()).text())
     const posts = parse(await (await postSitemap()).text())
     const pageUrls = locations(pages)
     const postUrls = locations(posts)
-    const combined = [...pageUrls, ...postUrls]
+    const profiles = parse(await (await teamSitemap()).text())
+    const profileUrls = locations(profiles)
+    const combined = [...pageUrls, ...postUrls, ...profileUrls]
     expect(pageUrls).toHaveLength(10)
+    expect(profileUrls).toEqual(['https://hsmaries.space/team/public-engineer', 'https://hsmaries.space/team/former-engineer'])
+    const profileEntries = [...profiles.querySelectorAll('url')]
+    expect(profileEntries[0].querySelector('lastmod')?.textContent).toBe('2026-09-14T00:00:00.000Z')
+    expect(profileEntries[1].querySelector('lastmod')).toBeNull()
+    expect(profileEntries[1].getElementsByTagNameNS('http://www.google.com/schemas/sitemap-image/1.1', 'loc')).toHaveLength(0)
     expect(postUrls.length).toBeGreaterThan(0)
     expect(postUrls.every((url) => url?.startsWith('https://hsmaries.space/news/'))).toBe(true)
     expect(pageUrls.every((url) => !url?.includes('/news/'))).toBe(true)

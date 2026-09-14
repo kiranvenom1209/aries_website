@@ -1,3 +1,8 @@
+import type { ComponentProps } from 'react'
+import type { RichText } from '@payloadcms/richtext-lexical/react'
+import { researchedProfiles } from '../seed/teamProfiles'
+import { profileRichText } from '../seed/profileRichText'
+
 export type TeamDiscipline =
   | 'leadership'
   | 'mechanical'
@@ -12,12 +17,17 @@ export type TeamDiscipline =
 
 export type TeamMember = {
   bio: string
+  isAlumni?: boolean
+  bioRichText?: ComponentProps<typeof RichText>['data']
+  updatedAt?: string
+  createdAt?: string
   department?: string
   departments?: TeamDiscipline[]
   discipline: TeamDiscipline
   disciplineLabel: string
   image: string
   imageAlt: string
+  imageAspectRatio?: number
   imageCredit?: string
   imageCreditUrl?: string
   links?: {
@@ -49,7 +59,7 @@ const labelMap: Record<string, string> = {
 
 export const disciplineLabels = labelMap
 
-export const fallbackTeam: TeamMember[] = [
+const baseTeam: TeamMember[] = [
   // LEADERSHIP
   {
     name: 'Harsha Vardhan Raju Gottimukkala',
@@ -169,7 +179,7 @@ export const fallbackTeam: TeamMember[] = [
     rank: 'Captain',
     rankBadge: '/media/Untitled-1.png',
     tags: ['Drone Lead', 'AQUILA UAV', 'Aerial Survey', 'Autopilot'],
-    image: '/media/image-6.jpg',
+    image: '/media/rahul-khandait-portrait.jpg',
     imageAlt: 'Rahul Khandait — Drone Lead',
     sortOrder: 70,
     links: {
@@ -474,3 +484,15 @@ export const fallbackTeam: TeamMember[] = [
     bio: 'Advises on multi-layer PCB design, sensor bus architecture, power efficiency, and hardware reliability standards.',
   },
 ]
+
+// Enriched defaults are also used when bootstrapping a new CMS database.
+export const fallbackTeam: TeamMember[] = baseTeam.map((member) => {
+  const researched = researchedProfiles[member.slug]
+  const linkedIn = researched?.linkedIn ?? (member.links?.linkedIn?.includes('/in/') ? member.links.linkedIn : undefined)
+  return {
+    ...member,
+    bio: researched?.bio ?? member.bio,
+    bioRichText: researched ? profileRichText(researched) : undefined,
+    links: { ...member.links, linkedIn, ...(researched?.website ? { website: researched.website } : {}) },
+  }
+})

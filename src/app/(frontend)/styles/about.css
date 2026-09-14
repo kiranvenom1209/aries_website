@@ -1,5 +1,14 @@
 /* Polish layer: about — loaded after styles.css; equal-specificity rules here override the base sheet. */
 
+.department-card__leads a { color: inherit; position: relative; z-index: 2; display: inline-block; padding-block: 5px; text-underline-offset: 3px; }
+.department-card__top .department-card__leads { font-size: 11px; line-height: 1.6; }
+.department-card__link-label { color: var(--accent-bright); text-decoration: none; }
+.department-card__link-label::after { content: ''; position: absolute; inset: 0; z-index: 1; }
+.department-card a:focus-visible { outline: 2px solid var(--accent-bright); outline-offset: 4px; }
+.department-card__link-label:focus-visible::after { outline: 2px solid var(--accent-bright); outline-offset: -3px; }
+.team-card__name-link { color: inherit; text-decoration: none; }
+.team-card__name-link:hover { color: var(--accent-bright); }
+
 /* Tiny-type floor: nothing informational below 10px mono. */
 .mission-hero__readout span {
   font-size: 10px;

@@ -1,0 +1,193 @@
+{
+  "harsha-vardhan-raju-gottimukkala": {
+    "bio": "Directs the overall LEAP-One mission lifecycle, coordinates multidisciplinary department integration, and oversees scientific payload research at Hochschule Schmalkalden.",
+    "position": "Team Lead LEAP-One",
+    "links": {
+      "linkedIn": "https://www.linkedin.com/company/aries-space",
+      "website": "https://hsmaries.space"
+    }
+  },
+  "brahama-teja-naroju": {
+    "bio": "Leads mechanical architecture, rocker-bogie kinematics, structural chassis fabrication, and 6-DOF robotic manipulator engineering.",
+    "position": "Mechanical Lead & Manipulator Lead",
+    "links": {
+      "linkedIn": "https://www.linkedin.com/company/aries-space"
+    }
+  },
+  "ayan-akbar-ali": {
+    "bio": "Directs the 25.6 V LiFePO₄ power architecture, centralized distribution, regulated rails and low-level motor driver actuation.",
+    "position": "Electrical Department Lead",
+    "links": {
+      "linkedIn": "https://www.linkedin.com/company/aries-space"
+    }
+  },
+  "omar-abdelrady": {
+    "bio": "Oversees the ROS 2 software stack, RealSense perception, EKF localization, obstacle avoidance and unified ground-station teleoperation protocols.",
+    "position": "Software Department Lead",
+    "links": {
+      "linkedIn": "https://www.linkedin.com/company/aries-space"
+    }
+  },
+  "vighnesh-madhav-deshmukh": {
+    "bio": "Leads the primary 5 GHz AirMAX telemetry and video link, plus the independent 2.4 GHz ELRS backup path for LEAP-One.",
+    "position": "Communication Lead & Software Engineer",
+    "links": {
+      "linkedIn": "https://www.linkedin.com/company/aries-space"
+    }
+  },
+  "danny-sneham": {
+    "bio": "Leads the deep subsurface auger drill system, core sample acquisition mechanisms, and automated containment sealing.",
+    "position": "Drill Department Lead",
+    "links": {
+      "linkedIn": "https://www.linkedin.com/company/aries-space"
+    }
+  },
+  "rahul-khandait": {
+    "bio": "Leads the AQUILA reconnaissance aircraft development, aerial flight controllers, computer vision mapping, and drone-rover cooperative links.",
+    "position": "Drone Lead (Astroflight) & Software Engineer",
+    "links": {
+      "linkedIn": "https://www.linkedin.com/company/aries-space"
+    }
+  },
+  "reeba-biju": {
+    "bio": "Manages team operations, industry partner sponsorships, public exhibitions (Space Night), and community outreach for HSM Aries.",
+    "position": "Mission, Resources & Outreach (MRO) Lead",
+    "links": {
+      "linkedIn": "https://www.linkedin.com/company/aries-space"
+    }
+  },
+  "shreyas-patel": {
+    "bio": "Develops structural CAD assemblies, FEA stress simulations, and high-rigidity structural reinforcements for the rocker-bogie suspension.",
+    "position": "Mechanical Department Engineer",
+    "links": {
+      "linkedIn": "https://www.linkedin.com/company/aries-space"
+    }
+  },
+  "naveen-kumar-shivakumar": {
+    "bio": "Specializes in precision mechanical prototyping, drill bit torque transmission gearing, and physical soil penetration testing.",
+    "position": "Mechanical & Drill Specialist",
+    "links": {
+      "linkedIn": "https://www.linkedin.com/company/aries-space"
+    }
+  },
+  "rahul-kamatagi": {
+    "bio": "Handles physical CNC component assembly, robotic arm joint tolerances, and structural stress validation in lab and field trials.",
+    "position": "Mechanical & Manipulator Specialist",
+    "links": {
+      "linkedIn": "https://www.linkedin.com/company/aries-space"
+    }
+  },
+  "mohammad-abdulaziz": {
+    "bio": "Implements CAN bus communications, low-latency motor control signals, and power distribution harnessing across the rover frame.",
+    "position": "Electrical & Teleoperation Engineer",
+    "links": {
+      "linkedIn": "https://www.linkedin.com/company/aries-space"
+    }
+  },
+  "yash-lohar": {
+    "bio": "Engineers the centralized power distribution unit, wiring harnesses, safety cutoffs, and battery thermal protection.",
+    "position": "Electrical & Power Systems Engineer",
+    "links": {
+      "linkedIn": "https://www.linkedin.com/company/aries-space"
+    }
+  },
+  "md-bashar": {
+    "bio": "Focuses on electronic enclosure fabrication, high-current board assembly, and electromagnetic interference shielding.",
+    "position": "Electrical Hardware Specialist",
+    "links": {
+      "linkedIn": "https://www.linkedin.com/company/aries-space"
+    }
+  },
+  "tony-mathew": {
+    "bio": "Member of the Electrical & Power Systems department.",
+    "position": "Electrical Engineer",
+    "links": {}
+  },
+  "mukul-bimbra": {
+    "bio": "Develops 3D point cloud filtering, real-time SLAM algorithms, and reactive obstacle avoidance paths on ROS 2.",
+    "position": "Software & Perception Engineer",
+    "links": {
+      "linkedIn": "https://www.linkedin.com/company/aries-space"
+    }
+  },
+  "priyam-bhatnagar": {
+    "bio": "Implements stereo depth perception models, object classification, and spatial map generation for autonomous field exploration.",
+    "position": "Software & Navigation Engineer",
+    "links": {
+      "linkedIn": "https://www.linkedin.com/company/aries-space"
+    }
+  },
+  "anish-paul": {
+    "bio": "Works on drone software in the Astroflight department.",
+    "position": "Drone Software Engineer",
+    "links": {}
+  },
+  "anantha-pathmanabhan": {
+    "bio": "Designs spectroscopic analysis chambers, biochemical reagent delivery systems, and automated sample carousel handling.",
+    "position": "Scientific Payload Lead",
+    "links": {
+      "linkedIn": "https://www.linkedin.com/company/aries-space"
+    }
+  },
+  "ashwin-dinesh-ayinipully": {
+    "bio": "Conducts planetary regolith simulation experiments, onboard Raman/UV sensor integration, and soil sample classification.",
+    "position": "Scientific Payload Specialist",
+    "links": {
+      "linkedIn": "https://www.linkedin.com/company/aries-space"
+    }
+  },
+  "shivansh-mehta": {
+    "bio": "Develops embedded software in the Electrical department, programming drill motors, limit switches, load cells, and the science box.",
+    "position": "Embedded Software Engineer",
+    "links": {}
+  },
+  "prof-dr-ing-frank-schrodel": {
+    "bio": "Provides institutional governance, robotics lab facilities, research sponsorship, and academic guidance at Hochschule Schmalkalden.",
+    "position": "Faculty Advisor",
+    "links": {
+      "website": "https://www.hs-schmalkalden.de"
+    }
+  },
+  "alexander-kolbai": {
+    "bio": "Advises on industrial manufacturing standards, high-precision CNC tolerances, and aerospace mechanical robustness.",
+    "position": "Industry Advisor",
+    "links": {
+      "linkedIn": "https://www.linkedin.com/company/aries-space"
+    }
+  },
+  "swaraj-tendulkar": {
+    "bio": "Mentors students on complex robotics architectures, competition strategies, and mission execution workflows.",
+    "position": "University Mentor",
+    "links": {
+      "linkedIn": "https://www.linkedin.com/company/aries-space"
+    }
+  },
+  "kk-achari": {
+    "bio": "Provides senior industry mentorship in aerospace systems design, Preliminary Design Review (PDR) milestones, and identity.",
+    "position": "Industry Mentor",
+    "links": {
+      "linkedIn": "https://www.linkedin.com/company/aries-space"
+    }
+  },
+  "venkata-prashanth-uppalapati": {
+    "bio": "Guides embedded microcontroller firmware design, CAN bus protocol stability, and electronic hardware debugging.",
+    "position": "University Mentor",
+    "links": {
+      "linkedIn": "https://www.linkedin.com/company/aries-space"
+    }
+  },
+  "niranjan-ramesha": {
+    "bio": "Mentors the mechanical team on multi-terrain suspension kinematics, custom wheel design, and terrain traction testing.",
+    "position": "University Mentor",
+    "links": {
+      "linkedIn": "https://www.linkedin.com/company/aries-space"
+    }
+  },
+  "nikhil-meduri": {
+    "bio": "Advises on multi-layer PCB design, sensor bus architecture, power efficiency, and hardware reliability standards.",
+    "position": "University Mentor",
+    "links": {
+      "linkedIn": "https://www.linkedin.com/company/aries-space"
+    }
+  }
+}

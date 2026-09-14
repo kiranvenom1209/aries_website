@@ -19,5 +19,5 @@ export const TeamNameCell = ({ cellData, linkURL, rowData }: DefaultServerCellCo
 }
 
 export const TeamStatusCell = ({ cellData }: DefaultServerCellComponentProps) => (
-  <span className={`aries-status-cell ${cellData ? 'is-active' : 'is-inactive'}`}><span />{cellData ? 'Active' : 'Inactive'}</span>
+  <span className={`aries-status-cell ${cellData ? 'is-active' : 'is-inactive'}`}><span />{cellData ? 'Public' : 'Hidden'}</span>
 )

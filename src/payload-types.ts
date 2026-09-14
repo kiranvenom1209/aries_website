@@ -329,7 +329,7 @@ export interface Gallery {
   createdAt: string;
 }
 /**
- * Manage the people behind HSM Aries.
+ * Each active person has a public page at /team/their-slug. Edit the biography, role, portrait and personal links here, then save to update the website.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "team".
@@ -397,6 +397,9 @@ export interface Team {
    * Source page for the portrait credit.
    */
   portraitCreditUrl?: string | null;
+  /**
+   * Biography for the member page. Use paragraphs, headings, lists and links for their background, work on the rover, projects and experience. Leave empty to hide this section.
+   */
   bio?: {
     root: {
       type: string;
@@ -413,9 +416,19 @@ export interface Team {
     [k: string]: unknown;
   } | null;
   links?: {
+    /**
+     * Their own linkedin.com/in/ profile URL. Leave blank if unconfirmed; company-page placeholders are not shown.
+     */
     linkedIn?: string | null;
     website?: string | null;
   };
+  /**
+   * Former member. Keeps their public profile and search visibility, and moves their card to the alumni section. Keep Public profile enabled.
+   */
+  isAlumni?: boolean | null;
+  /**
+   * Controls public visibility in the crew directory and on the individual profile page.
+   */
   isActive?: boolean | null;
   sortOrder?: number | null;
   updatedAt: string;
@@ -827,6 +840,7 @@ export interface TeamSelect<T extends boolean = true> {
         linkedIn?: T;
         website?: T;
       };
+  isAlumni?: T;
   isActive?: T;
   sortOrder?: T;
   updatedAt?: T;

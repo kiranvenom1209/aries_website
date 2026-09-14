@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import { useMemo, useState } from 'react'
 
 import type { TeamMember } from '@/lib/team'
@@ -89,7 +90,7 @@ export function TeamGrid({ members }: { members: TeamMember[] }) {
 
             <div className="team-card__content">
               <header>
-                <h3>{member.name}</h3>
+                <h3><Link className="team-card__name-link" href={`/team/${member.slug}`}>{member.name}</Link></h3>
                 <p className="team-card__role">{member.position}</p>
               </header>
               <p className="team-card__bio">{member.bio}</p>

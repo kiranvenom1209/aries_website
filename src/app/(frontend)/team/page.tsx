@@ -1,12 +1,14 @@
+import { teamPortrait } from '@/lib/teamPortrait'
 import type { Metadata } from 'next'
 import Image from 'next/image'
+import Link from 'next/link'
 
 import { MagneticLink } from '@/components/MagneticLink'
 import { PageShell } from '@/components/PageShell'
 import { PartnersBand } from '@/components/PartnersBand'
 import type { TeamMember } from '@/lib/team'
 import { getTeam } from '@/lib/team'
-import { pageMetadata } from '@/lib/seo'
+import { absoluteUrl, metadataDescription, pageMetadata, serializeJsonLd } from '@/lib/seo'
 
 export const dynamic = 'force-dynamic'
 
@@ -123,7 +125,7 @@ const departments: Array<{
 
 function PrincipalAdvisor({ member, index }: { index: number; member: TeamMember }) {
   return (
-    <article className="principal-advisor">
+    <article className="principal-advisor profile-entry">
       <div className="principal-advisor__portrait" itemScope itemType="https://schema.org/ImageObject">
         <Image alt={member.imageAlt} fill sizes="(max-width: 760px) 100vw, 58vw" src={member.image} />
         <meta content={member.image} itemProp="contentUrl" />
@@ -133,23 +135,21 @@ function PrincipalAdvisor({ member, index }: { index: number; member: TeamMember
       </div>
       <div className="principal-advisor__copy">
         <small>PRINCIPAL ADVISOR / {String(index + 1).padStart(2, '0')}</small>
-        <h3>{member.name}</h3>
+        <h3><Link className="member-profile-link" href={`/team/${member.slug}`}>{member.name}</Link></h3>
         <strong>{member.position}</strong>
-        <p>{member.bio}</p>
+        <p>{metadataDescription(member.bio, 240)}</p>
+        <span className="profile-entry__hint" aria-hidden="true">View profile ↗</span>
       </div>
     </article>
   )
 }
 
-// Portraits that team.css enlarges with transform: scale() need that many more source pixels than the tile.
-const portraitZoom: Record<string, number> = { 'ayan-akbar-ali': 2.6, 'brahama-teja-naroju': 1.45, 'reeba-biju': 1.6, 'omar-abdelrady': 1.25, 'tony-mathew': 1.7, 'shivansh-mehta': 1.7, 'anish-paul': 1.25 }
-
 // One tile per listing. Rank insignia at the primary post only; a repeat listing carries an
 // "Also …" chip pointing back to the earlier department instead of a second full card.
 function RosterPerson({ also = [], member, role, showBadge = false }: { also?: string[]; member: TeamMember; role: string; showBadge?: boolean }) {
-  const zoom = portraitZoom[member.slug] ?? 1
+  const { key: portraitKey, zoom } = teamPortrait(member)
   return (
-    <article className={`roster-person roster-person--${member.slug}`}>
+    <article className={`roster-person profile-entry roster-person--${portraitKey}`}>
       <div className="roster-person__portrait">
         <Image alt={`${member.name} — ${role}`} fill sizes={`(max-width: 820px) ${Math.ceil(50 * zoom)}vw, ${Math.ceil(200 * zoom)}px`} src={member.image} />
         {showBadge && member.rankBadge ? (
@@ -163,8 +163,9 @@ function RosterPerson({ also = [], member, role, showBadge = false }: { also?: s
         ) : null}
       </div>
       <div className="roster-person__copy">
-        <h4>{member.name}</h4>
+        <h4><Link className="member-profile-link" href={`/team/${member.slug}`}>{member.name}</Link></h4>
         <p>{role}</p>
+        <span className="profile-entry__hint" aria-hidden="true">View profile ↗</span>
         {also.length > 0 ? <span className="roster-person__also">Also {also.join(' · ')}</span> : null}
       </div>
     </article>
@@ -172,7 +173,9 @@ function RosterPerson({ also = [], member, role, showBadge = false }: { also?: s
 }
 
 export default async function TeamPage() {
-  const members = await getTeam()
+  const publicMembers = await getTeam()
+  const members = publicMembers.filter((member) => !member.isAlumni)
+  const alumni = publicMembers.filter((member) => member.isAlumni)
   const bySlug = new Map(members.map((member) => [member.slug, member]))
   const principalAdvisors = ['prof-dr-ing-frank-schrodel', 'alexander-kolbai']
     .map((slug) => bySlug.get(slug))
@@ -187,10 +190,23 @@ export default async function TeamPage() {
     .map((slug) => bySlug.get(slug))
     .filter((member): member is TeamMember => Boolean(member))
   const commander = bySlug.get('harsha-vardhan-raju-gottimukkala')
+  const listedSlugs = new Set([...principalAdvisors, ...mentors, ...(commander ? [commander] : [])].map((member) => member.slug).concat(departments.flatMap((department) => department.members.map((entry) => entry.slug))))
+  const additionalMembers = members.filter((member) => !listedSlugs.has(member.slug))
   const studentCount = members.filter((member) => member.discipline !== 'mentors').length
 
   return (
     <PageShell>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd({
+        '@context': 'https://schema.org', '@type': 'CollectionPage',
+        url: absoluteUrl('/team'), name: 'HSM Aries crew and alumni',
+        mainEntity: {
+          '@type': 'ItemList', itemListOrder: 'https://schema.org/ItemListUnordered',
+          numberOfItems: publicMembers.length,
+          itemListElement: publicMembers.map((member) => ({
+            '@type': 'ListItem', url: absoluteUrl(`/team/${member.slug}`), name: member.name,
+          })),
+        },
+      }) }} />
       <section className="crew-hero">
         <Image alt="HSM Aries mission crew at Space Night" fetchPriority="high" fill preload sizes="100vw" src="/media/space-night-team.jpg" />
         <div aria-hidden="true" className="crew-hero__shade" />
@@ -216,6 +232,7 @@ export default async function TeamPage() {
           <a href="#mentor-council">Mentor council <span aria-hidden="true">↘</span></a>
           {commander ? <a href="#project-command">Project command <span aria-hidden="true">↘</span></a> : null}
           <a href="#departments">Departments <span aria-hidden="true">↘</span></a>
+          {alumni.length ? <a href="#alumni">Alumni <span aria-hidden="true">↘</span></a> : null}
         </div>
       </nav>
 
@@ -234,27 +251,29 @@ export default async function TeamPage() {
         <header><span>03 / MENTOR COUNCIL</span><h2>Specialist guidance<br />across the programme.</h2></header>
         <div className="mentor-council__grid">
           {mentors.map((member, index) => (
-            <article className={`mentor-profile mentor-profile--${member.slug}`} key={member.slug}>
+            <article className={`mentor-profile profile-entry mentor-profile--${teamPortrait(member).key}`} key={member.slug}>
               <div>
                 <Image alt={member.imageAlt} fill sizes="(max-width: 600px) 50vw, 44vw" src={member.image} />
                 <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
               </div>
-              <h3>{member.name}</h3>
+              <h3><Link className="member-profile-link" href={`/team/${member.slug}`}>{member.name}</Link></h3>
               <p>{member.position}</p>
+              <span className="profile-entry__hint" aria-hidden="true">View profile ↗</span>
             </article>
           ))}
         </div>
       </section>
 
       {commander ? (
-        <section className="mission-command-profile" id="project-command">
+        <section className="mission-command-profile profile-entry" id="project-command">
           <div className="mission-command-profile__portrait">
             <Image alt={commander.imageAlt} fill sizes="(max-width: 760px) 100vw, 45vw" src={commander.image} />
             {commander.rankBadge ? <Image alt="Commander rank insignia" className="mission-command-profile__rank" height={135} src={commander.rankBadge} width={86} /> : null}
           </div>
           <div className="mission-command-profile__copy">
             <span>04 / PROJECT COMMAND</span><small>LEAP-ONE PROJECT COMMANDER</small>
-            <h2>{commander.name}</h2><strong>Team Lead LEAP-One</strong><p>{commander.bio}</p>
+            <h2><Link className="member-profile-link" href={`/team/${commander.slug}`}>{commander.name}</Link></h2><strong>Team Lead LEAP-One</strong><p>{metadataDescription(commander.bio, 280)}</p>
+            <span className="profile-entry__hint" aria-hidden="true">View profile ↗</span>
           </div>
         </section>
       ) : null}
@@ -297,6 +316,24 @@ export default async function TeamPage() {
           )
         })}
       </section>
+
+      {additionalMembers.length > 0 ? <section className="additional-crew" aria-labelledby="additional-crew-heading">
+        <h2 id="additional-crew-heading">More of the crew</h2>
+        <div className="department-manifest__members">
+          {additionalMembers.map((member) => <RosterPerson key={member.slug} member={member} role={member.position} showBadge />)}
+        </div>
+      </section> : null}
+
+      {alumni.length > 0 ? <section className="additional-crew alumni-crew" id="alumni" aria-labelledby="alumni-heading">
+        <header>
+          <span>ARIES ALUMNI</span>
+          <h2 id="alumni-heading">Part of every mission that follows.</h2>
+          <p>The people who helped build Aries. Explore their contributions, research and the work they leave with the team.</p>
+        </header>
+        <div className="department-manifest__members">
+          {alumni.map((member) => <RosterPerson key={member.slug} member={member} role={`Alumni · ${member.position}`} />)}
+        </div>
+      </section> : null}
 
       <section className="collaboration-lab">
         <div className="collaboration-lab__media">

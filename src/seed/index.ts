@@ -44,7 +44,7 @@ type SeedPayloadAPI = {
   }): Promise<SeedDocument>
 }
 
-const plainTextRichText = (value: string) => ({
+export const plainTextRichText = (value: string) => ({
   root: {
     children: [
       {
@@ -276,8 +276,10 @@ export async function seedPublicContent(payloadInstance: Payload) {
   payload.logger.info('Seeding HSM Aries team members and mentors…')
 
   for (const member of fallbackTeam) {
+    // Admin edits and publication state survive repeated bootstraps.
+    if (await findOne(payload, 'team', 'slug', member.slug)) continue
     await upsertBySlug(payload, 'team', member.slug, {
-      bio: plainTextRichText(member.bio),
+      bio: member.bioRichText ?? plainTextRichText(member.bio),
       departments: member.departments ?? [member.discipline],
       discipline: member.discipline,
       isActive: true,
@@ -292,31 +294,6 @@ export async function seedPublicContent(payloadInstance: Payload) {
       slug: member.slug,
       sortOrder: member.sortOrder,
     })
-  }
-
-  const liveTeamSlugs = new Set(fallbackTeam.map((member) => member.slug))
-  const existingTeam = await payload.find({
-    collection: 'team',
-    depth: 0,
-    limit: 100,
-    overrideAccess: true,
-    where: {},
-  })
-
-  for (const member of existingTeam.docs) {
-    if (member.slug && !liveTeamSlugs.has(member.slug)) {
-      await payload.update({
-        collection: 'team',
-        data: {
-          departments: [],
-          discipline: 'other',
-          isActive: false,
-          rank: 'Crew',
-        },
-        id: member.id,
-        overrideAccess: true,
-      })
-    }
   }
 
   payload.logger.info('Seeding HSM Aries partners…')

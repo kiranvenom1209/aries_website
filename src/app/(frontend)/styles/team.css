@@ -230,7 +230,7 @@
 
 .roster-person--brahama-teja-naroju .roster-person__portrait > img:first-child {
   transform: scale(1.45);
-  transform-origin: 50% 42%;
+  transform-origin: 50% 10%;
 }
 
 .mentor-profile--swaraj-tendulkar > div > img {
@@ -244,11 +244,13 @@
 .roster-person--ayan-akbar-ali .roster-person__portrait > img:first-child {
   transform: scale(2.6);
   transform-origin: 51% 39%;
+  object-position: center 25%;
 }
 
 .roster-person--reeba-biju .roster-person__portrait > img:first-child {
   transform: scale(1.6);
   transform-origin: 50% 74%;
+  object-position: center 40%;
 }
 
 .mentor-profile--niranjan-ramesha > div > img {
@@ -260,14 +262,22 @@
   object-position: center 58%;
 }
 
+.roster-person--rahul-khandait .roster-person__portrait > img:first-child {
+  object-position: center;
+  transform: scale(3.2);
+  transform-origin: 50% 74%;
+}
+
 .roster-person--tony-mathew .roster-person__portrait > img:first-child {
-  transform: scale(1.7);
-  transform-origin: 50% 64%;
+  transform: scale(1.4);
+  transform-origin: 50% 70%;
+  object-position: center 20%;
 }
 
 .roster-person--shivansh-mehta .roster-person__portrait > img:first-child {
-  transform: scale(1.7);
-  transform-origin: 50% 85%;
+  transform: scale(1.25);
+  transform-origin: 50% 80%;
+  object-position: center;
 }
 
 .roster-person--anish-paul .roster-person__portrait > img:first-child {
@@ -353,3 +363,17 @@
     min-height: 0;
   }
 }
+
+/* One accessible link makes each person's whole card clickable. */
+.profile-entry { position: relative; }
+.member-profile-link { color: inherit; text-decoration: none; }
+.member-profile-link::after { content: ''; position: absolute; inset: 0; z-index: 2; }
+.member-profile-link:focus-visible { outline: none; }
+.member-profile-link:focus-visible::after { outline: 2px solid var(--accent-bright); outline-offset: -2px; }
+.profile-entry:hover .member-profile-link { color: var(--accent-bright); }
+.profile-entry__hint { display: block; color: var(--accent-bright); font: 10px/1.6 var(--mono); letter-spacing: .06em; margin-top: 14px; }
+.additional-crew { padding: 0 var(--page-pad) 80px; }
+.additional-crew h2 { font: 500 32px/1.2 var(--display); }
+.alumni-crew header { border-top: 1px solid var(--line-bright); padding-top: 40px; }
+.alumni-crew header > span { color: var(--accent-bright); font: 11px/1.5 var(--mono); letter-spacing: .12em; }
+.alumni-crew header > p { max-width: 640px; color: var(--muted); line-height: 1.7; }
