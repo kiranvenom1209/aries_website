@@ -52,6 +52,7 @@ const departments: Array<{
       { role: 'Electrical & Power Systems Engineer', slug: 'yash-lohar' },
       { role: 'Electrical Hardware Specialist', slug: 'md-bashar' },
       { role: 'Electrical Engineer', slug: 'tony-mathew' },
+      { role: 'Embedded Software Engineer', slug: 'shivansh-mehta' },
     ],
   },
   {
@@ -105,7 +106,6 @@ const departments: Array<{
       { lead: true, role: 'Interim Lead Scientific Payload', slug: 'harsha-vardhan-raju-gottimukkala' },
       { primary: true, role: 'Scientific Payload Engineer', slug: 'anantha-pathmanabhan' },
       { role: 'Scientific Payload Specialist', slug: 'ashwin-dinesh-ayinipully' },
-      { role: 'Scientific Payload & Sensors Engineer', slug: 'shivansh-mehta' },
     ],
     record: 'ERC 2026 · AstroBio 215 / 300 · surface & deep sampling 197 / 440',
   },

@@ -368,14 +368,15 @@ export const fallbackTeam: TeamMember[] = [
   {
     name: 'Shivansh Mehta',
     slug: 'shivansh-mehta',
-    position: 'Scientific Payload & Sensors Engineer',
-    discipline: 'science',
-    disciplineLabel: 'Scientific Payload',
-    tags: ['Sensors'],
+    position: 'Embedded Software Engineer',
+    discipline: 'electrical',
+    disciplineLabel: 'Electrical & Power Systems',
+    departments: ['electrical'],
+    tags: ['Embedded Software', 'Drill Motors', 'Limit Switches', 'Load Cells', 'Science Box'],
     image: '/media/shivansh-mehta.jpeg',
-    imageAlt: 'Shivansh Mehta — Scientific Payload',
+    imageAlt: 'Shivansh Mehta — Embedded Software Engineer',
     sortOrder: 185,
-    bio: 'Works on sensors for the Scientific Payload department.',
+    bio: 'Develops embedded software in the Electrical department, programming drill motors, limit switches, load cells, and the science box.',
   },
 
   // ADVISORS & MENTORS
