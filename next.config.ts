@@ -28,11 +28,15 @@ const nextConfig: NextConfig = {
     ],
   },
   async redirects() {
-    return newsSeed.map((article) => ({
-      destination: `/news/${article.slug}`,
-      permanent: true,
-      source: `/${article.slug}`,
-    }))
+    return [
+      // WordPress author archives were retired; keep the submitted sitemap URL reachable.
+      { source: '/author-sitemap.xml', destination: '/page-sitemap.xml', permanent: true },
+      ...newsSeed.map((article) => ({
+        destination: `/news/${article.slug}`,
+        permanent: true,
+        source: `/${article.slug}`,
+      })),
+    ]
   },
   images: {
     // Static photos are served as pre-built WebP variants (scripts/build-responsive-media.mjs)
