@@ -54,7 +54,7 @@ export const fallbackTeam: TeamMember[] = [
   {
     name: 'Harsha Vardhan Raju Gottimukkala',
     slug: 'harsha-vardhan-raju-gottimukkala',
-    position: 'Team Lead LEAP-One & Interim Lead Scientific Payload',
+    position: 'Team Lead LEAP-One',
     discipline: 'leadership',
     disciplineLabel: 'Team Leadership',
     departments: ['leadership', 'software', 'science', 'mro'],
@@ -338,7 +338,7 @@ export const fallbackTeam: TeamMember[] = [
   {
     name: 'Anantha Pathmanabhan',
     slug: 'anantha-pathmanabhan',
-    position: 'Scientific Payload Engineer',
+    position: 'Scientific Payload Lead',
     discipline: 'science',
     disciplineLabel: 'Scientific Payload',
     departments: ['science'],

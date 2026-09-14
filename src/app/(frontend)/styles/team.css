@@ -1,5 +1,85 @@
 /* Polish layer: team — loaded after styles.css; equal-specificity rules here override the base sheet. */
 
+/* A useful directory between the hero and portraits, without another display heading. */
+.crew-directory {
+  align-items: center;
+  border-bottom: 1px solid var(--line-bright);
+  display: grid;
+  gap: 32px;
+  grid-template-columns: minmax(250px, .8fr) minmax(0, 1.5fr);
+  margin: 0 var(--page-pad) clamp(48px, 5vw, 80px);
+  padding-block: 32px;
+}
+
+.crew-directory__intro > span {
+  color: var(--accent-bright);
+  font: 10px var(--mono);
+  letter-spacing: .18em;
+}
+
+.crew-directory__intro p {
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.6;
+  margin: 12px 0 0;
+}
+
+.crew-directory__links {
+  display: grid;
+  gap: 8px 24px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.crew-directory__links a {
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+  color: var(--text);
+  display: flex;
+  font-size: 15px;
+  gap: 12px;
+  justify-content: space-between;
+  min-height: 48px;
+  padding-block: 12px;
+  text-decoration: none;
+}
+
+.crew-directory__links a > span,
+.crew-directory__links a:hover {
+  color: var(--accent-bright);
+}
+
+.crew-directory__links a:focus-visible {
+  outline: 2px solid var(--accent-bright);
+  outline-offset: 4px;
+}
+
+#principal-advisors,
+#mentor-council,
+#project-command,
+#departments {
+  scroll-margin-top: calc(var(--site-header-height) + 24px);
+}
+
+.roster-guidance .section-command {
+  margin-bottom: 40px;
+}
+
+@media (max-width: 820px) {
+  .crew-directory {
+    gap: 20px;
+    grid-template-columns: 1fr;
+    padding-block: 28px;
+  }
+
+  .crew-directory__links {
+    gap: 4px 20px;
+  }
+
+  .crew-directory__links a {
+    font-size: 13px;
+  }
+}
+
 /* Hero: the emphasis breaks to its own line only where the headline has room for it. */
 @media (min-width: 721px) {
   .crew-hero h1 em {

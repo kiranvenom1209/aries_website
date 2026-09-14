@@ -103,8 +103,8 @@ const departments: Array<{
     code: 'SCI',
     label: 'Scientific Payload',
     members: [
-      { lead: true, role: 'Interim Lead Scientific Payload', slug: 'harsha-vardhan-raju-gottimukkala' },
-      { primary: true, role: 'Scientific Payload Engineer', slug: 'anantha-pathmanabhan' },
+      { lead: true, primary: true, role: 'Scientific Payload Lead', slug: 'anantha-pathmanabhan' },
+      { role: 'Team Lead LEAP-One', slug: 'harsha-vardhan-raju-gottimukkala' },
       { role: 'Scientific Payload Specialist', slug: 'ashwin-dinesh-ayinipully' },
     ],
     record: 'ERC 2026 · AstroBio 215 / 300 · surface & deep sampling 197 / 440',
@@ -206,13 +206,20 @@ export default async function TeamPage() {
         </div>
       </section>
 
-      <section className="crew-intro">
-        <span>01 / GUIDANCE</span>
-        <h2>One organisation.<br />Clear technical ownership.</h2>
-        <p>A student-run programme: one project commander, eight departments and a named lead accountable for every subsystem. Two principal advisors and a five-person mentor council back the work; what LEAP-One taught in Kraków is now shaping Leap-2.</p>
-      </section>
+      <nav aria-label="Crew directory" className="crew-directory">
+        <div className="crew-directory__intro">
+          <span>01 / CREW DIRECTORY</span>
+          <p>Student-led. Backed by experience.<br />Meet the people behind each subsystem.</p>
+        </div>
+        <div className="crew-directory__links">
+          <a href="#principal-advisors">Principal advisors <span aria-hidden="true">↘</span></a>
+          <a href="#mentor-council">Mentor council <span aria-hidden="true">↘</span></a>
+          {commander ? <a href="#project-command">Project command <span aria-hidden="true">↘</span></a> : null}
+          <a href="#departments">Departments <span aria-hidden="true">↘</span></a>
+        </div>
+      </nav>
 
-      <section className="roster-guidance">
+      <section className="roster-guidance" id="principal-advisors">
         <header className="section-command">
           <div><span>02 / PRINCIPAL ADVISORS</span><i /></div>
           <h2>The two people<br />guiding the programme.</h2>
@@ -223,7 +230,7 @@ export default async function TeamPage() {
         </div>
       </section>
 
-      <section className="mentor-council">
+      <section className="mentor-council" id="mentor-council">
         <header><span>03 / MENTOR COUNCIL</span><h2>Specialist guidance<br />across the programme.</h2></header>
         <div className="mentor-council__grid">
           {mentors.map((member, index) => (
@@ -240,19 +247,19 @@ export default async function TeamPage() {
       </section>
 
       {commander ? (
-        <section className="mission-command-profile">
+        <section className="mission-command-profile" id="project-command">
           <div className="mission-command-profile__portrait">
             <Image alt={commander.imageAlt} fill sizes="(max-width: 760px) 100vw, 45vw" src={commander.image} />
             {commander.rankBadge ? <Image alt="Commander rank insignia" className="mission-command-profile__rank" height={135} src={commander.rankBadge} width={86} /> : null}
           </div>
           <div className="mission-command-profile__copy">
             <span>04 / PROJECT COMMAND</span><small>LEAP-ONE PROJECT COMMANDER</small>
-            <h2>{commander.name}</h2><strong>{commander.position}</strong><p>{commander.bio}</p>
+            <h2>{commander.name}</h2><strong>Team Lead LEAP-One</strong><p>{commander.bio}</p>
           </div>
         </section>
       ) : null}
 
-      <section className="department-manifests">
+      <section className="department-manifests" id="departments">
         <header className="section-command">
           <div><span>05 / DEPARTMENTS</span><i /></div>
           <h2>Eight teams.<br />One integrated rover.</h2>
