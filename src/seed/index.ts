@@ -4,6 +4,7 @@ import path from 'node:path'
 import type { Payload } from 'payload'
 
 import { fallbackTeam } from '../lib/fallbackTeam'
+import { sponsorNames } from '../lib/sponsorNames'
 import { downloadSeed, gallerySeed, mediaSeed, newsSeed, sponsorSeed } from './news'
 
 type SeedCollection = 'media' | 'news' | 'gallery' | 'downloads' | 'team' | 'sponsors'
@@ -12,6 +13,7 @@ type SeedID = number | string
 type SeedDocument = {
   filename?: string | null
   id: SeedID
+  name?: string | null
   slug?: string | null
 }
 
@@ -130,15 +132,29 @@ const upsertSponsor = async (
   const result = await payload.find({
     collection: 'sponsors',
     depth: 0,
-    limit: 1,
+    limit: 100,
     overrideAccess: true,
-    where: { name: { equals: name } },
+    where: { name: { in: sponsorNames(name) } },
   })
-  const existing = result.docs[0]
+  // Reuse the current record if both names exist; otherwise rename the legacy one.
+  const existing = result.docs.find((doc) => doc.name === name) ?? result.docs[0]
 
-  return existing
+  const record = existing
     ? payload.update({ collection: 'sponsors', data, id: existing.id, overrideAccess: true })
     : payload.create({ collection: 'sponsors', data, overrideAccess: true })
+  const saved = await record
+
+  // Retain old records for review, but remove them from public display.
+  for (const duplicate of result.docs) {
+    if (duplicate.id === saved.id) continue
+    await payload.update({
+      collection: 'sponsors',
+      data: { isActive: false },
+      id: duplicate.id,
+      overrideAccess: true,
+    })
+  }
+  return saved
 }
 
 const publicMediaPath = (filename: string) => {

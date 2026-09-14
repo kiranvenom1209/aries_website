@@ -1,5 +1,7 @@
 import 'server-only'
 
+import { sponsorNameKey, sponsorNames } from './sponsorNames'
+
 export type PublicSponsor = {
   name: string
   logo: string
@@ -21,14 +23,13 @@ export const fallbackSponsors: PublicSponsor[] = [
   { name: 'ODrive Robotics', logo: '/media/odrive-logo.png', website: 'https://odriverobotics.com' },
 ]
 
-const key = (value: string) => value.toLowerCase().replace(/[^a-z0-9]/g, '')
 const logoKey = (value: string) => value.split('/').pop()?.replace(/\.[^.]+$/, '').toLowerCase() ?? ''
 
 /** A CMS row and a fallback entry are the same sponsor if the name matches (ignoring punctuation and a trailing "GmbH") or the logo file does — the latter also catches a spelling fix like Eviotech → Eviotec. */
 const matchFallback = (name: string, logo: string | null) =>
   fallbackSponsors.find(
     (sponsor) =>
-      key(sponsor.name).replace(/gmbh$/, '') === key(name).replace(/gmbh$/, '') ||
+      sponsorNames(sponsor.name).some((alias) => sponsorNameKey(alias) === sponsorNameKey(name)) ||
       (logo !== null && logoKey(sponsor.logo) === logoKey(logo)),
   )
 
@@ -50,8 +51,18 @@ export async function getSponsors(): Promise<PublicSponsor[]> {
     })
     if (result.docs.length === 0) return fallbackSponsors
 
+    // Group before rendering so a renamed CMS row cannot produce a second logo.
+    // Prefer the current name, including its activity setting, over legacy rows.
+    const rows = new Map<string, (typeof result.docs)[number]>()
+    for (const doc of result.docs) {
+      const logo = doc.logo && typeof doc.logo === 'object' ? (doc.logo.url ?? null) : null
+      const fallback = matchFallback(doc.name, logo)
+      const identity = sponsorNameKey(fallback?.name ?? doc.name)
+      if (!rows.has(identity) || doc.name === fallback?.name) rows.set(identity, doc)
+    }
+
     const seen = new Set<PublicSponsor>()
-    const sponsors = result.docs.flatMap((doc) => {
+    const sponsors = [...rows.values()].flatMap((doc) => {
       const logo = doc.logo && typeof doc.logo === 'object' ? (doc.logo.url ?? null) : null
       const fallback = matchFallback(doc.name, logo)
       if (fallback) seen.add(fallback)
