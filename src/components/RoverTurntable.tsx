@@ -17,6 +17,9 @@ const frameTime = 1000 / 60
 const keyboardStep = 4
 const maxPending = 8
 const maxDecoding = 4
+// Decoded 2400x1800 bitmaps cost ~17 MB each, so only a short run ahead is decoded; the compressed
+// blobs (~140 KB) can stay resident for a much wider window.
+const decodeAhead = 8
 const blobLimit = 320
 const wrap = (frame: number) => ((frame % frameCount) + frameCount) % frameCount
 const distance = (a: number, b: number) => {
@@ -29,7 +32,7 @@ const offsetAlong = (origin: number, index: number, direction: 1 | -1) => {
   return direction * (forward > frameCount / 2 ? forward - frameCount : forward)
 }
 const frameURL = (frame: number, mobile = false) =>
-  `/media/leap-one-studio-v5/${mobile ? 'mobile/' : ''}frame_${String(frame).padStart(3, '0')}.webp`
+  `/media/leap-one-studio-v6/${mobile ? 'mobile/' : ''}frame_${String(frame).padStart(3, '0')}.webp`
 
 type Motion = { position: number; velocity: number; lastInteraction: number; autoplay: boolean; coast: boolean }
 type Drag = {
@@ -79,8 +82,8 @@ export function RoverTurntable() {
     const canvas = canvasRef.current
     const context = canvas?.getContext('2d', { alpha: false })
     if (!canvas || !context) return
-    canvas.width = mobile ? 900 : 1600
-    canvas.height = mobile ? 900 : 1200
+    canvas.width = mobile ? 1200 : 2400
+    canvas.height = mobile ? 1200 : 1800
     // Compressed frames are cheap to keep, so a wide window of them stays resident; only a small
     // window around the current angle is decoded into bitmaps at any time.
     const blobs = new Map<number, Blob>()
@@ -162,9 +165,13 @@ export function RoverTurntable() {
         const offset = offsetAlong(desired, index, direction)
         return offset >= -3 && offset <= span
       }
+      const decodable = (index: number) => {
+        const offset = offsetAlong(desired, index, direction)
+        return offset >= -2 && offset <= decodeAhead * stride
+      }
 
       for (const [index, bitmap] of bitmaps) {
-        if (!relevant(index) && index !== displayed) {
+        if (!decodable(index) && index !== displayed) {
           bitmap.close()
           bitmaps.delete(index)
         }
@@ -179,7 +186,7 @@ export function RoverTurntable() {
         if (bitmaps.has(index) || decoding.has(index) || failed.has(index)) continue
         const blob = blobs.get(index)
         if (blob) {
-          if (decoding.size < maxDecoding) {
+          if (decoding.size < maxDecoding && decodable(index)) {
             // Re-insert so the least recently used blob is the first to go.
             blobs.delete(index)
             blobs.set(index, blob)
