@@ -1,10 +1,12 @@
 # LEAP-One turntable
 
-The viewer uses renders of the original `public/media/models/leap-one.glb`, with a fixed orthographic camera, studio environment lighting, orange rim lighting, ambient occlusion and ground shadows. Orthographic projection keeps the world-to-pixel scale constant at every angle; do not reintroduce perspective or per-frame auto-fitting. Geometry and source colour assignments stay with the original model; pale neutral CAD materials receive a metallic finish.
+The viewer uses the v5 renders of `rover new bottom support - lossless.glb`, with a fixed orthographic camera, studio environment lighting, orange rim lighting, ambient occlusion and ground shadows. Orthographic projection keeps the world-to-pixel scale constant at every angle; do not reintroduce perspective or per-frame auto-fitting. Geometry and source colour assignments stay with the source model; pale neutral CAD materials receive a metallic finish.
 
-`npm run render:leap-one-turntable -- --preview` renders five angles into the operating system's temporary directory. It never overwrites the sequence displayed on the site.
+The v5 source is `C:\Users\IBN\Documents\Leapone_presentation\rover new bottom support - lossless.glb` (45,769,728 bytes; SHA-256 `7e1e81bf7299e8c483562b8c1a3b6eebc5e24b3ec6187506535b32fef3d5d6b5`). Its embedded textures include the vehicle decals. Only rendered images are served to visitors.
 
-For a new complete sequence, run `npm run render:leap-one-turntable -- --version=v5` (choose an unused version). The script requires the installed Three.js, Sharp and Playwright dependencies and uses WebGL through Chromium. It renders 720 half-degree frames at 2400×1800, then exports 1600×1200 desktop and 900×900 mobile WebP images. The mobile images use the same centred square crop throughout.
+`npm run render:leap-one-turntable -- --preview --model="C:\Users\IBN\Documents\Leapone_presentation\rover new bottom support - lossless.glb"` renders five angles into the operating system's temporary directory. It never overwrites the sequence displayed on the site. Supply `--model` to use an external GLB; omitting it uses the legacy `public/media/models/leap-one.glb`.
+
+For a new complete sequence, run `npm run render:leap-one-turntable -- --version=v6 --model="C:\Users\IBN\Documents\Leapone_presentation\rover new bottom support - lossless.glb"` (choose an unused version). The script requires the installed Three.js, Sharp and Playwright dependencies and uses WebGL through Chromium. It renders 720 half-degree frames at 2400×1800, then exports 1600×1200 desktop and 900×900 mobile WebP images. The mobile images use the same centred square crop throughout.
 
 Inspect the full orbit and verify all 720 files in both directories before changing the version in `RoverTurntable.tsx`. Never publish or point the viewer at an incomplete batch. A new URL also prevents browsers from mixing cached older renders with new ones.
 

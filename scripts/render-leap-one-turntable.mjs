@@ -14,7 +14,11 @@ if (!/^[a-z0-9-]+$/.test(version)) throw new Error('Use a simple alphanumeric re
 const renderWidth = 2400
 const renderHeight = 1800
 const rootDirectory = path.resolve(fileURLToPath(new URL('..', import.meta.url)))
-const modelPath = path.join(rootDirectory, 'public', 'media', 'models', 'leap-one.glb')
+const modelArgument = process.argv.find(argument => argument.startsWith('--model='))?.slice('--model='.length)
+const modelPath = modelArgument
+  ? path.resolve(modelArgument)
+  : path.join(rootDirectory, 'public', 'media', 'models', 'leap-one.glb')
+if (!existsSync(modelPath)) throw new Error(`Model not found: ${modelPath}`)
 const outputDirectory = preview ? path.join(os.tmpdir(), 'aries-turntable-preview') : path.join(rootDirectory, 'public', 'media', `leap-one-studio-${version}`)
 if (!preview && existsSync(outputDirectory)) {
   throw new Error('This render version already exists. Choose a new --version to avoid mixing camera settings in the live sequence.')

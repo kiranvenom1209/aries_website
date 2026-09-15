@@ -29,7 +29,7 @@ const offsetAlong = (origin: number, index: number, direction: 1 | -1) => {
   return direction * (forward > frameCount / 2 ? forward - frameCount : forward)
 }
 const frameURL = (frame: number, mobile = false) =>
-  `/media/leap-one-studio-v4/${mobile ? 'mobile/' : ''}frame_${String(frame).padStart(3, '0')}.webp`
+  `/media/leap-one-studio-v5/${mobile ? 'mobile/' : ''}frame_${String(frame).padStart(3, '0')}.webp`
 
 type Motion = { position: number; velocity: number; lastInteraction: number; autoplay: boolean; coast: boolean }
 type Drag = {
