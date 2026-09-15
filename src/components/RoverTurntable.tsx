@@ -7,20 +7,25 @@ const frameCount = 720
 const degreesPerFrame = 360 / frameCount
 // A full drag across the stage turns the rover once.
 const turnsPerDrag = 1
-// One idle revolution takes 16 s. After a drag or flick the velocity eases back to the idle speed from
+// The crisp full-resolution opening frame holds for a moment before the idle turn begins. One idle
+// revolution takes 16 s. After a drag or flick the velocity eases back to the idle speed from
 // wherever the rover was left, so the turntable simply continues from that angle.
+const initialHold = 2_200
 const idleSpeed = frameCount / 16_000
 const resumeDelay = 350
 const velocityDamping = 280
 const restSpeed = 0.002
 const frameTime = 1000 / 60
 const keyboardStep = 4
-const maxPending = 8
+// Two tiers of frames. The light tier (1200x900, ~35 KB) drives every moment of motion and, once a
+// lap has been seen, lives entirely in memory; the full tier (2400x1800) is fetched one frame at a
+// time only while the rover is at rest, so a live connection never has to stream full frames.
+const maxPending = 10
 const maxDecoding = 4
-// Decoded 2400x1800 bitmaps cost ~17 MB each, so only a short run ahead is decoded; the compressed
-// blobs (~140 KB) can stay resident for a much wider window.
-const decodeAhead = 8
-const blobLimit = 320
+const decodeAhead = 12
+const liteBlobLimit = frameCount
+const fullBlobLimit = 24
+const version = 'leap-one-studio-v6'
 const wrap = (frame: number) => ((frame % frameCount) + frameCount) % frameCount
 const distance = (a: number, b: number) => {
   const gap = Math.abs(wrap(a) - wrap(b))
@@ -31,8 +36,9 @@ const offsetAlong = (origin: number, index: number, direction: 1 | -1) => {
   const forward = wrap(index - origin)
   return direction * (forward > frameCount / 2 ? forward - frameCount : forward)
 }
-const frameURL = (frame: number, mobile = false) =>
-  `/media/leap-one-studio-v6/${mobile ? 'mobile/' : ''}frame_${String(frame).padStart(3, '0')}.webp`
+const frameName = (frame: number) => `frame_${String(frame).padStart(3, '0')}.webp`
+const fullURL = (frame: number, mobile = false) => `/media/${version}/${mobile ? 'mobile/' : ''}${frameName(frame)}`
+const liteURL = (frame: number, mobile = false) => `/media/${version}/lite/${mobile ? 'mobile/' : ''}${frameName(frame)}`
 
 type Motion = { position: number; velocity: number; lastInteraction: number; autoplay: boolean; coast: boolean }
 type Drag = {
@@ -66,6 +72,7 @@ export function RoverTurntable() {
     const updateSize = () => setMobile(size.matches)
     updateMotion()
     updateSize()
+    motionRef.current.lastInteraction = performance.now() + initialHold
     motion.addEventListener('change', updateMotion)
     size.addEventListener('change', updateSize)
     const observer = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting), { rootMargin: '160px 0px' })
@@ -84,16 +91,19 @@ export function RoverTurntable() {
     if (!canvas || !context) return
     canvas.width = mobile ? 1200 : 2400
     canvas.height = mobile ? 1200 : 1800
-    // Compressed frames are cheap to keep, so a wide window of them stays resident; only a small
-    // window around the current angle is decoded into bitmaps at any time.
-    const blobs = new Map<number, Blob>()
-    const bitmaps = new Map<number, ImageBitmap>()
+    const liteBlobs = new Map<number, Blob>()
+    const liteBitmaps = new Map<number, ImageBitmap>()
     const pending = new Map<number, AbortController>()
     const decoding = new Set<number>()
     const failed = new Set<number>()
+    const fullBlobs = new Map<number, Blob>()
+    let fullBitmap: { index: number; bitmap: ImageBitmap } | null = null
+    let fullPending: { index: number; controller: AbortController } | null = null
+    let fullDecoding = -1
     let disposed = false
     let animation = 0
     let displayed = -1
+    let displayedFull = false
     let lastTime = 0
     let pageVisible = !document.hidden
     const visibility = () => {
@@ -103,35 +113,69 @@ export function RoverTurntable() {
     document.addEventListener('visibilitychange', visibility)
     setReady(false)
 
-    const decode = (index: number, blob: Blob) => {
+    const fetchBlob = (url: string, controller: AbortController, priority: RequestPriority) =>
+      fetch(url, { signal: controller.signal, priority }).then(response => {
+        if (!response.ok) throw new Error('Frame unavailable')
+        return response.blob()
+      })
+
+    const decodeLite = (index: number, blob: Blob) => {
       decoding.add(index)
       createImageBitmap(blob)
         .then(bitmap => {
           if (disposed) bitmap.close()
-          else bitmaps.set(index, bitmap)
+          else liteBitmaps.set(index, bitmap)
         })
         .catch(() => failed.add(index))
         .finally(() => decoding.delete(index))
     }
 
-    const load = (index: number, priority: RequestPriority) => {
+    const loadLite = (index: number, priority: RequestPriority) => {
       const controller = new AbortController()
       pending.set(index, controller)
-      fetch(frameURL(index, mobile), { signal: controller.signal, priority })
-        .then(response => {
-          if (!response.ok) throw new Error('Frame unavailable')
-          return response.blob()
-        })
+      fetchBlob(liteURL(index, mobile), controller, priority)
         .then(blob => {
           if (disposed) return
-          blobs.set(index, blob)
-          if (blobs.size > blobLimit) blobs.delete(blobs.keys().next().value as number)
+          liteBlobs.set(index, blob)
+          if (liteBlobs.size > liteBlobLimit) liteBlobs.delete(liteBlobs.keys().next().value as number)
         })
         .catch(error => {
           if (error.name !== 'AbortError') failed.add(index)
         })
         .finally(() => {
           if (pending.get(index) === controller) pending.delete(index)
+        })
+    }
+
+    const decodeFull = (index: number, blob: Blob) => {
+      fullDecoding = index
+      createImageBitmap(blob)
+        .then(bitmap => {
+          if (disposed) {
+            bitmap.close()
+            return
+          }
+          fullBitmap?.bitmap.close()
+          fullBitmap = { index, bitmap }
+        })
+        .catch(() => undefined)
+        .finally(() => {
+          if (fullDecoding === index) fullDecoding = -1
+        })
+    }
+
+    const loadFull = (index: number) => {
+      const controller = new AbortController()
+      fullPending = { index, controller }
+      fetchBlob(fullURL(index, mobile), controller, 'high')
+        .then(blob => {
+          if (disposed) return
+          fullBlobs.set(index, blob)
+          if (fullBlobs.size > fullBlobLimit) fullBlobs.delete(fullBlobs.keys().next().value as number)
+        })
+        .catch(() => undefined)
+        .finally(() => {
+          if (fullPending?.controller === controller) fullPending = null
         })
     }
 
@@ -153,27 +197,34 @@ export function RoverTurntable() {
       const desired = wrap(Math.round(state.position))
       const direction: 1 | -1 = drag ? drag.direction : state.velocity < 0 ? -1 : 1
       const speed = drag ? drag.speed : Math.abs(state.velocity)
+      const atRest = !drag && state.velocity === 0
+      // The idle turn only needs every second frame (1° steps at ~22 fps), which halves what a first
+      // lap costs on a live connection; drags and flicks use every frame they can get.
+      const idling = !drag && Math.abs(state.velocity - idleSpeed) < idleSpeed * 0.2
       // At speed the angle advances several frames per tick, so requests are spaced to land on frames
       // that will actually be shown instead of chasing every intermediate one.
-      const stride = Math.max(1, Math.round(speed * frameTime))
-      const ahead = Math.min(28, Math.max(10, Math.ceil((speed * 260) / stride)))
+      const stride = Math.max(idling ? 2 : 1, Math.round(speed * frameTime))
+      const ahead = Math.min(32, Math.max(14, Math.ceil((speed * 400) / stride)))
       const span = ahead * stride
-      const wanted = [desired]
-      for (let offset = 1; offset <= ahead; offset++) wanted.push(wrap(desired + direction * offset * stride))
-      for (let offset = 1; offset <= 3; offset++) wanted.push(wrap(desired - direction * offset))
+      // Anchor the strided requests on a multiple of the stride, otherwise the alternating parity of
+      // successive ticks would end up requesting every frame anyway.
+      const anchor = stride > 1 ? desired - (desired % stride) : desired
+      const wanted = [anchor]
+      for (let offset = 1; offset <= ahead; offset++) wanted.push(wrap(anchor + direction * offset * stride))
+      for (let offset = 1; offset <= 2; offset++) wanted.push(wrap(anchor - direction * offset * stride))
       const relevant = (index: number) => {
         const offset = offsetAlong(desired, index, direction)
-        return offset >= -3 && offset <= span
+        return offset >= -2 * stride && offset <= span
       }
       const decodable = (index: number) => {
         const offset = offsetAlong(desired, index, direction)
-        return offset >= -2 && offset <= decodeAhead * stride
+        return offset >= -2 * stride && offset <= decodeAhead * stride
       }
 
-      for (const [index, bitmap] of bitmaps) {
+      for (const [index, bitmap] of liteBitmaps) {
         if (!decodable(index) && index !== displayed) {
           bitmap.close()
-          bitmaps.delete(index)
+          liteBitmaps.delete(index)
         }
       }
       for (const [index, controller] of pending) {
@@ -183,27 +234,22 @@ export function RoverTurntable() {
         }
       }
       for (const index of wanted) {
-        if (bitmaps.has(index) || decoding.has(index) || failed.has(index)) continue
-        const blob = blobs.get(index)
+        if (liteBitmaps.has(index) || decoding.has(index) || failed.has(index)) continue
+        const blob = liteBlobs.get(index)
         if (blob) {
-          if (decoding.size < maxDecoding && decodable(index)) {
-            // Re-insert so the least recently used blob is the first to go.
-            blobs.delete(index)
-            blobs.set(index, blob)
-            decode(index, blob)
-          }
+          if (decoding.size < maxDecoding && decodable(index)) decodeLite(index, blob)
         } else if (!pending.has(index) && pending.size < maxPending) {
-          load(index, index === desired ? 'high' : 'low')
+          loadLite(index, index === desired ? 'high' : 'low')
         }
       }
 
-      // Show the exact frame when it is decoded; otherwise the nearest decoded frame that is closer
-      // to the target than the one on screen, so fast drags keep moving instead of waiting for the network.
+      // Show the exact light frame when it is decoded; otherwise the nearest decoded frame that is
+      // closer to the target than the one on screen, so fast drags keep moving instead of waiting.
       let shown = desired
-      let bitmap = bitmaps.get(desired)
+      let bitmap = liteBitmaps.get(desired)
       if (!bitmap && displayed >= 0) {
         let best = distance(displayed, desired)
-        for (const [index, candidate] of bitmaps) {
+        for (const [index, candidate] of liteBitmaps) {
           const gap = distance(index, desired)
           if (gap < best) {
             best = gap
@@ -215,8 +261,35 @@ export function RoverTurntable() {
       if (bitmap && displayed !== shown) {
         context.drawImage(bitmap, 0, 0, canvas.width, canvas.height)
         displayed = shown
+        displayedFull = false
         if (readoutRef.current) readoutRef.current.textContent = `${(shown * degreesPerFrame).toFixed(1).padStart(5, '0')}°`
         setReady(true)
+      }
+
+      // At rest, replace the light frame on screen with the full-resolution one.
+      if (atRest) {
+        if (fullBitmap?.index === desired) {
+          if (!displayedFull && (displayed === desired || displayed < 0)) {
+            context.drawImage(fullBitmap.bitmap, 0, 0, canvas.width, canvas.height)
+            displayed = desired
+            displayedFull = true
+            if (readoutRef.current) readoutRef.current.textContent = `${(desired * degreesPerFrame).toFixed(1).padStart(5, '0')}°`
+            setReady(true)
+          }
+        } else if (fullDecoding !== desired) {
+          const blob = fullBlobs.get(desired)
+          if (blob) {
+            fullBlobs.delete(desired)
+            fullBlobs.set(desired, blob)
+            decodeFull(desired, blob)
+          } else if (fullPending?.index !== desired) {
+            fullPending?.controller.abort()
+            loadFull(desired)
+          }
+        }
+      } else if (fullPending) {
+        fullPending.controller.abort()
+        fullPending = null
       }
       if (failed.size > 12) state.autoplay = false
     }
@@ -226,7 +299,9 @@ export function RoverTurntable() {
       cancelAnimationFrame(animation)
       document.removeEventListener('visibilitychange', visibility)
       for (const controller of pending.values()) controller.abort()
-      for (const bitmap of bitmaps.values()) bitmap.close()
+      fullPending?.controller.abort()
+      for (const bitmap of liteBitmaps.values()) bitmap.close()
+      fullBitmap?.bitmap.close()
     }
   }, [visible, mobile])
 
@@ -306,10 +381,10 @@ export function RoverTurntable() {
         }}
       >
         <picture>
-          <source media="(max-width: 700px)" srcSet={frameURL(0, true)} />
+          <source media="(max-width: 700px)" srcSet={fullURL(0, true)} />
           <Image
             className="rover-explorer__sequence-image"
-            src={frameURL(0)}
+            src={fullURL(0)}
             alt="LEAP-One rover with its six wheels, robotic arm and orange drill assembly"
             fill
             unoptimized

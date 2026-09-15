@@ -1,7 +1,9 @@
 // Turns a directory of rendered turntable frames (PNG, any size with a 4:3 aspect) into the WebP
-// sequence the site streams: 2400x1800 desktop frames plus 1200x1200 centre-cropped mobile frames,
-// each composited onto the page colour so the masked edges vanish into the section. The mobile frames
-// are a tighter square around the rover so it fills a phone-width stage.
+// sequences the site streams, each composited onto the page colour so the masked edges vanish into
+// the section:
+//   frame_NNN.webp          2400x1800 full-resolution frames, shown while the rover is at rest
+//   lite/frame_NNN.webp     1200x900 light frames (~35 KB) that drive the idle spin and dragging
+//   mobile/…, lite/mobile/… 1200x1200 and 720x720 squares cropped tightly around the rover for phones
 //
 //   node scripts/encode-leap-one-turntable.mjs <input-dir> --version=v6
 import { existsSync } from 'node:fs'
@@ -22,6 +24,7 @@ if (existsSync(outputDirectory) && !force) {
   throw new Error('This render version already exists. Choose a new --version, or pass --force to re-encode into it.')
 }
 await mkdir(path.join(outputDirectory, 'mobile'), { recursive: true })
+await mkdir(path.join(outputDirectory, 'lite', 'mobile'), { recursive: true })
 
 const pageColor = { r: 3, g: 5, b: 6 }
 const frames = (await readdir(inputDirectory)).filter(name => /^frame_\d{3}\.png$/.test(name)).sort()
@@ -42,6 +45,8 @@ await Promise.all(
         // Phones get a tighter square around the rover (it spans roughly x 450-1950, y 250-1600 of the
         // 2400x1800 frame at every angle) rather than the full-height centre crop.
         source.clone().extract({ left: 400, top: 120, width: 1600, height: 1600 }).resize(1200, 1200, { kernel: 'lanczos3' }).webp({ quality: 85, smartSubsample: true }).toFile(path.join(outputDirectory, 'mobile', output)),
+        source.clone().resize(1200, 900, { kernel: 'lanczos3' }).webp({ quality: 72, smartSubsample: true }).toFile(path.join(outputDirectory, 'lite', output)),
+        source.clone().extract({ left: 400, top: 120, width: 1600, height: 1600 }).resize(720, 720, { kernel: 'lanczos3' }).webp({ quality: 72, smartSubsample: true }).toFile(path.join(outputDirectory, 'lite', 'mobile', output)),
       ])
       done += 1
       if (done % 30 === 0 || done === frames.length) {

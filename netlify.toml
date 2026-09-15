@@ -3,3 +3,9 @@
 
 [build.environment]
   NODE_VERSION = "22"
+
+# Turntable frames live in versioned directories; a new render is a new path, so cache them for a year.
+[[headers]]
+  for = "/media/leap-one-studio-*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

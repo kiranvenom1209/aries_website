@@ -30,6 +30,16 @@ const nextConfig: NextConfig = {
       '**/*.webp',
     ],
   },
+  async headers() {
+    return [
+      // Turntable frames are content-addressed by their version directory: a new render gets a new
+      // path, so every frame can be cached for a year and repeat visits never refetch the sequence.
+      {
+        source: '/media/leap-one-studio-:version/:path*',
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
+      },
+    ]
+  },
   async redirects() {
     return [
       // WordPress author archives were retired; keep the submitted sitemap URL reachable.
