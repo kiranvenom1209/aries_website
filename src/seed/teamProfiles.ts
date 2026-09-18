@@ -70,6 +70,10 @@ export const researchedProfiles: Record<string, ProfileResearch> = {
     linkedIn: 'https://de.linkedin.com/in/anishpaul123',
     bio: "Anish contributes to AQUILA’s software within the Astroflight department. He is part of the effort to make aerial robotics useful to the wider mission, working alongside the drone team as it develops a reconnaissance platform to complement the rover.\n\nHis interests also extend into physical robot construction. The HSM-Terra team credited his mechanical contribution at the Field Robot Event, while his training includes Python and SolidWorks. That combination of programming and hands-on design gives him a useful perspective on the connection between software behaviour and the machine carrying it out.",
   },
+  'harsh-mistry': {
+    linkedIn: 'https://de.linkedin.com/in/harshmistry2992',
+    bio: "Harsh contributes to AQUILA as a UAV Systems Engineer, working with HSM Zenith and HSM Aries on the aircraft that complements LEAP-One. Teammates name him among the crew who took AQUILA through testing, teardown and rebuilding before its competition flight.\n\nAt the European Rover Challenge 2026 finals, AQUILA completed autonomous GPS-denied takeoff, AI-vision probe detection, optical-flow and LiDAR navigation, and a precision landing on an ArUco marker. The mission earned 265 of 300 points; Harsh was part of the team that brought those systems from integration to the field.",
+  },
   'ashwin-dinesh-ayinipully': {
     linkedIn: 'https://de.linkedin.com/in/ashwinayinipully',
     website: 'https://github.com/Ayinipully',

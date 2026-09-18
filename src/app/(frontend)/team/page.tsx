@@ -90,15 +90,16 @@ const departments: Array<{
     record: 'ERC 2026 · maintenance 66 / 340 · probing 12 / 240',
   },
   {
-    badge: '/media/l1_astro-1.png',
+    badge: '/media/aquila-leapone.png',
     code: 'ASTRO',
     label: 'Astroflight (AQUILA UAV)',
     members: [
       { primary: true, role: 'Drone Lead', slug: 'rahul-khandait' },
       { role: 'Software Lead', slug: 'omar-abdelrady' },
       { role: 'Drone Software Engineer', slug: 'anish-paul' },
+      { role: 'UAV Systems Engineer', slug: 'harsh-mistry' },
     ],
-    record: 'ERC 2026 · navigation droning 265 / 300, 6th of 25',
+    record: 'Developed with HSM Zenith, HSM’s aeronautical division · ERC 2026 navigation droning 265 / 300, 6th of 25',
   },
   {
     badge: '/media/l1-science-crop.png',

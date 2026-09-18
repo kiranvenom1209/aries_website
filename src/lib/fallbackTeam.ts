@@ -343,6 +343,20 @@ const baseTeam: TeamMember[] = [
     sortOrder: 165,
     bio: 'Works on drone software in the Astroflight department.',
   },
+  {
+    name: 'Harsh Mistry',
+    slug: 'harsh-mistry',
+    position: 'UAV Systems Engineer',
+    discipline: 'astroflight',
+    disciplineLabel: 'Astroflight (AQUILA UAV)',
+    departments: ['astroflight'],
+    rank: 'Crew',
+    tags: ['UAV Systems', 'AQUILA UAV', 'Aerial Robotics'],
+    image: '/media/harsh-mistry.png',
+    imageAlt: 'Harsh Mistry — UAV Systems Engineer',
+    sortOrder: 168,
+    bio: 'Works as a UAV Systems Engineer in the Astroflight department.',
+  },
 
   // SCIENTIFIC PAYLOAD
   {

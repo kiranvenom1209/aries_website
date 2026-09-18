@@ -44,8 +44,8 @@ export const departments = [
     teamCode: 'astro',
     name: 'Astroflight (AQUILA UAV)',
     leadSlugs: ['rahul-khandait'],
-    badge: '/media/l1_astro-1.png',
-    description: 'Autonomous reconnaissance UAV for aerial orthomosaic mapping, terrain hazard scanning, and cooperative rover-drone telemetry downlinks.',
+    badge: '/media/aquila-leapone.png',
+    description: 'Developed in collaboration with HSM Zenith, HSM’s aeronautical division: an autonomous reconnaissance UAV for aerial orthomosaic mapping, terrain hazard scanning, and cooperative rover-drone telemetry downlinks.',
     specs: ['VTOL / Fixed Wing', '4K Aerial Survey', 'Telemetry Relay'],
   },
   {
