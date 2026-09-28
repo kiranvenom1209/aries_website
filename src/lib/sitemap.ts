@@ -4,7 +4,9 @@ import { getGalleryImages } from '@/lib/gallery.server'
 import { getNews } from '@/lib/news'
 import { getTeam, type TeamMember } from '@/lib/team'
 import { profileDate, profileImage } from '@/lib/teamSeo'
+import { LEGAL_UPDATED } from '@/lib/legal'
 import { absoluteUrl, SITE_UPDATED } from '@/lib/seo'
+import { SITE_PAGES } from '@/lib/sitePages'
 
 export function teamSitemapEntries(members: TeamMember[]): MetadataRoute.Sitemap {
   return members.map((member) => {
@@ -27,24 +29,21 @@ export async function getSitemapEntries(): Promise<MetadataRoute.Sitemap> {
   const lastPublished = stories[0]?.publishedAt ?? SITE_UPDATED
   const lastTeamUpdate = [profileDate(SITE_UPDATED)!, ...members.map((member) => profileDate(member.updatedAt)).filter((date): date is string => Boolean(date))].sort().at(-1)!
 
-  const staticRoutes: MetadataRoute.Sitemap = [
-    { url: absoluteUrl('/'), lastModified: lastPublished, changeFrequency: 'weekly', priority: 1 },
-    { url: absoluteUrl('/about'), lastModified: SITE_UPDATED, changeFrequency: 'monthly', priority: 0.9 },
-    { url: absoluteUrl('/leap-one'), lastModified: SITE_UPDATED, changeFrequency: 'monthly', priority: 0.9 },
-    { url: absoluteUrl('/leap-2'), lastModified: SITE_UPDATED, changeFrequency: 'monthly', priority: 0.9 },
-    { url: absoluteUrl('/team'), lastModified: lastTeamUpdate, changeFrequency: 'monthly', priority: 0.8 },
-    { url: absoluteUrl('/news'), lastModified: lastPublished, changeFrequency: 'weekly', priority: 0.9 },
-    {
-      url: absoluteUrl('/gallery'),
-      lastModified: SITE_UPDATED,
-      changeFrequency: 'monthly',
-      priority: 0.8,
-      images: galleryImages.map((image) => absoluteUrl(image.src)),
-    },
-    { url: absoluteUrl('/join'), lastModified: SITE_UPDATED, changeFrequency: 'monthly', priority: 0.7 },
-    { url: absoluteUrl('/partner'), lastModified: SITE_UPDATED, changeFrequency: 'monthly', priority: 0.7 },
-    { url: absoluteUrl('/contact'), lastModified: SITE_UPDATED, changeFrequency: 'monthly', priority: 0.6 },
-  ]
+  // Pages that change with the CMS take their date from it; the rest from the static stamps.
+  const lastModifiedFor: Record<string, string> = {
+    '/': lastPublished,
+    '/datenschutz': LEGAL_UPDATED,
+    '/impressum': LEGAL_UPDATED,
+    '/news': lastPublished,
+    '/team': lastTeamUpdate,
+  }
+  const staticRoutes: MetadataRoute.Sitemap = SITE_PAGES.map((page) => ({
+    url: absoluteUrl(page.path),
+    lastModified: lastModifiedFor[page.path] ?? SITE_UPDATED,
+    changeFrequency: page.changeFrequency,
+    priority: page.priority,
+    ...(page.path === '/gallery' ? { images: galleryImages.map((image) => absoluteUrl(image.src)) } : {}),
+  }))
 
   const newsRoutes: MetadataRoute.Sitemap = stories.map((story) => ({
     url: absoluteUrl(`/news/${story.slug}`),

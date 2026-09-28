@@ -77,9 +77,36 @@ live in `GEMINI.md`; this file is the short list to check before writing copy.
 - Run a dev server for live review of visible changes before asking for sign-off.
 - **Never push to GitHub without explicit, per-push approval.** Approval for one push
   does not carry to the next. Commit only when asked.
-- Open items that need the team, not a guess: Impressum/Datenschutz pages, the Scientific
-  Payload lead ordering vs. rank on /team, replacement portraits for three members, an
-  institutional mailbox.
+- Open items that need the team, not a guess: the Impressum's responsible person (see
+  below), the Scientific Payload lead ordering vs. rank on /team, replacement portraits for
+  three members, an institutional mailbox.
+- The preloader plays on the first full load of a browser session only (team decision,
+  2026-09-28); reloads and client-side navigation skip it (`src/lib/intro.ts`).
+
+## Legal pages, consent and analytics (added 2026-09-28)
+
+- `/impressum` (§ 5 DDG, § 18 MStV) and `/datenschutz` (GDPR, § 25 TDDDG) are bilingual
+  (EN default, `?lang=de`). Every fact they state comes from `src/lib/legal.ts`. Until
+  `LEGAL.responsiblePerson` is filled in, both pages show a "to be confirmed" marker — the
+  Impressum is not complete without a named natural person. Optional fields: `register`
+  (only if HSM Aries is an e.V.) and `dataProtectionOfficer`.
+- Google Analytics 4 (`G-QS9F1ZSDRM`, `src/lib/analytics.ts`) loads only after opt-in in the
+  consent panel (`src/components/ConsentManager.tsx`). Nothing may contact Google or any
+  other third party before consent: no Google Fonts, no CDN scripts, no un-gated embeds.
+- A new third-party service (script, embed, font, pixel) needs three things before it ships:
+  a consent category in `ConsentManager.tsx`, a row in the privacy policy's storage table
+  and a section in `/datenschutz`, and `CONSENT_VERSION` bumped in `src/lib/consent.ts` so
+  every visitor is asked again. Videos go through `ExternalMediaEmbed` (click to load).
+- GA property settings the policy relies on: data retention 2 months (update
+  `LEGAL.analyticsRetentionMonths` if changed), Google signals off, data processing terms
+  accepted.
+
+## Indexing (added 2026-09-28)
+
+- Every static page must be registered in `src/lib/sitePages.ts` (sitemap + `/llms.txt`)
+  or listed in `NOINDEX_ROUTES`; `tests/int/seo-coverage.int.spec.ts` fails otherwise.
+  Pages use `pageMetadata()` with their own `path`. CMS news and team profiles reach the
+  sitemap, `/feed.xml`, `/llms.txt` and `/llms-full.txt` on their own.
 
 ## Team messaging update — 12 September 2026
 

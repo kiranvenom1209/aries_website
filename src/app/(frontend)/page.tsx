@@ -7,10 +7,11 @@ import { LeapOneProgrammeGraphic } from '@/components/LeapOneProgrammeGraphic'
 import { MagneticLink } from '@/components/MagneticLink'
 import { MissionControlShowcase } from '@/components/MissionControlShowcase'
 import { NewsRows } from '@/components/NewsList'
+import { JsonLd } from '@/components/JsonLd'
 import { PageShell } from '@/components/PageShell'
 import { PartnersBand } from '@/components/PartnersBand'
 import { getNews } from '@/lib/news'
-import { DEFAULT_DESCRIPTION, DEFAULT_SOCIAL_IMAGE, DEFAULT_SOCIAL_IMAGE_ALT, pageMetadata } from '@/lib/seo'
+import { DEFAULT_DESCRIPTION, DEFAULT_SOCIAL_IMAGE, DEFAULT_SOCIAL_IMAGE_ALT, pageMetadata, webPageJsonLd } from '@/lib/seo'
 
 export const metadata: Metadata = pageMetadata({
   description: DEFAULT_DESCRIPTION,
@@ -104,6 +105,7 @@ export default async function HomePage() {
 
   return (
     <PageShell>
+      <JsonLd data={webPageJsonLd({ description: DEFAULT_DESCRIPTION, name: 'Home', path: '/', type: 'WebPage' })} />
       <section className="aries-home-hero">
         <Image
           alt="Cinematic AI treatment of an ERC photograph showing LEAP-One and its quadcopter on the Mars yard"

@@ -3,11 +3,15 @@ import type { Metadata } from 'next'
 
 import { CustomSelect } from '@/components/CustomSelect'
 import { NetlifyForm } from '@/components/NetlifyForm'
+import { JsonLd } from '@/components/JsonLd'
 import { PageShell } from '@/components/PageShell'
-import { pageMetadata } from '@/lib/seo'
+import { breadcrumbJsonLd, pageMetadata, webPageJsonLd } from '@/lib/seo'
+
+const DESCRIPTION =
+  'Sponsor or partner with HSM Aries: fund the Leap-2 build, supply hardware and manufacturing, and work with student engineers on a planetary rover programme.'
 
 export const metadata: Metadata = pageMetadata({
-  description: 'Sponsor or partner with HSM Aries: fund the Leap-2 build, supply hardware and manufacturing, and work with student engineers on a planetary rover programme.',
+  description: DESCRIPTION,
   image: '/media/og/partner.jpg',
   imageAlt: 'LEAP-One with its sponsor panel and the German flag on the grass at the ERC 2026 finals',
   path: '/partner',
@@ -23,6 +27,8 @@ const partnershipTracks = [
 export default function PartnerPage() {
   return (
     <PageShell>
+      <JsonLd data={webPageJsonLd({ description: DESCRIPTION, name: 'Partnerships & sponsorship', path: '/partner', type: 'WebPage' })} />
+      <JsonLd data={breadcrumbJsonLd([{ name: 'Home', path: '/' }, { name: 'Partnerships & sponsorship' }])} />
       <section className="conversion-hero conversion-hero--partner">
         <Image alt="LEAP-One on the grass at ERC 2026 in Kraków, sponsor decals on the chassis side panel" fill priority sizes="100vw" src="/media/erc-2026-finals-24-sponsor-panel-low-angle.jpg" />
         <div className="conversion-hero__veil" />

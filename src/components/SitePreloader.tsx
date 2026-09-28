@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { LeapOnePreloaderRover } from './LeapOnePreloaderRover'
+import { INTRO_SESSION_KEY } from '@/lib/intro'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 
 const PHASES = [
@@ -17,8 +18,8 @@ const FILL_TAIL_MS = 450
 // How long past the minimum fill the loader keeps waiting for the window load event.
 const LOAD_GRACE_MS = 1700
 
-// The mission-ready sequence plays on every full page load (first visit, reload, external link),
-// never on client-side navigations between pages.
+// The mission-ready sequence plays on the first full page load of a browser session, never again
+// on reloads in that session, and never on client-side navigations between pages.
 export function SitePreloader() {
   const loaderRef = useRef<HTMLDivElement>(null)
   const phaseRef = useRef<HTMLSpanElement>(null)
@@ -29,8 +30,17 @@ export function SitePreloader() {
   useLayoutEffect(() => {
     const isEditorialPreview =
       window.self !== window.top || new URLSearchParams(window.location.search).has('preview')
+    const playedThisSession = document.documentElement.classList.contains('preloader-skip')
 
-    if (isEditorialPreview) setHidden(true)
+    if (isEditorialPreview || playedThisSession) {
+      setHidden(true)
+      return
+    }
+    try {
+      window.sessionStorage.setItem(INTRO_SESSION_KEY, '1')
+    } catch {
+      // Storage blocked: the sequence simply plays again on the next full load.
+    }
   }, [])
 
   useEffect(() => {

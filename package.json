@@ -19,6 +19,7 @@
     "build:netlify-folder": "cross-env NODE_OPTIONS=\"--no-deprecation --max-old-space-size=8000\" next build && node scripts/build-netlify-folder.mjs",
     "lint": "cross-env NODE_OPTIONS=--no-deprecation eslint .",
     "media:responsive": "node scripts/build-responsive-media.mjs",
+    "model:web": "gltf-transform optimize public/media/models/leap-one.glb public/media/models/leap-one-web.glb --compress meshopt --flatten false --join false --instance false --simplify true --simplify-error 0.0005 --texture-compress false --palette false",
     "render:leap-one-turntable": "node scripts/render-leap-one-turntable.mjs",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start",

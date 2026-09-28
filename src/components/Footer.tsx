@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import { BrandLogo } from './BrandLogo'
+import { ConsentSettingsButton } from './ConsentSettingsButton'
 
 export function Footer() {
   return (
@@ -53,6 +54,12 @@ export function Footer() {
               <Link href="/team">Engineering crew</Link>
               <Link href="/news">Mission dispatches</Link>
               <Link href="/gallery">Field gallery</Link>
+            </nav>
+            <span className="site-footer__heading site-footer__heading--sub">RESOURCES</span>
+            <nav aria-label="Resources" className="site-footer__nav">
+              <Link href="/press">Press kit</Link>
+              <Link href="/brand">Brand assets</Link>
+              <Link href="/leap-one/cad">LEAP-One CAD viewer</Link>
             </nav>
           </div>
 
@@ -108,6 +115,11 @@ export function Footer() {
         {/* Bottom Metadata Rail */}
         <div className="site-footer__bottom">
           <p>© {new Date().getFullYear()} HSM Aries · Hochschule Schmalkalden</p>
+          <nav aria-label="Legal" className="site-footer__legal">
+            <Link href="/impressum">Impressum</Link>
+            <Link href="/datenschutz">Privacy policy</Link>
+            <ConsentSettingsButton className="site-footer__legal-button" />
+          </nav>
           <p className="site-footer__tagline">SPACE ROBOTICS / LEAP SERIES</p>
         </div>
       </div>

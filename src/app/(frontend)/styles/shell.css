@@ -163,7 +163,7 @@
 }
 
 /* -------------------------------------------------------------------------- */
-/* Preloader: every hard load, shorter, near-instant with reduced motion         */
+/* Preloader: first full load of a session, near-instant with reduced motion    */
 /* -------------------------------------------------------------------------- */
 
 html.preloader-skip .site-preloader {

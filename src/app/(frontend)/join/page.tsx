@@ -3,11 +3,15 @@ import type { Metadata } from 'next'
 
 import { CustomSelect } from '@/components/CustomSelect'
 import { NetlifyForm } from '@/components/NetlifyForm'
+import { JsonLd } from '@/components/JsonLd'
 import { PageShell } from '@/components/PageShell'
-import { pageMetadata } from '@/lib/seo'
+import { breadcrumbJsonLd, pageMetadata, webPageJsonLd } from '@/lib/seo'
+
+const DESCRIPTION =
+  'Join HSM Aries at Hochschule Schmalkalden and build Leap-2: eight student departments across mechanical, electrical, software, autonomy, drone and science.'
 
 export const metadata: Metadata = pageMetadata({
-  description: 'Join HSM Aries at Hochschule Schmalkalden and build Leap-2: eight student departments across mechanical, electrical, software, autonomy, drone and science.',
+  description: DESCRIPTION,
   image: '/media/og/join.jpg',
   imageAlt: 'Students repair the wiring on LEAP-One in the field at the ERC 2026 finals',
   path: '/join',
@@ -23,6 +27,8 @@ const crewPath = [
 export default function JoinPage() {
   return (
     <PageShell>
+      <JsonLd data={webPageJsonLd({ description: DESCRIPTION, name: 'Join the crew', path: '/join', type: 'WebPage' })} />
+      <JsonLd data={breadcrumbJsonLd([{ name: 'Home', path: '/' }, { name: 'Join the crew' }])} />
       <section className="conversion-hero conversion-hero--join">
         <Image alt="HSM Aries crew working together during an outreach event" fill priority sizes="100vw" src="/media/space-night-team.jpg" />
         <div className="conversion-hero__veil" />

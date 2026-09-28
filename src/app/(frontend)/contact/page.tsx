@@ -2,12 +2,16 @@ import Image from 'next/image'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 
+import { JsonLd } from '@/components/JsonLd'
 import { PageShell } from '@/components/PageShell'
 import { NetlifyForm } from '@/components/NetlifyForm'
-import { pageMetadata } from '@/lib/seo'
+import { breadcrumbJsonLd, pageMetadata, webPageJsonLd } from '@/lib/seo'
+
+const DESCRIPTION =
+  'Reach the HSM Aries rover team at Hochschule Schmalkalden for sponsorship, collaboration, press or membership enquiries.'
 
 export const metadata: Metadata = pageMetadata({
-  description: 'Reach the HSM Aries rover team at Hochschule Schmalkalden for sponsorship, collaboration, press or membership enquiries.',
+  description: DESCRIPTION,
   image: '/media/og/contact.jpg',
   imageAlt: 'A team member works at a laptop beside the LEAP-One rover at the Space Night exhibition',
   path: '/contact',
@@ -38,6 +42,8 @@ const routes = [
 export default function ContactPage() {
   return (
     <PageShell>
+      <JsonLd data={webPageJsonLd({ description: DESCRIPTION, name: 'Contact the team', path: '/contact', type: 'ContactPage' })} />
+      <JsonLd data={breadcrumbJsonLd([{ name: 'Home', path: '/' }, { name: 'Contact the team' }])} />
       <section className="conversion-hero conversion-hero--contact">
         <Image alt="The HSM Aries crew at the LEAP-One control station in the pit tent at ERC 2026" fill priority sizes="100vw" src="/media/erc-2026-finals-10-control-station-pit-tent.jpg" />
         <div className="conversion-hero__veil" />

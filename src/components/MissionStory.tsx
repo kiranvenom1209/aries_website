@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'react'
 
 import type { NewsMedia, NewsScoreboardRow, NewsStory } from '@/lib/fallbackNews'
 import { formatNewsDate, readingTimeMinutes } from '@/lib/newsFormat'
+import { ExternalMediaEmbed } from './ExternalMediaEmbed'
 import { ArrowIcon, CloseIcon, ExpandIcon } from './Icons'
 import { photoKey } from './NewsList'
 
@@ -266,14 +267,7 @@ export function MissionStory({
             <span>Mission playback</span>
             <p>Official HSM Aries video // {formatNewsDate(story.publishedAt)}</p>
           </div>
-          <iframe
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-            loading="lazy"
-            referrerPolicy="strict-origin-when-cross-origin"
-            src={story.externalVideoUrl}
-            title={`${story.title} video`}
-          />
+          <ExternalMediaEmbed poster={story.image} src={story.externalVideoUrl} title={`${story.title} video`} />
         </section>
       ) : null}
 

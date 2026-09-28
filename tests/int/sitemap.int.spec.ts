@@ -50,7 +50,8 @@ describe('Sitemap migration compatibility', () => {
     const profiles = parse(await (await teamSitemap()).text())
     const profileUrls = locations(profiles)
     const combined = [...pageUrls, ...postUrls, ...profileUrls]
-    expect(pageUrls).toHaveLength(10)
+    expect(pageUrls).toHaveLength(15)
+    expect(pageUrls).toEqual(expect.arrayContaining(['https://hsmaries.space/impressum', 'https://hsmaries.space/datenschutz']))
     expect(profileUrls).toEqual(['https://hsmaries.space/team/public-engineer', 'https://hsmaries.space/team/former-engineer'])
     const profileEntries = [...profiles.querySelectorAll('url')]
     expect(profileEntries[0].querySelector('lastmod')?.textContent).toBe('2026-09-14T00:00:00.000Z')
@@ -80,7 +81,11 @@ describe('Sitemap migration compatibility', () => {
   it('advertises the restored index and permits public sitemap images through the API restriction', () => {
     const result = robots()
     expect(result.sitemap).toBe('https://hsmaries.space/sitemap_index.xml')
-    expect(result.rules).toMatchObject({ allow: ['/', '/api/media/file/'], disallow: ['/admin/', '/api/'] })
+    const rules = Array.isArray(result.rules) ? result.rules : [result.rules]
+    expect(rules.map((rule) => rule.userAgent)).toContainEqual('*')
+    expect(rules.flatMap((rule) => rule.userAgent)).toEqual(expect.arrayContaining(['GPTBot', 'ClaudeBot', 'PerplexityBot', 'Google-Extended']))
+    // A crawler matching its own group ignores `*`, so every group must carry the same restrictions.
+    for (const rule of rules) expect(rule).toMatchObject({ allow: ['/', '/api/media/file/'], disallow: ['/admin/', '/api/'] })
   })
 
   it('redirects the retired author sitemap without losing existing article redirects', async () => {

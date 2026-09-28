@@ -18,8 +18,14 @@ import './styles/gallery.css'
 import './styles/forms.css'
 import './styles/login.css'
 import './styles/not-found.css'
+import './styles/consent.css'
+import './styles/legal.css'
+import './styles/resources.css'
 
+import { ConsentManager } from '@/components/ConsentManager'
 import { SitePreloader } from '@/components/SitePreloader'
+import { INTRO_SKIP_SCRIPT } from '@/lib/intro'
+import { LEGAL } from '@/lib/legal'
 import {
   DEFAULT_DESCRIPTION,
   DEFAULT_SOCIAL_IMAGE,
@@ -114,7 +120,16 @@ export default function FrontendLayout({ children }: { children: ReactNode }) {
         address: {
           '@type': 'PostalAddress',
           addressCountry: 'DE',
-          addressLocality: 'Schmalkalden',
+          addressLocality: LEGAL.city,
+          postalCode: LEGAL.postalCode,
+          streetAddress: LEGAL.street,
+        },
+        contactPoint: {
+          '@type': 'ContactPoint',
+          availableLanguage: ['English', 'German'],
+          contactType: 'general enquiries',
+          email: SITE_EMAIL,
+          url: `${SITE_URL}/contact`,
         },
         alternateName: ['HSM Aries.space', 'Aries.space'],
         description: DEFAULT_DESCRIPTION,
@@ -150,8 +165,14 @@ export default function FrontendLayout({ children }: { children: ReactNode }) {
 
   return (
     <html data-scroll-behavior="smooth" lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: INTRO_SKIP_SCRIPT }} />
+      </head>
       <body suppressHydrationWarning>
         <SitePreloader />
+        <ConsentManager />
+        {/* React hoists this into <head>; page-level `alternates` would replace a metadata-API entry. */}
+        <link href="/feed.xml" rel="alternate" title="HSM Aries mission updates" type="application/rss+xml" />
         <script
           dangerouslySetInnerHTML={{ __html: serializeJsonLd(organizationJsonLd) }}
           type="application/ld+json"

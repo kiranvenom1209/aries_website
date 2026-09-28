@@ -5,7 +5,7 @@ export const SITE_URL = 'https://hsmaries.space'
 /** Public contact address shown on /contact; reused by the Organization JSON-LD. */
 export const SITE_EMAIL = 'hsmariesleapone@gmail.com'
 /** Last content change to the static routes — bump it when a static page changes (sitemap lastmod). */
-export const SITE_UPDATED = '2026-09-11'
+export const SITE_UPDATED = '2026-09-28'
 export const DEFAULT_DESCRIPTION =
   'Student planetary-rover team at Hochschule Schmalkalden. LEAP-One competed at the ERC 2026 finals in Kraków; Leap-2, the next rover, is in development.'
 export const DEFAULT_SOCIAL_IMAGE = '/media/og/home.jpg'
@@ -170,6 +170,28 @@ export const breadcrumbJsonLd = (crumbs: Breadcrumb[]) => ({
     name,
     position: index + 1,
   })),
+})
+
+type WebPageJsonLdOptions = {
+  dateModified?: string
+  description: string
+  name: string
+  path: string
+  type?: 'AboutPage' | 'CollectionPage' | 'ContactPage' | 'WebPage'
+}
+
+/** Page node tying a page into the `#website` / `#organization` graph declared in the layout. */
+export const webPageJsonLd = ({ dateModified, description, name, path, type = 'WebPage' }: WebPageJsonLdOptions) => ({
+  '@context': 'https://schema.org',
+  '@id': `${absoluteUrl(path)}#webpage`,
+  '@type': type,
+  about: { '@id': `${SITE_URL}/#organization` },
+  ...(dateModified ? { dateModified } : {}),
+  description,
+  inLanguage: 'en',
+  isPartOf: { '@id': `${SITE_URL}/#website` },
+  name,
+  url: absoluteUrl(path),
 })
 
 export const serializeJsonLd = (value: unknown) =>

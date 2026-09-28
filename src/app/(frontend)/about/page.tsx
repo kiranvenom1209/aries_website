@@ -6,15 +6,19 @@ import { teamPortrait } from '@/lib/teamPortrait'
 import { DepartmentsGrid } from '@/components/DepartmentsGrid'
 import { ArrowIcon } from '@/components/Icons'
 import { MagneticLink } from '@/components/MagneticLink'
+import { JsonLd } from '@/components/JsonLd'
 import { PageShell } from '@/components/PageShell'
 import { PartnersBand } from '@/components/PartnersBand'
 import { getTeam } from '@/lib/team'
-import { pageMetadata } from '@/lib/seo'
+import { breadcrumbJsonLd, pageMetadata, webPageJsonLd } from '@/lib/seo'
 
 export const dynamic = 'force-dynamic'
 
+const DESCRIPTION =
+  'HSM Aries is the space robotics initiative at Hochschule Schmalkalden — an ERC 2026 finalist with LEAP-One, now building Leap-2.'
+
 export const metadata: Metadata = pageMetadata({
-  description: 'HSM Aries is the space robotics initiative at Hochschule Schmalkalden — an ERC 2026 finalist with LEAP-One, now building Leap-2.',
+  description: DESCRIPTION,
   image: '/media/og/about.jpg',
   imageAlt: 'HSM Aries members in conversation at the Space Night exhibition at Hochschule Schmalkalden',
   path: '/about',
@@ -66,6 +70,8 @@ export default async function AboutPage() {
 
   return (
     <PageShell>
+      <JsonLd data={webPageJsonLd({ description: DESCRIPTION, name: 'About HSM Aries', path: '/about', type: 'AboutPage' })} />
+      <JsonLd data={breadcrumbJsonLd([{ name: 'Home', path: '/' }, { name: 'About HSM Aries' }])} />
       <section className="mission-hero">
         <Image
           alt="HSM Aries team with LEAP-One and AQUILA at Space Night"
