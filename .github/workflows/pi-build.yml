@@ -50,7 +50,7 @@ jobs:
         run: npm run build
       - name: Bundle the bootstrap scripts
         run: >-
-          npx esbuild scripts/seed-admin.ts scripts/seed.ts scripts/import-team-profiles.ts
+          npx esbuild scripts/seed-admin.ts scripts/seed.ts scripts/import-team-profiles.ts scripts/set-team-portrait.ts
           --bundle --platform=node --format=esm --target=node22 --packages=external
           --outdir=.pi/bootstrap --out-extension:.js=.mjs --log-level=warning
       # runs as the postgres user, so it carries its own copy of pg; the banner lets pg's CommonJS require() work in ESM

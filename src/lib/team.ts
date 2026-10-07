@@ -77,7 +77,7 @@ export const normalizeMember = (doc: unknown): TeamMember | null => {
       rank === 'Commander'
         ? '/media/l1_commander_new-cropped.png'
         : rank === 'Captain'
-          ? '/media/Untitled-1.png'
+          ? '/media/untitled-1.png'
           : rank === undefined ? fallback?.rankBadge : undefined,
     slug,
     sortOrder: typeof doc.sortOrder === 'number' ? doc.sortOrder : fallback?.sortOrder ?? 100,

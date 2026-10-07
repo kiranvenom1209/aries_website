@@ -129,6 +129,7 @@ const curatedMediaSeed: SeedMedia[] = [
   { filename: 'space-night-exhibit.jpg', alt: 'HSM Aries exhibition at Space Night 2026 in Jena' },
   { filename: 'space-night-rover.jpg', alt: 'LEAP-One rover displayed at Space Night 2026' },
   { filename: 'space-night-team.jpg', alt: 'HSM Aries team at Space Night 2026' },
+  { filename: 'kk-achari.jpg', alt: 'K.K. Achari, industry mentor of HSM Aries' },
   { filename: 'alexander-kolbai.jpg', alt: 'Alexander Kolbai — Mechanical Department' },
   { filename: 'johan-manoj-thomas.jpg', alt: 'Johan Manoj Thomas — Software Department' },
   { filename: 'md-bashar.jpg', alt: 'Md Bashar — Mechanical Department' },
@@ -1295,7 +1296,7 @@ export const teamSeed: SeedTeamMember[] = [
     position: 'Senior Technical Mentor & Systems Advisor',
     discipline: 'other',
     tags: ['Aerospace Mentorship', 'Mission Architecture', 'PDR Guidance', 'Mission Badge'],
-    portrait: 'space-night-team.jpg',
+    portrait: 'kk-achari.jpg',
     sortOrder: 230,
     isActive: true,
     links: {
