@@ -6,7 +6,8 @@ Wants=network-online.target
 [Service]
 Type=oneshot
 ExecStart=/opt/aries-host/bin/deploy.sh
-TimeoutStartSec=45min
+# the very first deploy also checks out ~1.4 GB of media over the home line (≈ 30 min on 2026-10-07)
+TimeoutStartSec=3h
 # downloads and unpacking yield to everything else on the Pi
 Nice=10
 IOSchedulingClass=idle

@@ -122,6 +122,10 @@ END \$\$;
 SQL
   sudo -u postgres psql -tAc "SELECT 1 FROM pg_database WHERE datname='$DB_NAME'" | grep -q 1 \
     || sudo -u postgres createdb -O "$DB_NAME" -E UTF8 -T template0 --locale=C.UTF-8 "$DB_NAME"
+  # this role only: commits do not wait for the disk flush. Payload's schema sync runs hundreds of single statements and
+  # on the Pi's SSD each flush took long enough that the first sync needed minutes; a crash can lose the last fraction of
+  # a second of writes, never corrupt the database. The practice database keeps PostgreSQL's default.
+  sudo -u postgres psql -v ON_ERROR_STOP=1 -qc "ALTER ROLE \"$DB_NAME\" SET synchronous_commit TO off"
   enc=$(sudo -u postgres psql -tAc "SELECT pg_encoding_to_char(encoding) FROM pg_database WHERE datname='$DB_NAME'")
   [ "$enc" = UTF8 ] || die "database $DB_NAME has encoding $enc – it must be UTF8 (drop it if empty and run phase 4 again)"
   log "database $DB_NAME ready (owner $DB_NAME, password in $pwf)"
