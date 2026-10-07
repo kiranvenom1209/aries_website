@@ -180,7 +180,7 @@ for d in "$ROOT"/deps/*/; do
   for r in "$ROOT"/releases/*/; do [ "$(readlink "${r%/}/node_modules")" = "$d/node_modules" ] && used=1; done
   if [ $used = 0 ]; then rm -rf "$d"; log "removed packages $(basename "$d") (no release uses them)"; fi
 done
-gitmb=$(du -sm "$GR/.git" 2>/dev/null | cut -f1); if [ "${gitmb:-0}" -gt 4000 ]; then
+gitmb=$(du -sm "$GR/.git" 2>/dev/null | cut -f1 || true); if [ "${gitmb:-0}" -gt 4000 ]; then
   as_app "git -C '$GR' reflog expire --expire=now --all && git -C '$GR' gc --quiet --prune=now" || true
 fi
 exit 0

@@ -106,7 +106,8 @@ gh_download() {
         "https://api.github.com$1"
 }
 
-health_ok() { curl -fsS -m 5 -o /dev/null "http://127.0.0.1:$PORT/api/health"; }
+health_ok() { curl -fsS -m 5 -o /dev/null "http://127.0.0.1:$PORT/api/health" 2>/dev/null; }
 
 current_release() { readlink -f "$ROOT/current" 2>/dev/null || true; }
-release_sha() { sed -n 's/.*"sha": *"\([0-9a-f]*\)".*/\1/p' "$1/.pi/build.json" 2>/dev/null | head -n1; }
+# empty – never an error – when there is no release yet: callers assign it under set -e and pipefail
+release_sha() { sed -n 's/.*"sha": *"\([0-9a-f]*\)".*/\1/p' "$1/.pi/build.json" 2>/dev/null | head -n1 || true; }
