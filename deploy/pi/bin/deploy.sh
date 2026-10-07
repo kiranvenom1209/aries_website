@@ -102,6 +102,9 @@ if [ ! -d "$GR/.git" ]; then
   as_app "git clone --quiet --filter=blob:none --no-checkout --depth 1 --branch '$BRANCH' 'https://github.com/$REPO.git' '$GR' \
     && git -C '$GR' sparse-checkout set --no-cone '/public/'" || { rm -rf "$GR"; fail "git clone"; }
 fi
+# Hardlinking public/ into a release changes every file's ctime; with git's default stat check every following checkout
+# took that for a modification and rewrote all 1.4 GB (hours on the Pi's USB drive, 2026-10-07). Compare mtime + size only.
+as_app "git -C '$GR' config core.trustctime false && git -C '$GR' config core.checkStat minimal" || fail "git config"
 as_app "git -C '$GR' fetch --quiet --depth 1 --filter=blob:none origin '$SHA' \
   && git -C '$GR' -c advice.detachedHead=false checkout --quiet --force --detach '$SHA'" || fail "git checkout of public/"
 
