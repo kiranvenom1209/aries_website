@@ -49,6 +49,12 @@ named)
       echo "tunnel: $id"
       echo "credentials-file: $CF/$id.json"
       echo "ingress:"
+      # Payload's "create the first administrator" page and API are open to anyone while the CMS has no account.
+      # They never need to be public: the first administrator comes from BOOTSTRAP_ADMIN_* (bin/set-env.sh), and
+      # once an account exists Payload refuses them anyway – so the tunnel never passes them on.
+      for h in $HOSTNAMES; do
+        printf '  - hostname: %s\n    path: ^/(admin/create-first-user|api/users/first-register)\n    service: http_status:404\n' "$h"
+      done
       for h in $HOSTNAMES; do printf '  - hostname: %s\n    service: http://127.0.0.1:%s\n' "$h" "$PORT"; done
       echo "  - service: http_status:404"
     } >"$CF/config.yml.new"
@@ -57,9 +63,15 @@ named)
     # DNS: one proxied CNAME per hostname to <id>.cfargotunnel.com. NEVER --overwrite-dns: on the apex it also deletes
     # the MX record (it did on the Stegmann domain) – the GoDaddy e-mail would stop. Old A/CNAME records of
     # these names (copied from Netlify DNS) are deleted by hand in the Cloudflare dashboard first.
+    # by id, with retries: right after "tunnel create" Cloudflare's API may not know the new tunnel by name yet
+    # ("code: 1002, Tunnel not found" on 2026-10-07)
     for h in $HOSTNAMES; do
-      cloudflared tunnel --origincert "$cert" route dns "$T" "$h" \
-        || log "WARN: DNS for $h not set – in the Cloudflare dashboard delete only its old A/AAAA/CNAME record (keep MX and TXT!) and run this again"
+      routed=0
+      for _ in 1 2 3 4 5 6; do
+        if cloudflared tunnel --origincert "$cert" route dns "$id" "$h"; then routed=1; break; fi
+        sleep 5
+      done
+      [ $routed = 1 ] || log "WARN: DNS for $h not set – in the Cloudflare dashboard add a proxied CNAME $h → $id.cfargotunnel.com (delete only an old A/AAAA/CNAME of $h first, keep MX and TXT!)"
     done
   else
     log "tunnel already configured ($CF/config.yml) – only (re)starting it"
