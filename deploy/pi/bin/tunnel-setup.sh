@@ -4,7 +4,7 @@
 #                                                   (no account; the link changes whenever the tunnel restarts)
 #   sudo /opt/aries-host/bin/tunnel-setup.sh named   hsmaries.space + www (HOSTNAMES in aries.conf) through a tunnel in
 #                                                   the Cloudflare account that holds the domain (Kiran's) – the domain must already use
-#                                                   Cloudflare's nameservers (HERMES.md, checkpoint 2)
+#                                                   Cloudflare's nameservers (MYCROFT.md, checkpoint 2)
 # The named setup needs a person once: `cloudflared tunnel login` prints a link; open it in a browser that is logged
 # in to the Cloudflare account holding hsmaries.space and click "Authorize" next to hsmaries.space. Everything of this tunnel lives in
 # /etc/aries-host/cloudflared – the Stegmann tunnel (/etc/cloudflared, cloudflared.service, the practice's account)

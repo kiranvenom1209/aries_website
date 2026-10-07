@@ -26,7 +26,7 @@ visitor ──► https://hsmaries.space ──► Cloudflare (CDN, HTTPS) ─�
 
 ## Install
 
-Copy this folder to the Pi (e.g. the share) and follow **HERMES.md** – it is the brief for the Pi's agent and reads
+Copy this folder to the Pi (e.g. the share) and follow **MYCROFT.md** – it is the brief for the Pi's agent and reads
 fine for people too. In short: `sudo bash install.sh`, plus three things only a person can do: a read-only GitHub
 token, the domain moved to Cloudflare, one click on Cloudflare's *Authorize* link.
 

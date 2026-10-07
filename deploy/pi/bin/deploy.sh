@@ -29,7 +29,7 @@ note() { printf '%s  %s\n' "$(date '+%F %T')" "$*" >"$STATE/last-check"; }
 # 1. the newest successful build of BRANCH in this repository – a push or a manual run, never a fork's pull request
 if ! runs=$(gh_api "/repos/$REPO/actions/workflows/$WORKFLOW/runs?branch=$BRANCH&status=success&per_page=20"); then
   # every 2 minutes while the internet is down or the token expired – into the log only when it starts
-  grep -q "GitHub not reachable" "$STATE/last-check" 2>/dev/null     || log "GitHub API request failed – no internet, or the token in $(gh_token_file) expired (HERMES.md, checkpoint 1)"
+  grep -q "GitHub not reachable" "$STATE/last-check" 2>/dev/null     || log "GitHub API request failed – no internet, or the token in $(gh_token_file) expired (MYCROFT.md, checkpoint 1)"
   note "GitHub not reachable or the token was rejected (expired?)"
   exit 1
 fi

@@ -26,7 +26,7 @@ and push again.
 
 ## The GitHub token expired
 
-`status.sh` → last check "GitHub not reachable or the token was rejected". Create a new fine-grained token (HERMES.md,
+`status.sh` → last check "GitHub not reachable or the token was rejected". Create a new fine-grained token (MYCROFT.md,
 checkpoint 1), save it as the first line of a file, then
 `sudo GITHUB_TOKEN_FILE=/path/token.txt bash /opt/aries-host/install.sh --phase 6`.
 

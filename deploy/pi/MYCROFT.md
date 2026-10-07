@@ -1,4 +1,4 @@
-# Brief for Hermes — put the HSM Aries website on this Raspberry Pi
+# Brief for Mycroft — put the HSM Aries website on this Raspberry Pi
 
 You are adding a second website to this Pi: **hsmaries.space**, the HSM Aries rover team's site (Next.js +
 Payload CMS + PostgreSQL), replacing Netlify, which keeps pausing it ("usage exceeded"). Your owner is Kiran.

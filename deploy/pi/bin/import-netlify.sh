@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# One-off move of what editors created on Netlify (HERMES.md, checkpoint 4). Run after the first deploy – Payload has
+# One-off move of what editors created on Netlify (MYCROFT.md, checkpoint 4). Run after the first deploy – Payload has
 # created the tables by then.
 #   sudo /opt/aries-host/bin/import-netlify.sh db FILE       FILE: one line, the Netlify Database connection string
 #                                                          (postgres://…). Replaces ALL CMS content on the Pi with

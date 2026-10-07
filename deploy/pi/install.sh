@@ -5,7 +5,7 @@
 # Phases: 1 preflight · 2 kit + config · 3 packages · 4 database · 5 site user, folders, .env, services
 #         6 GitHub token · 7 first deploy · 8 public access · 9 backups · 10 timers (auto-deploy, health)
 # Optional inputs, each read once and shredded afterwards:
-#   GITHUB_TOKEN_FILE=/path/token.txt   phase 6 – fine-grained token, read-only "Actions" on the repository (HERMES.md)
+#   GITHUB_TOKEN_FILE=/path/token.txt   phase 6 – fine-grained token, read-only "Actions" on the repository (MYCROFT.md)
 #   secrets/aries.env in this folder    phase 5 – KEY=value lines merged into the site's .env (keys set on the Pi win):
 #                                       BOOTSTRAP_ADMIN_EMAIL / BOOTSTRAP_ADMIN_PASSWORD (first administrator on a
 #                                       fresh install), SMTP_* (form e-mails); never needed again after the install
@@ -170,7 +170,7 @@ if run 6; then
     shred -u "$GITHUB_TOKEN_FILE" 2>/dev/null || rm -f "$GITHUB_TOKEN_FILE"
     log "token taken over into $tf (source file shredded)"
   fi
-  [ -s "$tf" ] || { log "CHECKPOINT: no token yet – HERMES.md checkpoint 1, then: sudo GITHUB_TOKEN_FILE=/path bash $KIT/install.sh --phase 6"; exit 3; }
+  [ -s "$tf" ] || { log "CHECKPOINT: no token yet – MYCROFT.md checkpoint 1, then: sudo GITHUB_TOKEN_FILE=/path bash $KIT/install.sh --phase 6"; exit 3; }
   runs=$(gh_api "/repos/$REPO/actions/workflows/$WORKFLOW/runs?branch=$BRANCH&per_page=1") \
     || die "GitHub rejected the token or the workflow $WORKFLOW does not exist on $BRANCH yet (it is pushed with the site)"
   log "GitHub access ok: $(jq -r .total_count <<<"$runs") runs of $WORKFLOW on $BRANCH so far"

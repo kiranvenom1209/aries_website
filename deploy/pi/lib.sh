@@ -92,7 +92,7 @@ as_app_env() {
 gh_token_file() { echo "$ETC/secrets/github.token"; }
 gh_api() {
   local tf; tf=$(gh_token_file)
-  [ -s "$tf" ] || die "no GitHub token in $tf – see HERMES.md, checkpoint 1"
+  [ -s "$tf" ] || die "no GitHub token in $tf – see MYCROFT.md, checkpoint 1"
   printf 'Authorization: Bearer %s\n' "$(head -n1 "$tf" | tr -d '\r\n ')" \
     | curl -fsS -m 30 --retry 2 -H @- -H 'Accept: application/vnd.github+json' -H 'X-GitHub-Api-Version: 2022-11-28' \
         "https://api.github.com$1"
