@@ -11,7 +11,9 @@ User=aries
 Group=aries
 # PORT, DATABASE_URL, PAYLOAD_SECRET, MEDIA_DIR, SMTP_* … (bin/set-env.sh changes a value)
 EnvironmentFile=/srv/aries/shared/.env
-Environment=NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 NODE_OPTIONS=--max-old-space-size=1024 PATH=/usr/local/bin:/usr/bin:/bin
+# Node's own heap ceiling: works even where the kernel has memory accounting off (Raspberry Pi OS: cgroup_disable=memory,
+# which makes MemoryMax below a no-op until cgroup_enable=memory is added – docs/runbook.md). Idle use is ~210 MB.
+Environment=NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 NODE_OPTIONS=--max-old-space-size=640 PATH=/usr/local/bin:/usr/bin:/bin
 WorkingDirectory=/srv/aries/current
 # 127.0.0.1 only: the Cloudflare tunnel is the one way in
 ExecStart=/usr/bin/env node node_modules/next/dist/bin/next start --hostname 127.0.0.1 --port ${PORT}

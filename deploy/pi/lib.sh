@@ -83,7 +83,10 @@ as_app() {
 # as_app_env CMD: the same with the app's .env loaded – NODE_ENV stays unset, so Payload syncs its schema like the
 # Netlify build command did (see bin/deploy.sh)
 as_app_env() {
-  runuser -u "$APP_USER" -- env -i PATH=/usr/local/bin:/usr/bin:/bin HOME="$ROOT" LANG=C.UTF-8 NODE_OPTIONS=--no-deprecation \
+  # heap ceiling + one image thread: the first deploy's image seeding on all cores helped push the shared Pi into swap on
+  # 2026-10-07 and its hardware watchdog rebooted it (docs/runbook.md, "Memory on the shared Pi")
+  runuser -u "$APP_USER" -- env -i PATH=/usr/local/bin:/usr/bin:/bin HOME="$ROOT" LANG=C.UTF-8 \
+    NODE_OPTIONS="--no-deprecation --max-old-space-size=768" VIPS_CONCURRENCY=1 \
     bash -c "set -a && . '$ENV_FILE' && set +a && unset NODE_ENV && $1"
 }
 

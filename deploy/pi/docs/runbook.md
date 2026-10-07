@@ -60,3 +60,13 @@ dashboard and its two DNS records first).
 
 `status.sh` shows the big folders. `releases/` keeps 5 releases (≈ 100 MB each, media are hardlinks), `deps/` the
 node_modules of releases still kept, `repo/` the git copy of public/ (gc runs by itself above 4 GB).
+
+## Memory on the shared Pi
+
+Raspberry Pi OS boots with `cgroup_disable=memory`, so the `MemoryMax=` lines of all services (this site's and the
+practice's) are ignored; the site and its deploy steps cap Node's heap themselves instead. On 2026-10-07 the Pi ran out
+of RAM while the first deploy processed images, swapped onto its USB stick, froze for more than 15 s and the hardware
+watchdog rebooted it (`vcgencmd get_rsts` = 1020); everything came back on its own. To make the limits real for every
+service: append ` cgroup_enable=memory` to the single line in `/boot/firmware/cmdline.txt` and reboot – agreed with
+Kiran for a later date, as it affects the practice site and Mycroft too. An SSD instead of the USB stick removes most
+of the risk.

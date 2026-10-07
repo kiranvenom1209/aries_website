@@ -117,6 +117,8 @@ address loads, the Stegmann site answers too. `sudo /opt/aries-host/bin/status.s
   Kiran sets `SMTP_HOST` = smtp.gmail.com, `SMTP_PORT` = 465, `SMTP_USER` = the address with
   `sudo /opt/aries-host/bin/set-env.sh <KEY>`, and types `SMTP_PASS` himself. Until then form messages are only in
   Mission Control.
+- **Memory limits that work (with Kiran, needs a reboot):** append ` cgroup_enable=memory` to `/boot/firmware/cmdline.txt`,
+  then reboot – until then every service's `MemoryMax=` is ignored (docs/runbook.md, "Memory on the shared Pi").
 - **Outside alert:** a free Healthchecks.io check; its ping URL into `HC_PING_URL` in `/etc/aries-host/aries.conf`.
 - **Netlify:** once hsmaries.space runs here, Kiran stops builds of the Netlify site (Site configuration → Build &
   deploy → *Stop builds*) so pushes no longer use Netlify credits.
