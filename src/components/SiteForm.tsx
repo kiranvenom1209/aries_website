@@ -4,7 +4,10 @@ import { useState, type FormEvent, type ReactNode } from 'react'
 
 const TEAM_EMAIL = 'hsmariesleapone@gmail.com'
 
-type NetlifyFormProps = {
+/** Stores the message in Mission Control (form messages) and mails the team when SMTP is set up — see api/forms. */
+const ENDPOINT = '/api/forms'
+
+type SiteFormProps = {
   children: ReactNode
   className?: string
   name: 'general-contact' | 'join-aries' | 'partnership-enquiry'
@@ -12,7 +15,7 @@ type NetlifyFormProps = {
   successContext: 'contact' | 'join' | 'partner'
 }
 
-export function NetlifyForm({ children, className, name, submitLabel, successContext }: NetlifyFormProps) {
+export function SiteForm({ children, className, name, submitLabel, successContext }: SiteFormProps) {
   const [error, setError] = useState<ReactNode>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const noteId = `${name}-note`
@@ -30,11 +33,17 @@ export function NetlifyForm({ children, className, name, submitLabel, successCon
     }
 
     try {
-      const response = await fetch('/__forms.html', {
+      const response = await fetch(ENDPOINT, {
         body: body.toString(),
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        headers: { Accept: 'application/json', 'Content-Type': 'application/x-www-form-urlencoded' },
         method: 'POST',
       })
+
+      if (response.status === 429) {
+        setError(<>Too many messages from this connection. Please try again in a few minutes.</>)
+        setIsSubmitting(false)
+        return
+      }
 
       if (!response.ok) {
         if (
@@ -69,7 +78,7 @@ export function NetlifyForm({ children, className, name, submitLabel, successCon
 
   return (
     <form
-      action="/__forms.html"
+      action={ENDPOINT}
       aria-busy={isSubmitting}
       className={className}
       method="post"

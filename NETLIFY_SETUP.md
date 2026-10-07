@@ -1,5 +1,8 @@
 # HSM Aries CMS on Netlify
 
+> **Since October 2026 the site is meant to run on the team's Raspberry Pi** (Netlify kept pausing it for exceeded
+> usage): `deploy/pi/README.md`. This page describes the Netlify setup, which still builds and works unchanged.
+
 This project is self-hosted: the public site and the Payload CMS run from the same Next.js deployment. Editors use `/admin`; the public newsroom reads the same database.
 
 ## First deploy

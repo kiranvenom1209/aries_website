@@ -1,0 +1,32 @@
+[Unit]
+Description=HSM Aries website (Next.js + Payload CMS)
+After=network-online.target postgresql.service
+Wants=network-online.target postgresql.service
+# nothing to start before the first deploy
+ConditionPathExists=/srv/aries/current/.pi/build.json
+
+[Service]
+Type=simple
+User=aries
+Group=aries
+# PORT, DATABASE_URL, PAYLOAD_SECRET, MEDIA_DIR, SMTP_* … (bin/set-env.sh changes a value)
+EnvironmentFile=/srv/aries/shared/.env
+Environment=NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 NODE_OPTIONS=--max-old-space-size=1024 PATH=/usr/local/bin:/usr/bin:/bin
+WorkingDirectory=/srv/aries/current
+# 127.0.0.1 only: the Cloudflare tunnel is the one way in
+ExecStart=/usr/bin/env node node_modules/next/dist/bin/next start --hostname 127.0.0.1 --port ${PORT}
+Restart=always
+RestartSec=3
+TimeoutStopSec=20
+# a good neighbour on a shared Pi: capped memory, lower CPU priority than the practice site
+MemoryMax=1400M
+Nice=5
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+# shared/ = uploads and logs; releases/ = the pages Next.js re-renders (revalidate) are written into .next
+ReadWritePaths=/srv/aries/shared /srv/aries/releases
+
+[Install]
+WantedBy=multi-user.target

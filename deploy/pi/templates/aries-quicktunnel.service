@@ -1,0 +1,15 @@
+[Unit]
+Description=HSM Aries: temporary test link (https://<random>.trycloudflare.com, changes on every restart)
+After=network-online.target aries-web.service
+Wants=network-online.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+EnvironmentFile=/etc/aries-host/aries.conf
+ExecStart=/usr/bin/cloudflared tunnel --no-autoupdate --url http://127.0.0.1:${PORT}
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

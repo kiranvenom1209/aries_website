@@ -13,6 +13,10 @@ import { PartnersBand } from '@/components/PartnersBand'
 import { getNews } from '@/lib/news'
 import { DEFAULT_DESCRIPTION, DEFAULT_SOCIAL_IMAGE, DEFAULT_SOCIAL_IMAGE_ALT, pageMetadata, webPageJsonLd } from '@/lib/seo'
 
+// Built without the database on the deploy build machine; re-rendered from the CMS (news, partner order) at most
+// every five minutes on the server, so content edits appear without a new deploy.
+export const revalidate = 300
+
 export const metadata: Metadata = pageMetadata({
   description: DEFAULT_DESCRIPTION,
   image: DEFAULT_SOCIAL_IMAGE,

@@ -1,0 +1,101 @@
+# Builds the site for our own server, the Raspberry Pi (deploy/pi/README.md).
+#
+# Nothing here reaches the Pi. The Pi asks GitHub every two minutes for the newest successful run of this workflow on
+# main, downloads its packages and deploys them itself – outbound connections only. This repository is public, so it
+# must never get a self-hosted runner: a pull request from a fork could run code on that machine.
+#
+# Two packages per run, built natively for linux-arm64 on GitHub's free Arm machines (free for public repositories):
+#   aries-app-<sha>       the built site without public/ (the Pi checks public/ out from git at the same commit):
+#                         .next, src, config, and the bootstrap scripts the Netlify build command used to run
+#                         (schema sync, first administrator, curated content, team profiles)
+#   aries-deps-<lockhash> production node_modules – the Pi downloads it only when package-lock.json changed
+name: Build for the Pi
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Only the newest commit matters: the Pi deploys the latest successful run.
+concurrency:
+  group: pi-build
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    if: github.repository == 'kiranvenom1209/aries_website'
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 30
+    env:
+      DEPLOY_TARGET: node
+      NEXT_PUBLIC_SITE_URL: ${{ vars.PUBLIC_SITE_URL || 'https://hsmaries.space' }}
+      # The build only needs a value to load the Payload config; the server gets its own secret from its .env.
+      PAYLOAD_SECRET: build-only-never-used-at-runtime
+      # No database here: pages that read the CMS are built from the code's fallback content and refreshed on the
+      # server (revalidate = 300).
+      DATABASE_URL: file:./build-empty.db
+      NEXT_TELEMETRY_DISABLED: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22   # the Pi's system Node major
+          cache: npm
+      - name: Install
+        run: npm ci --no-audit --no-fund
+      - name: Build (self-hosted target)
+        run: npm run build
+      - name: Bundle the bootstrap scripts
+        run: >-
+          npx esbuild scripts/seed-admin.ts scripts/seed.ts scripts/import-team-profiles.ts
+          --bundle --platform=node --format=esm --target=node22 --packages=external
+          --outdir=.pi/bootstrap --out-extension:.js=.mjs --log-level=warning
+      # runs as the postgres user, so it carries its own copy of pg; the banner lets pg's CommonJS require() work in ESM
+      - name: Bundle the Netlify import tool
+        run: >-
+          npx esbuild deploy/pi/tools/copy-db.mjs --bundle --platform=node --format=esm --target=node22
+          --external:pg-native "--banner:js=import { createRequire } from 'node:module'; const require = createRequire(import.meta.url);"
+          --outfile=.pi/tools/copy-db.mjs --log-level=warning
+      - name: Production packages only
+        run: npm prune --omit=dev --no-audit --no-fund
+      - id: pack
+        name: Pack
+        run: |
+          set -euo pipefail
+          # Turbopack links its externals (.next/node_modules/<pkg>-<hash>) to this machine's absolute path;
+          # relative links keep working wherever the Pi unpacks the release next to its node_modules.
+          find .next/node_modules -type l | while read -r link; do
+            target=$(readlink "$link")
+            case "$target" in
+              "$PWD"/node_modules/*) ln -sfn "$(realpath -m --relative-to="$(dirname "$link")" "$target")" "$link" ;;
+              /*) echo "::error::$link points outside node_modules: $target"; exit 1 ;;
+            esac
+          done
+          find .next/node_modules -type l | while read -r link; do
+            [ -e "$link" ] || { echo "::error::$link does not resolve"; exit 1; }
+          done
+          lockhash=$(sha256sum package-lock.json | cut -c1-16)
+          node -e '
+            const [sha, run, lockhash] = process.argv.slice(1)
+            require("fs").writeFileSync(".pi/build.json", JSON.stringify({ builtAt: new Date().toISOString(), lockhash, node: process.version, run: Number(run), sha }, null, 2) + "\n")
+          ' "$GITHUB_SHA" "$GITHUB_RUN_ID" "$lockhash"
+          mkdir -p _ship/app _ship/deps
+          tar --exclude=.next/cache -czf _ship/app/app.tar.gz .next .pi src package.json package-lock.json next.config.ts tsconfig.json
+          tar -czf _ship/deps/deps.tar.gz node_modules
+          du -sh _ship/app/app.tar.gz _ship/deps/deps.tar.gz
+          echo "lockhash=$lockhash" >>"$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: aries-app-${{ github.sha }}
+          path: _ship/app/app.tar.gz
+          retention-days: 7
+          compression-level: 0
+      - uses: actions/upload-artifact@v4
+        with:
+          name: aries-deps-${{ steps.pack.outputs.lockhash }}
+          path: _ship/deps/deps.tar.gz
+          retention-days: 7
+          compression-level: 0

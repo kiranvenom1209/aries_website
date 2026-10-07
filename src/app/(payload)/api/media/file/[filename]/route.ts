@@ -1,8 +1,10 @@
 import fs from 'node:fs'
 import path from 'node:path'
+import { Readable } from 'node:stream'
 import config from '@payload-config'
 import { getPayload } from 'payload'
 
+import { mediaDir, selfHosted, serverlessHost } from '@/lib/hosting'
 import { readNetlifyMedia } from '@/storage/netlifyBlobs'
 
 export const dynamic = 'force-dynamic'
@@ -42,6 +44,37 @@ const getContentType = (filename: string, fallbackMime?: string | null): string 
   return MIME_MAP[ext] ?? fallbackMime ?? 'application/octet-stream'
 }
 
+/**
+ * Streams a file from disk instead of buffering it, and answers a single `Range: bytes=` request with 206 —
+ * Safari only plays and seeks video that way. Used on our own server and in local development.
+ */
+const fileResponse = async (request: Request, filePath: string, contentType: string): Promise<Response> => {
+  const { size } = await fs.promises.stat(filePath)
+  const headers: Record<string, string> = {
+    'Accept-Ranges': 'bytes',
+    'Cache-Control': 'public, max-age=31536000, immutable',
+    'Content-Type': contentType,
+  }
+
+  const range = /^bytes=(\d*)-(\d*)$/.exec(request.headers.get('range')?.trim() ?? '')
+  if (range && (range[1] || range[2])) {
+    // "500-" from byte 500, "0-99" the first hundred, "-500" the last 500
+    const start = range[1] ? Number(range[1]) : Math.max(size - Number(range[2]), 0)
+    const end = range[1] && range[2] ? Math.min(Number(range[2]), size - 1) : size - 1
+    if (start >= size || start > end) {
+      return new Response(null, { headers: { ...headers, 'Content-Range': `bytes */${size}` }, status: 416 })
+    }
+    const stream = Readable.toWeb(fs.createReadStream(filePath, { end, start })) as ReadableStream
+    return new Response(stream, {
+      headers: { ...headers, 'Content-Length': String(end - start + 1), 'Content-Range': `bytes ${start}-${end}/${size}` },
+      status: 206,
+    })
+  }
+
+  const stream = Readable.toWeb(fs.createReadStream(filePath)) as ReadableStream
+  return new Response(stream, { headers: { ...headers, 'Content-Length': String(size) }, status: 200 })
+}
+
 export async function GET(
   request: Request,
   context: RouteContext<'/api/media/file/[filename]'>,
@@ -66,27 +99,18 @@ export async function GET(
   })
   const media = result.docs[0] as MediaDocument | undefined
 
-  // 1. Try Netlify Blobs if configured
-  try {
-    const blobResponse = await readNetlifyMedia(safeFilename, media?.prefix ?? undefined)
-    if (blobResponse) return blobResponse
-  } catch {
-    // Continue to next fallback
+  // 1. Try Netlify Blobs if configured (never on our own server: uploads live on its disk)
+  if (!selfHosted) {
+    try {
+      const blobResponse = await readNetlifyMedia(safeFilename, media?.prefix ?? undefined)
+      if (blobResponse) return blobResponse
+    } catch {
+      // Continue to next fallback
+    }
   }
 
   // 2. On Netlify / Serverless production, redirect to public static asset CDN path
-  const isServerless = Boolean(
-    process.env.NETLIFY ||
-    process.env.NETLIFY_SITE_ID ||
-    process.env.SITE_ID ||
-    process.env.NETLIFY_DB_URL ||
-    process.env.AWS_LAMBDA_FUNCTION_NAME ||
-    process.env.LAMBDA_TASK_ROOT ||
-    process.env.VERCEL ||
-    process.env.NODE_ENV === 'production',
-  )
-
-  if (isServerless) {
+  if (serverlessHost) {
     const targetFile = safeFilename || media?.filename
     if (targetFile) {
       return Response.redirect(
@@ -96,8 +120,16 @@ export async function GET(
     }
   }
 
-  // 3. In local development / standalone Node server, read from local disk
+  // 3. Our own server and local development read from disk: CMS uploads first (MEDIA_DIR on the server),
+  //    then the curated files that ship with the site in public/media
+  const uploads = selfHosted ? mediaDir() : null
   const candidatePaths = [
+    ...(uploads
+      ? [
+          path.join(uploads, safeFilename),
+          ...(media?.filename && media.filename !== safeFilename ? [path.join(uploads, path.basename(media.filename))] : []),
+        ]
+      : []),
     path.resolve(process.cwd(), 'public', 'media', safeFilename),
     path.resolve(process.cwd(), 'media', safeFilename),
     ...(media?.filename && media.filename !== safeFilename
@@ -111,17 +143,7 @@ export async function GET(
   for (const filePath of candidatePaths) {
     if (fs.existsSync(filePath)) {
       try {
-        const fileBuffer = await fs.promises.readFile(filePath)
-        const contentType = getContentType(safeFilename, media?.mimeType)
-
-        return new Response(fileBuffer, {
-          headers: {
-            'Cache-Control': 'public, max-age=31536000, immutable',
-            'Content-Length': fileBuffer.byteLength.toString(),
-            'Content-Type': contentType,
-          },
-          status: 200,
-        })
+        return await fileResponse(request, filePath, getContentType(safeFilename, media?.mimeType))
       } catch {
         // Fall through on read error
       }

@@ -12,6 +12,10 @@ import { RoverViewer } from '@/components/RoverViewer'
 import { breadcrumbJsonLd, pageMetadata, serializeJsonLd } from '@/lib/seo'
 import { specGroups } from '@/lib/leapOneSpecs'
 
+// Built without the database on the deploy build machine; re-rendered from the CMS (news, partner order) at most
+// every five minutes on the server, so content edits appear without a new deploy.
+export const revalidate = 300
+
 export const metadata: Metadata = pageMetadata({
   description:
     'LEAP-One is Project 01 of the HSM Aries LEAP series: the rover that competed at the ERC 2026 finals in Kraków. Result, vehicle dossier and the road to Leap-2.',

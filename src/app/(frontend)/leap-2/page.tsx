@@ -10,6 +10,10 @@ import { PartnersBand } from '@/components/PartnersBand'
 import type { GalleryImage } from '@/lib/gallery'
 import { breadcrumbJsonLd, pageMetadata, serializeJsonLd } from '@/lib/seo'
 
+// Built without the database on the deploy build machine; re-rendered from the CMS (news, partner order) at most
+// every five minutes on the server, so content edits appear without a new deploy.
+export const revalidate = 300
+
 export const metadata: Metadata = pageMetadata({
   description:
     'Leap-2 is the second HSM Aries LEAP rover, now in development. Its brief comes from the ERC 2026 scoreboard: mass, autonomous traverse, maintenance and probing.',

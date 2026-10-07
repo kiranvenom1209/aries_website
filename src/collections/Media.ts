@@ -3,20 +3,17 @@ import { fileURLToPath } from 'url'
 import type { CollectionConfig } from 'payload'
 
 import { editors, publicOrEditor } from '../access/roles'
+import { mediaDir, selfHosted, serverlessHost as isServerless } from '../lib/hosting'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
-const isServerless = Boolean(
-  process.env.NETLIFY ||
-  process.env.NETLIFY_SITE_ID ||
-  process.env.SITE_ID ||
-  process.env.NETLIFY_DB_URL ||
-  process.env.AWS_LAMBDA_FUNCTION_NAME ||
-  process.env.LAMBDA_TASK_ROOT ||
-  process.env.VERCEL ||
-  process.env.NODE_ENV === 'production',
-)
+// Netlify keeps uploads in Netlify Blobs; our own server writes them to MEDIA_DIR; local development to public/media.
+const uploadDir = () => {
+  if (isServerless) return path.resolve('/tmp/media')
+  if (selfHosted) return mediaDir()
+  return path.resolve(dirname, '../../public/media')
+}
 
 export const Media: CollectionConfig = {
   slug: 'media',
@@ -99,9 +96,7 @@ export const Media: CollectionConfig = {
   ],
   upload: {
     disableLocalStorage: isServerless,
-    staticDir: isServerless
-      ? path.resolve('/tmp/media')
-      : path.resolve(dirname, '../../public/media'),
+    staticDir: uploadDir(),
     adminThumbnail: ({ doc }) => {
       const d = doc as { sizes?: { thumbnail?: { url?: string } }; url?: string; filename?: string }
       return d?.sizes?.thumbnail?.url ?? d?.url ?? (d?.filename ? `/api/media/file/${d.filename}` : null)

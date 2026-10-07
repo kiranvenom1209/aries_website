@@ -73,6 +73,7 @@ export interface Config {
     team: Team;
     sponsors: Sponsor;
     downloads: Download;
+    'form-submissions': FormSubmission;
     users: User;
     'payload-kv': PayloadKv;
     'payload-jobs': PayloadJob;
@@ -88,6 +89,7 @@ export interface Config {
     team: TeamSelect<false> | TeamSelect<true>;
     sponsors: SponsorsSelect<false> | SponsorsSelect<true>;
     downloads: DownloadsSelect<false> | DownloadsSelect<true>;
+    'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
@@ -482,6 +484,32 @@ export interface Download {
   createdAt: string;
 }
 /**
+ * Messages sent through the contact, join and partner forms. Delete a message once it has been answered.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "form-submissions".
+ */
+export interface FormSubmission {
+  id: number;
+  form: 'general-contact' | 'join-aries' | 'partnership-enquiry';
+  status?: ('new' | 'in-progress' | 'answered') | null;
+  /**
+   * An e-mail copy went to the team mailbox.
+   */
+  notified?: boolean | null;
+  firstName?: string | null;
+  surname?: string | null;
+  email: string;
+  company?: string | null;
+  partnershipScope?: string | null;
+  studyProgram?: string | null;
+  semester?: string | null;
+  divisionPreference?: string | null;
+  message?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * Manage the people who can access Aries Mission Control.
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -659,6 +687,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'downloads';
         value: number | Download;
+      } | null)
+    | ({
+        relationTo: 'form-submissions';
+        value: number | FormSubmission;
       } | null)
     | ({
         relationTo: 'users';
@@ -875,6 +907,26 @@ export interface DownloadsSelect<T extends boolean = true> {
   publishedAt?: T;
   isPublic?: T;
   sortOrder?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "form-submissions_select".
+ */
+export interface FormSubmissionsSelect<T extends boolean = true> {
+  form?: T;
+  status?: T;
+  notified?: T;
+  firstName?: T;
+  surname?: T;
+  email?: T;
+  company?: T;
+  partnershipScope?: T;
+  studyProgram?: T;
+  semester?: T;
+  divisionPreference?: T;
+  message?: T;
   updatedAt?: T;
   createdAt?: T;
 }

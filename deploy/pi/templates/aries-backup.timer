@@ -1,0 +1,10 @@
+[Unit]
+Description=HSM Aries: backup every night at 03:45 (after the Stegmann backup at 03:15)
+
+[Timer]
+OnCalendar=*-*-* 03:45:00
+RandomizedDelaySec=10min
+Persistent=true
+
+[Install]
+WantedBy=timers.target

@@ -5,7 +5,7 @@ import { SITE_EMAIL, SITE_URL } from './seo'
  * from. Everything here must be supplied by the team — nothing may be guessed. A `null` field
  * renders as a visible "to be confirmed" marker on the legal pages until it is filled in.
  */
-export const LEGAL_UPDATED = '2026-09-28'
+export const LEGAL_UPDATED = '2026-10-07'
 
 type Person = {
   name: string

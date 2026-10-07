@@ -2,7 +2,7 @@ import Image from 'next/image'
 import type { Metadata } from 'next'
 
 import { CustomSelect } from '@/components/CustomSelect'
-import { NetlifyForm } from '@/components/NetlifyForm'
+import { SiteForm } from '@/components/SiteForm'
 import { JsonLd } from '@/components/JsonLd'
 import { PageShell } from '@/components/PageShell'
 import { breadcrumbJsonLd, pageMetadata, webPageJsonLd } from '@/lib/seo'
@@ -87,7 +87,7 @@ export default function PartnerPage() {
           <a className="conversion-form-section__direct" href="mailto:hsmariesleapone@gmail.com">hsmariesleapone@gmail.com <span aria-hidden="true">↗</span></a>
         </header>
 
-        <NetlifyForm className="contact-form conversion-form" name="partnership-enquiry" submitLabel="Send enquiry" successContext="partner">
+        <SiteForm className="contact-form conversion-form" name="partnership-enquiry" submitLabel="Send enquiry" successContext="partner">
           <div>
             <label htmlFor="partner-first-name">Contact first name</label>
             <input autoComplete="given-name" id="partner-first-name" name="first-name" required />
@@ -125,7 +125,7 @@ export default function PartnerPage() {
             <label htmlFor="partner-message">Partnership proposal / enquiry details</label>
             <textarea id="partner-message" name="message" placeholder="Describe the collaboration, sponsorship or equipment you have in mind — and any useful timing." required rows={5} />
           </div>
-        </NetlifyForm>
+        </SiteForm>
       </section>
     </PageShell>
   )

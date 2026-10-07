@@ -4,7 +4,7 @@ import type { Metadata } from 'next'
 
 import { JsonLd } from '@/components/JsonLd'
 import { PageShell } from '@/components/PageShell'
-import { NetlifyForm } from '@/components/NetlifyForm'
+import { SiteForm } from '@/components/SiteForm'
 import { breadcrumbJsonLd, pageMetadata, webPageJsonLd } from '@/lib/seo'
 
 const DESCRIPTION =
@@ -109,7 +109,7 @@ export default function ContactPage() {
           </dl>
         </header>
 
-        <NetlifyForm className="contact-form conversion-form" name="general-contact" submitLabel="Send message" successContext="contact">
+        <SiteForm className="contact-form conversion-form" name="general-contact" submitLabel="Send message" successContext="contact">
           <div>
             <label htmlFor="first-name">First name</label>
             <input autoComplete="given-name" id="first-name" name="first-name" required />
@@ -126,7 +126,7 @@ export default function ContactPage() {
             <label htmlFor="message">Message</label>
             <textarea id="message" name="message" placeholder="What would you like to discuss with HSM Aries?" required rows={6} />
           </div>
-        </NetlifyForm>
+        </SiteForm>
       </section>
     </PageShell>
   )

@@ -37,6 +37,23 @@ const legacyResourceRedirects = () => {
   return pages.flatMap(([destination, sources]) => sources.map((source) => ({ destination, permanent: true, source })))
 }
 
+// Our own server (DEPLOY_TARGET=node, deploy/pi) instead of Netlify.
+const selfHosted = process.env.DEPLOY_TARGET === 'node'
+
+/** www.<domain> → <domain> on our own server, where both names reach the app through the tunnel (Netlify did this itself). */
+const wwwRedirect = () => {
+  const site = new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hsmaries.space')
+  if (site.hostname.startsWith('www.')) return []
+  return [
+    {
+      destination: `${site.origin}/:path*`,
+      has: [{ type: 'host' as const, value: `www.${site.hostname}` }],
+      permanent: true,
+      source: '/:path*',
+    },
+  ]
+}
+
 const nextConfig: NextConfig = {
   // Keeps the dev badge clear of the consent panel, which sits bottom-left.
   devIndicators: { position: 'bottom-right' },
@@ -63,6 +80,17 @@ const nextConfig: NextConfig = {
   },
   async headers() {
     return [
+      // On our own server Cloudflare sits in front: its edge keeps the curated photos, videos and models for a day,
+      // so the Pi's home upload line serves each file about once a day instead of once per visitor. Browsers
+      // recheck hourly. Must stay before the turntable rule, which overrides it for the immutable frames.
+      ...(selfHosted
+        ? [
+            {
+              source: '/media/:path*',
+              headers: [{ key: 'Cache-Control', value: 'public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800' }],
+            },
+          ]
+        : []),
       // Turntable frames are content-addressed by their version directory: a new render gets a new
       // path, so every frame can be cached for a year and repeat visits never refetch the sequence.
       {
@@ -73,6 +101,7 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      ...(selfHosted ? wwwRedirect() : []),
       // WordPress author archives were retired; keep the submitted sitemap URL reachable.
       { source: '/author-sitemap.xml', destination: '/page-sitemap.xml', permanent: true },
       // Common spellings of the legal pages, and the WordPress feed address.

@@ -1,0 +1,17 @@
+[Unit]
+Description=HSM Aries: Cloudflare Tunnel for hsmaries.space (Kiran's Cloudflare account; separate from the Stegmann tunnel)
+After=network-online.target aries-web.service
+Wants=network-online.target
+# keep trying forever – after power cuts, router restarts or a long internet outage
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/cloudflared tunnel --no-autoupdate --config /etc/aries-host/cloudflared/config.yml run
+Restart=always
+RestartSec=5
+# routers that block UDP make cloudflared fall back from QUIC to HTTP/2 only after a while
+TimeoutStartSec=infinity
+
+[Install]
+WantedBy=multi-user.target

@@ -2,7 +2,7 @@ import Image from 'next/image'
 import type { Metadata } from 'next'
 
 import { CustomSelect } from '@/components/CustomSelect'
-import { NetlifyForm } from '@/components/NetlifyForm'
+import { SiteForm } from '@/components/SiteForm'
 import { JsonLd } from '@/components/JsonLd'
 import { PageShell } from '@/components/PageShell'
 import { breadcrumbJsonLd, pageMetadata, webPageJsonLd } from '@/lib/seo'
@@ -86,7 +86,7 @@ export default function JoinPage() {
           </div>
         </header>
 
-        <NetlifyForm className="contact-form conversion-form" name="join-aries" submitLabel="Send application" successContext="join">
+        <SiteForm className="contact-form conversion-form" name="join-aries" submitLabel="Send application" successContext="join">
           <div>
             <label htmlFor="join-first-name">First name</label>
             <input autoComplete="given-name" id="join-first-name" name="first-name" required />
@@ -130,7 +130,7 @@ export default function JoinPage() {
             <label htmlFor="join-motivation">Technical background &amp; motivation</label>
             <textarea id="join-motivation" name="motivation" placeholder="Tell us about your interests, previous projects, software or hardware tools you use, or why you want to build rovers." required rows={5} />
           </div>
-        </NetlifyForm>
+        </SiteForm>
       </section>
     </PageShell>
   )

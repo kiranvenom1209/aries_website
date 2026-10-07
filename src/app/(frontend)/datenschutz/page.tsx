@@ -8,6 +8,7 @@ import { LegalAddress, LegalEmail, ResponsiblePerson } from '@/components/LegalF
 import { PageShell } from '@/components/PageShell'
 import { GA_MEASUREMENT_ID } from '@/lib/analytics'
 import { CONSENT_STORAGE_KEY } from '@/lib/consent'
+import { selfHosted } from '@/lib/hosting'
 import { INTRO_SESSION_KEY } from '@/lib/intro'
 import { LEGAL, LEGAL_UPDATED, SUPERVISORY_AUTHORITY } from '@/lib/legal'
 import { breadcrumbJsonLd, pageMetadata, webPageJsonLd } from '@/lib/seo'
@@ -25,6 +26,7 @@ const GA_STREAM_COOKIE = `_ga_${GA_MEASUREMENT_ID.replace(/^G-/, '')}`
 
 const GOOGLE = 'Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Ireland'
 const NETLIFY = 'Netlify, Inc., 101 2nd Street, San Francisco, CA 94105, USA'
+const CLOUDFLARE = 'Cloudflare, Inc., 101 Townsend St., San Francisco, CA 94107, USA'
 
 const ExternalLink = ({ children, href }: { children: ReactNode; href: string }) => (
   <a href={href} rel="noreferrer" target="_blank">
@@ -78,6 +80,20 @@ const STORAGE: StorageRow[] = [
     },
     type: { de: 'Local Storage', en: 'Local storage' },
   },
+  ...(selfHosted
+    ? [
+        {
+          category: { de: 'Notwendig', en: 'Essential' },
+          duration: { de: '30 Minuten', en: '30 minutes' },
+          name: '__cf_bm',
+          purpose: {
+            de: 'Unterscheidet Menschen von automatisierten Zugriffen (Bot-Schutz von Cloudflare) — nur wenn Cloudflare diesen Schutz für eine Anfrage einsetzt',
+            en: 'Tells people apart from automated traffic (Cloudflare bot protection) — only when Cloudflare applies this protection to a request',
+          },
+          type: { de: 'Cookie', en: 'Cookie' },
+        },
+      ]
+    : []),
   {
     category: { de: 'Analyse (Einwilligung)', en: 'Analytics (consent)' },
     duration: { de: '2 Jahre', en: '2 years' },
@@ -274,7 +290,31 @@ const sections: LegalSection[] = [
     id: 'hosting',
     title: { de: 'Hosting und Server-Logfiles', en: 'Hosting and server log files' },
     body: {
-      de: (
+      de: selfHosted ? (
+        <>
+          <p>
+            Diese Website läuft auf einem eigenen Server, den unser Team in Deutschland betreibt. Vorgeschaltet ist das
+            Netzwerk von {CLOUDFLARE}: Jeder Aufruf erreicht zuerst die Server von Cloudflare, die die Verbindung
+            verschlüsseln, Angriffe abwehren, häufig abgerufene Dateien zwischenspeichern und die Anfrage über eine
+            verschlüsselte Verbindung an unseren Server weiterreichen. Dabei werden die Informationen verarbeitet, die
+            Ihr Browser automatisch übermittelt: IP-Adresse, Datum und Uhrzeit des Abrufs, aufgerufene Seite,
+            verweisende URL, verwendeter Browser und Betriebssystem sowie die übertragene Datenmenge.
+          </p>
+          <p>
+            Diese Daten benötigen wir, um die Website auszuliefern, ihren stabilen und sicheren Betrieb zu gewährleisten
+            und Angriffe zu erkennen und abzuwehren. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO; unser berechtigtes
+            Interesse liegt im sicheren und zuverlässigen Betrieb der Website. Die Logdaten werden gelöscht, sobald sie
+            für diese Zwecke nicht mehr benötigt werden.
+          </p>
+          <p>
+            Cloudflare verarbeitet die Daten in unserem Auftrag (Art. 28 DSGVO). Cloudflare ist unter dem EU-US Data
+            Privacy Framework zertifiziert; Übermittlungen in die USA stützen sich daher auf den Angemessenheitsbeschluss
+            der Europäischen Kommission (Art. 45 DSGVO). Zusätzlich setzt Cloudflare die EU-Standardvertragsklauseln ein.
+            Zum Schutz vor automatisierten Zugriffen kann Cloudflare ein technisch notwendiges Cookie setzen (siehe die
+            Tabelle im Abschnitt zu Cookies).
+          </p>
+        </>
+      ) : (
         <>
           <p>
             Diese Website wird bei {NETLIFY} gehostet. Beim Aufruf einer Seite übermittelt Ihr Browser automatisch
@@ -294,7 +334,29 @@ const sections: LegalSection[] = [
           </p>
         </>
       ),
-      en: (
+      en: selfHosted ? (
+        <>
+          <p>
+            This website runs on our own server, which our team operates in Germany. It sits behind the network of{' '}
+            {CLOUDFLARE}: every request first reaches Cloudflare’s servers, which encrypt the connection, fend off
+            attacks, cache frequently requested files and pass the request on to our server over an encrypted
+            connection. In the process, the information your browser transmits automatically is processed: IP address,
+            date and time of the request, the page requested, the referring URL, the browser and operating system used,
+            and the amount of data transferred.
+          </p>
+          <p>
+            We need this data to deliver the website, to keep it stable and secure, and to detect and defend against
+            attacks. The legal basis is Art. 6 (1)(f) GDPR; our legitimate interest lies in the secure and reliable
+            operation of the website. Log data is deleted as soon as it is no longer needed for these purposes.
+          </p>
+          <p>
+            Cloudflare processes the data on our behalf (Art. 28 GDPR). Cloudflare is certified under the EU–US Data
+            Privacy Framework, so transfers to the USA rest on the European Commission’s adequacy decision (Art. 45
+            GDPR); in addition, Cloudflare uses the EU Standard Contractual Clauses. To protect against automated
+            traffic, Cloudflare may set a strictly necessary cookie (see the table in the section on cookies).
+          </p>
+        </>
+      ) : (
         <>
           <p>
             This website is hosted by {NETLIFY}. When you open a page, your browser automatically transmits information
@@ -328,8 +390,9 @@ const sections: LegalSection[] = [
             Organisation —, um Ihr Anliegen zu bearbeiten.
           </p>
           <p>
-            Formulareingaben werden von unserem Hoster Netlify (Netlify Forms) entgegengenommen und gespeichert; dort
-            liest das Team sie. E-Mails erreichen unser Team-Postfach, ein Google-Gmail-Konto ({GOOGLE}); Google
+            Formulareingaben werden in der Datenbank unseres Content-Management-Systems gespeichert,{' '}
+            {selfHosted ? 'das auf unserem eigenen Server läuft' : 'das bei Netlify gehostet wird'}; dort liest das Team
+            sie, und eine Kopie jeder Nachricht geht an unser Team-Postfach. E-Mails erreichen unser Team-Postfach, ein Google-Gmail-Konto ({GOOGLE}); Google
             verarbeitet dabei auch den Inhalt der Nachrichten. Eine Übermittlung in die USA ist möglich und stützt sich
             auf das EU-US Data Privacy Framework.
           </p>
@@ -350,8 +413,9 @@ const sections: LegalSection[] = [
             request.
           </p>
           <p>
-            Form submissions are received and stored by our host Netlify (Netlify Forms), where the team reads them.
-            Emails reach our team mailbox, a Google Gmail account ({GOOGLE}); Google therefore also processes the
+            Form submissions are stored in the database of our content management system, which{' '}
+            {selfHosted ? 'runs on our own server' : 'is hosted by Netlify'}, where the team reads them; a copy of each
+            message goes to our team mailbox. Emails reach our team mailbox, a Google Gmail account ({GOOGLE}); Google therefore also processes the
             content of messages. Transfers to the USA may occur and rest on the EU–US Data Privacy Framework.
           </p>
           <p>
@@ -616,7 +680,9 @@ const sections: LegalSection[] = [
           Unsere Teamseiten zeigen Namen, Rollen, Fotos und kurze Biografien aktueller und ehemaliger Mitglieder; die
           Mission Updates berichten über Aktivitäten des Teams. Teammitglieder, die ihr Profil ändern oder entfernen
           lassen möchten, schreiben jederzeit an <LegalEmail />. Inhalte und Bilder werden in unserem
-          Content-Management-System verwaltet, das ebenfalls bei Netlify gehostet wird; Zugang zu Mission Control haben
+          Content-Management-System verwaltet, das{' '}
+          {selfHosted ? 'ebenfalls auf unserem eigenen Server läuft' : 'ebenfalls bei Netlify gehostet wird'}; Zugang zu
+          Mission Control haben
           nur berechtigte Teammitglieder.
         </p>
       ),
@@ -624,8 +690,9 @@ const sections: LegalSection[] = [
         <p>
           Our team pages show names, roles, photos and short biographies of current and former members, and the mission
           updates report on team activities. Team members who want their profile changed or removed can write to{' '}
-          <LegalEmail /> at any time. Content and images are managed in our content management system, which is also
-          hosted by Netlify; access to Mission Control is limited to authorised team members.
+          <LegalEmail /> at any time. Content and images are managed in our content management system, which{' '}
+          {selfHosted ? 'also runs on our own server' : 'is also hosted by Netlify'}; access to Mission Control is
+          limited to authorised team members.
         </p>
       ),
     },

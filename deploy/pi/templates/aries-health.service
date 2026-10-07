@@ -1,0 +1,6 @@
+[Unit]
+Description=HSM Aries: health check (restarts the site when it stops answering)
+
+[Service]
+Type=oneshot
+ExecStart=/opt/aries-host/bin/health.sh

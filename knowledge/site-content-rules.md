@@ -53,6 +53,13 @@ live in `GEMINI.md`; this file is the short list to check before writing copy.
   their branding page asks for a quick review of materials using the logo
   (info@odriverobotics.com) — the team should send that.
 
+## Hosting
+
+- The site runs on the team's Raspberry Pi (`deploy/pi`, kit `aries-host`), not on Netlify. A push to `main` builds on
+  GitHub ("Build for the Pi") and the Pi deploys it within minutes – so every push to `main` goes live.
+- The curated seed (`BOOTSTRAP_PUBLIC_CONTENT`) runs once on a fresh install only: it overwrites CMS edits of seeded
+  items. Content changes after launch go through Mission Control, or into `fallbackNews.ts`/`news.ts` as before.
+
 ## Working on the site
 
 - Per-page styling goes in `src/app/(frontend)/styles/<page>.css`; do not edit

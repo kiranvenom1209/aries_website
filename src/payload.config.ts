@@ -1,5 +1,6 @@
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { sqliteAdapter } from '@payloadcms/db-sqlite'
+import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
 import { cloudStoragePlugin } from '@payloadcms/plugin-cloud-storage'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { getConnectionString } from '@netlify/database'
@@ -11,11 +12,14 @@ import sharp from 'sharp'
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Downloads } from './collections/Downloads'
+import { FormSubmissions } from './collections/FormSubmissions'
 import { Gallery } from './collections/Gallery'
 import { News } from './collections/News'
 import { Sponsors } from './collections/Sponsors'
 import { Team } from './collections/Team'
 import { SiteSettings } from './globals/SiteSettings'
+import { selfHosted, serverlessHost } from './lib/hosting'
+import { smtpSettings } from './lib/mail'
 import { netlifyBlobsAdapter } from './storage/netlifyBlobs'
 
 const filename = fileURLToPath(import.meta.url)
@@ -27,18 +31,10 @@ if (!process.env.PAYLOAD_SECRET) {
   )
 }
 
-const isServerless = Boolean(
-  process.env.NETLIFY ||
-  process.env.NETLIFY_SITE_ID ||
-  process.env.SITE_ID ||
-  process.env.NETLIFY_DB_URL ||
-  process.env.AWS_LAMBDA_FUNCTION_NAME ||
-  process.env.LAMBDA_TASK_ROOT ||
-  process.env.VERCEL ||
-  process.env.NODE_ENV === 'production',
-)
+const isServerless = serverlessHost
 
-let netlifyDatabaseURL = process.env.NETLIFY_DB_URL
+// Our own server (DEPLOY_TARGET=node) uses its local PostgreSQL from DATABASE_URL, never Netlify Database.
+let netlifyDatabaseURL = selfHosted ? undefined : process.env.NETLIFY_DB_URL
 if (!netlifyDatabaseURL && isServerless) {
   try {
     netlifyDatabaseURL = getConnectionString()
@@ -50,6 +46,7 @@ const databaseURL = netlifyDatabaseURL ?? process.env.DATABASE_URL
 const usesPostgres = Boolean(databaseURL?.startsWith('postgres://') || databaseURL?.startsWith('postgresql://'))
 const maxUploadSize = Number(process.env.PAYLOAD_MAX_UPLOAD_BYTES ?? 50_000_000)
 const siteURL = process.env.NEXT_PUBLIC_SITE_URL ?? process.env.URL
+const smtp = smtpSettings()
 
 if (!Number.isFinite(maxUploadSize) || maxUploadSize <= 0) {
   throw new Error('PAYLOAD_MAX_UPLOAD_BYTES must be a positive number of bytes.')
@@ -81,9 +78,25 @@ export default buildConfig({
       beforeLogin: ['/admin/LoginIntro#LoginIntro'],
     },
   },
-  collections: [News, Media, Gallery, Team, Sponsors, Downloads, Users],
+  collections: [News, Media, Gallery, Team, Sponsors, Downloads, FormSubmissions, Users],
   globals: [SiteSettings],
   editor: lexicalEditor(),
+  // Form notifications and CMS password resets go out over SMTP when it is configured (SMTP_* in the server .env);
+  // without it Payload only logs e-mails and form submissions still land in Mission Control.
+  ...(smtp
+    ? {
+        email: nodemailerAdapter({
+          defaultFromAddress: smtp.fromAddress,
+          defaultFromName: smtp.fromName,
+          transportOptions: {
+            auth: { pass: smtp.pass, user: smtp.user },
+            host: smtp.host,
+            port: smtp.port,
+            secure: smtp.port === 465,
+          },
+        }),
+      }
+    : {}),
   secret: process.env.PAYLOAD_SECRET,
   ...(siteURL ? { serverURL: siteURL } : {}),
   typescript: {

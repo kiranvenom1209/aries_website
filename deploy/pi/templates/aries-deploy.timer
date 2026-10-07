@@ -1,0 +1,10 @@
+[Unit]
+Description=HSM Aries: look for a new build every 2 minutes
+
+[Timer]
+OnBootSec=3min
+OnUnitInactiveSec=2min
+RandomizedDelaySec=15
+
+[Install]
+WantedBy=timers.target

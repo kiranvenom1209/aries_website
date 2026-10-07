@@ -1,0 +1,12 @@
+[Unit]
+Description=HSM Aries: deploy the newest GitHub build if it is not live yet
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/opt/aries-host/bin/deploy.sh
+TimeoutStartSec=45min
+# downloads and unpacking yield to everything else on the Pi
+Nice=10
+IOSchedulingClass=idle
